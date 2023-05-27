@@ -11,5 +11,6 @@
 <a href="hello-servlet">Hello Servlet</a>
 <br/>
 <a href="home">Home</a>
+<a href="./loginCustomer">login</a>
 </body>
 </html>
