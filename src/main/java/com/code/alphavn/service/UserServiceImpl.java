@@ -4,16 +4,14 @@ package com.code.alphavn.service;
 
 
 import com.code.alphavn.connection.ConnectionDB;
-import com.code.alphavn.model.Product;
-import com.code.alphavn.model.ProductDiscount;
-import com.code.alphavn.model.ProductInfo;
-import com.code.alphavn.model.ProductReview;
+import com.code.alphavn.model.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class UserServiceImpl implements IUserService {
@@ -48,7 +46,16 @@ public class UserServiceImpl implements IUserService {
     }
 
     // ================= GETTER & SETTER =========================
+    //    ma hoa password
+    public String getBase64Encoded(String input) {
+        return Base64.getEncoder().encodeToString(input.getBytes());
+    }
 
+    //    giai ma password
+    public String getBase64Decoded(String encoded) {
+        byte[] decodedBytes = Base64.getDecoder().decode(encoded);
+        return new String(decodedBytes);
+    }
 
     public List<ProductInfo> getProducts() throws SQLException {
         PreparedStatement pstm = con.prepareStatement("SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining,\n" +
@@ -142,6 +149,99 @@ public class UserServiceImpl implements IUserService {
             ));
         }
         return products;
+    }
+
+    public Customer Login(Customer customer) {
+        String query = "select * from customers where email = ? and password =?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, customer.getEmail());
+            pstm.setString(2, customer.getPassword());
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Customer(rs.getInt("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("address"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getDate("created_At"));
+            }
+
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+    public Customer CheckAccountExist(Customer customer) {
+        String query = "select * from customers where email = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, customer.getEmail());
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Customer(rs.getInt("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("address"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getDate("created_At"));
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+    public void Signup(Customer customer) {
+        String query = "insert into customers (name, password, address, email, phone, created_At)" +
+                " values(?, ?, '', ?, ?, GETDATE());";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, customer.getName());
+            pstm.setString(2, customer.getPassword());
+            pstm.setString(3, customer.getEmail());
+            pstm.setString(4, customer.getPhone());
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+
+    public Customer getAccountByAccID(Customer customer) {
+
+        String query = "select * from customers where customer_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setInt(1, customer.getId());
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Customer(rs.getInt("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("address"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getDate("created_At"));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public void updateProfile(Customer customer) {
+        String query = "update customers\n" +
+                "\tset name = ?, address = ?, email = ?, phone = ?\n" +
+                "\twhere customer_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, customer.getName());
+            pstm.setString(2, customer.getAddress());
+            pstm.setString(3, customer.getEmail());
+            pstm.setString(4, customer.getPhone());
+            pstm.setInt(5, customer.getId());
+            pstm.executeUpdate();
+        } catch (Exception e) {
+        }
     }
 
 }
