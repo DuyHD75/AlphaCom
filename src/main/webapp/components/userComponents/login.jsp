@@ -88,7 +88,7 @@
                     </div>
 
                     <div class="form__switch">
-                        <a class="form__forgot-password" href="forgotpassword.html">Forgot your password?</a>
+                        <a class="form__forgot-password" href="./forgotPassword">Forgot your password?</a>
                         <a href="signupCustomer" class="form__switch-sign-up-btn" id="signUp-t-m">Sign up</a>
                     </div>
                     <button class="btn form__btn" type="submit">Sign In</button>
