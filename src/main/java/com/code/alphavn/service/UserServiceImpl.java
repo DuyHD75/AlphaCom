@@ -193,6 +193,26 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
+    public Customer getCustomerByEmail(String email) {
+        String query = "select * from customers where email = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, email);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Customer(rs.getInt("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("address"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getDate("created_At"));
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
     public void Signup(Customer customer) {
         String query = "insert into customers (name, password, address, email, phone, created_At)" +
                 " values(?, ?, '', ?, ?, GETDATE());";
@@ -243,5 +263,6 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception e) {
         }
     }
+
 
 }
