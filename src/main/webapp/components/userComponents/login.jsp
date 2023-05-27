@@ -28,7 +28,7 @@
                     <h1 class="form__heading"><span>Create</span> Account</h1>
                     <div class="form__social">
                         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile&redirect_uri=http://localhost:8080/alphavn/LoginGoogleHandler&response_type=code&client_id=212851330816-dr1g74keegsd7futmtj2ldv58hktiu2i.apps.googleusercontent.com&approval_prompt=force" class="social"><i class="fab fa-google-plus-g"></i></a>
                     </div>
                     <span class="form__decs">or use your email for registration</span>
                     <span class="form__msg">${messSignup}</span>
@@ -72,7 +72,7 @@
                     <h1 class="form__heading"><span>Sign</span> in</h1>
                     <div class="form__social">
                         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile&redirect_uri=http://localhost:8080/alphavn/LoginGoogleHandler&response_type=code&client_id=212851330816-dr1g74keegsd7futmtj2ldv58hktiu2i.apps.googleusercontent.com&approval_prompt=force" class="social"><i class="fab fa-google-plus-g"></i></a>
                     </div>
                     <span class="form__decs">or use your account</span>
                     <span class="form__msg">${messLogin}</span>
