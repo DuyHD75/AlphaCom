@@ -1,12 +1,14 @@
 package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.connection.ConnectionDB;
+import com.code.alphavn.model.UserGoogleDto;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,7 +41,11 @@ public class LoginGoogleHandler extends HttpServlet {
                 if (user.getEmail().equals(rs.getString(1))) {
                     regis = true;
                     //response.sendRedirect("components/userComponents/home.jsp");
+                    HttpSession session = request.getSession();
+                    session.setAttribute("acc", user);
+                    session.setMaxInactiveInterval(108000);
                     response.sendRedirect("home");
+//                    request.getRequestDispatcher("components/userComponents/home.jsp").forward(request, response);
                     break;
                     //System.out.println(rs.getString(1));
                 }
@@ -87,7 +93,10 @@ public class LoginGoogleHandler extends HttpServlet {
                 // Close all the connections
                 st.close();
                 con.close();
-//                response.sendRedirect("components/userComponents/home.jsp"); test
+                HttpSession session = request.getSession();
+                session.setAttribute("acc", user);
+                session.setMaxInactiveInterval(108000);
+//                response.sendRedirect("components/userComponents/home.jsp");
                 response.sendRedirect("home");
                 // Get a writer pointer
                 // to display the successful result

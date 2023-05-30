@@ -15,6 +15,7 @@ public class ServletLogout extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         session.removeAttribute("acc");
+        session.removeAttribute("email");
 //        request.getRequestDispatcher("/components/userComponents/home.jsp").forward(request, response); //test
         response.sendRedirect("home");
     }

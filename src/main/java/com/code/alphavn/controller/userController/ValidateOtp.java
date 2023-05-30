@@ -23,8 +23,6 @@ public class ValidateOtp extends HttpServlet {
 		HttpSession session=request.getSession();
 		int otp=(int)session.getAttribute("otp");
 		
-		
-		
 		RequestDispatcher dispatcher=null;
 		
 		
@@ -33,15 +31,18 @@ public class ValidateOtp extends HttpServlet {
 			
 				request.setAttribute("email", request.getParameter("email"));
 				request.setAttribute("status", "success");
-			  	dispatcher=request.getRequestDispatcher("/components/userComponents/newPassword.jsp");
+				request.setAttribute("hide", "hide");
+				request.setAttribute("show1", "show");
+				dispatcher = request.getRequestDispatcher("/components/userComponents/forgotPassword.jsp");
 				dispatcher.forward(request, response);
 			
 		}
 		else
 		{
-			request.setAttribute("message","wrong otp");
-			
-		   dispatcher=request.getRequestDispatcher("/components/userComponents/EnterOtp.jsp");
+			request.setAttribute("message","Wrong OTP");
+			request.setAttribute("hide", "hide");
+			request.setAttribute("show", "show");
+			dispatcher = request.getRequestDispatcher("/components/userComponents/forgotPassword.jsp");
 			dispatcher.forward(request, response);
 		
 		}
@@ -49,7 +50,9 @@ public class ValidateOtp extends HttpServlet {
 	}
 	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/components/userComponents/EnterOtp.jsp").forward(request, response);
+			request.setAttribute("hide", "hide");
+			request.setAttribute("show", "show");
+			request.getRequestDispatcher("/components/userComponents/forgotPassword.jsp").forward(request, response);
     }
 
 }
