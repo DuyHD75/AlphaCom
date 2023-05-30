@@ -1,4 +1,6 @@
-package com.code.alphavn.controller.userController;
+package com.code.alphavn.model;
+
+import com.code.alphavn.service.UserServiceImpl;
 
 public class UserGoogleDto {
     private String id;
@@ -81,5 +83,11 @@ public class UserGoogleDto {
     @Override
     public String toString() {
         return "UserGoogleDto{" + "id=" + id + ", email=" + email + ", verified_email=" + verified_email + ", name=" + name + ", given_name=" + given_name + ", family_name=" + family_name + ", picture=" + picture + '}';
+    }
+
+    public static void main(String[] args) {
+        UserServiceImpl userService = new UserServiceImpl();
+        String pass = userService.getBase64Decoded("");
+        System.out.println(pass);
     }
 }

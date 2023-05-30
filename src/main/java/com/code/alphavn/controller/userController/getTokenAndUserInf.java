@@ -1,9 +1,11 @@
 package com.code.alphavn.controller.userController;
 
+import com.code.alphavn.model.UserGoogleDto;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class getTokenAndUserInf {
@@ -57,7 +59,6 @@ public class getTokenAndUserInf {
                 case 7:
                     userGoogleDto.setPicture(string.substring(findNthOccur(string, '\"',3)+1,string.length()-2));
             }
-
         }
 
         return userGoogleDto;
