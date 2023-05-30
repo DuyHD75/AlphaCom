@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="form__group">
-                        <input name="email" id="email" value="${email}" class="form__input" type="email" placeholder="Email" />
+                        <input name="email" id="email" value="${email1}" class="form__input" type="email" placeholder="Email" />
                         <span class="form__msg"></span>
                     </div>
 
