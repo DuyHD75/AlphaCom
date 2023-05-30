@@ -15,19 +15,21 @@ public class getTokenAndUserInf {
                         .add("redirect_uri", Constants.GOOGLE_REDIRECT_URI).add("code", code)
                         .add("grant_type", Constants.GOOGLE_GRANT_TYPE).build())
                 .execute().returnContent().asString();
-    //System.out.println(response);
-    String[] paths = response.split(",");
+        //System.out.println(response);
+        String[] paths = response.split(",");
         //JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
         String accessToken0 = paths[0];
         //System.out.println(accessToken0.charAt(20));
-        String accessToken = accessToken0.substring(21,accessToken0.length()-1);
+        String accessToken = accessToken0.substring(21, accessToken0.length() - 1);
 
 
         //System.out.println(accessToken);
 //        System.out.println(jobj);
 //        String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
-        return accessToken.replaceAll("\"","");
+        return accessToken.replaceAll("\"", "");
     }
+
+
     public static UserGoogleDto getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
         String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
@@ -37,42 +39,40 @@ public class getTokenAndUserInf {
         String lines[] = response.split("\\r?\\n");
         UserGoogleDto userGoogleDto = new UserGoogleDto();
         int check = -1;
-        for (String string: lines){
+        for (String string : lines) {
             //System.out.println(string);
             check++;
             //System.out.println(findNthOccur(string, '\"',3));
-            switch (check){
+            switch (check) {
                 case 1:
-                    userGoogleDto.setId(string.substring(findNthOccur(string, '\"',3)+1,string.length()-2));
+                    userGoogleDto.setId(string.substring(findNthOccur(string, '\"', 3) + 1, string.length() - 2));
                     break;
                 case 2:
-                    userGoogleDto.setEmail(string.substring(findNthOccur(string, '\"',3)+1,string.length()-2));
+                    userGoogleDto.setEmail(string.substring(findNthOccur(string, '\"', 3) + 1, string.length() - 2));
                     break;
                 case 3:
-                    userGoogleDto.setVerified_email(string.substring(20,string.length()-1));
+                    userGoogleDto.setVerified_email(string.substring(20, string.length() - 1));
                     break;
                 case 4:
-                    userGoogleDto.setName(string.substring(findNthOccur(string, '\"',3)+1,string.length()-2));
+                    userGoogleDto.setName(string.substring(findNthOccur(string, '\"', 3) + 1, string.length() - 2));
                     break;
                 case 7:
-                    userGoogleDto.setPicture(string.substring(findNthOccur(string, '\"',3)+1,string.length()-2));
+                    userGoogleDto.setPicture(string.substring(findNthOccur(string, '\"', 3) + 1, string.length() - 2));
             }
 
         }
 
         return userGoogleDto;
     }
+
     static int findNthOccur(String str,
-                            char ch, int N)
-    {
+                            char ch, int N) {
         int occur = 0;
 
         // Loop to find the Nth
         // occurrence of the character
-        for (int i = 0; i < str.length(); i++)
-        {
-            if (str.charAt(i) == ch)
-            {
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == ch) {
                 occur += 1;
             }
             if (occur == N)

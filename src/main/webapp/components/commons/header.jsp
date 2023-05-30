@@ -48,7 +48,7 @@
                 <!-- LOGO -->
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="#" class="logo">
+                        <a href="./home" class="logo">
                             <img src="imgs/logo.png" alt="">
                         </a>
                     </div>
