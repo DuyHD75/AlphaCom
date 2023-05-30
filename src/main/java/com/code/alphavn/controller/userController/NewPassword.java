@@ -48,7 +48,8 @@ public class NewPassword extends HttpServlet {
 					dispatcher = request.getRequestDispatcher("./loginCustomer");
 					System.out.println("success");
 				} else {
-//					request.setAttribute("status", "resetFailed");
+					request.setAttribute("hide", "hide");
+					request.setAttribute("show1", "show");
 					dispatcher = request.getRequestDispatcher("/components/userComponents/forgotPassword.jsp");
 					System.out.println("failed");
 
@@ -62,6 +63,8 @@ public class NewPassword extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/components/userComponents/newPassword.jsp").forward(request, response);
+		request.setAttribute("hide", "hide");
+		request.setAttribute("show1", "show");
+		request.getRequestDispatcher("/components/userComponents/forgotPassword.jsp").forward(request, response);
 	}
 }
