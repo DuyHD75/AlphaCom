@@ -14,8 +14,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
         a {
             text-decoration: none;
+        }
+
+        .hide {
+            display: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .show {
+            display:  block;
         }
     </style>
 </head>
@@ -32,29 +48,35 @@
                     </div>
                     <span class="form__decs">or use your email for registration</span>
                     <span class="form__msg">${messSignup}</span>
+                    <span class="form__msg" style="color: green">${message1}</span>
 
                     <div class="form__group">
-                        <input name="fullname" id="fullname" class="form__input" type="text" placeholder="FullName" />
+                        <input name="fullname" id="fullname" value="${fullname}" class="form__input" type="text" placeholder="FullName" />
                         <span class="form__msg"></span>
                     </div>
 
                     <div class="form__group">
-                        <input name="email" id="email" class="form__input" type="email" placeholder="Email" />
+                        <input name="email" id="email" value="${email}" class="form__input" type="email" placeholder="Email" />
                         <span class="form__msg"></span>
                     </div>
 
                     <div class="form__group">
-                        <input name="phonenumber" id="phonenumber" class="form__input" type="tel" placeholder="Phone number" />
+                        <input name="phonenumber" id="phonenumber" value="${phonenumber}" class="form__input" type="tel" placeholder="Phone number" />
                         <span class="form__msg"></span>
                     </div>
 
                     <div class="form__group">
-                        <input name="password" id="password" class="form__input" type="password" placeholder="Password" />
+                        <input name="password" id="password" value="${password}" class="form__input" type="password" placeholder="Password" />
                         <span class="form__msg"></span>
                     </div>
 
                     <div class="form__group">
-                        <input name="password-comfirmation" id="password-comfirmation" class="form__input" type="password" placeholder="Password comfirmation" />
+                        <input name="password-comfirmation" id="password-comfirmation" value="${password}" class="form__input" type="password" placeholder="Password comfirmation" />
+                        <span class="form__msg"></span>
+                    </div>
+
+                    <div class="form__group hide ${show}">
+                        <input id="otp" name="otp" class="form__input" type="number" placeholder="OTP" />
                         <span class="form__msg"></span>
                     </div>
 
