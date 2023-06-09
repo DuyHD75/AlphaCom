@@ -151,7 +151,7 @@ ol {
     height: 100%;
     overflow: hidden;
     background-color: var(--light-bg);
-    box-shadow: 0 0 14px 14px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 10px 8px rgba(0, 0, 0, 0.4);
 }
 
 .home-bg:after {
@@ -392,12 +392,14 @@ textarea.input {
     display: block;
 }
 
+
+
 .input-radio input[type="radio"]:not(:checked),
 .input-radio input[type="radio"]:checked,
 .input-checkbox input[type="checkbox"]:not(:checked),
 .input-checkbox input[type="checkbox"]:checked {
-    position: absolute;
-    margin-left: -9999px;
+    /*position: absolute;*/
+    /*margin-left: -9999px;*/
     visibility: hidden;
 }
 
@@ -417,8 +419,9 @@ textarea.input {
     top: 4px;
     width: 14px;
     height: 14px;
-    border: 2px solid #E4E7ED;
+    border: 2px solid #828fab;
     background: #FFF;
+    transition: all .3s ease-in-out;
 }
 
 .input-radio input[type="radio"] + label span {
@@ -1104,12 +1107,13 @@ textarea.input {
 
 .product {
     position: relative;
-    margin: 15px 0px;
+    margin: 2.6rem 0px;
     -webkit-box-shadow: 0px 0px 0px 0px #E4E7ED, 0px 0px 0px 1px #E4E7ED;
     box-shadow: 0px 0px 0px 0px #E4E7ED, 0px 0px 0px 1px #E4E7ED;
     -webkit-transition: 0.2s all;
     transition: 0.2s all;
     display: flex;
+    flex-direction: column;
 }
 
 .product:hover {
@@ -1178,6 +1182,8 @@ textarea.input {
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    display: -webkit-box;
+    min-height: 30px;
 }
 
 .product .product-body .product-name > a {
@@ -1193,6 +1199,7 @@ textarea.input {
 .product .product-body .product-price {
     color: #D10024;
     font-size: 18px;
+
 }
 
 .product .product-body .product-price .product-old-price {
@@ -1500,13 +1507,21 @@ textarea.input {
 
 .checkbox-filter .input-radio label,
 .checkbox-filter .input-checkbox label {
-    font-size: 12px;
+    font-size: 13px;
+    margin-left: 4px;
 }
+
+.checkbox-filter .input-checkbox > input[type=radio]:checked label{
+    color: var(--main-color);
+}
+
 
 .checkbox-filter .input-radio label small,
 .checkbox-filter .input-checkbox label small {
     color: #8D99AE;
 }
+
+
 
 /*-- Price Filter --*/
 
@@ -1555,6 +1570,14 @@ textarea.input {
 /*----------------------------*\
 	Store
 \*----------------------------*/
+
+
+
+
+#store-list {
+    width: 100%;
+    height: 1030px;
+}
 
 .store-filter {
     margin-bottom: 15px;
@@ -2509,3 +2532,103 @@ textarea.input {
         margin-top: 10px;
     }
 }
+
+
+
+
+/* =============  ABOUT    =================== */
+
+.about {
+    background-color: var(--light-bg);
+    box-shadow: 0 0 10px 6px rgba(0, 0,0, 0.4);
+}
+
+.about .row{
+    display: flex;
+    align-items: center;
+}
+
+
+
+.about .row .image img{
+    width: 100%;
+}
+
+.about .row .content h3{
+    font-size: 3rem;
+    color:var(--black);
+    text-transform: capitalize;
+}
+
+.about .row .content p{
+    line-height: 2;
+    font-size: 1.5rem;
+    color:var(--light-color);
+    padding:1rem 0;
+}
+
+.reviews {
+    margin: 3rem 0;
+    padding: 3rem 0;
+}
+.reviews .slide{
+    padding:2rem;
+    text-align: center;
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
+    box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.3);
+    margin-bottom: 5rem;
+    user-select: none;
+    max-height: 400px;
+    margin: 3rem 2rem 5rem 2rem;
+    overflow: hidden;
+    border: 2px solid var(--light-color);
+    transition: all ease-in-out .2s;
+}
+
+.reviews .slide:hover {
+    transform: translateY(-5px);
+}
+
+.reviews .slide img{
+    height: 10rem;
+    width: 10rem;
+    border-radius: 50%;
+    margin-bottom: .5rem;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.reviews .slide p{
+    padding:1rem 0;
+    line-height: 2;
+    font-size: 1.5rem;
+    color:var(--light-color);
+}
+
+.reviews .slide .stars{
+    display: inline-block;
+    margin-bottom: 1rem;
+    background-color: var(--light-bg);
+    padding:1rem 1.5rem;
+    border-radius: .5rem;
+}
+
+.reviews .slide .stars i{
+    margin:0 .3rem;
+    font-size: 1.7rem;
+    color:var(--orange);
+}
+
+.reviews .slide h3{
+    font-size: 2rem;
+    color:var(--black);
+}
+
+
+
+
+
+
+
