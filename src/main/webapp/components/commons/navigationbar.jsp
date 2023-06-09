@@ -8,24 +8,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+
 <nav id="navigation">
     <!-- container -->
     <div class="container">
         <!-- responsive-nav -->
         <div id="responsive-nav">
             <!-- NAV -->
-            <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="./home">Home</a></li>
-                <li><a href="#hot-deal">Hot Deals</a></li>
-                <li><a href="#">Store</a></li>
-                <li><a href="#">Laptops</a></li>
-                <li><a href="#">Smartphones</a></li>
-                <li><a href="#">Accessories</a></li>
+            <ul class="main-nav nav navbar-nav" id="main-nav">
+                <li class="nav-item active" id="home"><a href="./home">Home</a></li>
+                <li class="nav-item" id="hot-deal"><a href="#">Hot Deals</a></li>
+                <li class="nav-item" id="store"><a href="./store">Store</a></li>
+                <li class="nav-item" id="about"><a href="./about">About Us</a></li>
+                <li class="nav-item" id="accessories"><a href="">Accessories</a></li>
             </ul>
             <!-- /NAV -->
         </div>
@@ -33,5 +28,4 @@
     </div>
     <!-- /container -->
 </nav>
-</body>
-</html>
+

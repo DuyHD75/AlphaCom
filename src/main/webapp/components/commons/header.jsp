@@ -8,13 +8,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+
 
 <header>
+
+
+    <c:choose>
+        <c:when test="${not empty error}">
+            <div class="error">
+                <span>${error}</span>
+                <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
+            </div>
+        </c:when>
+
+        <c:when test="${not empty message}">
+            <div class="message">
+                <span>${message}</span>
+                <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
+            </div>
+        </c:when>
+    </c:choose>
+
+
     <!-- TOP HEADER -->
     <div id="top-header">
         <div class="container">
@@ -58,13 +73,13 @@
                 <!-- SEARCH BAR -->
                 <div class="col-md-6">
                     <div class="header-search">
-                        <form>
+                        <form action="./store?process=3" method="post">
                             <select class="input-select">
                                 <option value="0">All Categories</option>
                                 <option value="1">Category 01</option>
                                 <option value="1">Category 02</option>
                             </select>
-                            <input class="input" placeholder="Search here">
+                            <input class="input" placeholder="Search here" name="searchKey">
                             <button class="search-btn">Search</button>
                         </form>
                     </div>
@@ -95,7 +110,7 @@
                                 <div class="cart-list">
                                     <div class="product-widget">
                                         <div class="product-img">
-                                            <img src="../.././img/product01.png" alt="">
+                                            <img src="" alt="">
                                         </div>
                                         <div class="product-body">
                                             <h3 class="product-name"><a href="#">product name goes
@@ -108,7 +123,7 @@
 
                                     <div class="product-widget">
                                         <div class="product-img">
-                                            <img src="../.././img/product02.png" alt="">
+                                            <img src="" alt="">
                                         </div>
                                         <div class="product-body">
                                             <h3 class="product-name"><a href="#">product name goes
@@ -119,10 +134,12 @@
                                         <button class="delete"><i class="fa fa-close"></i></button>
                                     </div>
                                 </div>
+
                                 <div class="cart-summary">
                                     <small>3 Item(s) selected</small>
                                     <h5>SUBTOTAL: $2940.00</h5>
                                 </div>
+
                                 <div class="cart-btns">
                                     <a href="#">View Cart</a>
                                     <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
@@ -149,5 +166,3 @@
     </div>
     <!-- /MAIN HEADER -->
 </header>
-</body>
-</html>

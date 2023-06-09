@@ -15,24 +15,36 @@ import java.sql.SQLException;
 public class ServletViewProduct extends HttpServlet {
     private static UserServiceImpl userService;
 
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        userService = new UserServiceImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        userService = new UserServiceImpl();
-
-        int pid = Integer.parseInt(request.getParameter("pid"));
-        try {
-            ProductInfo productInfo = userService.getProductByID(pid);
-            request.setAttribute("pdDetail", productInfo);
-            request.setAttribute("pdReviews", userService.getProductReviews(pid));
-            request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        request.getRequestDispatcher("/components/userComponents/detailProduct.jsp").forward(request, response);
+        implementViewProduct(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    }
+
+    public void implementViewProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int pid = Integer.parseInt(request.getParameter("pid"));
+        try {
+            ProductInfo productInfo = userService.getProductByID(pid);
+            System.out.println(userService.getProductByID(pid));
+
+            request.setAttribute("pdDetail", productInfo);
+            request.setAttribute("pdReviews", userService.getProductReviews(pid));
+            request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
+            request.setAttribute("pdDiscount", userService.getPdDiscountByPID(pid));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        request.getRequestDispatcher("/components/userComponents/detailProduct.jsp").forward(request, response);
     }
 }
