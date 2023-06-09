@@ -12,6 +12,10 @@
 		e.stopPropagation();
 	});
 
+	$('.account-dropdown').on('click', function (e) {
+		e.stopPropagation();
+	});
+
 
 	// Home Banner Slick 
 
