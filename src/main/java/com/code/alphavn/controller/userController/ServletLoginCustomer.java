@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet( name = "ServletLoginCustomer", value = "/loginCustomer" )
 public class ServletLoginCustomer extends HttpServlet {
@@ -39,6 +40,13 @@ public class ServletLoginCustomer extends HttpServlet {
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("acc", account);
+                //add session for number of wishList
+                try {
+                    session.setAttribute("numWish",userService.getWishList(email).size());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                //
                 session.setMaxInactiveInterval(108000);
 //                request.getRequestDispatcher("/components/userComponents/home.jsp").forward(request, response);
                 response.sendRedirect("home");
