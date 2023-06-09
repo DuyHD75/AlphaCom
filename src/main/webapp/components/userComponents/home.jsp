@@ -253,8 +253,8 @@
 
 
                                             <div class="product-btns">
-                                                <button class="add-to-wishlist"><i
-                                                        class="fa fa-heart-o"></i><span
+                                                <button class="add-to-wishlist"><a href="wishList?action=addToWishList&&pid=${p.getProduct().getId()}"><i
+                                                        class="fa fa-heart-o"></i></a><span
                                                         class="tooltipp">add to wishlist</span></button>
                                                 <button class="add-to-compare"><i
                                                         class="fa fa-exchange"></i><span
