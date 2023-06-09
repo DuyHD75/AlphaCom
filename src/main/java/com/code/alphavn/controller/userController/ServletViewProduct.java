@@ -35,13 +35,7 @@ public class ServletViewProduct extends HttpServlet {
     public void implementViewProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pid = Integer.parseInt(request.getParameter("pid"));
         try {
-            ProductInfo productInfo = userService.getProductByID(pid);
-            System.out.println(userService.getProductByID(pid));
-
-            request.setAttribute("pdDetail", productInfo);
-            request.setAttribute("pdReviews", userService.getProductReviews(pid));
-            request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
-            request.setAttribute("pdDiscount", userService.getPdDiscountByPID(pid));
+           
         } catch (SQLException e) {
             e.printStackTrace();
         }
