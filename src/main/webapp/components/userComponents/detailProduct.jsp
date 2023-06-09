@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="home">Home</a></li>
                     <li><a href="#">${pdDetail.getProduct().getCategory()}</a></li>
                     <li class="active">${pdDetail.getProduct().getName()}</li>
                 </ul>
@@ -137,18 +137,23 @@
                     </div>
                     <p>${pdDetail.getProduct().getDesc()}</p>
 
-
-                    <div class="add-to-cart">
-                        <div class="qty-label">
-                            Qty
-                            <div class="input-number">
-                                <input type="number" value="1">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
+                    <form action="cart?action=DetailAddToCart&&pid=${pdDetail.getProduct().getId()}" method="post">
+                        <div class="add-to-cart">
+                            <div class="qty-label">
+                                Qty
+                                <div class="input-number">
+                                    <input name="amount" type="number" value="1" min="1" max="${pdDetail.getProduct().getAmount_remaining()}"/>
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
+                                </div>
                             </div>
+                            <div>
+                                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+
                         </div>
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
+                    </form>
+
 
                     <ul class="product-btns">
                         <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
@@ -398,7 +403,7 @@
                 <div class="row">
                     <div class="products-tabs">
                         <!-- tab -->
-                        <div id="tab1" class="tab-pane active">
+                        <div id="tab" class="tab-pane active">
                             <div class="products-slick" data-nav="#slick-nav-1">
 
                                 <c:forEach items="${pdCategory}" var="p">
@@ -445,9 +450,11 @@
 
 
                                         <div class="add-to-cart">
-                                            <button class="add-to-cart-btn"><i
-                                                    class="fa fa-shopping-cart"></i> add to cart
-                                            </button>
+                                            <form action="cart?action=DetailAddToCart&&pid=${p.getProduct().getId()}" method="post">
+                                                <button class="add-to-cart-btn"><i
+                                                        class="fa fa-shopping-cart"></i> add to cart
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
 
