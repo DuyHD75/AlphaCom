@@ -283,6 +283,63 @@ public class UserServiceImpl implements IUserService {
     }
     // ================= Encrypt password
 
+    //Get info to wishList page
+    public List<WishListProduct> getWishList(String email) throws SQLException {
+        //Get ID from email
+        int id = 0;
+        PreparedStatement pstm0 = con.prepareStatement(" select customer_id from customers where email = ?");
+        pstm0.setString(1, email);
+        ResultSet rs0 = pstm0.executeQuery();
+        while (rs0.next()) {
+            id = rs0.getInt(1);
+        }
+
+        //get data
+        PreparedStatement pstm = con.prepareStatement("SELECT wl.product_id, pr.product_name, pd.price, pd.img1  FROM wishlist wl \n" +
+                "INNER JOIN products pr ON wl.product_id = pr.pid \n" +
+                "INNER JOIN productDetails pd ON pd.product_id = pr.pid WHERE wl.customer_id =?");
+        //for calculate rating
+        PreparedStatement pstm1 = con.prepareStatement("SELECT AVG(rating) FROM productReivews where product_id=?");
+        int rating = 0;
+        pstm.setInt(1, id);
+        ResultSet rs = pstm.executeQuery();
+        List<WishListProduct> wishListProduct = new ArrayList<>();
+        while (rs.next()) {
+            pstm1.setInt(1, rs.getInt("product_id"));
+            ResultSet rs1 = pstm1.executeQuery();
+            while (rs1.next()){
+                rating = rs1.getInt(1);
+            }
+            wishListProduct.add(new WishListProduct(rs.getInt("product_id"),
+                    rs.getString("product_name"),
+                    rs.getDouble("price"),
+                    rs.getString("img1"),
+                    rating
+            ));
+        }
+
+        pstm.close();
+        pstm1.close();
+        pstm0.close();
+        return wishListProduct;
+    }
+    //delete from wishList
+    public void deleteWishList (int product_id, int customer_id) throws SQLException {
+        PreparedStatement preparedStatement = con.prepareStatement("delete from wishList where customer_id = ? and product_id = ?");
+        preparedStatement.setInt(1,customer_id);
+        preparedStatement.setInt(2,product_id);
+        preparedStatement.executeUpdate();
+
+    }
+    //add to wishList
+    public void addWishList (int product_id, int customer_id) throws SQLException {
+        PreparedStatement preparedStatement = con.prepareStatement("insert into wishList values (?,?)");
+        preparedStatement.setInt(1,customer_id);
+        preparedStatement.setInt(2,product_id);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+    }
     public static void main(String[] args) throws SQLException {
         UserServiceImpl userService = new UserServiceImpl();
         System.out.println(userService.getProductDiscounts());
