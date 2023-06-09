@@ -15,6 +15,26 @@ public class Cart {
     public Cart() {
     }
 
+    public Cart(int customerId, ProductInfo productInfo) {
+        this.customerId = customerId;
+        this.productInfo = productInfo;
+    }
+
+    public Cart(int customerId, ProductInfo productInfo, int amount) {
+        this.customerId = customerId;
+        this.productInfo = productInfo;
+        this.amount = amount;
+    }
+
+    public Cart(int customerId, ProductInfo productInfo, int amount, double finalPrice) {
+        this.customerId = customerId;
+        this.productInfo = productInfo;
+        this.amount = amount;
+        this.finalPrice = finalPrice;
+    }
+
+
+
     public Cart(int customerId, ProductInfo productInfo, int amount, double finalPrice, List<ProductDiscount> productDiscount) {
         this.customerId = customerId;
         this.productInfo = productInfo;
@@ -69,8 +89,8 @@ public class Cart {
                 "customerId=" + customerId +
                 ", productInfo=" + productInfo +
                 ", amount=" + amount +
+                ", finalPrice=" + finalPrice +
                 ", productDiscount=" + productDiscount +
                 '}';
     }
-
 }

@@ -25,14 +25,30 @@ public class ServletUserHome extends HttpServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    public void init() throws ServletException {
+        super.init();
         userService = new UserServiceImpl();
+    }
 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        implementUserHome(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+
+    public void implementUserHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            request.setAttribute("products",userService.getProducts());
+            request.setAttribute("products", userService.getNewProducts());
+            request.setAttribute("pdLaptop", userService.getProductByCategory("Laptop"));
             request.setAttribute("pdMonitors", userService.getProductByCategory("Monitor"));
+            request.setAttribute("pdKeyBoard", userService.getProductByCategory("Keyboard"));
+            request.setAttribute("pdHeadPhone", userService.getProductByCategory("Headphone"));
+            request.setAttribute("pdDiscount", userService.getProductDiscounts());
             request.setAttribute("pdKeyBoard", userService.getProductByCategory("KeyBoard"));
             request.setAttribute("pdHeadPhone", userService.getProductByCategory("HeadPhone"));
 
@@ -46,11 +62,6 @@ public class ServletUserHome extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        request.getRequestDispatcher("/components/userComponents/home.jsp").forward(request,response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("/components/userComponents/home.jsp").forward(request, response);
     }
 }
