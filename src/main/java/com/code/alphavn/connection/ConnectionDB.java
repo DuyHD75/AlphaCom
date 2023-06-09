@@ -8,13 +8,14 @@ public class ConnectionDB {
             Connection connection = null;
 
             String DB_USER = "sa";
-            String DB_PASS = "123123";
+            String DB_PASS = "sa";
+            String portNumber = "1433";
 
-            String SERVER_NAME = "DESKTOP-SAVDU8T\\SQLEXPRESS";
+            String SERVER_NAME = "DESKTOP-DUPHV77\\SQLEXPRESS";
 
-            String DB_NAME = "DHDElectro";
+            String DB_NAME = "AlphaElectro";
 
-            String DB_URL = "jdbc:sqlserver://" + SERVER_NAME + ";databaseName=" + DB_NAME + ";encrypt=false;"
+            String DB_URL = "jdbc:sqlserver://" + SERVER_NAME + ":"+portNumber +  ";databaseName=" + DB_NAME + ";encrypt=false;"
                     + "trustServerCertificate=false;loginTimeout=30";
 
             try {

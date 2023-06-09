@@ -12,5 +12,6 @@
 <br/>
 <a href="home">Home</a>
 <a href="./loginCustomer">login</a>
+<a href="./cart">cart</a>
 </body>
 </html>
