@@ -121,7 +121,6 @@ public class LoginGoogleHandler extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 

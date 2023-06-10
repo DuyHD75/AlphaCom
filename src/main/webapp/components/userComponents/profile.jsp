@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: DOANCONGHUUNGHIA
-  Date: 5/26/2023
-  Time: 2:26 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -12,7 +5,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Alpha Electro | Personal Profile</title>
 
@@ -36,37 +28,13 @@
     <link rel="stylesheet" href="./css/profile.css">
     <link rel="stylesheet" href="./css/style.css">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
+
 </head>
 <body>
+
 <%@include file="../../components/commons/header.jsp" %>
 <%@include file="../../components/commons/navigationbar.jsp" %>
-
-<%--<%@include file="../../components/commons/header.jsp" %>--%>
-
-<!-- BREADCRUMB -->
-<div id="breadcrumb" class="section">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="breadcrumb-tree">
-                    <li><a href="#">Home</a></li>
-                    <li class="active">View Profile Customer (${sessionScope.acc.name})</li>
-                </ul>
-            </div>
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /BREADCRUMB -->
 
 
 <div class="body-container">
@@ -149,8 +117,8 @@
 </div>
 
 <!-- FOOTER -->
+  
 <%@include file="../../components/commons/newsletter.jsp"%>
-
 <%@include file="../../components/commons/footer.jsp"%>
 
 <!-- /FOOTER -->

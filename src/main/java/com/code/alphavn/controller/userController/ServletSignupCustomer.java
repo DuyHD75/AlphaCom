@@ -36,7 +36,7 @@ public class ServletSignupCustomer extends HttpServlet {
 
         Customer customer = new Customer(fullname, encodedpass, email, phonenumber);
 
-        Customer account = userService.CheckAccountExist(customer);
+        Customer account = userService.getCustomerByEmail(email);
 
         if(account!=null){
             request.setAttribute("messSignup","Email already exists.");
@@ -63,8 +63,7 @@ public class ServletSignupCustomer extends HttpServlet {
                     Session session = Session.getDefaultInstance(props, new Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
                             return new PasswordAuthentication("hdat1502@gmail.com", "ootkbvbsapgibuas");// Put your email
-                            // id and
-                            // password here
+
                         }
                     });
                     // compose message
