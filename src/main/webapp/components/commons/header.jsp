@@ -112,10 +112,15 @@
 
                         <!-- Wishlist -->
                         <div>
-                            <a href="#">
+                            <a href="./wishList">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Your Wishlist</span>
-                                <div class="qty">2</div>
+                                <c:if test="${sessionScope.acc == null}">
+                                    <div class="qty">0</div>
+                                </c:if>
+                                <c:if test="${sessionScope.acc != null}">
+                                    <div class="qty">${sessionScope.numWish}</div>
+                                </c:if>
                             </a>
                         </div>
                         <!-- /Wishlist -->
