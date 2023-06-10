@@ -24,13 +24,27 @@ import java.util.Random;
 public class ServletViewProduct extends HttpServlet {
     private static UserServiceImpl userService;
 
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        userService = new UserServiceImpl();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        implementViewProduct(request, response);
+    }
 
-        userService = new UserServiceImpl();
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    }
+
+    public void implementViewProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pid = Integer.parseInt(request.getParameter("pid"));
         try {
+
             HttpSession session = request.getSession();
             Customer account = (Customer) session.getAttribute("acc");
             if(account!=null) {
@@ -52,11 +66,13 @@ public class ServletViewProduct extends HttpServlet {
                 request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
                 request.setAttribute("pdRatingReviews", userService.getProductRatingReviews(pid));
             }
+          request.getRequestDispatcher("/components/userComponents/detailProduct.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        request.getRequestDispatcher("/components/userComponents/detailProduct.jsp").forward(request, response);
     }
+  
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,18 +84,16 @@ public class ServletViewProduct extends HttpServlet {
 
         if (pdID != null) {
 
-
             int pid = Integer.parseInt(pdID);
 
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String comment = request.getParameter("comment");
-//            int rating = Integer.parseInt(request.getParameter("rating"));
             String rating1=request.getParameter("rating");
             String OTP = request.getParameter("otp");
 
-            Customer customer = userService.getCustomerByEmail(email); // xu lý cái ni nữa check OTP
-//            if (rating1!=null) {
+            Customer customer = userService.getCustomerByEmail(email); 
+
                 if (customer != null) {
                     int id_cus = customer.getId();
                     System.out.println("id : " + id_cus);
@@ -100,25 +114,10 @@ public class ServletViewProduct extends HttpServlet {
                     request.setAttribute("addClass", "right__panel--active right__panel-t-m--active");
                     request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
                 }
-//            }
-//            else {
-//                request.setAttribute("comment", comment);
-//                request.setAttribute("name", name);
-//                request.setAttribute("email", email);
-//                request.setAttribute("rating__msg", "Choose star to review");
-////                request.getRequestDispatcher("view_product?pid=" + pid).forward(request, response);
-//                response.sendRedirect("./view_product?pid=" + pid);
-//
-//            }
 
 
         }
-//            request.getRequestDispatcher("./view_product?pid=" + pid).forward(request,response);
         else {
             response.getWriter().println("He");
-//            response.sendRedirect("view_product");
         }
-//            request.getRequestDispatcher("profile").forward(request, response);
-
     }
-}

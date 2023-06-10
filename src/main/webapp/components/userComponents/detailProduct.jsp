@@ -148,14 +148,30 @@
                             </div>
                             <a class="review-link" href="#">${fn:length(pdReviews)} Review(s) | Add your review</a>
                         </div>
-                        <div>
-                            <h3 class="product-price">$${pdDetail.getPrice()}
-                                <del class="product-old-price">$990.00</del>
-                            </h3>
-                            <span class="product-available">In Stock</span>
-                        </div>
-                        <p>${pdDetail.getProduct().getDesc()}</p>
 
+                        <a class="review-link" href="#">${fn:length(pdReviews)} Review(s) | Add your review</a>
+                    </div>
+                    <div>
+                        <c:choose>
+                            <c:when test="${pdDiscount != null}">
+                                <c:set var="finalPrice" value="${Math.ceil(pdDetail.getPrice() - (pdDetail.getPrice() * pdDiscount.getDis_amount()))}"/>
+                            </c:when>
+
+                            <c:otherwise>
+                                <c:set var="finalPrice" value="${pdDetail.getPrice()}"/>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <h3 class="product-price">$${finalPrice}
+                            <c:if test="${pdDiscount != null}">
+                                <del
+                                        class="product-old-price">$${pdDetail.getPrice()}
+                                </del>
+                            </c:if>
+                        </h3>
+                        <span class="product-available">In Stock</span>
+                    </div>
+                    <p>${pdDetail.getProduct().getDesc()}</p>
 
                         <div class="add-to-cart">
                             <div class="qty-label">

@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class UserServiceImpl implements IUserService {
@@ -18,19 +19,20 @@ public class UserServiceImpl implements IUserService {
     private boolean cacheValid;
     private List<ProductInfo> productInfos;
     private List<ProductDiscount> productDiscounts;
+    private List<ProductReview> productReviews;
 
     public UserServiceImpl() {
         cacheValid = false;
     }
 
+//    ============================== HANDLE METHODS ================================
 
-    public List<ProductInfo> getProducts() throws SQLException {
-        PreparedStatement pstm = con.prepareStatement("SELECT TOP 10 p.pid, p.product_name, p.product_desc, p.amount_remaining,\n" +
-                "pd.price, pd.img1, pd.img2, pd.img3,c.category_name\n" +
-                "FROM products p \n" +
-                "JOIN productDetails pd ON p.pid = pd.product_id\n" +
-                "JOIN categorys c ON p.category_id = c.category_id\n" +
-                "order by  p.pid desc\n");
+
+    public List<ProductInfo> getAllProducts() throws SQLException {
+        String query = "SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining, pd.price, pd.img1, pd.img2, pd.img3,c.category_name " +
+                "FROM products p JOIN productDetails pd ON p.pid = pd.product_id JOIN categorys c ON p.category_id = c.category_id";
+
+        PreparedStatement pstm = con.prepareStatement(query);
 
         if (!cacheValid || productInfos == null) {
             productInfos = new ArrayList<>();
@@ -41,63 +43,68 @@ public class UserServiceImpl implements IUserService {
         return productInfos;
     }
 
+    public List<ProductInfo> getNewProducts() throws SQLException {
+        List<ProductInfo> newProducts = new ArrayList<>();
+        if (productInfos == null) {
+            productInfos = getAllProducts();
+        }
+        newProducts = productInfos.subList(productInfos.size() - 10, productInfos.size());
+        return newProducts;
+    }
+
     public List<ProductInfo> getProductByCategory(String category) throws SQLException {
-        PreparedStatement pstm = con.prepareStatement("SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining," +
-                " pd.price, pd.img1, pd.img2, pd.img3,c.category_name\n" +
-                "FROM products p\n" +
-                "JOIN categorys c ON p.category_id = c.category_id\n" +
-                "JOIN productDetails pd ON p.pid = pd.product_id\n" +
-                "WHERE c.category_name = ?;");
+        List<ProductInfo> categoryProducts = new ArrayList<>();
 
-        pstm.setString(1, category);
+        if (productInfos == null) {
+            productInfos = getAllProducts();
+        }
+        categoryProducts = productInfos.stream()
+                .filter(product -> product.getProduct().getCategory().equalsIgnoreCase(category))
+                .collect(Collectors.toList());
+        ;
+        return categoryProducts;
+    }
 
-        ResultSet rs = pstm.executeQuery();
-        return convertResultSetToList(rs);
+    public List<ProductInfo> getProductInRangePrice(int minPrice, int maxPrice, String category) throws SQLException {
+        List<ProductInfo> filterProducts = new ArrayList<>();
+
+        if (category == null || category.equalsIgnoreCase("All")) {
+            filterProducts = getAllProducts();
+        } else {
+            filterProducts = getProductByCategory(category);
+        }
+
+        filterProducts = filterProducts.stream()
+                .filter(prd -> prd.getPrice() >= minPrice && prd.getPrice() <= maxPrice)
+                .collect(Collectors.toList());
+
+        return filterProducts;
+
     }
 
     public ProductInfo getProductByID(int id) throws SQLException {
-        PreparedStatement pstm = con.prepareStatement("SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining, pd.price, pd.img1, pd.img2, pd.img3,c.category_name\n" +
-                "FROM products p\n" +
-                "JOIN categorys c ON p.category_id = c.category_id\n" +
-                "JOIN productDetails pd ON p.pid = pd.product_id\n" +
-                "where p.pid = ?;");
-        pstm.setInt(1, id);
-        ResultSet rs = pstm.executeQuery();
-        ProductInfo productInfo = null;
-        while (rs.next()) {
-            Product product = new Product(
-                    Integer.parseInt(rs.getString("pid")),
-                    rs.getString("product_name"),
-                    rs.getString("product_desc"),
-                    rs.getInt("amount_remaining"),
-                    rs.getString("category_name")
-            );
-
-            productInfo = new ProductInfo(product,
-                    Double.parseDouble(rs.getString("price")),
-                    rs.getString("img1"),
-                    rs.getString("img2"),
-                    rs.getString("img3")
-            );
+        ProductInfo prd = new ProductInfo();
+        if (productInfos == null) {
+            productInfos = getAllProducts();
         }
-        return productInfo;
+        prd = productInfos.stream()
+                .filter(product -> product.getProduct().getId() == id)
+                .collect(Collectors.toList()).get(0);
+        return prd;
     }
 
-
-    public void addProduct(ProductInfo productInfo) {
-
-        cacheValid = false;
-    }
 
     public List<ProductDiscount> getProductDiscounts() throws SQLException {
-        PreparedStatement pstm = con.prepareStatement("select * from productDiscount;");
+        String query = "select * from productDiscount;";
+        PreparedStatement pstm = con.prepareStatement(query);
 
         if (!cacheValid || productDiscounts == null) {
             productDiscounts = new ArrayList<>();
+
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 productDiscounts.add(new ProductDiscount(
-                        rs.getInt("discount_id"),
+                        rs.getInt("id"),
                         rs.getInt("product_id"),
                         rs.getString("discount_name"),
                         rs.getDouble("discount_amount"),
@@ -110,17 +117,27 @@ public class UserServiceImpl implements IUserService {
         return productDiscounts;
     }
 
+    public ProductDiscount getPdDiscountByPID(int id) throws SQLException {
+        if (productDiscounts == null) {
+            productDiscounts = getProductDiscounts();
+        }
+        for (ProductDiscount prd : productDiscounts) {
+            if (prd.getPid() == id) return prd;
+        }
+        return null;
+    }
 
     public List<ProductReview> getProductReviews(int pid) throws SQLException {
-        PreparedStatement pstm = con.prepareStatement("SELECT  pr.id, c.name, pr.comment ,  pr.rating ,  pr.create_at\n" +
-                "FROM productReivews pr\n" +
-                "JOIN customers c ON pr.customer_id = c.customer_id\n" +
-                "WHERE pr.product_id = ?;"); // lỗi khúc ni nên ko chạy được ra đó
 
+        String query = "SELECT  pr.id, c.name, pr.comment ,  pr.rating ,  pr.create_at " +
+                "FROM productReivews pr JOIN customers c ON pr.customer_id = c.customer_id WHERE pr.product_id = ?;";
+
+        PreparedStatement pstm = con.prepareStatement(query);
 
         pstm.setInt(1, pid);
         ResultSet rs = pstm.executeQuery();
-        List<ProductReview> productReviews = new ArrayList<>();
+
+        productReviews = new ArrayList<>();
         while (rs.next()) {
             productReviews.add(new ProductReview(rs.getInt("id"),
                     rs.getString("name"),
@@ -132,7 +149,8 @@ public class UserServiceImpl implements IUserService {
                     return productReviews;
     }
 
-    ///////////////////
+
+
     public  ProductReview getProductRatingReviews(int pid) throws SQLException {
         String query = "SELECT product_id, \n" +
                 "       AVG(rating) as avgrating,\n" +
@@ -155,15 +173,13 @@ public class UserServiceImpl implements IUserService {
                     rs.getInt("rating_3"),
                     rs.getInt("rating_4"),
                     rs.getInt("rating_5")
-            );}
-
+            );
+        }
         return productReviews;
     }
-    ///////////////////
 
     public List<ProductInfo> convertResultSetToList(ResultSet rs) throws SQLException {
         List<ProductInfo> products = new ArrayList<>();
-
 
         while (rs.next()) {
             Product product = new Product(
@@ -184,8 +200,23 @@ public class UserServiceImpl implements IUserService {
         return products;
     }
 
+    public List<Category> getCategories() throws SQLException {
+        PreparedStatement pstm = con.prepareStatement("select * from categorys;");
+        List<Category> categories = new ArrayList<>();
 
-//    =================================== Authentication =============================================
+        ResultSet rs = pstm.executeQuery();
+        while (rs.next()) {
+            categories.add(new Category(rs.getInt(1), rs.getString(2)));
+        }
+        return categories;
+    }
+
+    public void addNewProduct(ProductInfo productInfo) {
+        cacheValid = false;
+    }
+
+
+    //    =================================== AUTHENTICATION =============================================
 
     public Customer Login(Customer customer) {
         String query = "select * from customers where email = ? and password =?";

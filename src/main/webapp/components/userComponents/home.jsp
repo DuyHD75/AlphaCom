@@ -37,10 +37,40 @@
 <!-- HEADER -->
 <%@include file="../commons/header.jsp" %>
 <!-- /HEADER -->
+
+<!-- NAVIGATION -->
+<%@include file="../commons/navigationbar.jsp" %>
+<!-- /NAVIGATION -->
+
+
 <!-- HOME BANNER -->
 <session class="home_banner_container">
     <div class="home_bg">
         <div class="swiper-wrapper container">
+
+            <div class="swiper-slide slide row row-content">
+                <div class="content col-md-6 col-12">
+                    <h3>${pdLaptop.get(0).getProduct().getName()}</h3>
+                    <span>${pdLaptop.get(0).getProduct().getDesc()}</span>
+
+                    <div class="product-rating">
+                        <i class='bx bxl-docker'></i>
+
+                        <span>$${pdLaptop.get(0).getPrice()}/-</span>
+
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <a href="./view_product?pid=${pdLaptop.get(0).getProduct().getId()}" class="btn">BUY now</a>
+                </div>
+
+                <div class="image col-md-6 col-12">
+                    <img src="imgs/productImg/${pdLaptop.get(0).getImg1()}" alt="">
+                </div>
+            </div>
 
             <div class="swiper-slide slide row row-content">
                 <div class="content col-md-6 col-12">
@@ -61,7 +91,7 @@
                     <a href="./view_product?pid=${pdLaptop.get(1).getProduct().getId()}" class="btn">BUY now</a>
                 </div>
 
-                <div class="image col-md-6 col-12">
+                <div class="image col-md-6 col">
                     <img src="imgs/productImg/${pdLaptop.get(1).getImg1()}" alt="">
                 </div>
             </div>
@@ -85,35 +115,10 @@
                     <a href="./view_product?pid=${pdLaptop.get(2).getProduct().getId()}" class="btn">BUY now</a>
                 </div>
 
-                <div class="image col-md-6 col">
+                <div class="image col-md-6 col-12">
                     <img src="imgs/productImg/${pdLaptop.get(2).getImg1()}" alt="">
                 </div>
             </div>
-
-            <div class="swiper-slide slide row row-content">
-                <div class="content col-md-6 col-12">
-                    <h3>${pdLaptop.get(9).getProduct().getName()}</h3>
-                    <span>${pdLaptop.get(9).getProduct().getDesc()}</span>
-
-                    <div class="product-rating">
-                        <i class='bx bxl-docker'></i>
-
-                        <span>$${pdLaptop.get(9).getPrice()}/-</span>
-
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                    </div>
-                    <a href="./view_product?pid=${pdLaptop.get(9).getProduct().getId()}" class="btn">BUY now</a>
-                </div>
-
-                <div class="image col-md-6 col-12">
-                    <img src="imgs/productImg/${pdLaptop.get(9).getImg1()}" alt="">
-                </div>
-            </div>
-
 
         </div>
     </div>
@@ -123,9 +128,7 @@
 <!-- HOME BANNER -->
 
 
-<!-- NAVIGATION -->
-<%@include file="../commons/navigationbar.jsp" %>
-<!-- /NAVIGATION -->
+
 
 
 <!-- SECTION COLLECTIONS-->
@@ -211,7 +214,7 @@
                                         <div class="product-img">
                                             <img src="imgs/productImg/${p.getImg1()}" alt="">
                                             <div class="product-label">
-                                                <c:if test="${pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                                <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
                                                     <span class="sale">${pdDiscount.get(idx).getDis_amount() * 100} %</span>
                                                 </c:if>
                                                 <span class="new">NEW</span>
@@ -226,7 +229,7 @@
 
 
                                             <c:choose>
-                                                <c:when test="${pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                                <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
                                                     <c:set var="finalPrice" value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
                                                 </c:when>
 
@@ -236,7 +239,7 @@
                                             </c:choose>
 
                                             <h4 class="product-price">$${finalPrice}
-                                                <c:if test="${pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                                <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
                                                     <del
                                                             class="product-old-price">$${p.getPrice()}
                                                     </del>
@@ -376,8 +379,9 @@
                                                     href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
                                             </h3>
 
+
                                             <c:choose>
-                                                <c:when test="${pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                                <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
                                                     <c:set var="finalPrice" value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
                                                 </c:when>
 
@@ -387,12 +391,20 @@
                                             </c:choose>
 
                                             <h4 class="product-price">$${finalPrice}
-                                                <c:if test="${pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                                <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
                                                     <del
                                                             class="product-old-price">$${p.getPrice()}
                                                     </del>
                                                 </c:if>
                                             </h4>
+
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
 
                                             <div class="product-btns">
                                                 <button class="add-to-wishlist"><i
@@ -430,7 +442,7 @@
     </div>
     <!-- /container -->
 </div>
-<!-- /SECTION -->
+<!-- /SECTION TOPSELLING-->
 
 <!-- SECTION WIDGET-->
 <div class="section">
@@ -459,10 +471,24 @@
                                     <h3 class="product-name"><a
                                             href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
                                     </h3>
-                                    <h4 class="product-price">$${p.getPrice()}
-                                        <del
-                                                class="product-old-price">$990.00
-                                        </del>
+
+
+                                    <c:choose>
+                                        <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <c:set var="finalPrice" value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
+                                        </c:when>
+
+                                        <c:otherwise>
+                                            <c:set var="finalPrice" value="${p.getPrice()}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <h4 class="product-price">$${finalPrice}
+                                        <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <del
+                                                    class="product-old-price">$${p.getPrice()}
+                                            </del>
+                                        </c:if>
                                     </h4>
                                 </div>
                             </div>
@@ -481,10 +507,23 @@
                                     <h3 class="product-name"><a
                                             href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
                                     </h3>
-                                    <h4 class="product-price">$${p.getPrice()}
-                                        <del
-                                                class="product-old-price">$990.00
-                                        </del>
+
+                                    <c:choose>
+                                        <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <c:set var="finalPrice" value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
+                                        </c:when>
+
+                                        <c:otherwise>
+                                            <c:set var="finalPrice" value="${p.getPrice()}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <h4 class="product-price">$${finalPrice}
+                                        <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <del
+                                                    class="product-old-price">$${p.getPrice()}
+                                            </del>
+                                        </c:if>
                                     </h4>
                                 </div>
                             </div>
@@ -517,10 +556,23 @@
                                     <h3 class="product-name"><a
                                             href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
                                     </h3>
-                                    <h4 class="product-price">$${p.getPrice()}
-                                        <del
-                                                class="product-old-price">$990.00
-                                        </del>
+
+                                    <c:choose>
+                                        <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <c:set var="finalPrice" value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
+                                        </c:when>
+
+                                        <c:otherwise>
+                                            <c:set var="finalPrice" value="${p.getPrice()}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <h4 class="product-price">$${finalPrice}
+                                        <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <del
+                                                    class="product-old-price">$${p.getPrice()}
+                                            </del>
+                                        </c:if>
                                     </h4>
                                 </div>
                             </div>
@@ -539,10 +591,23 @@
                                     <h3 class="product-name"><a
                                             href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
                                     </h3>
-                                    <h4 class="product-price">$${p.getPrice()}
-                                        <del
-                                                class="product-old-price">$990.00
-                                        </del>
+
+                                    <c:choose>
+                                        <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <c:set var="finalPrice" value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
+                                        </c:when>
+
+                                        <c:otherwise>
+                                            <c:set var="finalPrice" value="${p.getPrice()}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <h4 class="product-price">$${finalPrice}
+                                        <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <del
+                                                    class="product-old-price">$${p.getPrice()}
+                                            </del>
+                                        </c:if>
                                     </h4>
                                 </div>
                             </div>
@@ -577,10 +642,23 @@
                                     <h3 class="product-name"><a
                                             href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
                                     </h3>
-                                    <h4 class="product-price">$${p.getPrice()}
-                                        <del
-                                                class="product-old-price">$990.00
-                                        </del>
+
+                                    <c:choose>
+                                        <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <c:set var="finalPrice" value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
+                                        </c:when>
+
+                                        <c:otherwise>
+                                            <c:set var="finalPrice" value="${p.getPrice()}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <h4 class="product-price">$${finalPrice}
+                                        <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <del
+                                                    class="product-old-price">$${p.getPrice()}
+                                            </del>
+                                        </c:if>
                                     </h4>
                                 </div>
                             </div>
@@ -599,10 +677,23 @@
                                     <h3 class="product-name"><a
                                             href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
                                     </h3>
-                                    <h4 class="product-price">$${p.getPrice()}
-                                        <del
-                                                class="product-old-price">$990.00
-                                        </del>
+
+                                    <c:choose>
+                                        <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <c:set var="finalPrice" value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
+                                        </c:when>
+
+                                        <c:otherwise>
+                                            <c:set var="finalPrice" value="${p.getPrice()}"/>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <h4 class="product-price">$${finalPrice}
+                                        <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
+                                            <del
+                                                    class="product-old-price">$${p.getPrice()}
+                                            </del>
+                                        </c:if>
                                     </h4>
                                 </div>
                             </div>

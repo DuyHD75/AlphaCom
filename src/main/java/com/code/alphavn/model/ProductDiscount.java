@@ -70,4 +70,15 @@ public class ProductDiscount {
         this.end_date = end_date;
     }
 
+    @Override
+    public String toString() {
+        return "ProductDiscount{" +
+                "discount_id=" + discount_id +
+                ", pid=" + pid +
+                ", dis_name='" + dis_name + '\'' +
+                ", dis_amount=" + dis_amount +
+                ", start_date=" + start_date +
+                ", end_date=" + end_date +
+                '}';
+    }
 }
