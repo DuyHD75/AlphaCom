@@ -14,6 +14,10 @@
 
     // Navigation change
 
+	$('.account-dropdown').on('click', function (e) {
+		e.stopPropagation();
+	});
+
 
     $(document).ready(function () {
         var url = window.location.href;

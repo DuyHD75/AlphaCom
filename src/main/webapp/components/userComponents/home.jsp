@@ -28,8 +28,8 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
 
     <!-- Custom stlylesheet -->
-
     <link rel="stylesheet" href="css/style.css">
+
 
 </head>
 
@@ -270,9 +270,9 @@
 
 
                                         <div class="add-to-cart">
-                                            <button class="add-to-cart-btn"><i
+                                            <a class="add-to-cart-btn" href="cart?action=homeAddToCart&&pid=${p.getProduct().getId()}"><i
                                                     class="fa fa-shopping-cart"></i> add to cart
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                     <c:set var="idx" value="${idx + 1}"/>
@@ -421,9 +421,9 @@
 
 
                                         <div class="add-to-cart">
-                                            <button class="add-to-cart-btn"><i
+                                            <a class="add-to-cart-btn" href="cart?action=homeAddToCart&&pid=${p.getProduct().getId()}"><i
                                                     class="fa fa-shopping-cart"></i> add to cart
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                     <c:set var="idx" value="${idx + 1}"/>

@@ -10,25 +10,27 @@
 
 
 
+<body>
+<%
+    String currentPage = request.getRequestURI();
+    session.setAttribute("currentPage", currentPage);
+%>
 <header>
-
-
     <c:choose>
         <c:when test="${not empty error}">
-            <div class="error">
+            <div class="error" style="background-color: transparent; position: relative">
                 <span>${error}</span>
-                <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
+              <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
             </div>
         </c:when>
 
         <c:when test="${not empty message}">
-            <div class="message">
+            <div class="message" style="background-color: #fff">
                 <span>${message}</span>
-                <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
+           <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
             </div>
         </c:when>
     </c:choose>
-
 
     <!-- TOP HEADER -->
     <div id="top-header">
@@ -40,10 +42,30 @@
             </ul>
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-<%--                <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>--%>
                 <c:if test="${sessionScope.acc != null}">
-                    <li><a href="./profileCustomer"><i class="fa fa-user-o"></i>${sessionScope.acc.name}</a></li>
-                    <li><a href="./logout">Logout</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style="cursor: pointer"/>
+                            <i class="fa fa-user-o"></i>
+                            ${sessionScope.acc.name}
+                        </a>
+                        <div class="account-dropdown">
+                            <div class="account-list">
+                                <div class="account-link">
+                                    <a href="./profileCustomer">My profile</a>
+                                </div>
+                                <div class="account-link">
+                                    <a href="#">Change password</a>
+                                </div>
+                                <div class="account-link">
+                                    <a href="order?action=viewOrder">View Order</a>
+                                </div>
+                                <div class="account-link">
+                                    <a href="./logout">Logout</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
                 </c:if>
 
                 <c:if test="${sessionScope.acc == null}">
@@ -61,9 +83,11 @@
             <!-- row -->
             <div class="row">
                 <!-- LOGO -->
-                <div class="col-md-3">
+                <div class="col-md-3 col-sm-4 col-xs-4">
                     <div class="header-logo">
+                      
                         <a href="./home" class="logo">
+                          
                             <img src="imgs/logo.png" alt="">
                         </a>
                     </div>
@@ -71,8 +95,9 @@
                 <!-- /LOGO -->
 
                 <!-- SEARCH BAR -->
-                <div class="col-md-6">
+                <div class="col-md-6 hidden-sm hidden-xs">
                     <div class="header-search">
+
                         <form action="./store?process=3" method="post">
                             <select class="input-select">
                                 <option value="0">All Categories</option>
@@ -80,6 +105,7 @@
                                 <option value="1">Category 02</option>
                             </select>
                             <input class="input" placeholder="Search here" name="searchKey">
+
                             <button class="search-btn">Search</button>
                         </form>
                     </div>
@@ -87,8 +113,9 @@
                 <!-- /SEARCH BAR -->
 
                 <!-- ACCOUNT -->
-                <div class="col-md-3 clearfix">
+                <div class="col-md-3 col-sm-8 col-xs-8 text-justify clearfix">
                     <div class="header-ctn">
+
                         <!-- Wishlist -->
                         <div>
                             <a href="#">
@@ -100,53 +127,57 @@
                         <!-- /Wishlist -->
 
                         <!-- Cart -->
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                        <div class="dropdown ${open}">
+                            <%
+                                session.removeAttribute("open");
+                            %>
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style="cursor: pointer"/>
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
-                                <div class="qty">3</div>
+                                <div class="qty">
+                                    <c:if test="${countProductInCart == null}">0</c:if>
+                                    ${countProductInCart}
+                                </div>
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes
-                                                here</a></h3>
-                                            <h4 class="product-price"><span class="qty">1x</span>$980.00
-                                            </h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
 
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="" alt="">
+                                    <c:if test="${countProductInCart == 0 || countProductInCart == null}">
+                                        <h5 style="text-align: center;">There are no products yet. <br> Shop now.</h5>
+                                    </c:if>
+                                    <c:set var="idx" value="0"/>
+                                    <c:forEach var="cart" items="${listCart}">
+                                        <div class="product-widget">
+                                            <div class="product-img">
+                                                <img src="imgs/productImg/${cart.getProductInfo().getImg1()}" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-name"><a href="view_product?pid=${cart.getProductInfo().getProduct().getId()}">${cart.getProductInfo().getProduct().getName()}</a></h3>
+                                                <h4 class="product-price"><span class="qty">
+                                                    ${cart.amount}  x</span>${cart.getFinalPrice()}
+                                                    <a href="cart?action=deleteFromCartHeader&&pid=${cart.getProductInfo().getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}" class="delete" onclick="return confirm('Delete this from cart?');" style="cursor: pointer" >Delete</a>
+                                                </h4>
+                                            </div>
                                         </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes
-                                                here</a></h3>
-                                            <h4 class="product-price"><span class="qty">3x</span>$980.00
-                                            </h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
-                                </div>
-
-                                <div class="cart-summary">
-                                    <small>3 Item(s) selected</small>
-                                    <h5>SUBTOTAL: $2940.00</h5>
+                                    </c:forEach>
                                 </div>
 
                                 <div class="cart-btns">
-                                    <a href="#">View Cart</a>
-                                    <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a href="cart?action=viewCart">View Cart</a>
+                                    <a href="checkout?action=checkout">Checkout <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
                         <!-- /Cart -->
+
+                        <!-- Search toogle -->
+                        <div class="menu-toggle">
+                            <a href="#">
+                                <i class="fa fa-search"></i>
+                                <span>Search</span>
+                            </a>
+                        </div>
+                        <!-- /Search toogle -->
 
                         <!-- Menu Toogle -->
                         <div class="menu-toggle">
@@ -166,3 +197,4 @@
     </div>
     <!-- /MAIN HEADER -->
 </header>
+</body>

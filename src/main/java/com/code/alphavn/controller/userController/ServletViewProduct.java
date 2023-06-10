@@ -1,5 +1,7 @@
 package com.code.alphavn.controller.userController;
 
+import com.code.alphavn.model.Cart;
+
 import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.ProductInfo;
 import com.code.alphavn.model.ProductReview;
@@ -16,9 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
 import java.sql.SQLOutput;
 import java.util.Properties;
 import java.util.Random;
+
 
 @WebServlet(name = "ServletViewProduct", value = "/view_product")
 public class ServletViewProduct extends HttpServlet {
@@ -47,26 +52,23 @@ public class ServletViewProduct extends HttpServlet {
 
             HttpSession session = request.getSession();
             Customer account = (Customer) session.getAttribute("acc");
-            if(account!=null) {
+            ProductInfo productInfo = userService.getProductByID(pid);
+          
+            if(account !=null) {
+                ServletCart cart = new ServletCart();
+                cart.handleViewCartHeader(request, response);
+              
                 Customer id = new Customer(account.getId());
                 Customer profile = userService.getAccountByAccID(id);
                 request.setAttribute("infomation", profile);
-                ProductInfo productInfo = userService.getProductByID(pid);
-
-                request.setAttribute("pdDetail", productInfo);
-                request.setAttribute("pdReviews", userService.getProductReviews(pid));
-                request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
-                request.setAttribute("pdRatingReviews", userService.getProductRatingReviews(pid));
             }
-            else {
-                ProductInfo productInfo = userService.getProductByID(pid);
-
-                request.setAttribute("pdDetail", productInfo);
-                request.setAttribute("pdReviews", userService.getProductReviews(pid));
-                request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
-                request.setAttribute("pdRatingReviews", userService.getProductRatingReviews(pid));
-            }
+          
+          request.setAttribute("pdDetail", productInfo);
+          request.setAttribute("pdReviews", userService.getProductReviews(pid));
+          request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
+          request.setAttribute("pdRatingReviews", userService.getProductRatingReviews(pid));
           request.getRequestDispatcher("/components/userComponents/detailProduct.jsp").forward(request, response);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

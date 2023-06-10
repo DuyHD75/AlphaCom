@@ -1,5 +1,6 @@
 package com.code.alphavn.controller.userController;
 
+import com.code.alphavn.model.Cart;
 import com.code.alphavn.model.Customer;
 import com.code.alphavn.service.UserServiceImpl;
 
@@ -25,7 +26,12 @@ public class ServletProfileCustomer extends HttpServlet {
         if(account!=null){
 
             Customer id = new Customer(account.getId());
-            Customer profile = userService.getAccountByAccID(id);
+            Customer profile = userService.getAccountByCusID(id);
+
+            //thêm cái này vào những trang có header.jsp
+            ServletCart cart = new ServletCart();
+            cart.handleViewCartHeader(request, response);
+
             request.setAttribute("infomation", profile);
             request.getRequestDispatcher("components/userComponents/profile.jsp").forward(request, response);
         }else {

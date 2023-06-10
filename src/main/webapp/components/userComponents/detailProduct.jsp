@@ -62,7 +62,7 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="home">Home</a></li>
                     <li><a href="#">${pdDetail.getProduct().getCategory()}</a></li>
                     <li class="active">${pdDetail.getProduct().getName()}</li>
                 </ul>
@@ -173,17 +173,26 @@
                     </div>
                     <p>${pdDetail.getProduct().getDesc()}</p>
 
+
+                    <form action="cart?action=DetailAddToCart&&pid=${pdDetail.getProduct().getId()}" method="post">
+
                         <div class="add-to-cart">
                             <div class="qty-label">
                                 Qty
                                 <div class="input-number">
-                                    <input type="number" value="1">
+                                    <input name="amount" type="number" value="1" min="1" max="${pdDetail.getProduct().getAmount_remaining()}"/>
                                     <span class="qty-up">+</span>
                                     <span class="qty-down">-</span>
                                 </div>
                             </div>
-                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            <div>
+                                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+
                         </div>
+                    </form>
+
+
 
                         <ul class="product-btns">
                             <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
@@ -476,6 +485,7 @@
                 </div>
                 <!-- /section title -->
 
+ 
                 <!-- Products tab & slick -->
                 <div class="col-md-12">
                     <div class="row">
@@ -527,11 +537,13 @@
                                             </div>
 
 
-                                            <div class="add-to-cart">
+                                        <div class="add-to-cart">
+                                            <form action="cart?action=DetailAddToCart&&pid=${p.getProduct().getId()}" method="post">
                                                 <button class="add-to-cart-btn"><i
                                                         class="fa fa-shopping-cart"></i> add to cart
                                                 </button>
-                                            </div>
+                                            </form>
+
                                         </div>
 
                                     </c:forEach>
