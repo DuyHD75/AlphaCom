@@ -1787,13 +1787,28 @@ textarea.input {
     margin-right: 15px;
 }
 
-.product-details .product-rating > i {
+.product-details .product-rating .fa-star {
     color: #E4E7ED;
 }
 
-.product-details .product-rating > i.fa-star {
+.product-details .product-rating .fa-star:before {
     color: #D10024;
 }
+.product-details .product-rating .fa-star-o:before {
+    color: #E4E7ED;
+}
+.review-rating .fa-star {
+    color: #E4E7ED;
+}
+
+.review-rating .fa-star:before {
+    color: #D10024;
+}
+.review-rating .fa-star-o:before {
+    color: #E4E7ED;
+}
+
+
 .product-details p,
 .product-details .review-link {
     font-size: 14px;
@@ -2116,7 +2131,7 @@ textarea.input {
 /*-- Review Form --*/
 
 .review-form .input {
-    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .review-form .input-rating {
@@ -2535,7 +2550,6 @@ textarea.input {
 
 
 
-
 /* =============  ABOUT    =================== */
 
 .about {
@@ -2625,10 +2639,4 @@ textarea.input {
     font-size: 2rem;
     color:var(--black);
 }
-
-
-
-
-
-
 

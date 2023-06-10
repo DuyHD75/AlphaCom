@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.code.alphavn.model.ProductReview" %><%--
   Created by IntelliJ IDEA.
   User: This PC
   Date: 5/26/2023
@@ -38,6 +38,15 @@
     <!-- Custom stlylesheet -->
 
     <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .form__msg {
+            font-size: 12px;
+            color: red;
+            margin: 0 0 12px 4px;
+            line-height: 12px;
+        }
+    </style>
 
 </head>
 <body>
@@ -121,12 +130,25 @@
                     <h2 class="product-name">${pdDetail.getProduct().getName()}</h2>
                     <div>
                         <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
+                            <c:set var="idx" value="0"/>
+                            <div class="rating-stars">
+                                <c:forEach begin="1" end="${pdRatingReviews.getAvgrating()}">
+                                    <i class="fa fa-star"></i>
+                                    <c:set var="idx" value="${idx + 1}"/>
+                                </c:forEach>
+
+                                <c:if test="${idx < 5}">
+                                    <c:set var="idx" value="${5 - idx}"/>
+                                    <c:forEach begin="1" end="${idx}">
+                                        <i class="fa fa-star-o"></i>
+                                    </c:forEach>
+                                </c:if>
+
+                            </div>
+                            </div>
+                            <a class="review-link" href="#">${fn:length(pdReviews)} Review(s) | Add your review</a>
                         </div>
+
                         <a class="review-link" href="#">${fn:length(pdReviews)} Review(s) | Add your review</a>
                     </div>
                     <div>
@@ -151,354 +173,442 @@
                     </div>
                     <p>${pdDetail.getProduct().getDesc()}</p>
 
-
-                    <div class="add-to-cart">
-                        <div class="qty-label">
-                            Qty
-                            <div class="input-number">
-                                <input type="number" value="1">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
-                            </div>
-                        </div>
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-
-                    <ul class="product-btns">
-                        <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
-                    </ul>
-
-                    <ul class="product-links">
-                        <li>Category:</li>
-                        <li><a href="#">${pdDetail.getProduct().getCategory()}</a></li>
-                    </ul>
-
-                    <ul class="product-links">
-                        <li>Share:</li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-                    </ul>
-
-                </div>
-            </div>
-            <!-- /Product details -->
-
-            <!-- Product tab review -->
-            <div class="col-md-12">
-                <div id="product-tab">
-                    <!-- product tab nav -->
-                    <ul class="tab-nav">
-                        <li class="active"><a data-toggle="tab" href="#tab1">Reviews (${fn:length(pdReviews)}) </a></li>
-                        <li><a data-toggle="tab" href="#tab3">Description</a></li>
-                        <li><a data-toggle="tab" href="#tab2">Details</a></li>
-                    </ul>
-                    <!-- /product tab nav -->
-
-                    <!-- product tab content -->
-                    <div class="tab-content">
-
-
-                        <!-- tab1  -->
-                        <div id="tab1" class="tab-pane fade in active">
-                            <div class="row">
-                                <!-- Rating -->
-                                <div class="col-md-3">
-                                    <div id="rating">
-                                        <div class="rating-avg">
-                                            <span>4.5</span>
-                                            <div class="rating-stars">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </div>
-                                        </div>
-                                        <ul class="rating">
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div style="width: 80%;"></div>
-                                                </div>
-                                                <span class="sum">3</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div style="width: 60%;"></div>
-                                                </div>
-                                                <span class="sum">2</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
-                                        </ul>
-                                    </div>
+                        <div class="add-to-cart">
+                            <div class="qty-label">
+                                Qty
+                                <div class="input-number">
+                                    <input type="number" value="1">
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
                                 </div>
-                                <!-- /Rating -->
+                            </div>
+                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        </div>
 
-                                <!-- Reviews -->
-                                <div class="col-md-6">
-                                    <div id="reviews">
-                                        <ul class="reviews">
-                                            <c:forEach items="${pdReviews}" var="pr">
+                        <ul class="product-btns">
+                            <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                        </ul>
 
+                        <ul class="product-links">
+                            <li>Category:</li>
+                            <li><a href="#">${pdDetail.getProduct().getCategory()}</a></li>
+                        </ul>
+
+                        <ul class="product-links">
+                            <li>Share:</li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <!-- /Product details -->
+
+                <!-- Product tab review -->
+                <div class="col-md-12">
+                    <div id="product-tab">
+                        <!-- product tab nav -->
+                        <ul class="tab-nav">
+                            <li class="active"><a data-toggle="tab" href="#tab1">Reviews (${fn:length(pdReviews)}) </a>
+                            </li>
+                            <li><a data-toggle="tab" href="#tab3">Description</a></li>
+                            <li><a data-toggle="tab" href="#tab2">Details</a></li>
+                        </ul>
+                        <!-- /product tab nav -->
+
+                        <!-- product tab content -->
+                        <div class="tab-content">
+
+
+                            <!-- tab1  -->
+                            <div id="tab1" class="tab-pane fade in active">
+                                <div class="row">
+                                    <!-- Rating -->
+                                    <div class="col-md-3">
+                                        <div id="rating">
+                                            <div class="rating-avg">
+                                                <span>${pdRatingReviews.getAvgrating()}</span>
+                                                <c:set var="idx" value="0"/>
+                                                <div class="rating-stars">
+                                                    <c:forEach begin="1" end="${pdRatingReviews.getAvgrating()}">
+                                                        <i class="fa fa-star"></i>
+                                                        <c:set var="idx" value="${idx + 1}"/>
+                                                    </c:forEach>
+
+                                                    <c:if test="${idx < 5}">
+                                                        <c:set var="idx" value="${5 - idx}"/>
+                                                        <c:forEach begin="1" end="${idx}">
+                                                            <i class="fa fa-star-o"></i>
+                                                        </c:forEach>
+                                                    </c:if>
+
+                                                </div>
+                                            </div>
+                                            <ul class="rating">
                                                 <li>
-                                                    <div class="review-heading">
-                                                        <h5 class="name">${pr.getCus_name()}</h5>
-                                                        <p class="date">${pr.getCreate_at()}</p>
-                                                        <div class="review-rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-o empty"></i>
-                                                        </div>
+                                                    <div class="rating-stars">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
                                                     </div>
-                                                    <div class="review-body">
-                                                        <p>${pr.getComment()}</p>
+                                                    <div class="rating-progress">
+                                                        <c:set var="prg" value="${(pdRatingReviews.getRating5()/(pdRatingReviews.getRating1()+pdRatingReviews.getRating2()+pdRatingReviews.getRating3()+pdRatingReviews.getRating4()+pdRatingReviews.getRating5()))*100}"/>
+                                                        <div style="width: ${prg}%;"></div>
                                                     </div>
+                                                    <span class="sum">${pdRatingReviews.getRating5()}</span>
                                                 </li>
+                                                <li>
+                                                    <div class="rating-stars">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                    </div>
+                                                    <div class="rating-progress">
+                                                        <c:set var="prg" value="${(pdRatingReviews.getRating4()/(pdRatingReviews.getRating1()+pdRatingReviews.getRating2()+pdRatingReviews.getRating3()+pdRatingReviews.getRating4()+pdRatingReviews.getRating5()))*100}"/>
+                                                        <div style="width: ${prg}%;"></div>
+                                                    </div>
+                                                    <span class="sum">${pdRatingReviews.getRating4()}</span>
+                                                </li>
+                                                <li>
+                                                    <div class="rating-stars">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                    </div>
+                                                    <div class="rating-progress">
+                                                        <c:set var="prg" value="${(pdRatingReviews.getRating3()/(pdRatingReviews.getRating1()+pdRatingReviews.getRating2()+pdRatingReviews.getRating3()+pdRatingReviews.getRating4()+pdRatingReviews.getRating5()))*100}"/>
+                                                        <div style="width: ${prg}%;"></div>
+                                                    </div>
+                                                    <span class="sum">${pdRatingReviews.getRating3()}</span>
+                                                </li>
+                                                <li>
+                                                    <div class="rating-stars">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                    </div>
+                                                    <div class="rating-progress">
+                                                        <c:set var="prg" value="${(pdRatingReviews.getRating2()/(pdRatingReviews.getRating1()+pdRatingReviews.getRating2()+pdRatingReviews.getRating3()+pdRatingReviews.getRating4()+pdRatingReviews.getRating5()))*100}"/>
+                                                        <div style="width: ${prg}%;"></div>
+                                                    </div>
+                                                    <span class="sum">${pdRatingReviews.getRating2()}</span>
+                                                </li>
+                                                <li>
+                                                    <div class="rating-stars">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                    </div>
+                                                    <div class="rating-progress">
+                                                        <c:set var="prg" value="${(pdRatingReviews.getRating1()/(pdRatingReviews.getRating1()+pdRatingReviews.getRating2()+pdRatingReviews.getRating3()+pdRatingReviews.getRating4()+pdRatingReviews.getRating5()))*100}"/>
+                                                        <div style="width: ${prg}%;"></div>
+                                                    </div>
+                                                    <span class="sum">${pdRatingReviews.getRating1()}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- /Rating -->
 
-                                            </c:forEach>
-                                        </ul>
-                                        <ul class="reviews-pagination">
-                                            <li class="active">1</li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                        </ul>
+                                    <!-- Reviews -->
+                                    <div class="col-md-6">
+                                        <div id="reviews">
+                                            <ul class="reviews">
+                                                <c:forEach items="${pdReviews}" var="pr">
+                                                    <li>
+                                                        <div class="review-heading">
+                                                            <h5 class="name">${pr.getCus_name()}</h5>
+                                                            <p class="date">${pr.getCreate_at()}</p>
+                                                            <div class="review-rating">
+
+                                                                <c:set var="idx" value="0"/>
+                                                                <div class="rating-stars">
+                                                                    <c:forEach begin="1" end="${pr.getRating()}">
+                                                                        <i class="fa fa-star"></i>
+                                                                        <c:set var="idx" value="${idx + 1}"/>
+                                                                    </c:forEach>
+
+                                                                    <c:if test="${idx < 5}">
+                                                                        <c:set var="idx" value="${5 - idx}"/>
+                                                                        <c:forEach begin="1" end="${idx}">
+                                                                            <i class="fa fa-star-o"></i>
+                                                                        </c:forEach>
+                                                                    </c:if>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="review-body">
+                                                            <p>${pr.getComment()}</p>
+                                                        </div>
+                                                    </li>
+
+                                                </c:forEach>
+                                            </ul>
+                                            <ul class="reviews-pagination">
+                                                <li class="active">1</li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                                <li><a href="#">4</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                                            </ul>
 
 
+                                        </div>
+                                    </div>
+                                    <!-- /Reviews -->
+
+                                    <!-- Review Form -->
+                                    <div class="col-md-3">
+                                        <div >
+                                            <form action="" method="post" class="review-form" id="review-form">
+                                                <div class="form__group">
+                                                    <input class="input" type="text" id="name" name="name" value="${infomation.name}"
+                                                           placeholder="Your Name" readonly>
+                                                    <span class="form__msg"></span>
+                                                </div>
+                                                <div class="form__group">
+                                                    <input class="input" type="email" id="email" name="email"
+                                                           value="${infomation.email}" placeholder="Your Email" readonly >
+                                                    <span class="form__msg"></span>
+                                                </div>
+                                                <div class="form__group">
+                                                    <textarea class="input" id="comment" name="comment"
+                                                              placeholder="Your Review"></textarea>
+                                                    <span class="form__msg"></span>
+                                                </div>
+
+
+                                                <div class="input-rating form__group">
+
+                                                    <div class="stars ">
+                                                        <span>Your Rating: </span>
+                                                        <input id="star5" name="rating" value="5" type="radio"><label
+                                                            for="star5"></label>
+                                                        <input id="star4" name="rating" value="4" type="radio"><label
+                                                            for="star4"></label>
+                                                        <input id="star3" name="rating" value="3" type="radio"><label
+                                                            for="star3"></label>
+                                                        <input id="star2" name="rating" value="2" type="radio"><label
+                                                            for="star2"></label>
+                                                        <input id="star1" name="rating" value="1" type="radio"><label
+                                                            for="star1"></label> <br>
+
+                                                    </div> <br>
+                                                    <span class="form__msg"></span>
+                                                </div>
+                                                <div class="form__group hide ${show}">
+                                                    <input id="otp" name="otp" class="form__input" type="number"
+                                                           placeholder="OTP"/>
+                                                    <span class="form__msg">${message1}</span>
+                                                </div>
+                                                <button type="submit" class="primary-btn">Submit</button>
+                                            </form>
+                                            <div class="error-message" style="display:none;">Please select a rating</div>
+
+                                        </div>
+                                    </div>
+                                    <!-- /Review Form -->
+                                </div>
+                            </div>
+                            <!-- /tab1  -->
+
+                            <!-- tab2  -->
+                            <div id="tab2" class="tab-pane fade in">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <p>${pdDetail.getProduct().getDesc()}.</p>
                                     </div>
                                 </div>
-                                <!-- /Reviews -->
+                            </div>
+                            <!-- /tab2  -->
 
-                                <!-- Review Form -->
-                                <div class="col-md-3">
-                                    <div id="review-form">
-                                        <form class="review-form">
-                                            <input class="input" type="text" placeholder="Your Name">
-                                            <input class="input" type="email" placeholder="Your Email">
-                                            <textarea class="input" placeholder="Your Review"></textarea>
-                                            <div class="input-rating">
-                                                <span>Your Rating: </span>
-                                                <div class="stars">
-                                                    <input id="star5" name="rating" value="5" type="radio"><label
-                                                        for="star5"></label>
-                                                    <input id="star4" name="rating" value="4" type="radio"><label
-                                                        for="star4"></label>
-                                                    <input id="star3" name="rating" value="3" type="radio"><label
-                                                        for="star3"></label>
-                                                    <input id="star2" name="rating" value="2" type="radio"><label
-                                                        for="star2"></label>
-                                                    <input id="star1" name="rating" value="1" type="radio"><label
-                                                        for="star1"></label>
+                            <!-- tab1  -->
+                            <div id="tab3" class="tab-pane fade in ">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <p>${pdDetail.getProduct().getDesc()}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /tab1  -->
+
+
+                        </div>
+                        <!-- /product tab content  -->
+                    </div>
+                </div>
+                <!-- /product tab -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /SECTION -->
+
+
+    <!-- Section Related product -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+
+                <!-- section title -->
+                <div class="col-md-12 text-center">
+                    <div class="section-title">
+                        <h3 class="title">Related Products</h3>
+                    </div>
+                </div>
+                <!-- /section title -->
+
+                <!-- Products tab & slick -->
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="products-tabs">
+                            <!-- tab -->
+                            <div id="tab1" class="tab-pane active">
+                                <div class="products-slick" data-nav="#slick-nav-1">
+
+                                    <c:forEach items="${pdCategory}" var="p">
+                                        <div class="product">
+                                            <div class="product-img">
+                                                <img src="imgs/productImg/${p.getImg1()}" alt="">
+                                                <div class="product-label">
+                                                    <span class="new">NEW</span>
                                                 </div>
                                             </div>
-                                            <button class="primary-btn">Submit</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- /Review Form -->
-                            </div>
-                        </div>
-                        <!-- /tab1  -->
+                                            <div class="product-body">
+                                                <p class="product-category">${p.getProduct().getCategory()}</p>
 
-                        <!-- tab2  -->
-                        <div id="tab2" class="tab-pane fade in">
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    <p>${pdDetail.getProduct().getDesc()}.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /tab2  -->
+                                                <h3 class="product-name"><a
+                                                        href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
+                                                </h3>
 
-                        <!-- tab1  -->
-                        <div id="tab3" class="tab-pane fade in ">
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    <p>${pdDetail.getProduct().getDesc()}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /tab1  -->
+                                                <h4 class="product-price">$${p.getPrice()}
+                                                    <del
+                                                            class="product-old-price">$990.00
+                                                    </del>
+                                                </h4>
+                                                <div class="product-rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
 
 
+                                                <div class="product-btns">
+                                                    <button class="add-to-wishlist"><i
+                                                            class="fa fa-heart-o"></i><span
+                                                            class="tooltipp">add to wishlist</span></button>
+                                                    <button class="add-to-compare"><i
+                                                            class="fa fa-exchange"></i><span
+                                                            class="tooltipp">add to compare</span></button>
+                                                    <button class="quick-view"><i class="fa fa-eye"></i><span
+                                                            class="tooltipp">quick view</span></button>
+                                                </div>
 
-
-                    </div>
-                    <!-- /product tab content  -->
-                </div>
-            </div>
-            <!-- /product tab -->
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /SECTION -->
-
-
-<!-- Section Related product -->
-<div class="section">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <div class="row">
-
-            <!-- section title -->
-            <div class="col-md-12 text-center">
-                <div class="section-title">
-                    <h3 class="title">Related Products</h3>
-                </div>
-            </div>
-            <!-- /section title -->
-
-            <!-- Products tab & slick -->
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="products-tabs">
-                        <!-- tab -->
-                        <div id="tab1" class="tab-pane active">
-                            <div class="products-slick" data-nav="#slick-nav-1">
-
-                                <c:forEach items="${pdCategory}" var="p">
-                                    <div class="product">
-                                        <div class="product-img">
-                                            <img src="imgs/productImg/${p.getImg1()}" alt="">
-                                            <div class="product-label">
-                                                <span class="new">NEW</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-body">
-                                            <p class="product-category">${p.getProduct().getCategory()}</p>
-
-                                            <h3 class="product-name"><a
-                                                    href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
-                                            </h3>
-
-                                            <h4 class="product-price">$${p.getPrice()}
-                                                <del
-                                                        class="product-old-price">$990.00
-                                                </del>
-                                            </h4>
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
                                             </div>
 
 
-                                            <div class="product-btns">
-                                                <button class="add-to-wishlist"><i
-                                                        class="fa fa-heart-o"></i><span
-                                                        class="tooltipp">add to wishlist</span></button>
-                                                <button class="add-to-compare"><i
-                                                        class="fa fa-exchange"></i><span
-                                                        class="tooltipp">add to compare</span></button>
-                                                <button class="quick-view"><i class="fa fa-eye"></i><span
-                                                        class="tooltipp">quick view</span></button>
+                                            <div class="add-to-cart">
+                                                <button class="add-to-cart-btn"><i
+                                                        class="fa fa-shopping-cart"></i> add to cart
+                                                </button>
                                             </div>
-
                                         </div>
 
+                                    </c:forEach>
 
-                                        <div class="add-to-cart">
-                                            <button class="add-to-cart-btn"><i
-                                                    class="fa fa-shopping-cart"></i> add to cart
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                </c:forEach>
-
+                                </div>
+                                <div id="slick-nav-1" class="products-slick-nav"></div>
                             </div>
-                            <div id="slick-nav-1" class="products-slick-nav"></div>
+                            <!-- /tab -->
                         </div>
-                        <!-- /tab -->
                     </div>
                 </div>
+                <!-- Products tab & slick -->
             </div>
-            <!-- Products tab & slick -->
+            <!-- /row -->
         </div>
-        <!-- /row -->
+        <!-- /container -->
     </div>
-    <!-- /container -->
-</div>
-<!-- /SECTION -->
-<!-- /Section -->
+    <!-- /SECTION -->
+    <!-- /Section -->
 
-<!-- NEWSLETTER -->
-<%@include file="../commons/newsletter.jsp" %>
-<!-- /NEWSLETTER -->
+    <!-- NEWSLETTER -->
+    <%@include file="../commons/newsletter.jsp" %>
+    <!-- /NEWSLETTER -->
 
-<!-- FOOTER -->
+    <!-- FOOTER -->
 
-<%@include file="../commons/footer.jsp" %>
-<!-- /FOOTER -->
+    <%@include file="../commons/footer.jsp" %>
+    <!-- /FOOTER -->
 
-<!-- jQuery Plugins -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
-<script src="js/main.js"></script>
+    <!-- jQuery Plugins -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.zoom.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/validator.js"></script>
+    <script>
+        // const ratingInputs = document.querySelectorAll('input[name="rating"]');
+        Validator({
+            form: '#review-form',
+            formGroupSelector: '.form__group',
+            erorrSelector: '.form__msg',
+
+            rules: [
+                Validator.isRequiredCheck('input[name="rating"]', 'Please rating'),
+                Validator.isRequired('#name', 'Enter your name to review'),
+                Validator.isRequired('#email', 'Enter your email address to review'),
+                Validator.isEmail('#email'),
+                Validator.isRequired('#comment', 'Enter your comment to review'),
+            ],
+            			// onSubmit: function (data) {
+            			// 	// call API
+            			// 	console.log(data);
+            			// }
+        });
+        // const ratingInputs = document.querySelectorAll('input[name="rating"]');
+        // const form = document.querySelector('#review-form');
+        //
+        // form.addEventListener('submit', function(event) {
+        //     let isChecked = false;
+        //
+        //     for (const input of ratingInputs) {
+        //         if (input.checked) {
+        //             isChecked = true;
+        //             break;
+        //         }
+        //     }
+        //
+        //     if (!isChecked) {
+        //         const errorMsg = document.querySelector('.form__msg');
+        //         errorMsg.textContent = 'Please select a rating';
+        //         event.preventDefault(); // Ngăn chặn submit form nếu có lỗi xuất hiện
+        //     }
+        // });
+    </script>
+
 
 
 </body>

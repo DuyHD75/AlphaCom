@@ -146,6 +146,35 @@ public class UserServiceImpl implements IUserService {
                     rs.getDate("create_at")
             ));
         }
+                    return productReviews;
+    }
+
+
+
+    public  ProductReview getProductRatingReviews(int pid) throws SQLException {
+        String query = "SELECT product_id, \n" +
+                "       AVG(rating) as avgrating,\n" +
+                "       COUNT(CASE WHEN rating = 1 THEN 1 ELSE NULL END) AS rating_1,\n" +
+                "       COUNT(CASE WHEN rating = 2 THEN 1 ELSE NULL END) AS rating_2,\n" +
+                "       COUNT(CASE WHEN rating = 3 THEN 1 ELSE NULL END) AS rating_3,\n" +
+                "       COUNT(CASE WHEN rating = 4 THEN 1 ELSE NULL END) AS rating_4,\n" +
+                "       COUNT(CASE WHEN rating = 5 THEN 1 ELSE NULL END) AS rating_5\n" +
+                "FROM productReivews\n" +
+                "where product_id=?\t\n" +
+                "GROUP BY product_id;";
+        PreparedStatement pstmt = con.prepareStatement(query);
+        pstmt.setInt(1,pid);
+        ResultSet rs = pstmt.executeQuery();
+        ProductReview productReviews=null;
+        while (rs.next()) {
+             productReviews = new ProductReview(rs.getFloat("avgrating"),
+                    rs.getInt("rating_1"),
+                    rs.getInt("rating_2"),
+                    rs.getInt("rating_3"),
+                    rs.getInt("rating_4"),
+                    rs.getInt("rating_5")
+            );
+        }
         return productReviews;
     }
 
@@ -211,25 +240,25 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
-    public Customer CheckAccountExist(Customer customer) {
-        String query = "select * from customers where email = ?";
-        try {
-            PreparedStatement pstm = con.prepareStatement(query);
-            pstm.setString(1, customer.getEmail());
-            ResultSet rs = pstm.executeQuery();
-            while (rs.next()) {
-                return new Customer(rs.getInt("customer_id"),
-                        rs.getString("name"),
-                        rs.getString("password"),
-                        rs.getString("address"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getDate("created_At"));
-            }
-        } catch (SQLException e) {
-        }
-        return null;
-    }
+//    public Customer CheckAccountExist(Customer customer) {
+//        String query = "select * from customers where email = ?";
+//        try {
+//            PreparedStatement pstm = con.prepareStatement(query);
+//            pstm.setString(1, customer.getEmail());
+//            ResultSet rs = pstm.executeQuery();
+//            while (rs.next()) {
+//                return new Customer(rs.getInt("customer_id"),
+//                        rs.getString("name"),
+//                        rs.getString("password"),
+//                        rs.getString("address"),
+//                        rs.getString("email"),
+//                        rs.getString("phone"),
+//                        rs.getDate("created_At"));
+//            }
+//        } catch (SQLException e) {
+//        }
+//        return null;
+//    }
 
     public Customer getCustomerByEmail(String email) {
         String query = "select * from customers where email = ?";
@@ -317,6 +346,18 @@ public class UserServiceImpl implements IUserService {
     public static void main(String[] args) throws SQLException {
         UserServiceImpl userService = new UserServiceImpl();
         System.out.println(userService.getProductDiscounts());
+    }
+    public boolean insertReview(ProductReview productReview) throws SQLException {
+        String query = "insert into productReivews (product_id, customer_id, rating, comment)" +
+                " values(?, ?,  ?, ?);";
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setInt(1, productReview.getPid());
+            pstm.setInt(2, productReview.getCus_id());
+            pstm.setInt(3, productReview.getRating());
+            pstm.setString(4, productReview.getComment());
+            return pstm.executeUpdate() > 0;
+
+
     }
 
 
