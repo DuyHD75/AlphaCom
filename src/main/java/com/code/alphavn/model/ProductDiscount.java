@@ -3,7 +3,7 @@ package com.code.alphavn.model;
 import java.util.Date;
 
 public class ProductDiscount {
-    private int id;
+    private int discount_id;
     private int pid;
     private String dis_name;
     private double dis_amount;
@@ -14,7 +14,7 @@ public class ProductDiscount {
     }
 
     public ProductDiscount(int id, int pid, String dis_name, double dis_amount, Date start_date, Date end_date) {
-        this.id = id;
+        this.discount_id = id;
         this.pid = pid;
         this.dis_name = dis_name;
         this.dis_amount = dis_amount;
@@ -22,12 +22,12 @@ public class ProductDiscount {
         this.end_date = end_date;
     }
 
-    public int getId() {
-        return id;
+    public int getDiscount_id() {
+        return discount_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setDiscount_id(int discount_id) {
+        this.discount_id = discount_id;
     }
 
     public int getPid() {
@@ -68,5 +68,17 @@ public class ProductDiscount {
 
     public void setEnd_date(Date end_date) {
         this.end_date = end_date;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductDiscount{" +
+                "discount_id=" + discount_id +
+                ", pid=" + pid +
+                ", dis_name='" + dis_name + '\'' +
+                ", dis_amount=" + dis_amount +
+                ", start_date=" + start_date +
+                ", end_date=" + end_date +
+                '}';
     }
 }

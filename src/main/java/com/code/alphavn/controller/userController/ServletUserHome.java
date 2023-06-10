@@ -3,6 +3,7 @@ package com.code.alphavn.controller.userController;
 
 
 
+
 import com.code.alphavn.model.Cart;
 import com.code.alphavn.model.Customer;
 import com.code.alphavn.service.UserServiceImpl;
@@ -25,32 +26,42 @@ public class ServletUserHome extends HttpServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    public void init() throws ServletException {
+        super.init();
         userService = new UserServiceImpl();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        implementUserHome(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
 
 
+    public void implementUserHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setAttribute("products",userService.getProducts());
+            request.setAttribute("products", userService.getNewProducts());
+            request.setAttribute("pdLaptop", userService.getProductByCategory("Laptop"));
             request.setAttribute("pdMonitors", userService.getProductByCategory("Monitor"));
             request.setAttribute("pdKeyBoard", userService.getProductByCategory("KeyBoard"));
             request.setAttribute("pdHeadPhone", userService.getProductByCategory("HeadPhone"));
-
+            request.setAttribute("pdDiscount", userService.getProductDiscounts());
+          
             HttpSession session = request.getSession();
+          
             Customer account = (Customer) session.getAttribute("acc");
+          
             if (account != null){
-                //thêm cái này vào những trang có header.jsp
                 ServletCart cart = new ServletCart();
                 cart.handleViewCartHeader(request, response);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        request.getRequestDispatcher("/components/userComponents/home.jsp").forward(request,response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("/components/userComponents/home.jsp").forward(request, response);
     }
 }

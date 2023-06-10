@@ -38,7 +38,7 @@ public class LoginGoogleHandler extends HttpServlet {
             PreparedStatement pstm = con.prepareStatement("select email from customers;");
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                if (user.getEmail().equals(rs.getString(1))){
+                if (user.getEmail().equals(rs.getString(1))) {
                     regis = true;
                     //response.sendRedirect("components/userComponents/home.jsp");
                     HttpSession session = request.getSession();
@@ -57,10 +57,10 @@ public class LoginGoogleHandler extends HttpServlet {
 
 //                );
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if (regis==false) {
+        if (regis == false) {
 
 
             try {

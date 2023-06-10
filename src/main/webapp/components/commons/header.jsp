@@ -8,11 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<html>
-<head>
-    <title>Title</title>
 
-</head>
+
 <body>
 <%
     String currentPage = request.getRequestURI();
@@ -23,15 +20,18 @@
         <c:when test="${not empty error}">
             <div class="error" style="background-color: transparent; position: relative">
                 <span>${error}</span>
+              <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
             </div>
         </c:when>
 
         <c:when test="${not empty message}">
             <div class="message" style="background-color: #fff">
                 <span>${message}</span>
+           <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
             </div>
         </c:when>
     </c:choose>
+
     <!-- TOP HEADER -->
     <div id="top-header">
         <div class="container">
@@ -42,7 +42,6 @@
             </ul>
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-<%--                <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>--%>
                 <c:if test="${sessionScope.acc != null}">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style="cursor: pointer"/>
@@ -86,7 +85,9 @@
                 <!-- LOGO -->
                 <div class="col-md-3 col-sm-4 col-xs-4">
                     <div class="header-logo">
-                        <a href="home" class="logo">
+                      
+                        <a href="./home" class="logo">
+                          
                             <img src="imgs/logo.png" alt="">
                         </a>
                     </div>
@@ -96,8 +97,15 @@
                 <!-- SEARCH BAR -->
                 <div class="col-md-6 hidden-sm hidden-xs">
                     <div class="header-search">
-                        <form>
-                            <input class="input" placeholder="Search here">
+
+                        <form action="./store?process=3" method="post">
+                            <select class="input-select">
+                                <option value="0">All Categories</option>
+                                <option value="1">Category 01</option>
+                                <option value="1">Category 02</option>
+                            </select>
+                            <input class="input" placeholder="Search here" name="searchKey">
+
                             <button class="search-btn">Search</button>
                         </form>
                     </div>
@@ -133,6 +141,7 @@
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
+
                                     <c:if test="${countProductInCart == 0 || countProductInCart == null}">
                                         <h5 style="text-align: center;">There are no products yet. <br> Shop now.</h5>
                                     </c:if>
@@ -152,10 +161,7 @@
                                         </div>
                                     </c:forEach>
                                 </div>
-<%--                                <div class="cart-summary">--%>
-<%--                                    <small>3 Item(s) selected</small>--%>
-<%--                                    <h5>SUBTOTAL: $2940.00</h5>--%>
-<%--                                </div>--%>
+
                                 <div class="cart-btns">
                                     <a href="cart?action=viewCart">View Cart</a>
                                     <a href="checkout?action=checkout">Checkout <i class="fa fa-arrow-circle-right"></i></a>
@@ -192,4 +198,3 @@
     <!-- /MAIN HEADER -->
 </header>
 </body>
-</html>

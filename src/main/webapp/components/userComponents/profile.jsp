@@ -1,21 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: DOANCONGHUUNGHIA
-  Date: 5/26/2023
-  Time: 2:26 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Personal Profile</title>
+    <title>Alpha Electro | Personal Profile</title>
 
     <link rel="icon" href="/imgs/logo.png">
     <!-- Google font -->
@@ -37,19 +28,14 @@
     <link rel="stylesheet" href="./css/profile.css">
     <link rel="stylesheet" href="./css/style.css">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
 
 </head>
 <body>
-<!-- HEADER -->
-<jsp:include page="../../components/commons/header.jsp"></jsp:include>
-<jsp:include page="../../components/commons/navigationbar.jsp"></jsp:include>
-<!-- /HEADER -->
+
+<%@include file="../../components/commons/header.jsp" %>
+<%@include file="../../components/commons/navigationbar.jsp" %>
+
 
 <div class="body-container">
     <div class="body-container__profile">
@@ -131,8 +117,10 @@
 </div>
 
 <!-- FOOTER -->
-<jsp:include page="../../components/commons/newsletter.jsp"></jsp:include>
-<jsp:include page="../../components/commons/footer.jsp"></jsp:include>
+  
+<%@include file="../../components/commons/newsletter.jsp"%>
+<%@include file="../../components/commons/footer.jsp"%>
+
 <!-- /FOOTER -->
 
 <!-- jQuery Plugins -->

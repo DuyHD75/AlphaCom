@@ -1,9 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
-<head>
-</head>
-<body>
+
 <footer id="footer">
     <!-- top footer -->
     <div class="section">
@@ -77,14 +74,6 @@
             <!-- row -->
             <div class="row">
                 <div class="col-md-12 text-center">
-<%--                    <ul class="footer-payments">--%>
-<%--                        <li><a href="#"><i class="fa fa-cc-visa"></i></a></li>--%>
-<%--                        <li><a href="#"><i class="fa fa-credit-card"></i></a></li>--%>
-<%--                        <li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>--%>
-<%--                        <li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>--%>
-<%--                        <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>--%>
-<%--                        <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>--%>
-<%--                    </ul>--%>
                     <span class="copyright">
 							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							Copyright &copy;
@@ -100,5 +89,3 @@
     </div>
     <!-- /bottom footer -->
 </footer>
-</body>
-</html>
