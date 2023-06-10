@@ -38,9 +38,6 @@
 <%@include file="../commons/header.jsp" %>
 <!-- /HEADER -->
 
-<!-- NAVIGATION -->
-<%@include file="../commons/navigationbar.jsp" %>
-<!-- /NAVIGATION -->
 
 
 <!-- HOME BANNER -->
@@ -128,6 +125,9 @@
 <!-- HOME BANNER -->
 
 
+<!-- NAVIGATION -->
+<%@include file="../commons/navigationbar.jsp" %>
+<!-- /NAVIGATION -->
 
 
 
