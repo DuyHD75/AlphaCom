@@ -29,7 +29,6 @@ import java.util.Random;
 public class ServletViewProduct extends HttpServlet {
     private static UserServiceImpl userService;
 
-
     @Override
     public void init() throws ServletException {
         super.init();
@@ -41,10 +40,6 @@ public class ServletViewProduct extends HttpServlet {
         implementViewProduct(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 
     public void implementViewProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int pid = Integer.parseInt(request.getParameter("pid"));
@@ -53,27 +48,26 @@ public class ServletViewProduct extends HttpServlet {
             HttpSession session = request.getSession();
             Customer account = (Customer) session.getAttribute("acc");
             ProductInfo productInfo = userService.getProductByID(pid);
-          
-            if(account !=null) {
+
+            if (account != null) {
                 ServletCart cart = new ServletCart();
                 cart.handleViewCartHeader(request, response);
-              
+
                 Customer id = new Customer(account.getId());
-                Customer profile = userService.getAccountByAccID(id);
+                Customer profile = userService.getAccountByCusID(id);
                 request.setAttribute("infomation", profile);
             }
-          
-          request.setAttribute("pdDetail", productInfo);
-          request.setAttribute("pdReviews", userService.getProductReviews(pid));
-          request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
-          request.setAttribute("pdRatingReviews", userService.getProductRatingReviews(pid));
-          request.getRequestDispatcher("/components/userComponents/detailProduct.jsp").forward(request, response);
+
+            request.setAttribute("pdDetail", productInfo);
+            request.setAttribute("pdReviews", userService.getProductReviews(pid));
+            request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
+            request.setAttribute("pdRatingReviews", userService.getProductRatingReviews(pid));
+            request.getRequestDispatcher("/components/userComponents/detailProduct.jsp").forward(request, response);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-  
 
 
     @Override
@@ -91,35 +85,35 @@ public class ServletViewProduct extends HttpServlet {
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String comment = request.getParameter("comment");
-            String rating1=request.getParameter("rating");
+            String rating1 = request.getParameter("rating");
             String OTP = request.getParameter("otp");
 
-            Customer customer = userService.getCustomerByEmail(email); 
+            Customer customer = userService.getCustomerByEmail(email);
 
-                if (customer != null) {
-                    int id_cus = customer.getId();
-                    System.out.println("id : " + id_cus);
-                    ProductReview product1 = new ProductReview(pid, id_cus, Integer.parseInt(rating1), comment);
+            if (customer != null) {
+                int id_cus = customer.getId();
+                System.out.println("id : " + id_cus);
+                ProductReview product1 = new ProductReview(pid, id_cus, Integer.parseInt(rating1), comment);
 
 
-                    try {
-                        System.out.println(userService.insertReview(product1));
+                try {
+                    System.out.println(userService.insertReview(product1));
 
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    response.sendRedirect("./view_product?pid=" + pid);
-                } else {
-                    request.setAttribute("messSignup", "Need sign up to review product");
-                    request.setAttribute("fullname", name);
-                    request.setAttribute("email1", email);
-                    request.setAttribute("addClass", "right__panel--active right__panel-t-m--active");
-                    request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
+                response.sendRedirect("./view_product?pid=" + pid);
+            } else {
+                request.setAttribute("messSignup", "Need sign up to review product");
+                request.setAttribute("fullname", name);
+                request.setAttribute("email1", email);
+                request.setAttribute("addClass", "right__panel--active right__panel-t-m--active");
+                request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
+            }
 
 
-        }
-        else {
+        } else {
             response.getWriter().println("He");
         }
     }
+}

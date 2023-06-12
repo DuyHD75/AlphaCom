@@ -1,5 +1,6 @@
 package com.code.alphavn.controller.userController;
 
+import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.ProductInfo;
 import com.code.alphavn.service.UserServiceImpl;
 
@@ -8,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -104,6 +106,15 @@ public class ServletUserStore extends HttpServlet {
     public void getPdByMultiFactors(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<ProductInfo> products;
         String category = request.getParameter("category");
+
+        HttpSession session = request.getSession();
+
+        Customer account = (Customer) session.getAttribute("acc");
+
+        if (account != null){
+            ServletCart cart = new ServletCart();
+            cart.handleViewCartHeader(request, response);
+        }
 
         if (category == null || category.equalsIgnoreCase("All")) {
             request.setAttribute("category", "All");

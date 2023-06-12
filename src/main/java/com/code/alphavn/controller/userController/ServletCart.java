@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet ( name = "ServletCart", value = "/cart")
+@WebServlet(name = "ServletCart", value = "/cart")
 public class ServletCart extends HttpServlet {
 
     @Override
@@ -46,7 +46,7 @@ public class ServletCart extends HttpServlet {
                 default:
                     break;
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -71,7 +71,7 @@ public class ServletCart extends HttpServlet {
                 default:
                     break;
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -80,16 +80,16 @@ public class ServletCart extends HttpServlet {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
-        if (account != null){
+        if (account != null) {
             int cusId = account.getId();
             List<Cart> listCart = userService.getCartByCusID(cusId);
             Date currentDate = new Date();
             for (Cart cart : listCart) {
                 double price = 0;
-                for (ProductDiscount productDiscount : cart.getProductDiscount()){
-                    if (productDiscount.getPid() == cart.getProductInfo().getProduct().getId()){
-                        if (currentDate.before(productDiscount.getEnd_date()) && currentDate.after(productDiscount.getStart_date())){
-                            price =(double) Math.round( (cart.getProductInfo().getPrice() - (cart.getProductInfo().getPrice() * productDiscount.getDis_amount())) * 100) /100;
+                for (ProductDiscount productDiscount : cart.getProductDiscount()) {
+                    if (productDiscount.getPid() == cart.getProductInfo().getProduct().getId()) {
+                        if (currentDate.before(productDiscount.getEnd_date()) && currentDate.after(productDiscount.getStart_date())) {
+                            price = (double) Math.round((cart.getProductInfo().getPrice() - (cart.getProductInfo().getPrice() * productDiscount.getDis_amount())) * 100) / 100;
                             cart.setFinalPrice(price);
                         }
                     }
@@ -103,7 +103,7 @@ public class ServletCart extends HttpServlet {
         request.getRequestDispatcher("/components/userComponents/cart.jsp").forward(request, response);
     }
 
-    public void handleUpdateAmountCart (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleUpdateAmountCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int amount = Integer.parseInt(request.getParameter("qty"));
             String id = request.getParameter("pid");
@@ -111,7 +111,7 @@ public class ServletCart extends HttpServlet {
             UserServiceImpl userService = new UserServiceImpl();
             HttpSession session = request.getSession();
             Customer account = (Customer) session.getAttribute("acc");
-            if (account != null){
+            if (account != null) {
                 int cusId = account.getId();
                 ProductInfo productInfo = userService.getProductByID(pid);
                 if (amount > productInfo.getProduct().getAmount_remaining()) {
@@ -131,7 +131,7 @@ public class ServletCart extends HttpServlet {
         }
     }
 
-    public void handleHomeAddToCart (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleHomeAddToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int amount = 0;
             String id = request.getParameter("pid");
@@ -140,20 +140,20 @@ public class ServletCart extends HttpServlet {
             HttpSession session = request.getSession();
             Customer account = (Customer) session.getAttribute("acc");
 
-            if(account != null) {
+            if (account != null) {
                 int cusId = account.getId();
 
-                if(id != null) {
+                if (id != null) {
                     ProductInfo productInfo = userService.getProductByID(pid);
-                    if (productInfo != null){
+                    if (productInfo != null) {
                         if (request.getParameter("amount") != null) {
                             amount = Integer.parseInt(request.getParameter("amount"));
                         } else {
                             amount = 1;
                         }
                         Cart cart = userService.CheckCartExist(cusId, pid);
-                        if(productInfo.getProduct().getAmount_remaining() > 0) {
-                            if(cart == null) {
+                        if (productInfo.getProduct().getAmount_remaining() > 0) {
+                            if (cart == null) {
                                 userService.InsertCart(cusId, pid, amount);
                             } else {
                                 int newAmount = amount + cart.getAmount();
@@ -175,7 +175,7 @@ public class ServletCart extends HttpServlet {
         }
     }
 
-    public void handleStoreAddToCart (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleStoreAddToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int amount = 0;
             String id = request.getParameter("pid");
@@ -184,20 +184,20 @@ public class ServletCart extends HttpServlet {
             HttpSession session = request.getSession();
             Customer account = (Customer) session.getAttribute("acc");
 
-            if(account != null) {
+            if (account != null) {
                 int cusId = account.getId();
 
-                if(id != null) {
+                if (id != null) {
                     ProductInfo productInfo = userService.getProductByID(pid);
-                    if (productInfo != null){
+                    if (productInfo != null) {
                         if (request.getParameter("amount") != null) {
                             amount = Integer.parseInt(request.getParameter("amount"));
                         } else {
                             amount = 1;
                         }
                         Cart cart = userService.CheckCartExist(cusId, pid);
-                        if(productInfo.getProduct().getAmount_remaining() > 0) {
-                            if(cart == null) {
+                        if (productInfo.getProduct().getAmount_remaining() > 0) {
+                            if (cart == null) {
                                 userService.InsertCart(cusId, pid, amount);
                             } else {
                                 int newAmount = amount + cart.getAmount();
@@ -219,7 +219,7 @@ public class ServletCart extends HttpServlet {
         }
     }
 
-    public void handleWishListAddToCart (HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException    {
+    public void handleWishListAddToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int amount = 0;
             String id = request.getParameter("pid");
@@ -228,20 +228,20 @@ public class ServletCart extends HttpServlet {
             HttpSession session = request.getSession();
             Customer account = (Customer) session.getAttribute("acc");
 
-            if(account != null) {
+            if (account != null) {
                 int cusId = account.getId();
 
-                if(id != null) {
+                if (id != null) {
                     ProductInfo productInfo = userService.getProductByID(pid);
-                    if (productInfo != null){
+                    if (productInfo != null) {
                         if (request.getParameter("amount") != null) {
                             amount = Integer.parseInt(request.getParameter("amount"));
                         } else {
                             amount = 1;
                         }
                         Cart cart = userService.CheckCartExist(cusId, pid);
-                        if(productInfo.getProduct().getAmount_remaining() > 0) {
-                            if(cart == null) {
+                        if (productInfo.getProduct().getAmount_remaining() > 0) {
+                            if (cart == null) {
                                 userService.InsertCart(cusId, pid, amount);
                             } else {
                                 int newAmount = amount + cart.getAmount();
@@ -263,7 +263,7 @@ public class ServletCart extends HttpServlet {
         }
     }
 
-    public void handleDetailAddToCart (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleDetailAddToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int amount = 0;
             String id = request.getParameter("pid");
@@ -272,20 +272,20 @@ public class ServletCart extends HttpServlet {
             HttpSession session = request.getSession();
             Customer account = (Customer) session.getAttribute("acc");
 
-            if(account != null) {
+            if (account != null) {
                 int cusId = account.getId();
 
-                if(id != null) {
+                if (id != null) {
                     ProductInfo productInfo = userService.getProductByID(pid);
-                    if (productInfo != null){
+                    if (productInfo != null) {
                         if (request.getParameter("amount") != null) {
                             amount = Integer.parseInt(request.getParameter("amount"));
                         } else {
                             amount = 1;
                         }
                         Cart cart = userService.CheckCartExist(cusId, pid);
-                        if(productInfo.getProduct().getAmount_remaining() > 0) {
-                            if(cart == null) {
+                        if (productInfo.getProduct().getAmount_remaining() > 0) {
+                            if (cart == null) {
                                 userService.InsertCart(cusId, pid, amount);
                             } else {
                                 int newAmount = amount + cart.getAmount();
@@ -308,7 +308,7 @@ public class ServletCart extends HttpServlet {
         }
     }
 
-    public void handleViewCartHeader ( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleViewCartHeader(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
@@ -317,10 +317,10 @@ public class ServletCart extends HttpServlet {
         Date currentDate = new Date();
         for (Cart cart : listCart) {
             double price = 0;
-            for (ProductDiscount productDiscount : cart.getProductDiscount()){
-                if (productDiscount.getPid() == cart.getProductInfo().getProduct().getId()){
-                    if (currentDate.before(productDiscount.getEnd_date()) && currentDate.after(productDiscount.getStart_date())){
-                        price =(double) Math.round( (cart.getProductInfo().getPrice() - (cart.getProductInfo().getPrice() * productDiscount.getDis_amount())) * 100) /100;
+            for (ProductDiscount productDiscount : cart.getProductDiscount()) {
+                if (productDiscount.getPid() == cart.getProductInfo().getProduct().getId()) {
+                    if (currentDate.before(productDiscount.getEnd_date()) && currentDate.after(productDiscount.getStart_date())) {
+                        price = (double) Math.round((cart.getProductInfo().getPrice() - (cart.getProductInfo().getPrice() * productDiscount.getDis_amount())) * 100) / 100;
                         cart.setFinalPrice(price);
                     }
                 }
@@ -330,11 +330,11 @@ public class ServletCart extends HttpServlet {
         request.setAttribute("countProductInCart", listCart.size());
     }
 
-    public void handelDeleteFromCartHeader (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handelDeleteFromCartHeader(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
         int pid = Integer.parseInt(request.getParameter("pid"));
-        String pidDetail = request.getParameter( "pidDetail");
+        String pidDetail = request.getParameter("pidDetail");
         String currentPage = (String) session.getAttribute("currentPage");
 
 
@@ -359,6 +359,10 @@ public class ServletCart extends HttpServlet {
                 response.sendRedirect("checkout?action=checkout");
             } else if (currentPage.equals("/alphavn/components/userComponents/viewOrder.jsp")) {
                 response.sendRedirect("order?action=viewOrder");
+            } else if (currentPage.equals("/alphavn/components/userComponents/wishListProduct.jsp")) {
+                response.sendRedirect("wishList");
+            } else if (currentPage.equals("/alphavn/components/userComponents/store.jsp")) {
+                response.sendRedirect("store");
             }
             response.sendRedirect(currentPage);
         } else {
@@ -366,14 +370,14 @@ public class ServletCart extends HttpServlet {
         }
     }
 
-    public void handelDeleteFromCart (HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException {
+    public void handelDeleteFromCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
 
         int pid = Integer.parseInt(request.getParameter("pid"));
         UserServiceImpl userService = new UserServiceImpl();
 
-        if(account != null) {
+        if (account != null) {
             int customerId = account.getId();
             userService.DeleteFromCart(customerId, pid);
             List<Cart> listCart = userService.getCartByCusID(customerId);
@@ -384,14 +388,14 @@ public class ServletCart extends HttpServlet {
         }
     }
 
-    public void handelDeletaAllCart (HttpServletRequest request, HttpServletResponse response) throws  ServletException, IOException {
+    public void handelDeletaAllCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
         UserServiceImpl userService = new UserServiceImpl();
         int cusId = account.getId();
         List<Cart> listCart = userService.getCartByCusID(cusId);
 
-        if(account != null) {
+        if (account != null) {
             int customerId = account.getId();
             userService.DeleteCartByCusID(customerId);
             session.setAttribute("countProductInCart", listCart.size());

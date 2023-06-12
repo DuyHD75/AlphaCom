@@ -34,9 +34,7 @@
 <%@include file="../commons/header.jsp" %>
 <!-- /HEADER -->
 
-<!-- NAVIGATION -->
-<%@include file="../commons/navigationbar.jsp" %>
-<!-- /NAVIGATION -->
+
 
 
 
@@ -64,10 +62,14 @@
 
 </section>
 
+
+<!-- NAVIGATION -->
+<%@include file="../commons/navigationbar.jsp" %>
+<!-- /NAVIGATION -->
 <section class="reviews">
 
     <div class="reviews-slider container">
-        <h1 class="heading">Client's reviews</h1>
+        <h1 class="heading">Co-Founders</h1>
 
         <div class="fade in active review-wrapper row" data-nav="#slick-nav-2">
 
@@ -136,18 +138,6 @@
                 <h3>Alex Sander</h3>
             </div>
 
-            <div class="swiper-slide slide">
-                <img src="imgs/userImg/pic-6.png" alt="">
-
-                <p>Efficient website, reliable shipping, and great customer support. Electro's website exceeded my expectations.</p>
-                <div class="stars">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                </div>
-                <h3>Swmitch</h3>
-            </div>
 
         </div>
 

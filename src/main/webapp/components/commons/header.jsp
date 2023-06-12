@@ -99,13 +99,7 @@
                     <div class="header-search">
 
                         <form action="./store?process=3" method="post">
-                            <select class="input-select">
-                                <option value="0">All Categories</option>
-                                <option value="1">Category 01</option>
-                                <option value="1">Category 02</option>
-                            </select>
                             <input class="input" placeholder="Search here" name="searchKey">
-
                             <button class="search-btn">Search</button>
                         </form>
                     </div>
@@ -118,10 +112,15 @@
 
                         <!-- Wishlist -->
                         <div>
-                            <a href="#">
+                            <a href="./wishList">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Your Wishlist</span>
-                                <div class="qty">2</div>
+                                <c:if test="${sessionScope.acc == null}">
+                                    <div class="qty">0</div>
+                                </c:if>
+                                <c:if test="${sessionScope.acc != null}">
+                                    <div class="qty">${sessionScope.numWish}</div>
+                                </c:if>
                             </a>
                         </div>
                         <!-- /Wishlist -->

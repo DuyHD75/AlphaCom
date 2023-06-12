@@ -116,7 +116,7 @@ public class ServletCheckout extends HttpServlet {
                     }
                     userService.InsertPlaceOrder(customerId, carts, payMetthod);
                     userService.DeleteCartByCusID(cusId);
-                    response.sendRedirect("order?action=viewOrder");
+                    response.sendRedirect("order?action=viewLastOrder");
                 }
             } else {
                 response.sendRedirect("loginCustomer");

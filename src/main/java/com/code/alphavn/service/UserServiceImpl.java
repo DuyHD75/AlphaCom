@@ -71,29 +71,6 @@ public class UserServiceImpl implements IUserService {
         return categoryProducts;
     }
 
-
-
-    public List<ProductDiscount> getProductDiscounts() throws SQLException {
-        PreparedStatement pstm = con.prepareStatement("select * from productDiscount;");
-
-        if (!cacheValid || productDiscounts == null) {
-            productDiscounts = new ArrayList<>();
-            ResultSet rs = pstm.executeQuery();
-            while (rs.next()) {
-                productDiscounts.add(new ProductDiscount(
-                        rs.getInt("discount_id"),
-                        rs.getInt("product_id"),
-                        rs.getString("discount_name"),
-                        rs.getDouble("discount_amount"),
-                        rs.getDate("start_date"),
-                        rs.getDate("end_date")
-                ));
-            }
-            cacheValid = true;
-        }
-        return productDiscounts;
-    }
-
     public List<ProductInfo> getProducts() throws SQLException {
         PreparedStatement pstm = con.prepareStatement("SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining,\n" +
                 "pd.price, pd.img1, pd.img2, pd.img3,\n" +
@@ -186,12 +163,11 @@ public class UserServiceImpl implements IUserService {
                     rs.getDate("create_at")
             ));
         }
-                    return productReviews;
+        return productReviews;
     }
 
 
-
-    public  ProductReview getProductRatingReviews(int pid) throws SQLException {
+    public ProductReview getProductRatingReviews(int pid) throws SQLException {
         String query = "SELECT product_id, \n" +
                 "       AVG(rating) as avgrating,\n" +
                 "       COUNT(CASE WHEN rating = 1 THEN 1 ELSE NULL END) AS rating_1,\n" +
@@ -203,11 +179,11 @@ public class UserServiceImpl implements IUserService {
                 "where product_id=?\t\n" +
                 "GROUP BY product_id;";
         PreparedStatement pstmt = con.prepareStatement(query);
-        pstmt.setInt(1,pid);
+        pstmt.setInt(1, pid);
         ResultSet rs = pstmt.executeQuery();
-        ProductReview productReviews=null;
+        ProductReview productReviews = null;
         while (rs.next()) {
-             productReviews = new ProductReview(rs.getFloat("avgrating"),
+            productReviews = new ProductReview(rs.getFloat("avgrating"),
                     rs.getInt("rating_1"),
                     rs.getInt("rating_2"),
                     rs.getInt("rating_3"),
@@ -280,25 +256,6 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
-//    public Customer CheckAccountExist(Customer customer) {
-//        String query = "select * from customers where email = ?";
-//        try {
-//            PreparedStatement pstm = con.prepareStatement(query);
-//            pstm.setString(1, customer.getEmail());
-//            ResultSet rs = pstm.executeQuery();
-//            while (rs.next()) {
-//                return new Customer(rs.getInt("customer_id"),
-//                        rs.getString("name"),
-//                        rs.getString("password"),
-//                        rs.getString("address"),
-//                        rs.getString("email"),
-//                        rs.getString("phone"),
-//                        rs.getDate("created_At"));
-//            }
-//        } catch (SQLException e) {
-//        }
-//        return null;
-//    }
 
     public Customer getCustomerByEmail(String email) {
         String query = "select * from customers where email = ?";
@@ -384,7 +341,7 @@ public class UserServiceImpl implements IUserService {
             pstm.setInt(1, customerId);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                list.add( new Cart(
+                list.add(new Cart(
                         rs.getInt("customer_id"),
                         getProductByID(rs.getInt("pid")),
                         rs.getInt("quantity"),
@@ -470,7 +427,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-//    =============================================ORDER===========================================================
+    //    =============================================ORDER===========================================================
     public void InsertOrderDetails(List<Cart> carts, int oid) throws SQLException {
         String query = "insert into orderDetails values(?, ? , ? , ? );";
 
@@ -536,12 +493,12 @@ public class UserServiceImpl implements IUserService {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 orders.add(new Order(
-                    rs.getInt("order_id"),
-                    getAccountByCusID(cusId),
-                    rs.getString("orderDate"),
-                    rs.getString("status"),
-                    rs.getString("payMethod"),
-                    getOrderDetailByOID(rs.getInt("order_id"))
+                        rs.getInt("order_id"),
+                        getAccountByCusID(cusId),
+                        rs.getString("orderDate"),
+                        rs.getString("status"),
+                        rs.getString("payMethod"),
+                        getOrderDetailByOID(rs.getInt("order_id"))
                 ));
             }
 
@@ -559,12 +516,12 @@ public class UserServiceImpl implements IUserService {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 return new Order(
-                    rs.getInt("order_id"),
-                    getAccountByCusID(cusId),
-                    rs.getString("orderDate"),
-                    rs.getString("status"),
-                    rs.getString("payMethod"),
-                    getOrderDetailByOID(rs.getInt("order_id"))
+                        rs.getInt("order_id"),
+                        getAccountByCusID(cusId),
+                        rs.getString("orderDate"),
+                        rs.getString("status"),
+                        rs.getString("payMethod"),
+                        getOrderDetailByOID(rs.getInt("order_id"))
                 );
             }
 
@@ -596,17 +553,6 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
-        UserServiceImpl userService = new UserServiceImpl();
-        List<Cart> liss = userService.getCartByCusID(1);
-        System.out.println(liss);
-        System.out.println(userService.getBase64Decoded("bmdoaWExOTA1"));
-        Customer customer = new Customer(1);
-        List<Order> orders = userService.getOrderByCusId(customer);
-        System.out.println(orders);
-        List<ProductDiscount> productDiscounts = userService.getProductDiscounts();
-        System.out.println(productDiscounts);
-    }
 
     // ================= Encrypt password
     public String getBase64Encoded(String input) {
@@ -619,21 +565,79 @@ public class UserServiceImpl implements IUserService {
     }
     // ================= Encrypt password
 
-    public static void main(String[] args) throws SQLException {
-        UserServiceImpl userService = new UserServiceImpl();
-        System.out.println(userService.getProductDiscounts());
+
+    public List<WishListProduct> getWishList(String email) throws SQLException {
+        //Get ID from email
+        int id = 0;
+        PreparedStatement pstm0 = con.prepareStatement(" select customer_id from customers where email = ?");
+        pstm0.setString(1, email);
+        ResultSet rs0 = pstm0.executeQuery();
+        while (rs0.next()) {
+            id = rs0.getInt(1);
+        }
+
+        //get data
+        PreparedStatement pstm = con.prepareStatement("SELECT wl.product_id, pr.product_name, pd.price, pd.img1  FROM wishlist wl \n" +
+                "INNER JOIN products pr ON wl.product_id = pr.pid \n" +
+                "INNER JOIN productDetails pd ON pd.product_id = pr.pid WHERE wl.customer_id =?");
+        //for calculate rating
+        PreparedStatement pstm1 = con.prepareStatement("SELECT AVG(rating) FROM productReivews where product_id=?");
+        int rating = 0;
+        pstm.setInt(1, id);
+        ResultSet rs = pstm.executeQuery();
+        List<WishListProduct> wishListProduct = new ArrayList<>();
+        while (rs.next()) {
+            pstm1.setInt(1, rs.getInt("product_id"));
+            ResultSet rs1 = pstm1.executeQuery();
+            while (rs1.next()){
+                rating = rs1.getInt(1);
+            }
+            wishListProduct.add(new WishListProduct(rs.getInt("product_id"),
+                    rs.getString("product_name"),
+                    rs.getDouble("price"),
+                    rs.getString("img1"),
+                    rating
+            ));
+        }
+
+        pstm.close();
+        pstm1.close();
+        pstm0.close();
+        return wishListProduct;
     }
+    //delete from wishList
+    public void deleteWishList (int product_id, int customer_id) throws SQLException {
+        PreparedStatement preparedStatement = con.prepareStatement("delete from wishList where customer_id = ? and product_id = ?");
+        preparedStatement.setInt(1,customer_id);
+        preparedStatement.setInt(2,product_id);
+        preparedStatement.executeUpdate();
+
+    }
+    //add to wishList
+    public void addWishList (int product_id, int customer_id) throws SQLException {
+        PreparedStatement preparedStatement = con.prepareStatement("insert into wishList values (?,?)");
+        preparedStatement.setInt(1,customer_id);
+        preparedStatement.setInt(2,product_id);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+
+    }
+
     public boolean insertReview(ProductReview productReview) throws SQLException {
         String query = "insert into productReivews (product_id, customer_id, rating, comment)" +
                 " values(?, ?,  ?, ?);";
-            PreparedStatement pstm = con.prepareStatement(query);
-            pstm.setInt(1, productReview.getPid());
-            pstm.setInt(2, productReview.getCus_id());
-            pstm.setInt(3, productReview.getRating());
-            pstm.setString(4, productReview.getComment());
-            return pstm.executeUpdate() > 0;
+        PreparedStatement pstm = con.prepareStatement(query);
+        pstm.setInt(1, productReview.getPid());
+        pstm.setInt(2, productReview.getCus_id());
+        pstm.setInt(3, productReview.getRating());
+        pstm.setString(4, productReview.getComment());
+        return pstm.executeUpdate() > 0;
 
+    }
 
+    public static void main(String[] args) throws SQLException {
+        UserServiceImpl userService = new UserServiceImpl();
+        System.out.println(userService.getProductDiscounts());
     }
 
 

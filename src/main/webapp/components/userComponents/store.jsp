@@ -305,8 +305,12 @@
                                         </div>
                                     </div>
                                     <div class="add-to-cart">
-                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart
-                                        </button>
+                                        <form action="./cart?action=storeAddToCart&&pid=${p.getProduct().getId()}"
+                                              method="post">
+                                            <button class="add-to-cart-btn"><i
+                                                    class="fa fa-shopping-cart"></i> add to cart
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

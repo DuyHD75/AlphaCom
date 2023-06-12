@@ -2,6 +2,7 @@ package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.connection.ConnectionDB;
 import com.code.alphavn.model.UserGoogleDto;
+import com.code.alphavn.service.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,11 +25,12 @@ public class LoginGoogleHandler extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        UserServiceImpl userService = new UserServiceImpl();
         String code = request.getParameter("code");
-        //System.out.println(code);
         String accessToken = getTokenAndUserInf.getToken(code);
-        UserGoogleDto user = getTokenAndUserInf.getUserInfo(accessToken);
-        //System.out.println(user);
+        UserGoogleDto userGoogleDto = getTokenAndUserInf.getUserInfo(accessToken);
+
+        //System.out.println(userGoogleDto);
         boolean regis = false;
         try {
 
@@ -38,12 +40,18 @@ public class LoginGoogleHandler extends HttpServlet {
             PreparedStatement pstm = con.prepareStatement("select email from customers;");
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                if (user.getEmail().equals(rs.getString(1))) {
+                if (userGoogleDto.getEmail().equals(rs.getString(1))) {
                     regis = true;
                     //response.sendRedirect("components/userComponents/home.jsp");
+
+
+
                     HttpSession session = request.getSession();
-                    session.setAttribute("acc", user);
+                    session.setAttribute("numWish",userService.getWishList(userGoogleDto.getEmail()).size());
+                    session.setAttribute("acc", userService.getCustomerByEmail(userGoogleDto.getEmail()));
                     session.setMaxInactiveInterval(108000);
+
+
                     response.sendRedirect("home");
 //                    request.getRequestDispatcher("components/userComponents/home.jsp").forward(request, response);
                     break;
@@ -72,18 +80,18 @@ public class LoginGoogleHandler extends HttpServlet {
                 // demo table consists of two columns, so two '?' is used
                 PreparedStatement st = con
                         .prepareStatement("INSERT INTO customers\n" +
-                                "	(name, password, address, email, phone)\n" +
-                                "VALUES (?,?,?,?,?)");
+                                "	(name, password, address, email, phone, created_At)\n" +
+                                "VALUES (?,?,?,?,?,GETDATE())");
 
                 // For the first parameter,
                 // get the data using request object
                 // sets the data to st pointer
-                st.setString(1, user.getName());
+                st.setString(1, userGoogleDto.getName());
 
                 // Same for second parameter
                 st.setString(2, null);
                 st.setString(3, null);
-                st.setString(4, user.getEmail());
+                st.setString(4, userGoogleDto.getEmail());
                 st.setString(5, null);
                 //st.setDate(6  , GETDATE());
                 // Execute the insert command using executeUpdate()
@@ -93,9 +101,16 @@ public class LoginGoogleHandler extends HttpServlet {
                 // Close all the connections
                 st.close();
                 con.close();
+
+
                 HttpSession session = request.getSession();
-                session.setAttribute("acc", user);
+                session.setAttribute("numWish",userService.getWishList(userGoogleDto.getEmail()).size());
+                session.setAttribute("acc", userService.getCustomerByEmail(userGoogleDto.getEmail()));
+                //session.setAttribute();
                 session.setMaxInactiveInterval(108000);
+
+
+
 //                response.sendRedirect("components/userComponents/home.jsp");
                 response.sendRedirect("home");
                 // Get a writer pointer
@@ -106,7 +121,6 @@ public class LoginGoogleHandler extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 

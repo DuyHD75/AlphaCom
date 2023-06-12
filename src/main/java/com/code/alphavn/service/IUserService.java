@@ -14,7 +14,7 @@ public interface IUserService {
 
     ProductInfo getProductByID(int id) throws SQLException;
 
-    Boolean insertReview(ProductReview productReview) throws SQLException;
+    boolean insertReview(ProductReview productReview) throws SQLException;
   
     ProductReview getProductRatingReviews(int pid) throws SQLException;
 
