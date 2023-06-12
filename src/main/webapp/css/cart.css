@@ -91,6 +91,10 @@ body{
 }
 
 
+.delete-btn {
+
+}
+
 
 .btn,
 .delete-btn,
@@ -100,12 +104,12 @@ body{
     margin-top: 1rem;
     border-radius: .5rem;
     padding:1rem 3rem;
-    font-size: 1.8rem;
     text-transform: capitalize;
     color:var(--white);
     cursor: pointer;
     text-align: center;
-    font-weight: 600;
+    font-size: 1.6rem;
+    font-weight: 500;
 }
 
 .option-btn {
@@ -129,7 +133,8 @@ body{
 }
 
 .delete-btn{
-    background-color: var(--red);
+    background-color: var(--main-color);
+
 }
 
 .flex-btn{
@@ -407,18 +412,20 @@ body{
     position: relative;
     background-color: var(--white);
     box-shadow: var(--box-shadow);
-    border-radius: .5rem;
-    border:var(--border);
+    /*border-radius: .5rem;*/
+    box-shadow: 0 0 10px 4px #888;
     padding:2rem;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 90%;
+    max-height: 480px;
     flex: 1;
+    transition: all ease-in-out 0.2s;
 }
 
 .products .box-container .box img{
-    height: 20rem;
+    height: 18rem;
     width: 100%;
     object-fit: contain;
     margin-bottom: 1rem;
@@ -456,6 +463,10 @@ body{
     color:var(--white);
 }
 
+.products .box-container .box:hover {
+    transform: translateY(-10px);
+}
+
 .products .box-container .box:hover .fa-heart{
     right:1rem;
 }
@@ -465,11 +476,14 @@ body{
 }
 
 .products .box-container .box .name{
-    font-size: 2rem;
+    font-size: 16px;
     color:var(--black);
     height: 50px;
     overflow: hidden;
     margin: 2rem 0;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    display: -webkit-box;
 }
 
 .products .box-container .box .flex{
@@ -481,8 +495,8 @@ body{
 
 
 .products .box-container .box .flex .qty{
-    width: 7rem;
-    padding:1rem;
+    width: 6rem;
+    padding:4px 10px;
     border:var(--border);
     font-size: 1.8rem;
     color:var(--black);
@@ -490,7 +504,7 @@ body{
 }
 
 .products .box-container .box .flex .price{
-    font-size: 2rem;
+    font-size: 1.8rem;
     color:var(--black);
     margin-right: auto;
 }
@@ -752,8 +766,13 @@ section.form-container {
     color:var(--red);
 }
 
+.shopping-cart {
+    background-color: var(--light-bg);
+    padding: 80px 0;
+}
+
 .shopping-cart .fa-edit{
-    height: 4.5rem;
+    height: 3.8rem;
     border-radius: .5rem;
     background-color: var(--orange);
     width: 5rem;
@@ -767,7 +786,7 @@ section.form-container {
 }
 
 .shopping-cart .sub-total{
-    margin:2rem 0;
+    margin:0.6rem 0;
     font-size: 2rem;
     color:var(--light-color);
 }

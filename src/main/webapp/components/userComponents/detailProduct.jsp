@@ -172,7 +172,9 @@
                     <form action="./cart?action=DetailAddToCart&&pid=${pdDetail.getProduct().getId()}" method="post">
                         <div class="add-to-cart">
                             <div class="qty-label">
-                                Qty
+                                <span style="padding-right:10px; color: var(--black); font-size: 14px; font-weight: 600;">
+                                    Available: ${pdDetail.getProduct().getAmount_remaining()}
+                                </span>
                                 <div class="input-number">
                                     <input name="amount" type="number" value="1" min="1"
                                            max="${pdDetail.getProduct().getAmount_remaining()}"/>
@@ -180,7 +182,7 @@
                                     <span class="qty-down">-</span>
                                 </div>
                             </div>
-                            <div>
+                            <div style="display: inline">
                                 <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
                                     cart
                                 </button>
@@ -517,7 +519,6 @@
                                                 <i class="fa fa-star-o"></i>
                                             </div>
 
-
                                             <div class="product-btns">
                                                 <button class="add-to-wishlist"><a href="wishList?action=addToWishList&&pid=${p.getProduct().getId()}"><i
                                                         class="fa fa-heart-o"></i></a><span
@@ -528,7 +529,6 @@
                                                 <button class="quick-view"><i class="fa fa-eye"></i><span
                                                         class="tooltipp">quick view</span></button>
                                             </div>
-
                                         </div>
 
 

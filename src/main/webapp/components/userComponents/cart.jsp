@@ -40,7 +40,7 @@
 <jsp:include page="../../components/commons/header.jsp"></jsp:include>
 <jsp:include page="../../components/commons/navigationbar.jsp"></jsp:include>
 
-<section class="products shopping-cart" style="margin: 80px 0">
+<section class="products shopping-cart">
     <div class="container">
         <h3 class="heading">shopping cart</h3>
 

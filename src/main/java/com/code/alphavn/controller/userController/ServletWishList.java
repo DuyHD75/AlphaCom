@@ -29,72 +29,38 @@ public class ServletWishList extends HttpServlet {
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("acc");
         String action = request.getParameter("action");
+
         if (customer == null) {
             request.getRequestDispatcher("loginCustomer").forward(request, response);
             return;
         }
-        if (action == null){
-        Date todayDate = new Date();
-        try {
-            List<WishListProduct> list = userService.getWishList(customer.getEmail());
-            request.setAttribute("numOfWishList",list.size());
-            //System.out.println("Vào servlet wish");
-            List<ProductDiscount> discountList = userService.getProductDiscounts();
-            //System.out.println(discountList);
-            List<WishListProduct> DiscountAvailable = new ArrayList<>();
-            List<Double> discountCount = new ArrayList<>();
 
-            for (int i = 0; i < discountList.size(); i++) {
-                Date historyDate = discountList.get(i).getStart_date();
-                Date futureDate = discountList.get(i).getEnd_date();
-                for (int j = 0; j < list.size(); j++) {
-                    if (list.get(j).getProduct_id() == discountList.get(i).getPid() && todayDate.after(historyDate) && todayDate.before(futureDate)) {
-
-                        DiscountAvailable.add(list.get(j));
-                        discountCount.add(Math.round(((list.get(j).getPrice())-discountList.get(i).getDis_amount()*list.get(j).getPrice())*100.0)/100.0);
-                        list.remove(list.get(j));
-
-                        //discountList.remove(productDiscount);
-                    }
-                }
-            }
-            request.setAttribute("DiscountAvailable", DiscountAvailable);
-            request.setAttribute("disList", discountList);
-            request.setAttribute("list", list);
-            request.setAttribute("count", discountCount);
-            //request.setAttribute("numOfWishList",);
-            request.getRequestDispatcher("/components/userComponents/wishListProduct.jsp").forward(request, response);
-
-
-        } catch (SQLException | ServletException | IOException e) {
-            throw new RuntimeException(e);
+        if (action == null) {
+            action = "";
         }
-        }
+
         if (action != null) {
             try {
                 switch (action) {
-
                     case "deleteFromWishList":
                         deleteFromWishList(request, response);
-                        //session.setAttribute("numWish",userService.getWishList(customer.getEmail()).size());
-                        session.setAttribute("numWish",(Integer)session.getAttribute("numWish")-1);
-                        response.sendRedirect("wishList");
                         break;
                     case "addToWishList":
-                        if (addToWishList(request, response)){
-                            session.setAttribute("numWish",(Integer)session.getAttribute("numWish")+1);
-                            response.sendRedirect("wishList");
-                        }else {
-                            response.sendRedirect("wishList");
-                            //request.getRequestDispatcher("/components/userComponents/wishListProduct.jsp").forward(request, response);
+                        addToWishList(request, response);
+                        break;
+                    default:
+                        if (customer != null) {
+                            ServletCart cart = new ServletCart();
+                            cart.handleViewCartHeader(request, response);
                         }
+                        request.setAttribute("list", userService.getWishList(customer.getEmail()));
+                        request.getRequestDispatcher("/components/userComponents/wishListProduct.jsp").forward(request, response);
                         break;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        //request.getRequestDispatcher("/components/userComponents/wishListProduct.jsp").forward(request, response);
 
     }
 
@@ -111,43 +77,36 @@ public class ServletWishList extends HttpServlet {
         }
         try {
             switch (action) {
-
                 case "deleteFromWishList":
                     deleteFromWishList(request, response);
-//                    session.setAttribute("numWish",userService.getWishList(customer.getEmail()).size());
-                    session.setAttribute("numWish",(Integer)session.getAttribute("numWish")-1);
-                    response.sendRedirect("wishList");
+
+
                     break;
                 case "addToWishList":
-                    if (addToWishList(request, response)){
-                        session.setAttribute("numWish",(Integer)session.getAttribute("numWish")+1);
-                        response.sendRedirect("wishList");
-                    }else {
-                        response.sendRedirect("wishList");
-                        //request.getRequestDispatcher("/components/userComponents/wishListProduct.jsp").forward(request, response);
-                    }
+                    addToWishList(request, response);
                     break;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //request.getRequestDispatcher("/components/userComponents/wishListProduct.jsp").forward(request, response);
 
     }
 
 
-    public boolean addToWishList(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+    public void addToWishList(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("acc");
         int pid = Integer.parseInt(request.getParameter("pid"));
         List<WishListProduct> wishListProducts = userService.getWishList(customer.getEmail());
-        for (WishListProduct wishListProduct:wishListProducts){
-            if (wishListProduct.getProduct_id()==pid){
-                return false;
+        for (WishListProduct wishListProduct : wishListProducts) {
+            if (wishListProduct.getProduct_id() == pid) {
+                response.sendRedirect("wishList");
+                break;
             }
         }
         userService.addWishList(pid, customer.getId());
-        return true;
+        session.setAttribute("numWish", (Integer) session.getAttribute("numWish") + 1);
+        response.sendRedirect("wishList");
     }
 
     public void deleteFromWishList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -155,5 +114,20 @@ public class ServletWishList extends HttpServlet {
         Customer customer = (Customer) session.getAttribute("acc");
         int pid = Integer.parseInt(request.getParameter("pid"));
         userService.deleteWishList(pid, customer.getId());
+        session.setAttribute("numWish", (Integer) session.getAttribute("numWish") - 1);
+        response.sendRedirect("wishList");
+    }
+
+
+    public List<ProductDiscount> getFinalPrice(List<ProductDiscount> disconts) {
+        Date todayDate = new Date();
+        List<ProductDiscount> tmp = new ArrayList<>();
+        for (int i = 0; i < disconts.size(); i++) {
+            // handle get final price
+        }
+        return null;
     }
 }
+
+
+
