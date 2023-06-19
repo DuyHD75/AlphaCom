@@ -66,8 +66,7 @@ public class getTokenAndUserInf {
         return userGoogleDto;
     }
 
-    static int findNthOccur(String str,
-                            char ch, int N) {
+    static int findNthOccur(String str, char ch, int N) {
         int occur = 0;
 
         // Loop to find the Nth

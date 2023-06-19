@@ -1,10 +1,8 @@
 package com.code.alphavn.controller.userController;
 
-import com.code.alphavn.model.Cart;
 import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.Order;
-import com.code.alphavn.model.ProductDiscount;
-import com.code.alphavn.service.UserServiceImpl;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @WebServlet( name = "ServletOrder", value = "/order")

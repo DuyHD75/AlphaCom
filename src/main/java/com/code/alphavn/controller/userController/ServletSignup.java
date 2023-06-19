@@ -1,12 +1,11 @@
 package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.model.Customer;
-import com.code.alphavn.service.UserServiceImpl;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +17,7 @@ import java.util.Properties;
 import java.util.Random;
 
 @WebServlet ( name = "ServletSignupCustomer", value = "/signupCustomer")
-public class ServletSignupCustomer extends HttpServlet {
+public class ServletSignup extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");

@@ -2,7 +2,7 @@ package com.code.alphavn.controller.userController;
 
 
 import com.code.alphavn.connection.ConnectionDB;
-import com.code.alphavn.service.UserServiceImpl;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,10 +24,10 @@ public class NewPassword extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("flag");
 		HttpSession session = request.getSession();
 		String newPassword = request.getParameter("password");
 		String confPassword = request.getParameter("confPassword");
+
 		RequestDispatcher dispatcher = null;
 		UserServiceImpl userService = new UserServiceImpl();
 		if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {

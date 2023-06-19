@@ -1,4 +1,4 @@
-package com.code.alphavn.service;
+package com.code.alphavn.service.userService;
 
 
 import com.code.alphavn.connection.ConnectionDB;
@@ -13,7 +13,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
 import java.util.stream.Collectors;
 
 

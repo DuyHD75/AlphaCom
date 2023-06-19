@@ -15,6 +15,7 @@
     String currentPage = request.getRequestURI();
     session.setAttribute("currentPage", currentPage);
 %>
+
 <header>
     <c:choose>
         <c:when test="${not empty error}">

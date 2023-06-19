@@ -71,26 +71,9 @@ Table OF Contents
     --font-family-Montserrat: 'Montserrat', sans-serif;
 }
 
-
-/*!* Customize the scrollbar track *!*/
-/*::-webkit-scrollbar-track {*/
-/*    background-color: var(--light-bg); !* Change to your desired color *!*/
-/*}*/
-
-/*!* Customize the scrollbar thumb *!*/
-/*::-webkit-scrollbar-thumb {*/
-/*    background-color: var(--main-color); !* Change to your desired color *!*/
-/*}*/
-
-/*!* Customize the scrollbar thumb on hover *!*/
-/*::-webkit-scrollbar-thumb:hover {*/
-/*    background-color: #555; !* Change to your desired color *!*/
-/*}*/
-
-
 ::-webkit-scrollbar {
-    height: .5rem;
-    width: .8rem;
+    height: 10px;
+    width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -101,6 +84,7 @@ Table OF Contents
     background-color: var(--main-color);
     border-radius: 4px;
     cursor: pointer;
+    width: 2px;
 }
 
 
@@ -2138,7 +2122,7 @@ textarea.input {
 .reviews li {
     position: relative;
     padding-left: 145px;
-    margin-bottom: 30px;
+    margin-bottom: 16px;
 }
 
 .reviews .review-heading {
@@ -2670,8 +2654,8 @@ textarea.input {
 }
 
 .reviews {
-    margin: 3rem 0;
-    padding: 3rem 0;
+    max-height: 270px;
+    overflow-x: scroll;
 }
 
 .reviews .slide {
