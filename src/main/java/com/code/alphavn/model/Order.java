@@ -8,6 +8,41 @@ public class Order {
     private String orderDate, status,paymentMethod ;
     private List<OrderDetail> orderDetail;
     private double totalPrice;
+     private int pid;
+     private double price;
+    public Order( Customer customer, String paymentMethod, int pid,double price,int amount ) {
+        this.customer = customer;
+        this.paymentMethod = paymentMethod;
+        this.pid = pid;
+        this.price = price;
+        this.amount = amount;
+    }
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    private int amount;
+
     public Order() {
     }
 

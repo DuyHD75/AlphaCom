@@ -202,13 +202,13 @@ ol {
 
 .swiper-slide .content span {
     font-size: 1.6rem;
-    padding: 10px 0;
     color: #453d3d;
     word-wrap: break-word;
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    display: -webkit-box;
 }
 
 .swiper-slide .content .product-rating {
