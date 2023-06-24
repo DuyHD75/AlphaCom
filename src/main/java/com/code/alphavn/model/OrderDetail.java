@@ -70,6 +70,7 @@ public class OrderDetail {
         this.quantityOrdered = quantityOrdered;
     }
 
+
     public int getOrderId() {
         return orderId;
     }

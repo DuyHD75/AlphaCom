@@ -1,4 +1,4 @@
-package com.code.alphavn.service;
+package com.code.alphavn.service.userService;
 
 import com.code.alphavn.model.ProductDiscount;
 import com.code.alphavn.model.ProductInfo;

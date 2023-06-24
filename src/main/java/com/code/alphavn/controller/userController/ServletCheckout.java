@@ -1,9 +1,12 @@
 package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.model.*;
-import com.code.alphavn.service.UserServiceImpl;
 import com.paypal.api.payments.PayerInfo;
 import com.paypal.api.payments.Transaction;
+import com.code.alphavn.model.Cart;
+import com.code.alphavn.model.Customer;
+import com.code.alphavn.model.ProductDiscount;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
