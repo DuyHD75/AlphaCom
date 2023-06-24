@@ -99,7 +99,9 @@
                                        onclick="return confirm('Delete this from WISHLIST?');"
                                        class="delete-btn" name="submit_btn">
                             </form>
+
                             </div>
+
 
                             <c:set var="grandTotal" value="${grandTotal + subTotal}"/>
                         </div>

@@ -125,9 +125,11 @@
             </div>
 
           </div>
+
           <input type="hidden" name="pid" value="${pid}">
           <input type="hidden" name="price" value="${price}">
           <input type="hidden" name="amount" value="${amount}">
+
           <input type="submit" name="order"
                  class="btn primary-btn order-submit"
                  value="place order">
@@ -142,7 +144,6 @@
             <h3 class="heading" style="font-size: 2.5rem;">Your Order</h3>
           </div>
           <div class="display-orders">
-
             <c:if test="${pname != null}">
               <c:set var="totalPro" value="0" />
               <c:set var="grandTotal" value="0" />
@@ -225,6 +226,7 @@
             </c:choose>
             </c:if>
 
+
             <div class="input-checkbox">
               <input type="checkbox" id="terms" checked>
               <label for="terms">
@@ -285,6 +287,7 @@
   //     });
   //   }
   // }
+
 </script>
 
 <script>

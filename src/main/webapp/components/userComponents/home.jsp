@@ -71,7 +71,6 @@
                         </c:if>
                         <button class="btn" ${disabled}>BUY now</button>
                     </form>
-
                 </div>
 
                 <div class="image col-md-6 col-12">
@@ -254,7 +253,6 @@
                                             <h3 class="product-name"><a
                                                     href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
                                             </h3>
-
 
                                             <c:choose>
                                                 <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">

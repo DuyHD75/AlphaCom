@@ -169,6 +169,7 @@
                     <p>${pdDetail.getProduct().getDesc()}</p>
 
 
+
                     <form id="productForm" method="post">
                         <input type="hidden" name="name" value="${pdDetail.getProduct().getName()}">
                         <input type="hidden" name="img" value="${pdDetail.getImg1()}">
@@ -185,6 +186,7 @@
                                     <span class="qty-down">-</span>
                                 </div>
                             </div>
+
                             <div style="display: flex; justify-content: space-around">
                                 <button type="submit" class="add-to-cart-btn" onclick="addToCart()"><i class="fa fa-shopping-cart"></i>
                                     add to cart
@@ -198,7 +200,7 @@
                             </div>
                         </div>
                     </form>
-
+                  
                     <ul class="product-btns">
                         <li><a href="wishList?action=addToWishList&&pid=${pdDetail.getProduct().getId()}"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
                     </ul>
@@ -541,6 +543,7 @@
 
 
                                         <div class="add-to-cart">
+
                                             <form action="cart?action=AddToCart&&pid=${p.getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}"
                                                   method="post">
                                                 <button class="add-to-cart-btn"><i
@@ -606,6 +609,7 @@
         // 	console.log(data);
         // }
     });
+
 
     function addToCart() {
         document.getElementById('productForm').action = './cart?action=AddToCart&&pid=${pdDetail.getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}';

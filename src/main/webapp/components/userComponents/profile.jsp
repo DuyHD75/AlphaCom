@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="./css/profile.css">
     <link rel="stylesheet" href="./css/style.css">
 
+
     <style>
         .show {
             display: block;
@@ -61,6 +62,7 @@
 
 <div class="body-container">
     <div class="body-container__profile ${hide}">
+
         <div class="profile__header">
             <h3 class="profile__heading">My Profile</h3>
             <div class="profile__title">Manage profile information for account security</div>
@@ -161,6 +163,7 @@
             </form>
         </div>
     </div>
+
 </div>
 
 <!-- FOOTER -->
@@ -177,7 +180,9 @@
 <script src="./js/nouislider.min.js"></script>
 <script src="./js/jquery.zoom.min.js"></script>
 <script src="./js/main.js"></script>
+
 <script src="js/validator.js"></script>
+
 
 <script>
     $(function () {
@@ -258,6 +263,7 @@
         ],
 
     });
+
 </script>
 </body>
 </html>

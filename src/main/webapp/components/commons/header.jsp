@@ -55,6 +55,7 @@
                                 </div>
                                 <div class="account-link">
                                     <a href="profileCustomer?action=changePassword">Change password</a>
+
                                 </div>
                                 <div class="account-link">
                                     <a href="order?action=viewOrder">View Order</a>
