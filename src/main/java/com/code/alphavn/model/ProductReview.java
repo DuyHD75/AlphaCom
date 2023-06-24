@@ -14,6 +14,7 @@ public class ProductReview {
     private int pid;
     private int rating1,rating2,rating3,rating4,rating5;
     private float avgrating;
+    private String img,product_name;
 
     public ProductReview() {
     }
@@ -48,6 +49,33 @@ public class ProductReview {
         this.rating4 = rating4;
         this.rating5 = rating5;
         this.avgrating = avgrating;
+    }
+
+    public ProductReview(int id, String cus_name, int rating, String comment, Date create_at, String email, String img, String product_name) {
+        this.id=id;
+        this.cus_name = cus_name;
+        this.rating = rating;
+        this.comment = comment;
+        this.create_at = create_at;
+        this.email = email;
+        this.img = img;
+        this.product_name = product_name;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
     public void setRating1(int rating1) {
