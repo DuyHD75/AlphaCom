@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-/**
- * Servlet implementation class NewPassword
- */
+
 @WebServlet("/newPassword")
 public class NewPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
