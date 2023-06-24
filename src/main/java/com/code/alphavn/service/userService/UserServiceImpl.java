@@ -3,6 +3,7 @@ package com.code.alphavn.service.userService;
 
 import com.code.alphavn.connection.ConnectionDB;
 import com.code.alphavn.model.*;
+import com.code.alphavn.model.adminModel.Admin;
 
 
 import java.sql.*;
@@ -255,6 +256,24 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
+    public Admin Login(Admin admin) {
+        String query = "select * from admins where email = ? and password =?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, admin.getEmail());
+            pstm.setString(2, admin.getPass());
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Admin(rs.getInt("admin_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email"));
+            }
+
+        } catch (SQLException e) {
+        }
+        return null;
+    }
 
     public Customer getCustomerByEmail(String email) {
         String query = "select * from customers where email = ?";
@@ -270,6 +289,23 @@ public class UserServiceImpl implements IUserService {
                         rs.getString("email"),
                         rs.getString("phone"),
                         rs.getDate("created_At"));
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+    public Admin getAdminByEmail(String email) {
+        String query = "select * from admins where email = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, email);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Admin(rs.getInt("admin_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email")
+                        );
             }
         } catch (SQLException e) {
         }

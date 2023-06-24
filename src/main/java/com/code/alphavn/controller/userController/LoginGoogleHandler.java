@@ -58,7 +58,7 @@ public class LoginGoogleHandler extends HttpServlet {
 
         // Check the account did not exist before , create new account and insert into DB (Table name = Customer)
 
-        if (regis == false) {
+        if (regis == false) { // ni mới cus đúng mana v ad mana vào nữa mà
             try {
 
                 // Initialize the database
