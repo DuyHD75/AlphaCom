@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: This PC
-  Date: 5/26/2023
-  Time: 8:00 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -34,10 +27,21 @@
 
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
-
     <!-- Custom stlylesheet -->
 
     <link rel="stylesheet" href="css/style.css">
+
+
+    <style>
+        .form__msg {
+            font-size: 12px;
+            color: red;
+            margin: 0 0 12px 4px;
+            line-height: 12px;
+            font-weight: 500;
+        }
+    </style>
+
 
 </head>
 <body>
@@ -121,37 +125,82 @@
                     <h2 class="product-name">${pdDetail.getProduct().getName()}</h2>
                     <div>
                         <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
+                            <c:set var="idx" value="0"/>
+                            <div class="rating-stars">
+                                <c:forEach begin="1" end="${pdRatingReviews.getAvgrating()}">
+                                    <i class="fa fa-star"></i>
+                                    <c:set var="idx" value="${idx + 1}"/>
+                                </c:forEach>
+
+                                <c:if test="${idx < 5}">
+                                    <c:set var="idx" value="${5 - idx}"/>
+                                    <c:forEach begin="1" end="${idx}">
+                                        <i class="fa fa-star-o"></i>
+                                    </c:forEach>
+                                </c:if>
+
+                            </div>
                         </div>
-                        <a class="review-link" href="#">${fn:length(pdReviews)} Review(s) | Add your review</a>
+                        <a class="review-link" href="#tab1">${fn:length(pdReviews)} Review(s) | Add your review</a>
                     </div>
+
+
                     <div>
-                        <h3 class="product-price">$${pdDetail.getPrice()}
-                            <del class="product-old-price">$990.00</del>
+                        <c:choose>
+                            <c:when test="${pdDiscount != null}">
+                                <c:set var="finalPrice"
+                                       value="${Math.ceil(pdDetail.getPrice() - (pdDetail.getPrice() * pdDiscount.getDis_amount()))}"/>
+                            </c:when>
+
+                            <c:otherwise>
+                                <c:set var="finalPrice" value="${pdDetail.getPrice()}"/>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <h3 class="product-price">$${finalPrice}
+                            <c:if test="${pdDiscount != null}">
+                                <del
+                                        class="product-old-price">$${pdDetail.getPrice()}
+                                </del>
+                            </c:if>
                         </h3>
                         <span class="product-available">In Stock</span>
                     </div>
                     <p>${pdDetail.getProduct().getDesc()}</p>
 
 
-                    <div class="add-to-cart">
-                        <div class="qty-label">
-                            Qty
-                            <div class="input-number">
-                                <input type="number" value="1">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
+                    <form id="productForm" method="post">
+                        <input type="hidden" name="name" value="${pdDetail.getProduct().getName()}">
+                        <input type="hidden" name="img" value="${pdDetail.getImg1()}">
+                        <input type="hidden" name="price" value="${pdDetail.getPrice()}">
+                        <div class="add-to-cart">
+                            <div class="qty-label" style="width: 100%; margin-bottom: 28px;">
+                                <span style="padding-right:10px; color: var(--black); font-size: 14px; font-weight: 600;">
+                                    Available: ${pdDetail.getProduct().getAmount_remaining()}
+                                </span>
+                                <div class="input-number">
+                                    <input name="amount" type="number" value="1" min="1"
+                                           max="${pdDetail.getProduct().getAmount_remaining()}"/>
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-around">
+                                <button type="submit" class="add-to-cart-btn" onclick="addToCart()"><i class="fa fa-shopping-cart"></i>
+                                    add to cart
+                                </button>
+                                <c:if test="${pdDetail.getProduct().getAmount_remaining() == 0}">
+                                    <c:set var="disabled" value="disabled"/>
+                                </c:if>
+                                <button type="submit" class="add-to-cart-btn" ${disabled} onclick="buyNow()"><i class="fa fa-shopping-cart"></i>
+                                    buy now
+                                </button>
                             </div>
                         </div>
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
+                    </form>
 
                     <ul class="product-btns">
-                        <li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                        <li><a href="wishList?action=addToWishList&&pid=${pdDetail.getProduct().getId()}"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
                     </ul>
 
                     <ul class="product-links">
@@ -193,13 +242,20 @@
                                 <div class="col-md-3">
                                     <div id="rating">
                                         <div class="rating-avg">
-                                            <span>4.5</span>
+                                            <span>${pdRatingReviews.getAvgrating()}</span>
+                                            <c:set var="idx" value="0"/>
                                             <div class="rating-stars">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-o"></i>
+                                                <c:forEach begin="1" end="${pdRatingReviews.getAvgrating()}">
+                                                    <i class="fa fa-star"></i>
+                                                    <c:set var="idx" value="${idx + 1}"/>
+                                                </c:forEach>
+
+                                                <c:if test="${idx < 5}">
+                                                    <c:set var="idx" value="${5 - idx}"/>
+                                                    <c:forEach begin="1" end="${idx}">
+                                                        <i class="fa fa-star-o"></i>
+                                                    </c:forEach>
+                                                </c:if>
                                             </div>
                                         </div>
                                         <ul class="rating">
@@ -212,9 +268,11 @@
                                                     <i class="fa fa-star"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 80%;"></div>
+                                                    <c:set var="prg"
+                                                           value="${(pdRatingReviews.getRating5()/(pdRatingReviews.getRating1()+pdRatingReviews.getRating2()+pdRatingReviews.getRating3()+pdRatingReviews.getRating4()+pdRatingReviews.getRating5()))*100}"/>
+                                                    <div style="width: ${prg}%;"></div>
                                                 </div>
-                                                <span class="sum">3</span>
+                                                <span class="sum">${pdRatingReviews.getRating5()}</span>
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -225,9 +283,11 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 60%;"></div>
+                                                    <c:set var="prg"
+                                                           value="${(pdRatingReviews.getRating4()/(pdRatingReviews.getRating1()+pdRatingReviews.getRating2()+pdRatingReviews.getRating3()+pdRatingReviews.getRating4()+pdRatingReviews.getRating5()))*100}"/>
+                                                    <div style="width: ${prg}%;"></div>
                                                 </div>
-                                                <span class="sum">2</span>
+                                                <span class="sum">${pdRatingReviews.getRating4()}</span>
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -238,9 +298,11 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div></div>
+                                                    <c:set var="prg"
+                                                           value="${(pdRatingReviews.getRating3()/(pdRatingReviews.getRating1()+pdRatingReviews.getRating2()+pdRatingReviews.getRating3()+pdRatingReviews.getRating4()+pdRatingReviews.getRating5()))*100}"/>
+                                                    <div style="width: ${prg}%;"></div>
                                                 </div>
-                                                <span class="sum">0</span>
+                                                <span class="sum">${pdRatingReviews.getRating3()}</span>
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -251,9 +313,11 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div></div>
+                                                    <c:set var="prg"
+                                                           value="${(pdRatingReviews.getRating2()/(pdRatingReviews.getRating1()+pdRatingReviews.getRating2()+pdRatingReviews.getRating3()+pdRatingReviews.getRating4()+pdRatingReviews.getRating5()))*100}"/>
+                                                    <div style="width: ${prg}%;"></div>
                                                 </div>
-                                                <span class="sum">0</span>
+                                                <span class="sum">${pdRatingReviews.getRating2()}</span>
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -264,9 +328,11 @@
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div></div>
+                                                    <c:set var="prg"
+                                                           value="${(pdRatingReviews.getRating1()/(pdRatingReviews.getRating1()+pdRatingReviews.getRating2()+pdRatingReviews.getRating3()+pdRatingReviews.getRating4()+pdRatingReviews.getRating5()))*100}"/>
+                                                    <div style="width: ${prg}%;"></div>
                                                 </div>
-                                                <span class="sum">0</span>
+                                                <span class="sum">${pdRatingReviews.getRating1()}</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -278,17 +344,26 @@
                                     <div id="reviews">
                                         <ul class="reviews">
                                             <c:forEach items="${pdReviews}" var="pr">
-
                                                 <li>
                                                     <div class="review-heading">
                                                         <h5 class="name">${pr.getCus_name()}</h5>
                                                         <p class="date">${pr.getCreate_at()}</p>
                                                         <div class="review-rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-o empty"></i>
+                                                            <c:set var="idx" value="0"/>
+                                                            <div class="rating-stars">
+                                                                <c:forEach begin="1" end="${pr.getRating()}">
+                                                                    <i class="fa fa-star"></i>
+                                                                    <c:set var="idx" value="${idx + 1}"/>
+                                                                </c:forEach>
+
+                                                                <c:if test="${idx < 5}">
+                                                                    <c:set var="idx" value="${5 - idx}"/>
+                                                                    <c:forEach begin="1" end="${idx}">
+                                                                        <i class="fa fa-star-o"></i>
+                                                                    </c:forEach>
+                                                                </c:if>
+
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="review-body">
@@ -298,13 +373,13 @@
 
                                             </c:forEach>
                                         </ul>
-                                        <ul class="reviews-pagination">
+                                        <%--<ul class="reviews-pagination">
                                             <li class="active">1</li>
                                             <li><a href="#">2</a></li>
                                             <li><a href="#">3</a></li>
                                             <li><a href="#">4</a></li>
                                             <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                        </ul>
+                                        </ul>--%>
 
 
                                     </div>
@@ -313,14 +388,30 @@
 
                                 <!-- Review Form -->
                                 <div class="col-md-3">
-                                    <div id="review-form">
-                                        <form class="review-form">
-                                            <input class="input" type="text" placeholder="Your Name">
-                                            <input class="input" type="email" placeholder="Your Email">
-                                            <textarea class="input" placeholder="Your Review"></textarea>
-                                            <div class="input-rating">
-                                                <span>Your Rating: </span>
-                                                <div class="stars">
+                                    <div>
+                                        <form action="" method="post" class="review-form" id="review-form">
+                                            <div class="form__group">
+                                                <input class="input" type="text" id="name" name="name"
+                                                       value="${infomation.name}"
+                                                       placeholder="Your Name" readonly>
+                                                <span class="form__msg"></span>
+                                            </div>
+                                            <div class="form__group">
+                                                <input class="input" type="email" id="email" name="email"
+                                                       value="${infomation.email}" placeholder="Your Email" readonly>
+                                                <span class="form__msg"></span>
+                                            </div>
+                                            <div class="form__group">
+                                                    <textarea class="input" id="comment" name="comment"
+                                                              placeholder="Your Review"></textarea>
+                                                <span class="form__msg"></span>
+                                            </div>
+
+
+                                            <div class="input-rating form__group">
+
+                                                <div class="stars ">
+                                                    <span>Your Rating: </span>
                                                     <input id="star5" name="rating" value="5" type="radio"><label
                                                         for="star5"></label>
                                                     <input id="star4" name="rating" value="4" type="radio"><label
@@ -330,11 +421,20 @@
                                                     <input id="star2" name="rating" value="2" type="radio"><label
                                                         for="star2"></label>
                                                     <input id="star1" name="rating" value="1" type="radio"><label
-                                                        for="star1"></label>
+                                                        for="star1"></label> <br>
+
                                                 </div>
+                                                <br>
+                                                <span class="form__msg"></span>
                                             </div>
-                                            <button class="primary-btn">Submit</button>
+                                            <div class="form__group hide ${show}">
+                                                <input id="otp" name="otp" class="form__input" type="number"
+                                                       placeholder="OTP"/>
+                                                <span class="form__msg">${message1}</span>
+                                            </div>
+                                            <button type="submit" class="primary-btn">Submit</button>
                                         </form>
+                                        <div class="error-message" style="display:none;">Please select a rating</div>
                                     </div>
                                 </div>
                                 <!-- /Review Form -->
@@ -361,8 +461,6 @@
                             </div>
                         </div>
                         <!-- /tab1  -->
-
-
 
 
                     </div>
@@ -429,10 +527,9 @@
                                                 <i class="fa fa-star-o"></i>
                                             </div>
 
-
                                             <div class="product-btns">
-                                                <button class="add-to-wishlist"><i
-                                                        class="fa fa-heart-o"></i><span
+                                                <button class="add-to-wishlist"><a href="wishList?action=addToWishList&&pid=${p.getProduct().getId()}"><i
+                                                        class="fa fa-heart-o"></i></a><span
                                                         class="tooltipp">add to wishlist</span></button>
                                                 <button class="add-to-compare"><i
                                                         class="fa fa-exchange"></i><span
@@ -440,14 +537,16 @@
                                                 <button class="quick-view"><i class="fa fa-eye"></i><span
                                                         class="tooltipp">quick view</span></button>
                                             </div>
-
                                         </div>
 
 
                                         <div class="add-to-cart">
-                                            <button class="add-to-cart-btn"><i
-                                                    class="fa fa-shopping-cart"></i> add to cart
-                                            </button>
+                                            <form action="cart?action=AddToCart&&pid=${p.getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}"
+                                                  method="post">
+                                                <button class="add-to-cart-btn"><i
+                                                        class="fa fa-shopping-cart"></i> add to cart
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
 
@@ -486,6 +585,39 @@
 <script src="js/jquery.zoom.min.js"></script>
 <script src="js/main.js"></script>
 
+
+<script src="js/validator.js"></script>
+
+<script>
+    Validator({
+        form: '#review-form',
+        formGroupSelector: '.form__group',
+        erorrSelector: '.form__msg',
+
+        rules: [
+            Validator.isRequiredCheck('input[name="rating"]', 'Please rating'),
+            Validator.isRequired('#name', 'Enter your name to review'),
+            Validator.isRequired('#email', 'Enter your email address to review'),
+            Validator.isEmail('#email'),
+            Validator.isRequired('#comment', 'Enter your comment to review'),
+        ],
+        // onSubmit: function (data) {
+        // 	// call API
+        // 	console.log(data);
+        // }
+    });
+
+    function addToCart() {
+        document.getElementById('productForm').action = './cart?action=AddToCart&&pid=${pdDetail.getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}';
+        document.getElementById('productForm').submit();
+    }
+
+    function buyNow() {
+        document.getElementById('productForm').action = './checkout?action=BuyNow&&pid=${pdDetail.getProduct().getId()}';
+        document.getElementById('productForm').submit();
+    }
+
+</script>
 
 </body>
 </html>
