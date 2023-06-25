@@ -11,7 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>shopping cart</title>
 
-
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
@@ -32,7 +31,6 @@
 
     <link rel="stylesheet" href="css/cart.css">
     <link rel="stylesheet" href="css/style.css">
-
 
 </head>
 <body>

@@ -169,9 +169,13 @@
                     <p>${pdDetail.getProduct().getDesc()}</p>
 
 
-                    <form action="./cart?action=DetailAddToCart&&pid=${pdDetail.getProduct().getId()}" method="post">
+
+                    <form id="productForm" method="post">
+                        <input type="hidden" name="name" value="${pdDetail.getProduct().getName()}">
+                        <input type="hidden" name="img" value="${pdDetail.getImg1()}">
+                        <input type="hidden" name="price" value="${pdDetail.getPrice()}">
                         <div class="add-to-cart">
-                            <div class="qty-label">
+                            <div class="qty-label" style="width: 100%; margin-bottom: 28px;">
                                 <span style="padding-right:10px; color: var(--black); font-size: 14px; font-weight: 600;">
                                     Available: ${pdDetail.getProduct().getAmount_remaining()}
                                 </span>
@@ -182,15 +186,21 @@
                                     <span class="qty-down">-</span>
                                 </div>
                             </div>
-                            <div style="display: inline">
-                                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to
-                                    cart
+
+                            <div style="display: flex; justify-content: space-around">
+                                <button type="submit" class="add-to-cart-btn" onclick="addToCart()"><i class="fa fa-shopping-cart"></i>
+                                    add to cart
+                                </button>
+                                <c:if test="${pdDetail.getProduct().getAmount_remaining() == 0}">
+                                    <c:set var="disabled" value="disabled"/>
+                                </c:if>
+                                <button type="submit" class="add-to-cart-btn" ${disabled} onclick="buyNow()"><i class="fa fa-shopping-cart"></i>
+                                    buy now
                                 </button>
                             </div>
                         </div>
                     </form>
-
-
+                  
                     <ul class="product-btns">
                         <li><a href="wishList?action=addToWishList&&pid=${pdDetail.getProduct().getId()}"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
                     </ul>
@@ -533,7 +543,8 @@
 
 
                                         <div class="add-to-cart">
-                                            <form action="cart?action=DetailAddToCart&&pid=${p.getProduct().getId()}"
+
+                                            <form action="cart?action=AddToCart&&pid=${p.getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}"
                                                   method="post">
                                                 <button class="add-to-cart-btn"><i
                                                         class="fa fa-shopping-cart"></i> add to cart
@@ -598,6 +609,17 @@
         // 	console.log(data);
         // }
     });
+
+
+    function addToCart() {
+        document.getElementById('productForm').action = './cart?action=AddToCart&&pid=${pdDetail.getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}';
+        document.getElementById('productForm').submit();
+    }
+
+    function buyNow() {
+        document.getElementById('productForm').action = './checkout?action=BuyNow&&pid=${pdDetail.getProduct().getId()}';
+        document.getElementById('productForm').submit();
+    }
 
 </script>
 
