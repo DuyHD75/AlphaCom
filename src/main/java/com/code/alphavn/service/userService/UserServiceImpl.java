@@ -1,8 +1,9 @@
-package com.code.alphavn.service;
+package com.code.alphavn.service.userService;
 
 
 import com.code.alphavn.connection.ConnectionDB;
 import com.code.alphavn.model.*;
+import com.code.alphavn.model.adminModel.Admin;
 
 
 import java.sql.*;
@@ -13,7 +14,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -25,6 +25,7 @@ public class UserServiceImpl implements IUserService {
     private List<ProductInfo> productInfos;
     private List<ProductDiscount> productDiscounts;
     private List<ProductReview> productReviews;
+    private List<Order> orders;
 
     public UserServiceImpl() {
         cacheValid = false;
@@ -104,12 +105,12 @@ public class UserServiceImpl implements IUserService {
         if (productInfos == null) {
             productInfos = getAllProducts();
         }
+
         prd = productInfos.stream()
                 .filter(product -> product.getProduct().getId() == id)
                 .collect(Collectors.toList()).get(0);
         return prd;
     }
-
 
     public List<ProductDiscount> getProductDiscounts() throws SQLException {
         String query = "select * from productDiscount;";
@@ -165,7 +166,6 @@ public class UserServiceImpl implements IUserService {
         }
         return productReviews;
     }
-
 
     public ProductReview getProductRatingReviews(int pid) throws SQLException {
         String query = "SELECT product_id, \n" +
@@ -227,10 +227,6 @@ public class UserServiceImpl implements IUserService {
         return categories;
     }
 
-    public void addNewProduct(ProductInfo productInfo) {
-        cacheValid = false;
-    }
-
 
     //    =================================== AUTHENTICATION =============================================
 
@@ -256,6 +252,24 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
+    public Admin Login(Admin admin) {
+        String query = "select * from admins where email = ? and password =?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, admin.getEmail());
+            pstm.setString(2, admin.getPass());
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Admin(rs.getInt("admin_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email"));
+            }
+
+        } catch (SQLException e) {
+        }
+        return null;
+    }
 
     public Customer getCustomerByEmail(String email) {
         String query = "select * from customers where email = ?";
@@ -271,6 +285,23 @@ public class UserServiceImpl implements IUserService {
                         rs.getString("email"),
                         rs.getString("phone"),
                         rs.getDate("created_At"));
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+    public Admin getAdminByEmail(String email) {
+        String query = "select * from admins where email = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, email);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Admin(rs.getInt("admin_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email")
+                        );
             }
         } catch (SQLException e) {
         }
@@ -463,6 +494,44 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+
+    public List<Order> getAllOrder() {
+         orders = new ArrayList<>();
+
+        String query = "SELECT * FROM orders";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                Customer cusId = new Customer(rs.getInt("customer_id"));
+                orders.add(new Order(
+                        rs.getInt("order_id"),
+                        getAccountByCusID(cusId),
+                        rs.getString("orderDate"),
+                        rs.getString("status"),
+                        rs.getString("payMethod"),
+                        getOrderDetailByOID(rs.getInt("order_id"))
+                ));
+            }
+
+        } catch (Exception e) {
+        }
+        return orders;
+    }
+
+
+    public List<Order> filterOrderBySatus(String status) {
+
+        List<Order> filterOrders = new ArrayList<>();
+
+        filterOrders =orders.stream().filter(
+                order -> order.getStatus().equalsIgnoreCase(status)
+        ).collect(Collectors.toList()); // Pending , Shipping , Completed , Cancel
+        return filterOrders;
+    }
+
+
     public List<OrderDetail> getOrderDetailByOID(int order_id) throws SQLException {
         List<OrderDetail> ods = new ArrayList<>();
         String query = "select * from orderDetails where order_id = ?;";
@@ -589,7 +658,7 @@ public class UserServiceImpl implements IUserService {
         while (rs.next()) {
             pstm1.setInt(1, rs.getInt("product_id"));
             ResultSet rs1 = pstm1.executeQuery();
-            while (rs1.next()){
+            while (rs1.next()) {
                 rating = rs1.getInt(1);
             }
             wishListProduct.add(new WishListProduct(rs.getInt("product_id"),
@@ -605,19 +674,21 @@ public class UserServiceImpl implements IUserService {
         pstm0.close();
         return wishListProduct;
     }
+
     //delete from wishList
-    public void deleteWishList (int product_id, int customer_id) throws SQLException {
+    public void deleteWishList(int product_id, int customer_id) throws SQLException {
         PreparedStatement preparedStatement = con.prepareStatement("delete from wishList where customer_id = ? and product_id = ?");
-        preparedStatement.setInt(1,customer_id);
-        preparedStatement.setInt(2,product_id);
+        preparedStatement.setInt(1, customer_id);
+        preparedStatement.setInt(2, product_id);
         preparedStatement.executeUpdate();
 
     }
+
     //add to wishList
-    public void addWishList (int product_id, int customer_id) throws SQLException {
+    public void addWishList(int product_id, int customer_id) throws SQLException {
         PreparedStatement preparedStatement = con.prepareStatement("insert into wishList values (?,?)");
-        preparedStatement.setInt(1,customer_id);
-        preparedStatement.setInt(2,product_id);
+        preparedStatement.setInt(1, customer_id);
+        preparedStatement.setInt(2, product_id);
         preparedStatement.executeUpdate();
         preparedStatement.close();
 

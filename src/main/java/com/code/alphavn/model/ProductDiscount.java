@@ -22,6 +22,21 @@ public class ProductDiscount {
         this.end_date = end_date;
     }
 
+    public ProductDiscount(int pid, String dis_name, double dis_amount, Date start_date, Date end_date) {
+        this.pid = pid;
+        this.dis_name = dis_name;
+        this.dis_amount = dis_amount;
+        this.start_date = start_date;
+        this.end_date = end_date;
+    }
+
+    public ProductDiscount(String dis_name, double dis_amount, Date start_date, Date end_date) {
+        this.dis_name = dis_name;
+        this.dis_amount = dis_amount;
+        this.start_date = start_date;
+        this.end_date = end_date;
+    }
+
     public int getDiscount_id() {
         return discount_id;
     }

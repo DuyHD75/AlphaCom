@@ -3,12 +3,96 @@ package com.code.alphavn.model;
 import java.util.List;
 
 public class Order {
-    private int id;
+    private int id,cusid,total;
     private Customer customer;
     private String orderDate, status,paymentMethod ;
     private List<OrderDetail> orderDetail;
+    private double totalPrice;
+     private int pid;
+     private double price;
+    public Order( Customer customer, String paymentMethod, int pid,double price,int amount ) {
+        this.customer = customer;
+        this.paymentMethod = paymentMethod;
+        this.pid = pid;
+        this.price = price;
+        this.amount = amount;
+    }
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    private int amount;
 
     public Order() {
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getCusid() {
+        return cusid;
+    }
+
+    public void setCusid(int cusid) {
+        this.cusid = cusid;
+    }
+
+    public Order(int total) {
+        this.total = total;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Order(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Order(int id, int cusid, int total, String orderDate, String status, String paymentMethod) {
+        this.id = id;
+        this.cusid = cusid;
+        this.total = total;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Order(int id, int cusid, String orderDate, String status, String paymentMethod) {
+        this.id = id;
+        this.cusid = cusid;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.paymentMethod = paymentMethod;
     }
 
     public Order(int id, Customer customer, String orderDate, String status, String paymentMethod, List<OrderDetail> orderDetail) {

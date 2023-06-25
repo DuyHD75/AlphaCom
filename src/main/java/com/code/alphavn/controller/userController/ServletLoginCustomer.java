@@ -1,7 +1,8 @@
 package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.model.Customer;
-import com.code.alphavn.service.UserServiceImpl;
+import com.code.alphavn.model.adminModel.Admin;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,9 +25,8 @@ public class ServletLoginCustomer extends HttpServlet {
 
         UserServiceImpl userService = new UserServiceImpl();
         String encodedpass = userService.getBase64Encoded(password);
-
+        if(userService.getCustomerByEmail(email)!=null){
         Customer customer = new Customer(encodedpass, email);
-
         Customer account = userService.Login(customer);
 
         if(account == null){
@@ -51,7 +51,22 @@ public class ServletLoginCustomer extends HttpServlet {
 //                request.getRequestDispatcher("/components/userComponents/home.jsp").forward(request, response);
                 response.sendRedirect("home");
             }
-        }
+        }}else if (userService.getAdminByEmail(email)!=null){
+                    Admin admin = new Admin(password,email);
+
+                    Admin account1= userService.Login(admin);
+            if(account1 == null){
+                request.setAttribute("messLogin", "Wrong username or password.");
+                request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
+            }else{
+
+                    HttpSession session = request.getSession();
+                    session.setAttribute("acc", account1);
+//                request.getRequestDispatcher("/adminHome").forward(request, response);
+            response.sendRedirect("adminHome");
+
+            }
+        };
     }
 
     @Override

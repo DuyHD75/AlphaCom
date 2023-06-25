@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Customer {
     private int id;
+    private double total;
     private String name, password, address, email, phone;
     private Date create_At;
 
@@ -48,12 +49,30 @@ public class Customer {
         this.phone = phone;
     }
 
+    public Customer(int id, String name, String email, Date create_At) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.create_At = create_At;
+    }
+
     public Customer(String password, String email) {
         this.password = password;
         this.email = email;
     }
 
 
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public Customer(double total) {
+        this.total = total;
+    }
 
     public int getId() {
         return id;
