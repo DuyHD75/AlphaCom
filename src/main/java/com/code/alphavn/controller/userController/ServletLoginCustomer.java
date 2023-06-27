@@ -26,42 +26,46 @@ public class ServletLoginCustomer extends HttpServlet {
         UserServiceImpl userService = new UserServiceImpl();
         String encodedpass = userService.getBase64Encoded(password);
         if(userService.getCustomerByEmail(email)!=null){
-        Customer customer = new Customer(encodedpass, email);
-        Customer account = userService.Login(customer);
+            Customer customer = new Customer(encodedpass, email);
+            Customer account = userService.Login(customer);
 
-        if(account == null){
-            request.setAttribute("messLogin", "Wrong username or password.");
-            request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
-        }else{
-            if(fullname != null){
-                request.setAttribute("email", email);
-                request.setAttribute("password", password);
+            if(account == null){
+                request.setAttribute("messLogin", "Wrong username or password.");
                 request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
-            } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("acc", account);
-                //add session for number of wishList
-                try {
-                    session.setAttribute("numWish",userService.getWishList(email).size());
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                //
-                session.setMaxInactiveInterval(108000);
-//                request.getRequestDispatcher("/components/userComponents/home.jsp").forward(request, response);
-                response.sendRedirect("home");
+            } else if (account.getStatus().equals("Block")){
+                request.setAttribute("messLogin", "Your account has been blocked");
+                request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
             }
-        }}else if (userService.getAdminByEmail(email)!=null){
-                    Admin admin = new Admin(password,email);
-
-                    Admin account1= userService.Login(admin);
-            if(account1 == null){
+            else{
+                if(fullname != null){
+                    request.setAttribute("email", email);
+                    request.setAttribute("password", password);
+                    request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
+                } else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("acc", account);
+                    //add session for number of wishList
+                    try {
+                        session.setAttribute("numWish",userService.getWishList(email).size());
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    //
+                    session.setMaxInactiveInterval(108000);
+    //                request.getRequestDispatcher("/components/userComponents/home.jsp").forward(request, response);
+                    response.sendRedirect("home");
+                }
+            }
+        }else if (userService.getAdminByEmail(email)!=null){
+            Admin admin = new Admin(encodedpass,email);
+            Admin accountAdmin= userService.Login(admin);
+            if(accountAdmin == null){
                 request.setAttribute("messLogin", "Wrong username or password.");
                 request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
             }else{
 
                     HttpSession session = request.getSession();
-                    session.setAttribute("acc", account1);
+                    session.setAttribute("acc", accountAdmin);
 //                request.getRequestDispatcher("/adminHome").forward(request, response);
             response.sendRedirect("adminHome");
 

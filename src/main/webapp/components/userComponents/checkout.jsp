@@ -81,34 +81,6 @@
             </div>
 
             <div class="inputBox">
-              <label>payment method</label>
-              <select name="method" id="payment-method" class="box" required onChange="toggleCreditCard()">
-                <option value="Cash On Delivery">Cash On Delivery</option>
-                <option value="ATM">ATM</option>
-                <option value="VNPAY">VNPAY</option>
-              </select>
-              <span class="form__msg"></span>
-            </div>
-
-            <div class="credit_box" id="credit_box">
-              <div class="inputBox">
-                <label>Account Number </label>
-                <input id="accountNumber" type="number" name="accountNumber" placeholder="Enter your account number"
-                       value=""
-                       class="box" min="0" max="9999999999" >
-                <span class="form__msg"></span>
-              </div>
-
-              <div class="inputBox">
-                <label>Bank Name </label>
-                <input id="bank_name" type="text" name="bank_name" placeholder="Enter bank name"
-                       value=""
-                       class="box" maxlength="50"  >
-                <span class="form__msg"></span>
-              </div>
-            </div>
-
-            <div class="inputBox">
               <label>address</label>
               <input id="flat" type="text" name="flat" placeholder="Enter Your Address"
                      value="${infomation.address}"
@@ -116,8 +88,64 @@
               <span class="form__msg"></span>
             </div>
 
-            <div class="input-checkbox" style="margin-left: 12px">
-              <input type="checkbox" id="ExportBill">
+            <div class="inputBox">
+              <label>payment method</label>
+              <select name="method" id="payment-method" class="box" required onChange="toggleCreditCard()">
+                <option value="Cash On Delivery">Cash On Delivery</option>
+                <option value="PAYPAL">PAYPAL | Credit Card | Debit Card</option>
+                <option value="VNPAY">VNPAY</option>
+              </select>
+              <span class="form__msg"></span>
+            </div>
+<%--            thêm mới --%>
+            <div style="margin-left: 10%" class="credit_box" id="credit_box">
+            <h4>Chọn phương thức thanh toán</h4>
+            <div class="form-group">
+              <h5>Cách 1: Chuyển hướng sang Cổng VNPAY chọn phương thức thanh toán</h5>
+              <input type="radio" Checked="True" id="bankCode" name="bankCode" value="">
+              <label for="bankCode">Cổng thanh toán VNPAYQR</label><br>
+
+              <h5>Cách 2: Tách phương thức tại site của đơn vị kết nối</h5>
+              <input type="radio" id="bankCode" name="bankCode" value="VNPAYQR">
+              <label for="bankCode">Thanh toán bằng ứng dụng hỗ trợ VNPAYQR</label><br>
+
+              <input type="radio" id="bankCode" name="bankCode" value="VNBANK">
+              <label for="bankCode">Thanh toán qua thẻ ATM/Tài khoản nội địa</label><br>
+
+              <input type="radio" id="bankCode" name="bankCode" value="INTCARD">
+              <label for="bankCode">Thanh toán qua thẻ quốc tế</label><br>
+
+            </div>
+            <div class="form-group">
+              <h5>Chọn ngôn ngữ giao diện thanh toán:</h5>
+              <input type="radio" id="language" Checked="True" name="language" value="vn">
+              <label for="language">Tiếng việt</label><br>
+              <input type="radio" id="language" name="language" value="en">
+              <label for="language">Tiếng anh</label><br>
+
+            </div>
+            </div>
+
+            <%--            <div class="credit_box" id="credit_box">--%>
+            <%--              <div class="inputBox">--%>
+            <%--                <label>Account Number </label>--%>
+            <%--                <input id="accountNumber" type="number" name="accountNumber" placeholder="Enter your account number"--%>
+            <%--                       value=""--%>
+            <%--                       class="box" min="0" max="9999999999" >--%>
+            <%--                <span class="form__msg"></span>--%>
+            <%--              </div>--%>
+
+            <%--              <div class="inputBox">--%>
+            <%--                <label>Bank Name </label>--%>
+            <%--                <input id="bank_name" type="text" name="bank_name" placeholder="Enter bank name"--%>
+            <%--                       value=""--%>
+            <%--                       class="box" maxlength="50"  >--%>
+            <%--                <span class="form__msg"></span>--%>
+            <%--              </div>--%>
+            <%--            </div>--%>
+
+            <div class="input-checkbox" style="margin-left: 12px;">
+              <input type="checkbox" id="ExportBill" name="ExportBill">
               <label for="ExportBill">
                 <span></span>
                 Send bill via my email
@@ -125,6 +153,12 @@
             </div>
 
           </div>
+
+          <input type="hidden" name="pid" value="${pid}">
+          <input type="hidden" name="price" value="${price}">
+          <input type="hidden" name="amount" value="${amount}">
+          <input type="hidden" name="productName" value="${pname}">
+          <input type="hidden" name="isBuyNow" value="${isBuyNow}">
 
           <input type="submit" name="order"
                  class="btn primary-btn order-submit"
@@ -140,6 +174,41 @@
             <h3 class="heading" style="font-size: 2.5rem;">Your Order</h3>
           </div>
           <div class="display-orders">
+            <c:if test="${pname != null}">
+              <c:set var="totalPro" value="0" />
+              <c:set var="grandTotal" value="0" />
+              <div class="order-summary">
+                <div class="order-col">
+                  <div><strong>PRODUCT</strong></div>
+                  <div><strong>TOTAL</strong></div>
+                </div>
+                <div class="order-list" style="" >
+                  <div class="order-products">
+                    <input type="hidden" name="total_products" value="${totalPro + amount}">
+                    <input type="hidden" name="total_price" value="${price * amount}">
+
+                    <div class="order-col">
+                      <div> <img src="imgs/productImg/${pimg}" width="40px" height="40px">
+                          ${amount} x ${pname}
+                      </div>
+                      <div style="color: var(--main-color); font-weight: 700;">${price}</div>
+                    </div>
+                    <c:set var="grandTotal" value="${grandTotal + price * amount}" />
+
+                  </div>
+                </div>
+
+                <div class="order-col">
+                  <div><strong>SHIPING</strong></div>
+                  <div><strong>FREE</strong></div>
+                </div>
+                <div class="order-col">
+                  <div><strong>TOTAL</strong></div>
+                  <div><strong class="order-total">${grandTotal}</strong></div>
+                </div>
+              </div>
+            </c:if>
+            <c:if test="${pname == null}">
             <c:choose>
               <c:when test='${requestScope["listCart"] != null}'>
                 <c:set var="totalPro" value="0" />
@@ -165,27 +234,97 @@
                         </div>
                         <c:set var="grandTotal" value="${grandTotal + cart.getFinalPrice() * cart.amount}" />
 
-                      </div>
-                    </c:forEach>
-                  </div>
+            <c:if test="${pname != null}">
+              <c:set var="totalPro" value="0" />
+              <c:set var="grandTotal" value="0" />
+              <div class="order-summary">
+                <div class="order-col">
+                  <div><strong>PRODUCT</strong></div>
+                  <div><strong>TOTAL</strong></div>
+                </div>
+                <div class="order-list" style="" >
+                  <div class="order-products">
+                    <input type="hidden" name="total_products" value="${totalPro + amount}">
+                    <input type="hidden" name="total_price" value="${price * amount}">
 
-                  <div class="order-col">
-                    <div><strong>SHIPING</strong></div>
-                    <div><strong>FREE</strong></div>
-                  </div>
-                  <div class="order-col">
-                    <div><strong>TOTAL</strong></div>
-                    <div><strong class="order-total">${grandTotal}</strong></div>
+                    <div class="order-col">
+                      <div> <img src="imgs/productImg/${pimg}" width="40px" height="40px">
+                          ${amount} x ${pname}
+                      </div>
+                      <div style="color: var(--main-color); font-weight: 700;">${price}</div>
+                    </div>
+                    <c:set var="grandTotal" value="${grandTotal + price * amount}" />
+
                   </div>
                 </div>
+
+                <div class="order-col">
+                  <div><strong>SHIPING</strong></div>
+                  <div><strong>FREE</strong></div>
+                </div>
+                <div class="order-col">
+                  <div><strong>TOTAL</strong></div>
+                  <div><strong class="order-total">${grandTotal}</strong></div>
+                </div>
+              </div>
+            </c:if>
+            <c:if test="${pname == null}">
+              <c:choose>
+                <c:when test='${requestScope["listCart"] != null}'>
+                  <c:set var="totalPro" value="0" />
+                  <c:set var="grandTotal" value="0" />
+
+
+                  <div class="order-summary">
+                    <div class="order-col">
+                      <div><strong>PRODUCT</strong></div>
+                      <div><strong>TOTAL</strong></div>
+                    </div>
+                    <div class="order-list" style="" >
+                      <c:forEach items="${listCart}" var="cart">
+                        <div class="order-products">
+                          <input type="hidden" name="total_products" value="${totalPro + cart.amount}">
+                          <input type="hidden" name="total_price" value="${cart.getFinalPrice() * cart.amount}">
+
+                          <div class="order-col">
+                            <div> <img src="imgs/productImg/${cart.getProductInfo().getImg1()}" width="40px" height="40px">
+                                ${cart.amount} x ${cart.getProductInfo().getProduct().getName()}
+
+                            </div>
+                            <div style="color: var(--main-color); font-weight: 700;">${cart.getFinalPrice()}</div>
+                          </div>
+                          <c:set var="grandTotal" value="${grandTotal + cart.getFinalPrice() * cart.amount}" />
               </c:when>
               <c:otherwise>
                 <div>
-                  <p class="empty">your cart is empty!</p>
+                  <p class="empty">Do not product!</p>
                 </div>
               </c:otherwise>
             </c:choose>
+            </c:if>
 
+
+                        </div>
+                      </c:forEach>
+                    </div>
+
+                    <div class="order-col">
+                      <div><strong>SHIPING</strong></div>
+                      <div><strong>FREE</strong></div>
+                    </div>
+                    <div class="order-col">
+                      <div><strong>TOTAL</strong></div>
+                      <div><strong class="order-total">${grandTotal}</strong></div>
+                    </div>
+                  </div>
+                </c:when>
+                <c:otherwise>
+                  <div>
+                    <p class="empty">Do not product!</p>
+                  </div>
+                </c:otherwise>
+              </c:choose>
+            </c:if>
 
             <div class="input-checkbox">
               <input type="checkbox" id="terms" checked>
@@ -203,7 +342,7 @@
 
       </div>
     </div>
-    </div>
+  </div>
   </div>
 
 
@@ -225,23 +364,26 @@
   function toggleCreditCard() {
     const paymentMethod = document.getElementById("payment-method").value;
     const creditBoxs = document.getElementById("credit_box");
-    if (paymentMethod === "ATM" || paymentMethod === "VNPAY") {
+    if (paymentMethod === "VNPAY") {
       creditBoxs.style.display = "block";
-      Validator({
-        form: '#form-checkout',
-        formGroupSelector: '.inputBox',
-        erorrSelector: '.form__msg',
-        rules: [
-          Validator.isRequired('#accountNumber', "Can't be empty"),
-          Validator.isRequired('#bank_name', "Can't be empty"),
-        ],
-        //			onSubmit: function (data) {
-        //				// call API
-        //				console.log(data);
-        //			}
-      });
+      // Validator({
+      //   form: '#form-checkout',
+      //   formGroupSelector: '.inputBox',
+      //   erorrSelector: '.form__msg',
+      //   rules: [
+      //     Validator.isRequired('#accountNumber', "Can't be empty"),
+      //     Validator.isRequired('#bank_name', "Can't be empty"),
+      //   ],
+      // });
     } else {
       creditBoxs.style.display = "none";
+      // Validator({
+      //   form: '#form-checkout',
+      //   formGroupSelector: '.inputBox',
+      //   erorrSelector: '.form__msg',
+      //   rules: [
+      //   ],
+      // });
     }
   }
 </script>

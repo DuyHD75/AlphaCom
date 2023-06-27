@@ -922,10 +922,12 @@ section.form-container {
 
 .checkout-orders form .flex .inputBox{
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+
+    display: contents;
+    /*flex-wrap: wrap;*/
+    /*justify-content: space-between;*/
+    /*align-items: center;*/
+
     text-transform: capitalize;
     /*border:1px solid #999;*/
     margin:10px;

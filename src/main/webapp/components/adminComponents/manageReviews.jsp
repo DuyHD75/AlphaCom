@@ -30,12 +30,11 @@
 
 <script src="assets\vendor\hs-navbar-vertical-aside\hs-navbar-vertical-aside-mini-cache.js"></script>
 
-<%@ include file="header.jsp" %>
-
 <!-- ONLY DEV -->
 
-
-<script src="assets\js\demo.js"></script>
+<%--  HEADER --%>
+<%@include file="../../components/commons/adminCommons/header.jsp" %>
+<%--  END HEADER --%>
 
 <!-- END ONLY DEV -->
 
@@ -105,7 +104,7 @@
         <!-- End Page Header -->
 
         <!-- Card -->
-        <div class="card mb-3 mb-lg-5">
+        <div class="card mb-3 mb-lg-5" style="margin-top: 60px">
             <!-- Body -->
             <div class="card-body">
                 <div class="row align-items-md-center gx-md-5">
@@ -348,8 +347,8 @@
                         <tr>
                             <td class="table-column-pr-0 d-none">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="usersDataCheck2">
-                                    <label class="custom-control-label" for="usersDataCheck2"></label>
+                                    <input type="checkbox" class="custom-control-input" id="usersDataCheck${review.id}">
+                                    <label class="custom-control-label" for="usersDataCheck${review.id}"></label>
                                 </div>
                             </td>
                             <th>

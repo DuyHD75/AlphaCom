@@ -32,13 +32,11 @@
 
 <script src="assets\vendor\hs-navbar-vertical-aside\hs-navbar-vertical-aside-mini-cache.js"></script>
 
-<%@ include file="header.jsp"%>
-
 <!-- ONLY DEV -->
 
-
-
-<script src="assets\js\demo.js"></script>
+<%--  HEADER --%>
+<%@include file="../../components/commons/adminCommons/header.jsp" %>
+<%--  END HEADER --%>
 
 <!-- END ONLY DEV -->
 

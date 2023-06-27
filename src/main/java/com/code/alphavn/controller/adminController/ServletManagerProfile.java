@@ -29,6 +29,13 @@ public class ServletManagerProfile extends HttpServlet {
 
         try {
             ShowManagerSettingProfiles(req, resp);
+        String action = req.getParameter("action");
+        try {
+            switch (action) {
+                case "showProfile":
+                    ShowManagerSettingProfiles(req, resp);
+                    break;
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -19,12 +19,13 @@ import java.util.stream.Collectors;
 
 public class UserServiceImpl implements IUserService {
 
-    private static final Connection con = ConnectionDB.getConnection();
+    public static final Connection con = ConnectionDB.getConnection();
 
     private boolean cacheValid;
     private List<ProductInfo> productInfos;
     private List<ProductDiscount> productDiscounts;
     private List<ProductReview> productReviews;
+    private List<Order> orders;
 
     public UserServiceImpl() {
         cacheValid = false;
@@ -104,12 +105,12 @@ public class UserServiceImpl implements IUserService {
         if (productInfos == null) {
             productInfos = getAllProducts();
         }
+
         prd = productInfos.stream()
                 .filter(product -> product.getProduct().getId() == id)
                 .collect(Collectors.toList()).get(0);
         return prd;
     }
-
 
     public List<ProductDiscount> getProductDiscounts() throws SQLException {
         String query = "select * from productDiscount;";
@@ -121,7 +122,7 @@ public class UserServiceImpl implements IUserService {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 productDiscounts.add(new ProductDiscount(
-                        rs.getInt("id"),
+                        rs.getInt("discount_id"),
                         rs.getInt("product_id"),
                         rs.getString("discount_name"),
                         rs.getDouble("discount_amount"),
@@ -165,7 +166,6 @@ public class UserServiceImpl implements IUserService {
         }
         return productReviews;
     }
-
 
     public ProductReview getProductRatingReviews(int pid) throws SQLException {
         String query = "SELECT product_id, \n" +
@@ -227,10 +227,6 @@ public class UserServiceImpl implements IUserService {
         return categories;
     }
 
-    public void addNewProduct(ProductInfo productInfo) {
-        cacheValid = false;
-    }
-
 
     //    =================================== AUTHENTICATION =============================================
 
@@ -248,7 +244,8 @@ public class UserServiceImpl implements IUserService {
                         rs.getString("address"),
                         rs.getString("email"),
                         rs.getString("phone"),
-                        rs.getDate("created_At"));
+                        rs.getDate("created_At"),
+                        rs.getString("status"));
             }
 
         } catch (SQLException e) {
@@ -313,8 +310,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     public void Signup(Customer customer) {
-        String query = "insert into customers (name, password, address, email, phone, created_At)" +
-                " values(?, ?, '', ?, ?, GETDATE());";
+        String query = "insert into customers (name, password, address, email, phone, created_At, status)" +
+                " values(?, ?, '', ?, ?, GETDATE(), 'Active');";
         try {
             PreparedStatement pstm = con.prepareStatement(query);
             pstm.setString(1, customer.getName());
@@ -340,7 +337,8 @@ public class UserServiceImpl implements IUserService {
                         rs.getString("address"),
                         rs.getString("email"),
                         rs.getString("phone"),
-                        rs.getDate("created_At"));
+                        rs.getDate("created_At"),
+                        rs.getString("status"));
             }
         } catch (Exception e) {
         }
@@ -498,6 +496,40 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    public void InsertOrderDetailsWithBuyNow(int pid, int oid, double price, int amount) throws SQLException {
+        String query = "insert into orderDetails values(?, ? , ? , ? );";
+
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setInt(1, oid);
+            pstm.setInt(2, pid);
+            pstm.setDouble(3, price);
+            pstm.setInt(4, amount);
+            pstm.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void InsertPlaceOrderWithBuyNow(Customer customer, String payMethod, int pid, double price, int amount) throws SQLException {
+        String query = "insert into orders (customer_id, orderDate, payMethod)  values(? , GETDATE() , ? );";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            pstm.setInt(1, customer.getId());
+            pstm.setString(2, payMethod);
+            pstm.executeUpdate();
+            ResultSet generatedKeys = pstm.getGeneratedKeys();
+            int orderId = 0;
+            if (generatedKeys.next()) {
+                orderId = generatedKeys.getInt(1);
+            }
+            InsertOrderDetailsWithBuyNow(pid, orderId, price, amount);
+
+        } catch (Exception e) {
+        }
+    }
+
     public List<OrderDetail> getOrderDetailByOID(int order_id) throws SQLException {
         List<OrderDetail> ods = new ArrayList<>();
         String query = "select * from orderDetails where order_id = ?;";
@@ -542,14 +574,15 @@ public class UserServiceImpl implements IUserService {
         return orders;
     }
 
-    public Order getOrderByOrderId(int orderId, Customer customer) {
-        Customer cusId = new Customer(customer.getId());
+    public Order getOrderByOrderId(int orderId) {
+
         String query = "SELECT * FROM orders where order_id = ? ;";
         try {
             PreparedStatement pstm = con.prepareStatement(query);
             pstm.setInt(1, orderId);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
+                Customer cusId = new Customer(rs.getInt("customer_id"));
                 return new Order(
                         rs.getInt("order_id"),
                         getAccountByCusID(cusId),
@@ -576,18 +609,6 @@ public class UserServiceImpl implements IUserService {
         } catch (SQLException e) {
         }
     }
-
-    public void DeleteOrder(int orderId) {
-        String query = "delete from orders \n" +
-                "where order_id = ?";
-        try {
-            PreparedStatement pstm = con.prepareStatement(query);
-            pstm.setInt(1, orderId);
-            pstm.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
-
 
     // ================= Encrypt password
     public String getBase64Encoded(String input) {
@@ -624,7 +645,7 @@ public class UserServiceImpl implements IUserService {
         while (rs.next()) {
             pstm1.setInt(1, rs.getInt("product_id"));
             ResultSet rs1 = pstm1.executeQuery();
-            while (rs1.next()){
+            while (rs1.next()) {
                 rating = rs1.getInt(1);
             }
             wishListProduct.add(new WishListProduct(rs.getInt("product_id"),
@@ -640,19 +661,21 @@ public class UserServiceImpl implements IUserService {
         pstm0.close();
         return wishListProduct;
     }
+
     //delete from wishList
-    public void deleteWishList (int product_id, int customer_id) throws SQLException {
+    public void deleteWishList(int product_id, int customer_id) throws SQLException {
         PreparedStatement preparedStatement = con.prepareStatement("delete from wishList where customer_id = ? and product_id = ?");
-        preparedStatement.setInt(1,customer_id);
-        preparedStatement.setInt(2,product_id);
+        preparedStatement.setInt(1, customer_id);
+        preparedStatement.setInt(2, product_id);
         preparedStatement.executeUpdate();
 
     }
+
     //add to wishList
-    public void addWishList (int product_id, int customer_id) throws SQLException {
+    public void addWishList(int product_id, int customer_id) throws SQLException {
         PreparedStatement preparedStatement = con.prepareStatement("insert into wishList values (?,?)");
-        preparedStatement.setInt(1,customer_id);
-        preparedStatement.setInt(2,product_id);
+        preparedStatement.setInt(1, customer_id);
+        preparedStatement.setInt(2, product_id);
         preparedStatement.executeUpdate();
         preparedStatement.close();
 

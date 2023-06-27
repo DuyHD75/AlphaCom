@@ -31,10 +31,10 @@ public class ServletHome extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     }
     public void implementAdminHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        request.setAttribute("totalOrder", adminService.getTotalOrder());
-        request.setAttribute("customers", adminService.getCustomers());
-        request.setAttribute("totalCus",adminService.getTotalCus());
-       request.setAttribute("completed",adminService.filterOrderBySatus("Pending").size());
+        request.setAttribute("totalOrder", adminService.getAllOrder().size());
+        request.setAttribute("customers", adminService.getAllCustomer());
+        request.setAttribute("totalCus",adminService.getAllCustomer().size());
+       request.setAttribute("completed",adminService.filterOrderBySatus("Fulfilled").size());
        request.setAttribute("totalPrice",adminService.getTotalPriceOrder());
 
         request.getRequestDispatcher("/components/adminComponents/adminhome.jsp").forward(request, response);

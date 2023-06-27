@@ -29,6 +29,29 @@
     <link rel="stylesheet" href="./css/style.css">
 
 
+    <style>
+        .show {
+            display: block;
+        }
+        .hide {
+            display: none;
+        }
+
+
+         .form__msg {
+             font-size: 12px;
+             color: red;
+             margin: 4px 0 12px 4px;
+             line-height: 12px;
+             font-weight: 500;
+         }
+        .form__group-change {
+            width: 100%;
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+    </style>
 
 </head>
 <body>
@@ -38,13 +61,14 @@
 
 
 <div class="body-container">
-    <div class="body-container__profile">
+    <div class="body-container__profile ${hide}">
+
         <div class="profile__header">
             <h3 class="profile__heading">My Profile</h3>
             <div class="profile__title">Manage profile information for account security</div>
         </div>
         <div class="profile__body">
-            <form action="profileCustomer" method="post" class="profile__form" id="form-profile">
+            <form action="profileCustomer?action=updateProfile" method="post" class="profile__form" id="form-profile">
                 <div class="form__group">
                     <label for="fullname" class="form__label">Fullname</label>
                     <input name="fullname" id="fullname" class="form__input" type="text" value="${infomation.name}"
@@ -114,6 +138,32 @@
             </form>
         </div>
     </div>
+
+    <div class="body-container__profile hide ${show}">
+        <div class="profile__header" style="margin-bottom: 16px;">
+            <h3 class="profile__heading">Change Password</h3>
+            <div class="profile__title">Change Password for account security</div>
+        </div>
+        <div class="profile__body">
+            <span class="form__msg" style="color: green; font-size: 20px;">${success}</span>
+            <form action="profileCustomer?action=changePassword" method="post" class="profile__form" id="form-change-password">
+                <div class="form__group-change">
+                    <input id="oldpassword" name="oldpassword" class="form__input" value="" type="password" placeholder="Old Password" />
+                    <h3 class="form__msg" >${msg}</h3>
+                </div>
+                <div class="form__group-change">
+                    <input id="newpassword" name="newpassword" class="form__input" value="" type="password" placeholder="New Password" />
+                    <span class="form__msg"></span>
+                </div>
+                <div class="form__group-change">
+                    <input id="confirmnewpassword" name="confirmnewpassword" class="form__input" value="" type="password" placeholder="Comfirm New Password" />
+                    <span class="form__msg"></span>
+                </div>
+                <button class="btn form__btn">Save</button>
+            </form>
+        </div>
+    </div>
+
 </div>
 
 <!-- FOOTER -->
@@ -130,6 +180,9 @@
 <script src="./js/nouislider.min.js"></script>
 <script src="./js/jquery.zoom.min.js"></script>
 <script src="./js/main.js"></script>
+
+<script src="js/validator.js"></script>
+
 
 <script>
     $(function () {
@@ -192,6 +245,25 @@
             }
         });
     });
+
+    Validator({
+        form: '#form-change-password',
+        formGroupSelector: '.form__group-change',
+        erorrSelector: '.form__msg',
+        password: '#form-change-password #newpassword',
+        confirmPassword: '#form-change-password #confirmnewpassword',
+        rules: [
+            Validator.isPassword('#newpassword', 8),
+            Validator.isConfirmedPassword('#newpassword', function () {
+                return document.querySelector('#form-change-password #confirmnewpassword').value;
+            }, 'New Password and Comfirm New Password must be the same'),
+            Validator.isConfirmed('#confirmnewpassword', function () {
+                return document.querySelector('#form-change-password #newpassword').value;
+            }, 'New Password and Comfirm New Password must be the same'),
+        ],
+
+    });
+
 </script>
 </body>
 </html>

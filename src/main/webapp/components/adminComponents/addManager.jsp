@@ -30,12 +30,14 @@
 <body class="   footer-offset">
 
 <script src="assets\vendor\hs-navbar-vertical-aside\hs-navbar-vertical-aside-mini-cache.js"></script>
-<%@ include file="header.jsp"%>
+
 
 
 <!-- ONLY DEV -->
 
-<script src="assets\js\demo.js"></script>
+<%--  HEADER --%>
+<%@include file="../../components/commons/adminCommons/header.jsp" %>
+<%--  END HEADER --%>
 
 <!-- END ONLY DEV -->
 
@@ -165,7 +167,7 @@
                         </label>
                         <!-- End Avatar -->
 
-                        <button type="button" class="js-file-attach-reset-img btn btn-white">Delete</button>
+<%--                        <button type="button" class="js-file-attach-reset-img btn btn-white">Delete</button>--%>
                       </div>
                     </div>
                   </div>
@@ -249,13 +251,13 @@
                 <div class="row form-group">
                   <label for="roleLabel" class="col-sm-3 col-form-label input-label">Role</label>
 
-                  <div class="input-group " id="roleLabel">
+                  <div class="input-group col-sm-9" id="roleLabel">
                     <!-- Select -->
                     <div class="select2-custom auto-apply">
                       <select class="js-select2-custom custom-select" size="1" style="opacity: 0;" name="roleSelect" data-hs-select2-options='{
                                       "minimumResultsForSearch": "Infinity",
                                       "dropdownAutoWidth": true,
-                                      "width": "6rem"
+                                      "width": "100%"
                                     }'>
                         <option value="Sale" selected="">Sales</option>
                         <option value="Marketing">Marketing</option>
@@ -503,14 +505,13 @@
               <!-- Footer -->
               <div class="card-footer d-sm-flex align-items-sm-center">
                 <button type="button" class="btn btn-ghost-secondary mb-2 mb-sm-0" data-hs-step-form-prev-options='{
-                         "targetSelector": "#addUserStepBillingAddress"
+                         "targetSelector": "#addUserStepProfile"
                        }'>
                   <i class="tio-chevron-left"></i> Previous step
                 </button>
 
                 <div class="ml-auto">
                   <button type="button" class="btn btn-white mr-2">Save in drafts</button>
-
                   <button id="addUserFinishBtn" type="submit" class="btn btn-primary">Add user</button>
                 </div>
               </div>
