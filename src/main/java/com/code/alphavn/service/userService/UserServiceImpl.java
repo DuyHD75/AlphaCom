@@ -33,6 +33,16 @@ public class UserServiceImpl implements IUserService {
 
 //    ============================== HANDLE METHODS ================================
 
+    public List<ProductInfo> convertResultSetToList(ResultSet rs) throws SQLException {
+        List<ProductInfo> products = new ArrayList<>();
+
+        while (rs.next()) {
+            Product product = new Product(Integer.parseInt(rs.getString("pid")), rs.getString("product_name"), rs.getString("product_desc"), rs.getInt("amount_remaining"), rs.getString("category_name"));
+
+            products.add(new ProductInfo(product, Double.parseDouble(rs.getString("price")), rs.getString("img1"), rs.getString("img2"), rs.getString("img3")));
+        }
+        return products;
+    }
 
     public List<ProductInfo> getAllProducts() throws SQLException {
         String query = "SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining, pd.price, pd.img1, pd.img2, pd.img3,c.category_name " +
@@ -194,28 +204,6 @@ public class UserServiceImpl implements IUserService {
         return productReviews;
     }
 
-    public List<ProductInfo> convertResultSetToList(ResultSet rs) throws SQLException {
-        List<ProductInfo> products = new ArrayList<>();
-
-        while (rs.next()) {
-            Product product = new Product(
-                    Integer.parseInt(rs.getString("pid")),
-                    rs.getString("product_name"),
-                    rs.getString("product_desc"),
-                    rs.getInt("amount_remaining"),
-                    rs.getString("category_name")
-            );
-
-            products.add(new ProductInfo(product,
-                    Double.parseDouble(rs.getString("price")),
-                    rs.getString("img1"),
-                    rs.getString("img2"),
-                    rs.getString("img3")
-            ));
-        }
-        return products;
-    }
-
     public List<Category> getCategories() throws SQLException {
         PreparedStatement pstm = con.prepareStatement("select * from categorys;");
         List<Category> categories = new ArrayList<>();
@@ -356,6 +344,17 @@ public class UserServiceImpl implements IUserService {
             pstm.setString(3, customer.getEmail());
             pstm.setString(4, customer.getPhone());
             pstm.setInt(5, customer.getId());
+            pstm.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+
+    public void changePassword(Customer customer) {
+        String query = "update customers set password = ? where customer_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, customer.getPassword());
+            pstm.setInt(2, customer.getId());
             pstm.executeUpdate();
         } catch (Exception e) {
         }
@@ -693,39 +692,6 @@ public class UserServiceImpl implements IUserService {
 
     }
 
-    public void InsertOrderDetailsWithBuyNow(int pid, int oid, double price, int amount) throws SQLException {
-        String query = "insert into orderDetails values(?, ? , ? , ? );";
-
-        try {
-            PreparedStatement pstm = con.prepareStatement(query);
-            pstm.setInt(1, oid);
-            pstm.setInt(2, pid);
-            pstm.setDouble(3, price);
-            pstm.setInt(4, amount);
-            pstm.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void InsertPlaceOrderWithBuyNow(Customer customer, String payMethod, int pid, double price, int amount) throws SQLException {
-        String query = "insert into orders (customer_id, orderDate, payMethod)  values(? , GETDATE() , ? );";
-        try {
-            PreparedStatement pstm = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            pstm.setInt(1, customer.getId());
-            pstm.setString(2, payMethod);
-            pstm.executeUpdate();
-            ResultSet generatedKeys = pstm.getGeneratedKeys();
-            int orderId = 0;
-            if (generatedKeys.next()) {
-                orderId = generatedKeys.getInt(1);
-            }
-            InsertOrderDetailsWithBuyNow(pid, orderId, price, amount);
-
-        } catch (Exception e) {
-        }
-    }
 
     public static void main(String[] args) throws SQLException {
         UserServiceImpl userService = new UserServiceImpl();

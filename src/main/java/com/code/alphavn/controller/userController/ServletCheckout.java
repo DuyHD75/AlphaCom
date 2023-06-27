@@ -3,7 +3,7 @@ package com.code.alphavn.controller.userController;
 import com.code.alphavn.model.*;
 
 import com.code.alphavn.service.PaymentServices;
-import com.code.alphavn.service.UserServiceImpl;
+
 import org.json.JSONObject;
 
 import com.paypal.api.payments.PayerInfo;
@@ -14,6 +14,9 @@ import com.code.alphavn.model.ProductDiscount;
 import com.code.alphavn.service.userService.UserServiceImpl;
 
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +28,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 @WebServlet(name = "ServletCheckout", value = "/checkout")
 public class ServletCheckout extends HttpServlet {
@@ -130,8 +134,9 @@ public class ServletCheckout extends HttpServlet {
                 List<Cart> carts = userService.getCartByCusID(cusId);
                 request.setAttribute("countProductInCart", carts.size());
 
-           /*     List<Order> orders = userService.getOrderByCusId(customerId);
-                Order order = orders.get(orders.size() - 1);*/
+                List<Order> orders = userService.getOrderByCusId(customerId);
+                Order order = orders.get(orders.size() - 1);
+                //nếu list rỗng thì set đơn hàng vào.
 
                 if (!Pid.equals("")) { // cho buy now
                     int pid = Integer.parseInt(Pid);
@@ -296,8 +301,6 @@ public class ServletCheckout extends HttpServlet {
             viewcart.handleViewCartHeader(request, response);
 
             request.setAttribute("infomation", info);
-
-            int customerId = account.getId();
             Date currentDate = new Date();
             double newPrice = 0;
             for (ProductDiscount productDiscount : userService.getProductDiscounts()) {
@@ -313,7 +316,6 @@ public class ServletCheckout extends HttpServlet {
             request.setAttribute("pimg", pimg);
             request.setAttribute("price", price);
             request.setAttribute("amount", amount);
-
             session.setAttribute("isPayNow", "true");
         } else {
             response.sendRedirect("loginCustomer");
@@ -321,5 +323,57 @@ public class ServletCheckout extends HttpServlet {
         request.getRequestDispatcher("/components/userComponents/checkout.jsp").forward(request, response);
     }
 
+    public void sendBillViaEmail( HttpServletRequest request, HttpServletResponse response, Order order) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Customer account = (Customer) session.getAttribute("acc");
+        String email = account.getEmail();
+        String to = email;// change accordingly
+        // Get the session object
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+        Session session1 = Session.getDefaultInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("hdat1502@gmail.com", "ootkbvbsapgibuas");// Put your email
+
+            }
+        });
+
+        try {
+            double total = 0;
+            String products = "";
+            for (OrderDetail orderDetail : order.getOrderDetail()) {
+                String product = "[ " + orderDetail.getProduct().getProduct().getName() +
+                        ":"+ orderDetail.getPrice() + " x " + orderDetail.getQuantityOrdered() + " ]\n";
+                products = products + product;
+                total = total + ( orderDetail.getPrice() * orderDetail.getQuantityOrdered());
+            }
+            MimeMessage message = new MimeMessage(session1);
+            message.setFrom(new InternetAddress("hdat1502@gmail.com"));// change accordingly
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setSubject("Shop at Alpha Electro on " + order.getOrderDate());
+            message.setContent("Order ID: " + order.getId()
+                            + "<br>Placed on: " + order.getOrderDate()
+                            + "<br>Customer name: " + order.getCustomer().getName()
+                            + "<br>Email: " + order.getCustomer().getEmail()
+                            + "<br>Phone: " + order.getCustomer().getPhone()
+                            + "<br>Address: " + order.getCustomer().getAddress()
+                            + "<br>Payment method: " + order.getPaymentMethod()
+                            + "<br>Product: " + products
+                            + "<br>Grand Total: " + total
+                            + "<br>Status: " + order.getStatus(),
+                    "text/html"
+            );
+
+            // send message
+            Transport.send(message);
+            System.out.println("message sent successfully");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

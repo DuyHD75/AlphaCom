@@ -25,13 +25,14 @@ public class AdminServiceImpl implements IAdminService {
     private List<ProductReview> productReviews;
     private List<Order> orders;
 
-    private List<Order> orders;
 
     public AdminServiceImpl() {
         this.cacheValid = false;
     }
 
     // ============================ HANDLE METHOD ===================
+
+
 
     public List<ProductInfo> getAllProducts() throws SQLException {
         String query = "SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining, pd.price, pd.img1, pd.img2, pd.img3,c.category_name " +
@@ -357,15 +358,6 @@ public class AdminServiceImpl implements IAdminService {
             pstm.setInt(2, cusId);
             pstm.executeUpdate();
         } catch (SQLException e) {
-
-    public Order getTotalPriceOrder() throws SQLException {
-        Order order = null;
-        Connection con = ConnectionDB.getConnection();
-        PreparedStatement pstm = con.prepareStatement("SELECT  AVG(final_price) AS total FROM orderDetails");
-        ResultSet rs = pstm.executeQuery();
-        while (rs.next()) {
-            order = new Order(rs.getInt("total"));
-
         }
     }
 
@@ -621,7 +613,7 @@ public class AdminServiceImpl implements IAdminService {
         } catch (SQLException e) {
         }
     }
-    public double getTotalPriceOrder() throws SQLException {
+    public double getTotalPriceOrder(){
         List<Order> orders = getAllOrder();
         double totalPriceOrder = 0;
         for( Order order : orders) {
@@ -722,7 +714,9 @@ public class AdminServiceImpl implements IAdminService {
         List<ProductInfo> products = new ArrayList<>();
 
         while (rs.next()) {
-            Product product = new Product(Integer.parseInt(rs.getString("pid")), rs.getString("product_name"), rs.getString("product_desc"), rs.getInt("amount_remaining"), rs.getString("category_name"));
+            Product product = new Product(Integer.parseInt(rs.getString("pid")),
+                    rs.getString("product_name"), rs.getString("product_desc"),
+                    rs.getInt("amount_remaining"), rs.getString("category_name"));
 
             products.add(new ProductInfo(product, Double.parseDouble(rs.getString("price")), rs.getString("img1"), rs.getString("img2"), rs.getString("img3")));
         }

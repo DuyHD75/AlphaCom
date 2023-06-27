@@ -1,7 +1,6 @@
 package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.model.*;
-import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,10 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 @WebServlet(name = "ServletViewWishList", value = "/wishList")
 public class ServletWishList extends HttpServlet {
@@ -94,15 +98,17 @@ public class ServletWishList extends HttpServlet {
         Customer customer = (Customer) session.getAttribute("acc");
         int pid = Integer.parseInt(request.getParameter("pid"));
         List<WishListProduct> wishListProducts = userService.getWishList(customer.getEmail());
+        ServletCart cart = new ServletCart();
         for (WishListProduct wishListProduct : wishListProducts) {
             if (wishListProduct.getProduct_id() == pid) {
-                response.sendRedirect("wishList");
+                cart.responeCurrenPage(request, response);
                 break;
             }
         }
         userService.addWishList(pid, customer.getId());
         session.setAttribute("numWish", (Integer) session.getAttribute("numWish") + 1);
-        response.sendRedirect("wishList");
+
+        cart.responeCurrenPage(request, response);
     }
 
     public void deleteFromWishList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {

@@ -28,14 +28,8 @@ public class ServletCart extends HttpServlet {
                 case "viewCart":
                     handleViewCart(request, response);
                     break;
-                case "homeAddToCart":
-                    handleHomeAddToCart(request, response);
-                    break;
-                case "storeAddToCart":
-                    handleStoreAddToCart(request, response);
-                    break;
-                case "wishListAddToCart":
-                    handleWishListAddToCart(request, response);
+                case "AddToCart":
+                    handleAddToCart(request, response);
                     break;
                 case "deleteFromCartHeader":
                     handelDeleteFromCartHeader(request, response);
@@ -59,11 +53,8 @@ public class ServletCart extends HttpServlet {
                 case "updateAmountCart":
                     handleUpdateAmountCart(request, response);
                     break;
-                case "DetailAddToCart":
-                    handleDetailAddToCart(request, response);
-                    break;
-                case "storeAddToCart":
-                    handleStoreAddToCart(request, response);
+                case "AddToCart":
+                    handleAddToCart(request, response);
                     break;
                 case "deleteFromCart":
                     handelDeleteFromCart(request, response);
@@ -131,7 +122,7 @@ public class ServletCart extends HttpServlet {
         }
     }
 
-    public void handleHomeAddToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleAddToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int amount = 0;
             String id = request.getParameter("pid");
@@ -142,7 +133,6 @@ public class ServletCart extends HttpServlet {
 
             if (account != null) {
                 int cusId = account.getId();
-
                 if (id != null) {
                     ProductInfo productInfo = userService.getProductByID(pid);
                     if (productInfo != null) {
@@ -169,140 +159,7 @@ public class ServletCart extends HttpServlet {
             } else {
                 response.sendRedirect("loginCustomer");
             }
-            response.sendRedirect("home");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void handleStoreAddToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            int amount = 0;
-            String id = request.getParameter("pid");
-            int pid = Integer.parseInt(id);
-            UserServiceImpl userService = new UserServiceImpl();
-            HttpSession session = request.getSession();
-            Customer account = (Customer) session.getAttribute("acc");
-
-            if (account != null) {
-                int cusId = account.getId();
-
-                if (id != null) {
-                    ProductInfo productInfo = userService.getProductByID(pid);
-                    if (productInfo != null) {
-                        if (request.getParameter("amount") != null) {
-                            amount = Integer.parseInt(request.getParameter("amount"));
-                        } else {
-                            amount = 1;
-                        }
-                        Cart cart = userService.CheckCartExist(cusId, pid);
-                        if (productInfo.getProduct().getAmount_remaining() > 0) {
-                            if (cart == null) {
-                                userService.InsertCart(cusId, pid, amount);
-                            } else {
-                                int newAmount = amount + cart.getAmount();
-                                if (newAmount > productInfo.getProduct().getAmount_remaining()) {
-                                    userService.UpdateAmountCart(cusId, pid, productInfo.getProduct().getAmount_remaining());
-                                } else {
-                                    userService.UpdateAmountCart(cusId, pid, newAmount);
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                response.sendRedirect("loginCustomer");
-            }
-            response.sendRedirect("store");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void handleWishListAddToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            int amount = 0;
-            String id = request.getParameter("pid");
-            int pid = Integer.parseInt(id);
-            UserServiceImpl userService = new UserServiceImpl();
-            HttpSession session = request.getSession();
-            Customer account = (Customer) session.getAttribute("acc");
-
-            if (account != null) {
-                int cusId = account.getId();
-
-                if (id != null) {
-                    ProductInfo productInfo = userService.getProductByID(pid);
-                    if (productInfo != null) {
-                        if (request.getParameter("amount") != null) {
-                            amount = Integer.parseInt(request.getParameter("amount"));
-                        } else {
-                            amount = 1;
-                        }
-                        Cart cart = userService.CheckCartExist(cusId, pid);
-                        if (productInfo.getProduct().getAmount_remaining() > 0) {
-                            if (cart == null) {
-                                userService.InsertCart(cusId, pid, amount);
-                            } else {
-                                int newAmount = amount + cart.getAmount();
-                                if (newAmount > productInfo.getProduct().getAmount_remaining()) {
-                                    userService.UpdateAmountCart(cusId, pid, productInfo.getProduct().getAmount_remaining());
-                                } else {
-                                    userService.UpdateAmountCart(cusId, pid, newAmount);
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                response.sendRedirect("loginCustomer");
-            }
-            response.sendRedirect("wishList");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void handleDetailAddToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            int amount = 0;
-            String id = request.getParameter("pid");
-            int pid = Integer.parseInt(id);
-            UserServiceImpl userService = new UserServiceImpl();
-            HttpSession session = request.getSession();
-            Customer account = (Customer) session.getAttribute("acc");
-
-            if (account != null) {
-                int cusId = account.getId();
-
-                if (id != null) {
-                    ProductInfo productInfo = userService.getProductByID(pid);
-                    if (productInfo != null) {
-                        if (request.getParameter("amount") != null) {
-                            amount = Integer.parseInt(request.getParameter("amount"));
-                        } else {
-                            amount = 1;
-                        }
-                        Cart cart = userService.CheckCartExist(cusId, pid);
-                        if (productInfo.getProduct().getAmount_remaining() > 0) {
-                            if (cart == null) {
-                                userService.InsertCart(cusId, pid, amount);
-                            } else {
-                                int newAmount = amount + cart.getAmount();
-                                if (newAmount > productInfo.getProduct().getAmount_remaining()) {
-                                    userService.UpdateAmountCart(cusId, pid, productInfo.getProduct().getAmount_remaining());
-                                } else {
-                                    userService.UpdateAmountCart(cusId, pid, newAmount);
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                response.sendRedirect("loginCustomer");
-
-            }
-            response.sendRedirect("view_product?pid=" + id);
+            responeCurrenPage(request,response);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -334,9 +191,6 @@ public class ServletCart extends HttpServlet {
         HttpSession session = request.getSession();
 
         int pid = Integer.parseInt(request.getParameter("pid"));
-        String pidDetail = request.getParameter("pidDetail");
-        String currentPage = (String) session.getAttribute("currentPage");
-
 
         Customer account = (Customer) session.getAttribute("acc");
         if (account != null) {
@@ -346,25 +200,8 @@ public class ServletCart extends HttpServlet {
 
             session.setAttribute("open", "open");
 
-//             Chuyển hướng đến trang tương ứng
-            if (currentPage.equals("/alphavn/components/userComponents/home.jsp")) {
-                response.sendRedirect("home");
-            } else if (currentPage.equals("/alphavn/components/userComponents/detailProduct.jsp")) {
-                response.sendRedirect("view_product?pid=" + pidDetail);
-            } else if (currentPage.equals("/alphavn/components/userComponents/profile.jsp")) {
-                response.sendRedirect("profileCustomer");
-            } else if (currentPage.equals("/alphavn/components/userComponents/cart.jsp")) {
-                response.sendRedirect("cart?action=viewCart");
-            } else if (currentPage.equals("/alphavn/components/userComponents/checkout.jsp")) {
-                response.sendRedirect("checkout?action=checkout");
-            } else if (currentPage.equals("/alphavn/components/userComponents/viewOrder.jsp")) {
-                response.sendRedirect("order?action=viewOrder");
-            } else if (currentPage.equals("/alphavn/components/userComponents/wishListProduct.jsp")) {
-                response.sendRedirect("wishList");
-            } else if (currentPage.equals("/alphavn/components/userComponents/store.jsp")) {
-                response.sendRedirect("store");
-            }
-            response.sendRedirect(currentPage);
+            responeCurrenPage(request, response);
+            response.sendRedirect("home");
         } else {
             response.sendRedirect("loginCustomer");
         }
@@ -402,6 +239,30 @@ public class ServletCart extends HttpServlet {
             response.sendRedirect("cart?action=viewCart");
         } else {
             response.sendRedirect("loginCustomer");
+        }
+    }
+
+    public void responeCurrenPage (HttpServletRequest request, HttpServletResponse response) throws  IOException{
+        HttpSession session = request.getSession();
+        String pidDetail = request.getParameter("pidDetail");
+        String currentPage = (String) session.getAttribute("currentPage");
+//      Chuyển hướng đến trang tương ứng
+        if (currentPage.equals("/alphavn/components/userComponents/home.jsp")) {
+            response.sendRedirect("home");
+        } else if (currentPage.equals("/alphavn/components/userComponents/detailProduct.jsp")) {
+            response.sendRedirect("view_product?pid=" + pidDetail);
+        } else if (currentPage.equals("/alphavn/components/userComponents/profile.jsp")) {
+            response.sendRedirect("profileCustomer");
+        } else if (currentPage.equals("/alphavn/components/userComponents/cart.jsp")) {
+            response.sendRedirect("cart?action=viewCart");
+        } else if (currentPage.equals("/alphavn/components/userComponents/checkout.jsp")) {
+            response.sendRedirect("checkout?action=checkout");
+        } else if (currentPage.equals("/alphavn/components/userComponents/viewOrder.jsp")) {
+            response.sendRedirect("order?action=viewOrder");
+        } else if (currentPage.equals("/alphavn/components/userComponents/wishListProduct.jsp")) {
+            response.sendRedirect("wishList");
+        } else if (currentPage.equals("/alphavn/components/userComponents/store.jsp")) {
+            response.sendRedirect("store");
         }
     }
 }

@@ -4,7 +4,7 @@ import com.code.alphavn.model.Cart;
 import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.Order;
 import com.code.alphavn.service.PaymentServices;
-import com.code.alphavn.service.UserServiceImpl;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
