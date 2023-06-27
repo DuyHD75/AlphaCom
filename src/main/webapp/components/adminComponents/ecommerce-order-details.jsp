@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,18 +24,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="css\vendor.min.css">
-    <link rel="stylesheet" href="vendor\icon-set\style.css">
+    <link rel="stylesheet" href="assets\css\vendor.min.css">
+    <link rel="stylesheet" href="assets\vendor\icon-set\style.css">
 
 
 
     <!-- CSS Front Template -->
-    <link rel="stylesheet" href="css\theme.min.css?v=1.0">
+    <link rel="stylesheet" href="assets\css\theme.min.css?v=1.0">
 </head>
 
 <body class="   footer-offset">
 
-<script src="vendor\hs-navbar-vertical-aside\hs-navbar-vertical-aside-mini-cache.js"></script>
+<script src="assets\vendor\hs-navbar-vertical-aside\hs-navbar-vertical-aside-mini-cache.js"></script>
 
 
 <!-- ONLY DEV -->
@@ -266,7 +267,7 @@
 <!-- End Builder Toggle -->
 
 <!-- JS Preview mode only -->
-
+<jsp:include page="../../components/commons/adminCommons/header.jsp"/>
 <!-- END ONLY DEV -->
 
 <!-- Search Form -->
@@ -323,22 +324,74 @@
                 <div class="col-sm mb-2 mb-sm-0">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-no-gutter">
-                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="ecommerce-orders.html">Orders</a></li>
+                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="adminOrder?action=viewAllOrder">Orders</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Order details</li>
                         </ol>
                     </nav>
-
                     <div class="d-sm-flex align-items-sm-center">
-                        <h1 class="page-header-title">Order #32543</h1>
-                        <span class="badge badge-soft-success ml-sm-3">
-                  <span class="legend-indicator bg-success"></span>Paid
-                </span>
-                        <span class="badge badge-soft-info ml-2 ml-sm-3">
-                  <span class="legend-indicator bg-info"></span>Fulfilled
-                </span>
+                        <h1 class="page-header-title">Order AE${order.id}</h1>
+                        <c:set var="PAYPAL" value="PAYPAL"/>
+                        <c:set var="VNPAY" value="VNPAY"/>
+                        <c:if test="${order.getPaymentMethod() == PAYPAL || order.getPaymentMethod() == VNPAY}">
+                            ${order.setStatusPaid("Paid")}
+                        </c:if>
+                        <c:if test="${order.getPaymentMethod() != PAYPAL && order.getPaymentMethod() != VNPAY}">
+                            ${order.setStatusPaid("Unpaid")}
+                        </c:if>
+                        <c:set var="Paid" value="Paid"/>
+                        <c:set var="Unpaid" value="Unpaid"/>
+                        <c:set var="Pending" value="Pending"/>
+                        <c:set var="Cancel" value="Cancel"/>
+                        <c:set var="Shipping" value="Shipping"/>
+                        <c:set var="Fulfilled" value="Fulfilled"/>
+
+                        <c:if test="${order.getStatus() == Pending}">
+                            <c:set var="badge" value="badge-soft-warning"/>
+                            <c:set var="bg" value="bg-warning"/>
+                        </c:if>
+                        <c:if test="${order.getStatus() == Cancel}">
+                            <c:set var="badge" value="badge-soft-danger"/>
+                            <c:set var="bg" value="bg-danger"/>
+                        </c:if>
+                        <c:if test="${order.getStatus() == Shipping}">
+                            <c:set var="badge" value="badge-soft-primary"/>
+                            <c:set var="bg" value="bg-primary"/>
+                        </c:if>
+                        <c:if test="${order.getStatus() == Fulfilled}">
+                            <c:set var="badge" value="badge-soft-info"/>
+                            <c:set var="bg" value="bg-info"/>
+                            <c:set var="badgef" value="badge-soft-info"/>
+                            <c:set var="bgf" value="bg-info"/>
+                            <c:set var="Fulfillment" value="Fulfilled"/>
+                            ${order.setStatusPaid("Paid")}
+                        </c:if>
+
+                        <c:if test="${order.getStatusPaid() == Paid}">
+                            <c:set var="badgep" value="badge-soft-success"/>
+                            <c:set var="pbg" value="bg-success"/>
+                        </c:if>
+                        <c:if test="${order.getStatusPaid() == Unpaid}">
+                            <c:set var="badgep" value="badge-soft-danger"/>
+                            <c:set var="pbg" value="bg-danger"/>
+                        </c:if>
+                        <span class="badge ${badgep} ml-2  ml-sm-3">
+                            <span class="legend-indicator ${pbg}"></span>${order.getStatusPaid()}
+                        </span>
+                        <span class="badge ${badge} ml-2  ml-sm-3">
+                            <span class="legend-indicator ${bg}"></span>${order.getStatus()}
+                        </span>
+                        <c:if test="${order.getStatus() != Fulfilled}">
+                            <c:set var="badgef" value="badge-soft-danger"/>
+                            <c:set var="bgf" value="bg-danger"/>
+                            <c:set var="Fulfillment" value="Unfulfilled"/>
+                            <span class="badge ${badgef} ml-2 ml-sm-3">
+                            <span class="legend-indicator ${bgf}"></span>${Fulfillment}
+                        </span>
+                        </c:if>
+
                         <span class="ml-2 ml-sm-3">
-                  <i class="tio-date-range"></i> Aug 17, 2020, 5:48 (ET)
-                </span>
+                            <i class="tio-date-range"></i> ${order.getOrderDate()}
+                        </span>
                     </div>
 
                     <div class="mt-2">
@@ -347,41 +400,41 @@
                         </a>
 
                         <!-- Unfold -->
-                        <div class="hs-unfold">
-                            <a class="js-hs-unfold-invoker text-body" href="javascript:;" data-hs-unfold-options='{
-                       "target": "#moreOptionsDropdown",
-                       "type": "css-animation"
-                     }'>
-                                More options <i class="tio-chevron-down"></i>
-                            </a>
+                        <%--                        <div class="hs-unfold">--%>
+                        <%--                            <a class="js-hs-unfold-invoker text-body" href="javascript:;" data-hs-unfold-options='{--%>
+                        <%--                       "target": "#moreOptionsDropdown",--%>
+                        <%--                       "type": "css-animation"--%>
+                        <%--                     }'>--%>
+                        <%--                                More options <i class="tio-chevron-down"></i>--%>
+                        <%--                            </a>--%>
 
-                            <div id="moreOptionsDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu mt-1">
-                                <a class="dropdown-item" href="#">
-                                    <i class="tio-copy dropdown-item-icon"></i> Duplicate
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="tio-clear dropdown-item-icon"></i> Cancel order
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="tio-archive dropdown-item-icon"></i> Archive
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="tio-visible dropdown-item-icon"></i> View order status page
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="tio-edit dropdown-item-icon"></i> Edit order
-                                </a>
-                            </div>
-                        </div>
+                        <%--                            <div id="moreOptionsDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu mt-1">--%>
+                        <%--                                <a class="dropdown-item" href="#">--%>
+                        <%--                                    <i class="tio-copy dropdown-item-icon"></i> Duplicate--%>
+                        <%--                                </a>--%>
+                        <%--                                <a class="dropdown-item" href="#">--%>
+                        <%--                                    <i class="tio-clear dropdown-item-icon"></i> Cancel order--%>
+                        <%--                                </a>--%>
+                        <%--                                <a class="dropdown-item" href="#">--%>
+                        <%--                                    <i class="tio-archive dropdown-item-icon"></i> Archive--%>
+                        <%--                                </a>--%>
+                        <%--                                <a class="dropdown-item" href="#">--%>
+                        <%--                                    <i class="tio-visible dropdown-item-icon"></i> View order status page--%>
+                        <%--                                </a>--%>
+                        <%--                                <a class="dropdown-item" href="#">--%>
+                        <%--                                    <i class="tio-edit dropdown-item-icon"></i> Edit order--%>
+                        <%--                                </a>--%>
+                        <%--                            </div>--%>
+                        <%--                        </div>--%>
                         <!-- End Unfold -->
                     </div>
                 </div>
 
                 <div class="col-sm-auto">
-                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle mr-1" href="#" data-toggle="tooltip" data-placement="top" title="Previous order">
+                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle mr-1" href="adminOrder?action=priviousOrderDetail&&Oid=${order.id}" data-toggle="tooltip" data-placement="top" title="Previous order">
                         <i class="tio-arrow-backward"></i>
                     </a>
-                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle" href="#" data-toggle="tooltip" data-placement="top" title="Next order">
+                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle" href="adminOrder?action=nextOrderDetail&&Oid=${order.id}" data-toggle="tooltip" data-placement="top" title="Next order">
                         <i class="tio-arrow-forward"></i>
                     </a>
                 </div>
@@ -395,147 +448,100 @@
                 <div class="card mb-3 mb-lg-5">
                     <!-- Header -->
                     <div class="card-header">
-                        <h4 class="card-header-title">Order details <span class="badge badge-soft-dark rounded-circle ml-1">4</span></h4>
-                        <a class="link" href="javascript:;">Edit</a>
+                        <h4 class="card-header-title">Order details <span class="badge badge-soft-dark rounded-circle ml-1">${countOrderDetail}</span></h4>
+                        <div>
+                            <div class="hs-unfold">
+                                <a class="js-hs-unfold-invoker text-body" href="javascript:;" data-hs-unfold-options='{
+                       "target": "#moreOptionsDropdown",
+                       "type": "css-animation"
+                     }'>
+                                    Status order: ${order.getStatus()} <i class="tio-chevron-down"></i>
+                                </a>
+
+                                <div id="moreOptionsDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu mt-1">
+                                    <a class="dropdown-item" href="adminOrder?action=updateStatus&&Oid=${order.id}&&status=Pending">
+                                        Pending
+                                    </a>
+                                    <a class="dropdown-item" href="adminOrder?action=updateStatus&&Oid=${order.id}&&status=Shipping">
+                                        Shipping
+                                    </a>
+                                    <a class="dropdown-item" href="adminOrder?action=updateStatus&&Oid=${order.id}&&status=Fulfilled">
+                                        Fulfilled
+                                    </a>
+                                    <a class="dropdown-item" href="adminOrder?action=updateStatus&&Oid=${order.id}&&status=Cancel">
+                                        Cancel
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <%--                            <a class="link ml-3" href="javascript:;">Edit</a>--%>
+                        </div>
+
                     </div>
                     <!-- End Header -->
 
                     <!-- Body -->
                     <div class="card-body">
-                        <!-- Media -->
-                        <div class="media">
-                            <div class="avatar avatar-xl mr-3">
-                                <img class="img-fluid" src="img\400x400\img26.jpg" alt="Image Description">
-                            </div>
+                        <c:set var="totalPrice" value="0" />
+                        <c:forEach items="${order.getOrderDetail()}" var="orderDetail" >
+                            <!-- Media -->
+                            <div class="media">
+                                <div class="avatar avatar-xl mr-3">
+                                    <img class="img-fluid" src="imgs/productImg/${orderDetail.getProduct().getImg1()}" alt="Image Description">
+                                </div>
 
-                            <div class="media-body">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3 mb-md-0">
-                                        <a class="h5 d-block" href="ecommerce-product-details.html">Topman shoe in green</a>
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3 mb-md-0">
+                                            <a class="h5 d-block" href="ecommerce-product-details.html">${orderDetail.getProduct().getProduct().getName()}</a>
 
-                                        <div class="font-size-sm text-body">
-                                            <span>Gender:</span>
-                                            <span class="font-weight-bold">Women</span>
+                                            <div class="font-size-sm text-body">
+                                                <span>Gender:</span>
+                                                <span class="font-weight-bold">Women</span>
+                                            </div>
+                                            <div class="font-size-sm text-body">
+                                                <span>Color:</span>
+                                                <span class="font-weight-bold">Green</span>
+                                            </div>
+                                            <div class="font-size-sm text-body">
+                                                <span>Size:</span>
+                                                <span class="font-weight-bold">UK 7</span>
+                                            </div>
                                         </div>
-                                        <div class="font-size-sm text-body">
-                                            <span>Color:</span>
-                                            <span class="font-weight-bold">Green</span>
+
+                                        <div class="col col-md-2 align-self-center">
+                                            <h5>$${orderDetail.getPrice()}</h5>
                                         </div>
-                                        <div class="font-size-sm text-body">
-                                            <span>Size:</span>
-                                            <span class="font-weight-bold">UK 7</span>
+
+                                        <div class="col col-md-2 align-self-center">
+                                            <h5>${orderDetail.getQuantityOrdered()}</h5>
                                         </div>
-                                    </div>
 
-                                    <div class="col col-md-2 align-self-center">
-                                        <h5>$21.00</h5>
-                                    </div>
-
-                                    <div class="col col-md-2 align-self-center">
-                                        <h5>2</h5>
-                                    </div>
-
-                                    <div class="col col-md-2 align-self-center text-right">
-                                        <h5>$42.00</h5>
+                                        <div class="col col-md-2 align-self-center text-right">
+                                            <h5>$${orderDetail.getPrice() * orderDetail.getQuantityOrdered()}</h5>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- End Media -->
-
-                        <hr>
-
-                        <!-- Media -->
-                        <div class="media">
-                            <div class="avatar avatar-xl mr-3">
-                                <img class="img-fluid" src="img\400x400\img22.jpg" alt="Image Description">
-                            </div>
-
-                            <div class="media-body">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3 mb-md-0">
-                                        <a class="h5 d-block" href="ecommerce-product-details.html">Office Notebook</a>
-
-                                        <div class="font-size-sm text-body">
-                                            <span>Color:</span>
-                                            <span class="font-weight-bold">Gray</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-md-2 align-self-center">
-                                        <h5>$9</h5>
-                                    </div>
-
-                                    <div class="col col-md-2 align-self-center">
-                                        <h5>1</h5>
-                                    </div>
-
-                                    <div class="col col-md-2 align-self-center text-right">
-                                        <h5>$9.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Media -->
-
-                        <hr>
-
-                        <!-- Media -->
-                        <div class="media">
-                            <div class="avatar avatar-xl mr-3">
-                                <img class="img-fluid" src="img\400x400\img15.jpg" alt="Image Description">
-                            </div>
-
-                            <div class="media-body">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3 mb-md-0">
-                                        <a class="h5 d-block" href="ecommerce-product-details.html">RayBan sunglasses</a>
-
-                                        <div class="font-size-sm text-body">
-                                            <span>Gender:</span>
-                                            <span class="font-weight-bold">Unisex</span>
-                                        </div>
-                                        <div class="font-size-sm text-body">
-                                            <span>Color:</span>
-                                            <span class="font-weight-bold">Black</span>
-                                        </div>
-                                        <div class="font-size-sm text-body">
-                                            <span>Size:</span>
-                                            <span class="font-weight-bold">One size</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-md-2 align-self-center">
-                                        <h5>$14.00</h5>
-                                    </div>
-
-                                    <div class="col col-md-2 align-self-center">
-                                        <h5>1</h5>
-                                    </div>
-
-                                    <div class="col col-md-2 align-self-center text-right">
-                                        <h5>$14.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Media -->
-
+                            <!-- End Media -->
+                            <c:set  var="totalPrice" value="${totalPrice + (orderDetail.getPrice() * orderDetail.getQuantityOrdered()) }"/>
+                        </c:forEach>
                         <hr>
 
                         <div class="row justify-content-md-end mb-3">
                             <div class="col-md-8 col-lg-7">
                                 <dl class="row text-sm-right">
                                     <dt class="col-sm-6">Subtotal:</dt>
-                                    <dd class="col-sm-6">$65.00</dd>
+                                    <dd class="col-sm-6">$${totalPrice}</dd>
                                     <dt class="col-sm-6">Shipping fee:</dt>
                                     <dd class="col-sm-6">$0.00</dd>
                                     <dt class="col-sm-6">Tax:</dt>
-                                    <dd class="col-sm-6">$7.00</dd>
+                                    <dd class="col-sm-6">$0.00</dd>
                                     <dt class="col-sm-6">Total:</dt>
-                                    <dd class="col-sm-6">$65.00</dd>
+                                    <dd class="col-sm-6">$${totalPrice}</dd>
                                     <dt class="col-sm-6">Amount paid:</dt>
-                                    <dd class="col-sm-6">$65.00</dd>
+                                    <dd class="col-sm-6">$${totalPrice}</dd>
                                 </dl>
                                 <!-- End Row -->
                             </div>
@@ -670,7 +676,7 @@
                                             <a class="text-dark" href="#">Order was placed</a>
                                         </h5>
 
-                                        <p class="font-size-sm mb-0">Order #32543</p>
+                                        <p class="font-size-sm mb-0">Order AE${order.id}</p>
                                     </div>
                                 </div>
                             </li>
@@ -698,10 +704,10 @@
                     <div class="card-body">
                         <a class="media align-items-center" href="ecommerce-customer-details.html">
                             <div class="avatar avatar-circle mr-3">
-                                <img class="avatar-img" src="img\160x160\img10.jpg" alt="Image Description">
+                                <img class="avatar-img" src="assets\img\160x160\img10.jpg" alt="Image Description">
                             </div>
                             <div class="media-body">
-                                <span class="text-body text-hover-primary">Amanda Harvey</span>
+                                <span class="text-body text-hover-primary">${order.getCustomer().getName()}</span>
                             </div>
                             <div class="media-body text-right">
                                 <i class="tio-chevron-right text-body"></i>
@@ -715,7 +721,7 @@
                                 <i class="tio-shopping-basket-outlined"></i>
                             </div>
                             <div class="media-body">
-                                <span class="text-body text-hover-primary">7 orders</span>
+                                <span class="text-body text-hover-primary">${countOrder} orders</span>
                             </div>
                             <div class="media-body text-right">
                                 <i class="tio-chevron-right text-body"></i>
@@ -732,11 +738,11 @@
                         <ul class="list-unstyled list-unstyled-py-2">
                             <li>
                                 <i class="tio-online mr-2"></i>
-                                ella@example.com
+                                ${order.getCustomer().getEmail()}
                             </li>
                             <li>
                                 <i class="tio-android-phone-vs mr-2"></i>
-                                +1 (609) 972-22-22
+                                ${order.getCustomer().getPhone()}
                             </li>
                         </ul>
 
@@ -748,11 +754,8 @@
                         </div>
 
                         <span class="d-block">
-                  45 Roker Terrace<br>
-                  Latheronwheel<br>
-                  KW5 8NW, London<br>
-                  UK <img class="avatar avatar-xss avatar-circle ml-1" src="vendor\flag-icon-css\flags\1x1\gb.svg" alt="Great Britain Flag">
-                </span>
+                            ${order.getCustomer().getAddress()}
+                        </span>
 
                         <hr>
 
@@ -762,11 +765,8 @@
                         </div>
 
                         <span class="d-block">
-                  45 Roker Terrace<br>
-                  Latheronwheel<br>
-                  KW5 8NW, London<br>
-                  UK <img class="avatar avatar-xss avatar-circle ml-1" src="vendor\flag-icon-css\flags\1x1\gb.svg" alt="Great Britain Flag">
-                </span>
+                            ${order.getCustomer().getAddress()}
+                        </span>
 
                         <div class="mt-3">
                             <h5 class="mb-0">Mastercard</h5>
@@ -1191,7 +1191,7 @@
                 <li class="step-item">
                     <div class="step-content-wrapper">
                         <div class="step-avatar">
-                            <img class="step-avatar-img" src="img\160x160\img9.jpg" alt="Image Description">
+                            <img class="step-avatar-img" src="assets\img\160x160\img9.jpg" alt="Image Description">
                         </div>
 
                         <div class="step-content">
@@ -1256,7 +1256,7 @@
                 <li class="step-item">
                     <div class="step-content-wrapper">
                         <div class="step-avatar">
-                            <img class="step-avatar-img" src="img\160x160\img3.jpg" alt="Image Description">
+                            <img class="step-avatar-img" src="assets\img\160x160\img3.jpg" alt="Image Description">
                         </div>
 
                         <div class="step-content">
@@ -1311,7 +1311,7 @@
                 <li class="step-item">
                     <div class="step-content-wrapper">
                         <div class="step-avatar">
-                            <img class="step-avatar-img" src="img\160x160\img7.jpg" alt="Image Description">
+                            <img class="step-avatar-img" src="assets\img\160x160\img7.jpg" alt="Image Description">
                         </div>
 
                         <div class="step-content">
@@ -1329,7 +1329,7 @@
                 <li class="step-item">
                     <div class="step-content-wrapper">
                         <div class="step-avatar">
-                            <img class="step-avatar-img" src="img\160x160\img5.jpg" alt="Image Description">
+                            <img class="step-avatar-img" src="assets\img\160x160\img5.jpg" alt="Image Description">
                         </div>
 
                         <div class="step-content">
@@ -1491,12 +1491,12 @@
 
 
 <!-- JS Implementing Plugins -->
-<script src="js\vendor.min.js"></script>
+<script src="assets\js\vendor.min.js"></script>
 
 
 
 <!-- JS Front -->
-<script src="js\theme.min.js"></script>
+<script src="assets\js\theme.min.js"></script>
 
 <!-- JS Plugins Init. -->
 <script>
@@ -1579,7 +1579,7 @@
 
 <!-- IE Support -->
 <script>
-    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="vendor/babel-polyfill/polyfill.min.js"><\/script>');
+    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="assets/vendor/babel-polyfill/polyfill.min.js"><\/script>');
 </script>
 </body>
 </html>

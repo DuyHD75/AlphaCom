@@ -100,7 +100,7 @@ public class ServletOrder extends HttpServlet {
         int oid = Integer.parseInt(request.getParameter("oid"));
         if (account != null) {
             Customer customerId = new Customer(account.getId());
-            Order order = userService.getOrderByOrderId(oid, customerId);
+            Order order = userService.getOrderByOrderId(oid);
             userService.CancelOrder(oid);
             request.setAttribute("success", "Cancel success");
 

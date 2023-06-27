@@ -107,6 +107,12 @@ public class ServletCheckout extends HttpServlet {
             //String isBuyNow = request.getParameter("isBuyNow");
             String Pid = request.getParameter("pid");
             String exportBillValue = request.getParameter("ExportBill");
+
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("number");
+            String address = request.getParameter("flat");
+
             UserServiceImpl userService = new UserServiceImpl();
 
             HttpSession session = request.getSession();
@@ -125,7 +131,7 @@ public class ServletCheckout extends HttpServlet {
                 List<Order> orders = userService.getOrderByCusId(customerId);
                 Order order = orders.get(orders.size() - 1);
 
-                if (!Pid.equals("")) {
+                if (!Pid.equals("")) { // cho buy now
                     int pid = Integer.parseInt(Pid);
                     Double price = Double.parseDouble(request.getParameter("price"));
                     int amount = Integer.parseInt(request.getParameter("amount"));
@@ -149,18 +155,15 @@ public class ServletCheckout extends HttpServlet {
                     } else if (payMetthod.equals("VNPAY")) {
 
 
-
-
                     } else {
                         userService.InsertPlaceOrderWithBuyNow(customerId, payMetthod, pid, price, amount);
                     }
-                    //userService.InsertPlaceOrderWithBuyNow(customerId, payMetthod, pid, price, amount);
                     if (exportBillValue != null) {
 
 //                        sendBillViaEmail(request, response, order);
                     }
-                    response.sendRedirect("order?action=viewLastOrder");
-                } else {
+//                    response.sendRedirect("order?action=viewLastOrder");
+                } else { // mua bang cart
                     if (carts.size() == 0) {
                         request.setAttribute("error", "Your cart is empty, can't placed order. Buy now");
                         request.getRequestDispatcher("/components/userComponents/checkout.jsp").forward(request, response);
@@ -214,9 +217,13 @@ public class ServletCheckout extends HttpServlet {
                         if (exportBillValue != null) {
 //                            sendBillViaEmail(request, response, order);
                         }
-                        //response.sendRedirect("order?action=viewLastOrder");
+//                        response.sendRedirect("order?action=viewLastOrder");
                     }
                 }
+                int id = account.getId();
+                Customer customer = new Customer(id, name, address, email, phone);
+                userService.updateProfile(customer);
+                response.sendRedirect("order?action=viewLastOrder");
             } else {
                 response.sendRedirect("loginCustomer");
             }

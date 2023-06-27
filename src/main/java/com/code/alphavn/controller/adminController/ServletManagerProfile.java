@@ -30,7 +30,6 @@ public class ServletManagerProfile extends HttpServlet {
                 case "showProfile":
                     ShowManagerSettingProfiles(req, resp);
                     break;
-
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

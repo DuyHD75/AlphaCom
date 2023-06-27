@@ -1,12 +1,13 @@
 <%--
   Created by IntelliJ IDEA.
   User: DOANCONGHUUNGHIA
-  Date: 6/24/2023
-  Time: 2:49 AM
+  Date: 6/26/2023
+  Time: 3:57 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.time.LocalDate" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +16,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Title -->
-  <title>Customers - E-commerce | Front - Admin &amp; Dashboard Template</title>
+  <title>Customer Details - E-commerce | Front - Admin &amp; Dashboard Template</title>
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="favicon.ico">
@@ -321,373 +322,746 @@
   <div class="content container-fluid">
     <!-- Page Header -->
     <div class="page-header">
-      <div class="row align-items-center mb-3">
+      <div class="row align-items-center">
         <div class="col-sm mb-2 mb-sm-0">
-          <h1 class="page-header-title">Customers <span class="badge badge-soft-dark ml-2">${countCustomer}</span></h1>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-no-gutter">
+              <li class="breadcrumb-item"><a class="breadcrumb-link" href="adminCustomer?action=viewAllCustomer">Customers</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Customer details</li>
+            </ol>
+          </nav>
 
-          <div class="mt-2">
-            <a class="text-body mr-3" href="javascript:;" data-toggle="modal" data-target="#importCustomersModal">
-              <i class="tio-publish mr-1"></i> Import customers
-            </a>
-            <a class="text-body mr-3" href="javascript:;" data-toggle="modal" data-target="#exportCustomersModal">
-              <i class="tio-download-to mr-1"></i> Export
-            </a>
-
-            <!-- Unfold -->
-            <div class="hs-unfold">
-              <a class="js-hs-unfold-invoker text-body" href="javascript:;" data-hs-unfold-options='{
-                       "target": "#moreOptionsDropdown",
-                       "type": "css-animation"
-                     }'>
-                More options <i class="tio-chevron-down"></i>
-              </a>
-
-              <div id="moreOptionsDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu mt-1">
-                <a class="dropdown-item" href="#">
-                  <i class="tio-copy dropdown-item-icon"></i> Manage duplicates
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="tio-edit dropdown-item-icon"></i> Edit users
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="tio-restore dropdown-item-icon"></i> Restore clients
-                </a>
-              </div>
-            </div>
-            <!-- End Unfold -->
-          </div>
+          <h1 class="page-header-title">${customer.getName()}</h1>
         </div>
 
         <div class="col-sm-auto">
-          <a class="btn btn-primary" href="ecommerce-add-customers.html">Add customers</a>
+          <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle mr-1" href="adminCustomer?action=previousCustomerDetail&&Cid=${customer.getId()}" data-toggle="tooltip" data-placement="top" title="Previous customer">
+            <i class="tio-arrow-backward"></i>
+          </a>
+          <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle" href="adminCustomer?action=nextCustomerDetail&&Cid=${customer.getId()}" data-toggle="tooltip" data-placement="top" title="Next customer">
+            <i class="tio-arrow-forward"></i>
+          </a>
         </div>
       </div>
-      <!-- End Row -->
-
-      <!-- Nav Scroller -->
-      <div class="js-nav-scroller hs-nav-scroller-horizontal">
-            <span class="hs-nav-scroller-arrow-prev" style="display: none;">
-              <a class="hs-nav-scroller-arrow-link" href="javascript:;">
-                <i class="tio-chevron-left"></i>
-              </a>
-            </span>
-
-        <span class="hs-nav-scroller-arrow-next" style="display: none;">
-              <a class="hs-nav-scroller-arrow-link" href="javascript:;">
-                <i class="tio-chevron-right"></i>
-              </a>
-            </span>
-
-        <!-- Nav -->
-        <ul class="nav nav-tabs page-header-tabs">
-          <li class="nav-item">
-            <a class="nav-link active" href="#">All</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">New</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Returning</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Abandoned checkouts</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Email subscribers</a>
-          </li>
-        </ul>
-        <!-- End Nav -->
-      </div>
-      <!-- End Nav Scroller -->
     </div>
     <!-- End Page Header -->
 
-    <!-- Card -->
-    <div class="card" style="margin-top: 50px">
-      <!-- Body -->
-      <div class="card-body">
-        <div class="row justify-content-between align-items-center flex-grow-1">
-          <div class="col-lg-6 mb-3 mb-lg-0">
-            <form>
-              <!-- Search -->
-              <div class="input-group input-group-merge input-group-flush">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <i class="tio-search"></i>
-                  </div>
-                </div>
-                <input id="datatableSearch" type="search" class="form-control" placeholder="Search orders" aria-label="Search orders">
+    <div class="row">
+      <div class="col-lg-8">
+        <!-- Card -->
+        <div class="card mb-3 mb-lg-5">
+          <!-- Body -->
+          <div class="card-body">
+            <!-- Media -->
+            <div class="d-flex align-items-center mb-5">
+              <div class="avatar avatar-lg avatar-circle">
+                <img class="avatar-img" src="assets\img\160x160\img9.jpg" alt="Image Description">
               </div>
-              <!-- End Search -->
-            </form>
-          </div>
 
-          <div class="col-lg-6">
-            <div class="d-sm-flex justify-content-sm-end align-items-sm-center">
-              <!-- Datatable Info -->
-              <div id="datatableCounterInfo" class="mr-2 mb-2 mb-sm-0" style="display: none;">
-                <div class="d-flex align-items-center">
-                      <span class="font-size-sm mr-3">
-                        <span id="datatableCounter">0</span>
-                        Selected
-                      </span>
-                  <a class="btn btn-sm btn-outline-danger"  id="deleteButton" href="#" href="#" onclick="return confirm('Are you sure delete customer?');">
-                    <i class="tio-delete-outlined"></i> Delete
+              <div class="mx-3">
+                <div class="d-flex mb-1">
+                  <h3 class="mb-0 mr-3">
+                    ${customer.getName()}
+
+                  </h3>
+
+                  <!-- Unfold -->
+<%--                  <div class="hs-unfold">--%>
+<%--                    <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-white rounded-circle" href="javascript:;" data-toggle="tooltip" data-placement="top" title="Edit" data-hs-unfold-options='{--%>
+<%--                             "target": "#editDropdown",--%>
+<%--                             "type": "css-animation"--%>
+<%--                           }'>--%>
+<%--                      <i class="tio-edit"></i>--%>
+<%--                    </a>--%>
+
+<%--                    <div id="editDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-card mt-1" style="min-width: 20rem;">--%>
+<%--                      <!-- Card -->--%>
+<%--                      <div class="card">--%>
+<%--                        <div class="card-body">--%>
+<%--                          <div class="form-row">--%>
+<%--                            <div class="col-sm-6">--%>
+<%--                              <label for="firstNameLabel" class="input-label">First name</label>--%>
+<%--                              <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice" value="Anna">--%>
+<%--                            </div>--%>
+
+<%--                            <div class="col-sm-6">--%>
+<%--                              <label for="lastNameLabel" class="input-label">Last name</label>--%>
+<%--                              <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Boone" aria-label="Boone" value="Richard">--%>
+<%--                            </div>--%>
+<%--                          </div>--%>
+<%--                          <!-- End Row -->--%>
+
+<%--                          <div class="d-flex justify-content-end mt-3">--%>
+<%--                            <button type="button" class="btn btn-sm btn-white mr-2">Cancel</button>--%>
+<%--                            <button type="button" class="btn btn-sm btn-primary">Save</button>--%>
+<%--                          </div>--%>
+<%--                        </div>--%>
+<%--                      </div>--%>
+<%--                      <!-- End Body -->--%>
+<%--                    </div>--%>
+<%--                  </div>--%>
+                  <!-- End Unfold -->
+                </div>
+<%--                <c:set var="currentDate" value="${LocalDate.now()}"/>--%>
+<%--                <c:set var="daysBetween" value="${java.time.temporal.ChronoUnit.DAYS.between(customer.getCreate_At(), currentDate)}"/>--%>
+                <span class="font-size-sm">Customer create at ${customer.getCreate_At()}</span> <br>
+                <c:set var="active" value="Active"/>
+                <c:set var="block" value="Block"/>
+                <c:if test="${customer.getStatus() == active}">
+                  <c:set var="color" value="green"/>
+                </c:if>
+                <c:if test="${customer.getStatus() == block}">
+                  <c:set var="color" value="red"/>
+                </c:if>
+                <span class="font-size-sm" style="color: ${color}">${customer.getStatus()}</span>
+              </div>
+
+              <div class="d-none d-sm-inline-block ml-auto text-right">
+                <!-- Unfold -->
+                <div class="hs-unfold">
+                  <a class="js-hs-unfold-invoker btn btn-sm btn-white" href="javascript:;" data-hs-unfold-options='{
+                           "target": "#actionsDropdown",
+                           "type": "css-animation"
+                         }'>
+                    Status: ${customer.getStatus()}<i class="tio-chevron-down"></i>
                   </a>
-                </div>
-              </div>
-              <!-- End Datatable Info -->
 
-              <!-- Unfold -->
-              <div class="hs-unfold">
-                <a class="js-hs-unfold-invoker btn btn-white" href="javascript:;" data-hs-unfold-options='{
-                         "target": "#showHideDropdown",
-                         "type": "css-animation"
-                       }'>
-                  <i class="tio-table mr-1"></i> Columns <span class="badge badge-soft-dark rounded-circle ml-1">5</span>
-                </a>
-
-                <div id="showHideDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right dropdown-card" style="width: 15rem;">
-                  <div class="card card-sm">
-                    <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="mr-2">Name</span>
-
-                        <!-- Checkbox Switch -->
-                        <label class="toggle-switch toggle-switch-sm" for="toggleColumn_name">
-                          <input type="checkbox" class="toggle-switch-input" id="toggleColumn_name" checked="">
-                          <span class="toggle-switch-label">
-                                <span class="toggle-switch-indicator"></span>
-                              </span>
-                        </label>
-                        <!-- End Checkbox Switch -->
-                      </div>
-
-                      <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="mr-2">E-mail</span>
-
-                        <!-- Checkbox Switch -->
-                        <label class="toggle-switch toggle-switch-sm" for="toggleColumn_email">
-                          <input type="checkbox" class="toggle-switch-input" id="toggleColumn_email" checked="">
-                          <span class="toggle-switch-label">
-                                <span class="toggle-switch-indicator"></span>
-                              </span>
-                        </label>
-                        <!-- End Checkbox Switch -->
-                      </div>
-
-                      <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="mr-2">Phone</span>
-
-                        <!-- Checkbox Switch -->
-                        <label class="toggle-switch toggle-switch-sm" for="toggleColumn_phone">
-                          <input type="checkbox" class="toggle-switch-input" id="toggleColumn_phone">
-                          <span class="toggle-switch-label">
-                                <span class="toggle-switch-indicator"></span>
-                              </span>
-                        </label>
-                        <!-- End Checkbox Switch -->
-                      </div>
-
-                      <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="mr-2">Country</span>
-
-                        <!-- Checkbox Switch -->
-                        <label class="toggle-switch toggle-switch-sm" for="toggleColumn_country">
-                          <input type="checkbox" class="toggle-switch-input" id="toggleColumn_country" checked="">
-                          <span class="toggle-switch-label">
-                                <span class="toggle-switch-indicator"></span>
-                              </span>
-                        </label>
-                        <!-- End Checkbox Switch -->
-                      </div>
-
-                      <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="mr-2">Account status</span>
-
-                        <!-- Checkbox Switch -->
-                        <label class="toggle-switch toggle-switch-sm" for="toggleColumn_account_status">
-                          <input type="checkbox" class="toggle-switch-input" id="toggleColumn_account_status">
-                          <span class="toggle-switch-label">
-                                <span class="toggle-switch-indicator"></span>
-                              </span>
-                        </label>
-                        <!-- End Checkbox Switch -->
-                      </div>
-
-                      <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="mr-2">Orders</span>
-
-                        <!-- Checkbox Switch -->
-                        <label class="toggle-switch toggle-switch-sm" for="toggleColumn_orders">
-                          <input type="checkbox" class="toggle-switch-input" id="toggleColumn_orders" checked="">
-                          <span class="toggle-switch-label">
-                                <span class="toggle-switch-indicator"></span>
-                              </span>
-                        </label>
-                        <!-- End Checkbox Switch -->
-                      </div>
-
-                      <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="mr-2">Total spent</span>
-
-                        <!-- Checkbox Switch -->
-                        <label class="toggle-switch toggle-switch-sm" for="toggleColumn_total_spent">
-                          <input type="checkbox" class="toggle-switch-input" id="toggleColumn_total_spent" checked="">
-                          <span class="toggle-switch-label">
-                                <span class="toggle-switch-indicator"></span>
-                              </span>
-                        </label>
-                        <!-- End Checkbox Switch -->
-                      </div>
-
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="mr-2">Last activity</span>
-
-                        <!-- Checkbox Switch -->
-                        <label class="toggle-switch toggle-switch-sm" for="toggleColumn_last_activity">
-                          <input type="checkbox" class="toggle-switch-input" id="toggleColumn_last_activity">
-                          <span class="toggle-switch-label">
-                                <span class="toggle-switch-indicator"></span>
-                              </span>
-                        </label>
-                        <!-- End Checkbox Switch -->
-                      </div>
-                    </div>
+                  <div id="actionsDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu mt-1">
+                    <a class="dropdown-item" href="adminCustomer?action=updateStatus&&Cid=${customer.getId()}&&status=Active">
+<%--                      <i class="tio-email-outlined dropdown-item-icon"></i> Email--%>
+                      Active
+                    </a>
+                    <a class="dropdown-item" href="adminCustomer?action=updateStatus&&Cid=${customer.getId()}&&status=Block">
+<%--                      <i class="tio-call dropdown-item-icon"></i> Call--%>
+                      Block
+                    </a>
+<%--                    <a class="dropdown-item" href="#">--%>
+<%--                      <i class="tio-sync dropdown-item-icon"></i> Merge--%>
+<%--                    </a>--%>
+<%--                    <div class="dropdown-divider"></div>--%>
+<%--                    <a class="dropdown-item text-danger" href="#">--%>
+<%--                      <i class="tio-delete-outlined dropdown-item-icon text-danger"></i>--%>
+<%--                      Delete--%>
+<%--                    </a>--%>
                   </div>
                 </div>
+                <!-- End Unfold -->
               </div>
-              <!-- End Unfold -->
             </div>
+            <!-- End Media -->
+
+<%--            <label class="input-label">Customer note</label>--%>
+
+<%--            <!-- Quill -->--%>
+<%--            <div class="quill-custom">--%>
+<%--              <div id="toolbar-container">--%>
+<%--                <ul class="list-inline ql-toolbar-list">--%>
+<%--                  <li class="list-inline-item">--%>
+<%--                    <button class="ql-bold"></button>--%>
+<%--                  </li>--%>
+<%--                  <li class="list-inline-item">--%>
+<%--                    <button class="ql-italic"></button>--%>
+<%--                  </li>--%>
+<%--                  <li class="list-inline-item">--%>
+<%--                    <button class="ql-underline"></button>--%>
+<%--                  </li>--%>
+<%--                  <li class="list-inline-item">--%>
+<%--                    <button class="ql-strike"></button>--%>
+<%--                  </li>--%>
+<%--                  <li class="list-inline-item">--%>
+<%--                    <button class="ql-link"></button>--%>
+<%--                  </li>--%>
+<%--                  <li class="list-inline-item">--%>
+<%--                    <button class="ql-image"></button>--%>
+<%--                  </li>--%>
+<%--                  <li class="list-inline-item">--%>
+<%--                    <button class="ql-blockquote"></button>--%>
+<%--                  </li>--%>
+<%--                  <li class="list-inline-item">--%>
+<%--                    <button class="ql-code"></button>--%>
+<%--                  </li>--%>
+<%--                  <li class="list-inline-item">--%>
+<%--                    <button class="ql-list" value="bullet"></button>--%>
+<%--                  </li>--%>
+<%--                </ul>--%>
+<%--              </div>--%>
+
+<%--              <div class="js-quill" style="min-height: 10rem;" data-hs-quill-options='{--%>
+<%--                          "placeholder": "Start typing to leave a note...",--%>
+<%--                          "toolbarBottom": true,--%>
+<%--                          "modules": {--%>
+<%--                            "toolbar": "#toolbar-container"--%>
+<%--                          }--%>
+<%--                         }'>--%>
+<%--              </div>--%>
+<%--            </div>--%>
+            <!-- End Quill -->
           </div>
+          <!-- Body -->
+
+          <!-- Footer -->
+<%--          <div class="card-footer">--%>
+<%--            <div class="d-flex justify-content-end">--%>
+<%--              <button type="submit" class="btn btn-white mr-2">Discard</button>--%>
+<%--              <button type="submit" class="btn btn-primary">Save changes</button>--%>
+<%--            </div>--%>
+<%--          </div>--%>
+          <!-- End Footer -->
         </div>
-        <!-- End Row -->
-      </div>
-      <!-- End Body -->
+        <!-- End Card -->
 
-      <!-- Table -->
-      <div class="table-responsive datatable-custom">
-        <table id="datatable" class="table table-lg table-borderless table-thead-bordered table-nowrap table-align-middle card-table" data-hs-datatables-options='{
-                     "columnDefs": [{
-                        "targets": [0],
-                        "orderable": false
-                      }],
-                     "order": [],
-                     "info": {
-                       "totalQty": "#datatableWithPaginationInfoTotalQty"
-                     },
-                     "search": "#datatableSearch",
-                     "entries": "#datatableEntries",
-                     "pageLength": 15,
-                     "isResponsive": false,
-                     "isShowPaging": false,
-                     "pagination": "datatablePagination"
-                   }'>
-          <thead class="thead-light">
-          <tr>
-            <th scope="col" class="table-column-pr-0">
-              <div class="custom-control custom-checkbox">
-                <input id="datatableCheckAll" type="checkbox" class="custom-control-input">
-                <label class="custom-control-label" for="datatableCheckAll"></label>
+        <!-- Card -->
+        <div class="card mb-3 mb-lg-5">
+          <!-- Header -->
+          <div class="card-header">
+            <div class="row justify-content-between align-items-center flex-grow-1">
+              <div class="col-sm mb-3 mb-sm-0">
+                <h4 class="card-header-title">Orders placed</h4>
               </div>
-            </th>
-            <th class="table-column-pl-0">Name</th>
-            <th>E-mail</th>
-            <th>Phone</th>
-            <th>Country</th>
-            <th>Account status</th>
-            <th>Orders</th>
-            <th>Total spent</th>
-            <th>Last activity</th>
-          </tr>
-          </thead>
 
-          <tbody>
-          <form id="listAllCustomerForm" action="adminCustomer?action=deleteSelected" method="post">
-            <c:forEach items="${customers}" var="cus">
-              <tr>
-                <td class="table-column-pr-0">
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" name="customerId" value="${cus.getId()}" class="custom-control-input" id="usersDataCheck${cus.getId()}">
-                    <label class="custom-control-label" for="usersDataCheck${cus.getId()}"></label>
-                  </div>
-                </td>
-                <td class="table-column-pl-0">
-                  <a class="d-flex align-items-center" href="adminCustomer?action=viewCustomerDetail&&Cid=${cus.getId()}">
-                      <%--                                        <div class="avatar avatar-circle">--%>
-                      <%--                                            <img class="avatar-img" src="assets\img\160x160\img10.jpg" alt="Image Description">--%>
-                      <%--                                        </div>--%>
-                    <div class="">
-                        <span class="h5 text-hover-primary">${cus.getName()}<!--<i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i>-->
+              <div class="col-sm-auto">
+                <!-- Nav -->
+                <ul class="js-tabs-to-dropdown nav nav-segment nav-fill nav-sm-down-break" data-hs-transform-tabs-to-btn-options='{
+                          "transformResolution": "sm",
+                          "btnClassNames": "btn btn-block btn-white dropdown-toggle justify-content-center"
+                        }'>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#">All orders</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Open</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Unfulfilled</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Unpaid</a>
+                  </li>
+                </ul>
+                <!-- End Nav -->
+
+                <!-- Datatable Info -->
+                <div id="datatableCounterInfo" style="display: none;">
+                  <div class="d-flex align-items-center">
+                        <span class="font-size-sm mr-3">
+                          <span id="datatableCounter">0</span>
+                          Selected
                         </span>
-                    </div>
-                  </a>
-                </td>
-                <td>${cus.getEmail()}</td>
-                <td>${cus.getPhone()}</td>
-                <td>${cus.getAddress()}</td>
-                <td>
-                  <c:set var="active" value="Active"/>
-                  <c:set var="block" value="Block"/>
-                  <c:if test="${cus.getStatus() == active}">
-                    <c:set var="bg" value="bg-success"/>
-                  </c:if>
-                  <c:if test="${cus.getStatus() == block}">
-                    <c:set var="bg" value="bg-danger"/>
-                  </c:if>
-                  <span class="legend-indicator ${bg}"></span>${cus.getStatus()}
-                </td>
-                <td>${cus.getQuantityOrder()}</td>
-                <td>$${cus.getTotalSpent()}</td>
-                <td>${cus.getAddress()}</td>
+                    <a class="btn btn-sm btn-outline-danger" href="javascript:;">
+                      <i class="tio-delete-outlined"></i> Delete
+                    </a>
+                  </div>
+                </div>
+                <!-- End Datatable Info -->
+              </div>
+            </div>
+            <!-- End Row -->
+          </div>
+          <!-- End Header -->
+
+          <!-- Body -->
+          <div class="card-body">
+            <!-- Input Group -->
+            <div class="input-group input-group-merge">
+              <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="tio-search"></i>
+                    </span>
+              </div>
+
+              <input id="datatableSearch" type="search" class="form-control" placeholder="Search orders" aria-label="Search orders">
+            </div>
+            <!-- End Input Group -->
+          </div>
+          <!-- End Body -->
+
+          <!-- Table -->
+          <div class="table-responsive datatable-custom">
+            <table id="datatable" class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table" data-hs-datatables-options='{
+                         "columnDefs": [{
+                            "targets": [0, 5],
+                            "orderable": false
+                          }],
+                         "order": [],
+                         "info": {
+                           "totalQty": "#datatableWithPaginationInfoTotalQty"
+                         },
+                         "search": "#datatableSearch",
+                         "entries": "#datatableEntries",
+                         "pageLength": 12,
+                         "isResponsive": false,
+                         "isShowPaging": false,
+                         "pagination": "datatablePagination"
+                       }'>
+              <thead class="thead-light">
+              <tr>
+                <th scope="col" class="table-column-pr-0">
+                  <div class="custom-control custom-checkbox">
+                    <input id="datatableCheckAll" type="checkbox" class="custom-control-input">
+                    <label class="custom-control-label" for="datatableCheckAll"></label>
+                  </div>
+                </th>
+                <th class="table-column-pl-0">Order</th>
+                <th>Date</th>
+                <th>Payment status</th>
+                <th>Total</th>
+<%--                <th>Invoice</th>--%>
               </tr>
-            </c:forEach>
-          </form>
-          </tbody>
-        </table>
-      </div>
-      <!-- End Table -->
+              </thead>
 
-      <!-- Footer -->
-      <div class="card-footer">
-        <!-- Pagination -->
-        <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
-          <div class="col-sm mb-2 mb-sm-0">
-            <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
-              <span class="mr-2">Showing:</span>
+              <tbody>
+              <c:forEach items="${orders}" var="ord">
+                <tr>
+                  <td class="table-column-pr-0">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="ordersCheck${ord.id}">
+                      <label class="custom-control-label" for="ordersCheck${ord.id}"></label>
+                    </div>
+                  </td>
+                  <td class="table-column-pl-0">
+                    <a href="adminOrder?action=viewOrderDetail&&Oid=${ord.id}&&Cid=${ord.getCustomer().getId()}">AE${ord.id}</a>
+                  </td>
+                  <td>${ord.getOrderDate()}</td>
+                  <td>
+                    <c:set var="PAYPAL" value="PAYPAL"/>
+                    <c:set var="VNPAY" value="VNPAY"/>
+                    <c:if test="${ord.getPaymentMethod() == PAYPAL || ord.getPaymentMethod() == VNPAY}">
+                      ${ord.setStatusPaid("Paid")}
+                    </c:if>
+                    <c:set var="Paid" value="Paid"/>
+                    <c:set var="Pending" value="Pending"/>
+                    <c:set var="Cancel" value="Cancel"/>
+                    <c:set var="Shipping" value="Shipping"/>
+                    <c:set var="Fulfilled" value="Fulfilled"/>
+                    <c:if test="${ord.getStatusPaid() == Paid}">
+                      <c:set var="badgep" value="badge-soft-success"/>
+                      <c:set var="bgp" value="bg-success"/>
+                    </c:if>
+                    <c:if test="${ord.getStatus() == Pending}">
+                      <c:set var="badge" value="badge-soft-warning"/>
+                      <c:set var="bg" value="bg-warning"/>
+                    </c:if>
+                    <c:if test="${ord.getStatus() == Cancel}">
+                      <c:set var="badge" value="badge-soft-danger"/>
+                      <c:set var="bg" value="bg-danger"/>
+                    </c:if>
+                    <c:if test="${ord.getStatus() == Shipping}">
+                      <c:set var="badge" value="badge-soft-primary"/>
+                      <c:set var="bg" value="bg-primary"/>
+                    </c:if>
+                    <c:if test="${ord.getStatus() == Fulfilled}">
+                      <c:set var="badge" value="badge-soft-info"/>
+                      <c:set var="bg" value="bg-info"/>
+                      <c:set var="Fulfillment" value="Fulfilled"/>
+                    </c:if>
 
-              <!-- Select -->
-              <select id="datatableEntries" class="js-select2-custom" data-hs-select2-options='{
-                            "minimumResultsForSearch": "Infinity",
-                            "customClass": "custom-select custom-select-sm custom-select-borderless",
-                            "dropdownAutoWidth": true,
-                            "width": true
-                          }'>
-                <option value="10">10</option>
-                <option value="15" selected="">15</option>
-                <option value="20">20</option>
-              </select>
-              <!-- End Select -->
+                    <c:if test="${ord.getStatus() != Fulfilled}">
+                      <c:set var="Fulfillment" value="Unfulfilled"/>
+                    </c:if>
 
-              <span class="text-secondary mr-2">of</span>
-
-              <!-- Pagination Quantity -->
-              <span id="datatableWithPaginationInfoTotalQty"></span>
-            </div>
+                    <c:choose>
+                      <c:when test="${ord.getStatusPaid() != null && ord.getStatus() != Fulfilled}">
+                      <span class="badge ${badgep}">
+                        <span class="legend-indicator ${bgp} "></span>
+                          ${ord.getStatusPaid()}
+                      </span>
+                      </c:when>
+                      <c:otherwise>
+                      <span class="badge ${badge}">
+                        <span class="legend-indicator ${bg} "></span>
+                          ${ord.getStatus()}
+                      </span>
+                      </c:otherwise>
+                    </c:choose>
+                  </td>
+                  <c:set var="totalPrice" value="0" />
+                  <c:forEach items="${ord.getOrderDetail()}" var="orderDetail" >
+                    <c:set  var="totalPrice"
+                            value="${totalPrice + (orderDetail.getPrice() * orderDetail.getQuantityOrdered()) }"/>
+                  </c:forEach>
+                  <td>$${totalPrice}</td>
+<%--                  <td>--%>
+<%--                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">--%>
+<%--                      <i class="tio-receipt-outlined mr-1"></i> Invoice--%>
+<%--                    </a>--%>
+<%--                  </td>--%>
+                </tr>
+              </c:forEach>
+              </tbody>
+            </table>
           </div>
+          <!-- End Table -->
 
-          <div class="col-sm-auto">
-            <div class="d-flex justify-content-center justify-content-sm-end">
-              <!-- Pagination -->
-              <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+          <!-- Footer -->
+          <div class="card-footer">
+            <!-- Pagination -->
+            <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
+              <div class="col-sm mb-2 mb-sm-0">
+                <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
+                  <span class="mr-2">Showing:</span>
+
+                  <!-- Select -->
+                  <select id="datatableEntries" class="js-select2-custom" data-hs-select2-options='{
+                                "minimumResultsForSearch": "Infinity",
+                                "customClass": "custom-select custom-select-sm custom-select-borderless",
+                                "dropdownAutoWidth": true,
+                                "width": true
+                              }'>
+                    <option value="12" selected="">12</option>
+                    <option value="14">14</option>
+                    <option value="16">16</option>
+                    <option value="18">18</option>
+                  </select>
+                  <!-- End Select -->
+
+                  <span class="text-secondary mr-2">of</span>
+
+                  <!-- Pagination Quantity -->
+                  <span id="datatableWithPaginationInfoTotalQty"></span>
+                </div>
+              </div>
+
+              <div class="col-sm-auto">
+                <div class="d-flex justify-content-center justify-content-sm-end">
+                  <!-- Pagination -->
+                  <nav id="datatablePagination" aria-label="Activity pagination"></nav>
+                </div>
+              </div>
             </div>
+            <!-- End Pagination -->
           </div>
+          <!-- End Footer -->
         </div>
-        <!-- End Pagination -->
+        <!-- End Card -->
+
+        <!-- Card -->
+        <div class="card mb-3 mb-lg-5">
+          <!-- Header -->
+          <div class="card-header">
+            <h4 class="card-header-title">Timeline</h4>
+
+            <!-- Checkbox -->
+            <div class="custom-control custom-checkbox font-size-sm">
+              <input id="showCommentsCheckbox" type="checkbox" class="custom-control-input" checked="">
+              <label class="custom-control-label" for="showCommentsCheckbox">Show comments</label>
+            </div>
+            <!-- End Checkbox -->
+          </div>
+          <!-- End Header -->
+
+          <!-- Body -->
+          <div class="card-body">
+            <!-- Step -->
+            <ul class="step step-icon-sm">
+              <!-- Step Item -->
+              <li class="step-item">
+                <div class="step-content-wrapper">
+                  <span class="step-icon step-icon-soft-primary">A</span>
+
+                  <!-- Quill -->
+                  <div class="quill-custom">
+                    <div id="step-toolbar-container">
+                      <ul class="list-inline ql-toolbar-list">
+                        <li class="list-inline-item">
+                          <button class="ql-bold"></button>
+                        </li>
+                        <li class="list-inline-item">
+                          <button class="ql-italic"></button>
+                        </li>
+                        <li class="list-inline-item">
+                          <button class="ql-underline"></button>
+                        </li>
+                        <li class="list-inline-item">
+                          <button class="ql-strike"></button>
+                        </li>
+                        <li class="list-inline-item">
+                          <button class="ql-link"></button>
+                        </li>
+                        <li class="list-inline-item">
+                          <button class="ql-image"></button>
+                        </li>
+                        <li class="list-inline-item">
+                          <button class="ql-blockquote"></button>
+                        </li>
+                        <li class="list-inline-item">
+                          <button class="ql-code"></button>
+                        </li>
+                        <li class="list-inline-item">
+                          <button class="ql-list" value="bullet"></button>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="js-quill-step" data-hs-quill-options='{
+                                "placeholder": "Leave a comment...",
+                                "toolbarBottom": true,
+                                "modules": {
+                                  "toolbar": "#step-toolbar-container"
+                                }
+                               }'>
+                    </div>
+                  </div>
+                  <!-- End Quill -->
+                </div>
+              </li>
+              <!-- End Step Item -->
+
+              <!-- Step Item -->
+              <li class="step-item">
+                <div class="step-content-wrapper">
+                  <small class="step-divider">Wednesday, 19 August</small>
+                </div>
+              </li>
+              <!-- End Step Item -->
+
+              <!-- Step Item -->
+              <li class="step-item">
+                <div class="step-content-wrapper">
+                  <span class="step-icon step-icon-soft-dark step-icon-pseudo"></span>
+
+                  <div class="step-content">
+                    <h5 class="mb-0">You submitted a customer data request.</h5>
+                    <p class="font-size-sm mb-0">10:19 AM</p>
+                  </div>
+                </div>
+              </li>
+              <!-- End Step Item -->
+
+              <!-- Step Item -->
+              <li class="step-item">
+                <div class="step-content-wrapper">
+                  <span class="step-icon step-icon-soft-dark step-icon-pseudo"></span>
+
+                  <div class="step-content">
+                    <h5 class="mb-0">You added the email anne@gmail.com to this customer.</h5>
+                    <p class="font-size-sm mb-0">10:18 AM</p>
+                  </div>
+                </div>
+              </li>
+              <!-- End Step Item -->
+
+              <!-- Step Item -->
+              <li class="step-item">
+                <div class="step-content-wrapper">
+                  <span class="step-icon step-icon-soft-dark step-icon-pseudo"></span>
+
+                  <div class="step-content">
+                    <h5 class="mb-0">You created this customer.</h5>
+                    <p class="font-size-sm mb-0">10:18 AM</p>
+                  </div>
+                </div>
+              </li>
+              <!-- End Step Item -->
+            </ul>
+            <!-- End Step -->
+          </div>
+          <!-- End Body -->
+        </div>
+        <!-- End Card -->
+        <form action="adminCustomer?action=deleteCustomer&&Cid=${customer.getId()}" method="post">
+          <div class="d-none d-lg-block">
+            <button type="submit" class="btn btn-danger">Delete customer</button>
+          </div>
+        </form>
+
       </div>
-      <!-- End Footer -->
+
+      <div class="col-lg-4">
+        <!-- Card -->
+        <div class="card mb-3 mb-lg-5">
+          <!-- Body -->
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5>Contact info</h5>
+<%--              <a class="link" href="javascript:;">Edit</a>--%>
+            </div>
+
+            <ul class="list-unstyled list-unstyled-py-2">
+              <li>
+                <i class="tio-online mr-2"></i>
+                ${customer.getEmail()}
+              </li>
+              <li>
+                <i class="tio-android-phone-vs mr-2"></i>
+                ${customer.getPhone()}
+              </li>
+            </ul>
+
+            <hr>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <h5>Shipping address</h5>
+<%--              <a class="link" href="javascript:;">Edit</a>--%>
+            </div>
+
+            <!-- Leaflet (Map) -->
+            <div id="map" class="leaflet-custom rounded mt-1 mb-3" style="min-height: 10rem;" data-hs-leaflet-options='{
+                       "map": {
+                         "scrollWheelZoom": false,
+                         "coords": [37.4040344, -122.0289704]
+                       },
+                       "marker": [
+                         {
+                           "coords": [37.4040344, -122.0289704],
+                           "icon": {
+                             "iconUrl": "./assets/svg/components/map-pin.svg",
+                             "iconSize": [50, 45]
+                           },
+                           "popup": {
+                             "text": "153 Williamson Plaza, Maggieberg"
+                           }
+                         }
+                       ]
+                      }'></div>
+            <!-- End Leaflet (Map) -->
+
+            <span class="d-block">
+              ${customer.getAddress()}
+            </span>
+
+            <hr>
+
+<%--            <div class="d-flex justify-content-between align-items-center">--%>
+<%--              <h5>Billing address</h5>--%>
+<%--              <a class="link" href="javascript:;">Edit</a>--%>
+<%--            </div>--%>
+
+<%--            <span class="d-block">--%>
+<%--                  45 Roker Terrace<br>--%>
+<%--                  Latheronwheel<br>--%>
+<%--                  KW5 8NW, London<br>--%>
+<%--                  UK <img class="avatar avatar-xss avatar-circle ml-1" src="assets\vendor\flag-icon-css\flags\1x1\gb.svg" alt="Great Britain Flag">--%>
+<%--                </span>--%>
+
+<%--            <div class="mt-3">--%>
+<%--              <h5 class="mb-0">Mastercard</h5>--%>
+<%--              <span class="d-block">Card Number: ************4291</span>--%>
+<%--            </div>--%>
+          </div>
+          <!-- End Body -->
+        </div>
+        <!-- End Card -->
+
+        <!-- Card -->
+        <div class="card mb-3 mb-lg-5">
+          <!-- Header -->
+          <div class="card-header">
+            <h5>Email marketing</h5>
+            <a class="link" href="javascript:;">Edit status</a>
+          </div>
+          <!-- End Header -->
+
+          <!-- Body -->
+          <div class="card-body">
+                <span class="h3">
+                  <span class="badge badge-soft-dark badge-pill">Subscribed</span>
+                </span>
+          </div>
+          <!-- Body -->
+        </div>
+        <!-- End Card -->
+
+        <!-- Card -->
+        <div class="card mb-3 mb-lg-5">
+          <!-- Header -->
+          <div class="card-header">
+            <h4 class="card-header-title">Website activity</h4>
+          </div>
+          <!-- End Header -->
+
+          <!-- Body -->
+          <div class="card-body">
+            <p>Website activity shows you how many times a contact has visited your site and viewed your pages.</p>
+
+            <!-- Bar Chart -->
+            <div class="chartjs-custom my-5" style="height: 12rem;">
+              <canvas class="js-chart" data-hs-chartjs-options='{
+                            "type": "line",
+                            "data": {
+                               "labels": ["Aug 1", "Aug 2", "Aug 3", "Aug 4", "Aug 5"],
+                               "datasets": [{
+                                "data": [10, 9, 14, 5, 10],
+                                "backgroundColor": "transparent",
+                                "borderColor": "#377dff",
+                                "borderWidth": 3,
+                                "pointRadius": 0,
+                                "hoverBorderColor": "#377dff",
+                                "pointBackgroundColor": "#377dff",
+                                "pointBorderColor": "#fff",
+                                "pointHoverRadius": 0
+                              },
+                              {
+                                "data": [15, 13, 18, 7, 26],
+                                "backgroundColor": "transparent",
+                                "borderColor": "#e7eaf3",
+                                "borderWidth": 3,
+                                "pointRadius": 0,
+                                "hoverBorderColor": "#e7eaf3",
+                                "pointBackgroundColor": "#e7eaf3",
+                                "pointBorderColor": "#fff",
+                                "pointHoverRadius": 0
+                              }]
+                            },
+                            "options": {
+                               "scales": {
+                                  "yAxes": [{
+                                    "gridLines": {
+                                      "color": "#e7eaf3",
+                                      "drawBorder": false,
+                                      "zeroLineColor": "#e7eaf3"
+                                    },
+                                    "ticks": {
+                                      "stepSize": 10,
+                                      "fontSize": 12,
+                                      "fontColor": "#97a4af",
+                                      "fontFamily": "Open Sans, sans-serif",
+                                      "padding": 10
+                                    }
+                                  }],
+                                  "xAxes": [{
+                                    "display": false
+                                  }]
+                              },
+                              "tooltips": {
+                                "hasIndicator": true,
+                                "mode": "index",
+                                "intersect": false,
+                                "lineMode": true,
+                                "lineWithLineColor": "rgba(19, 33, 68, 0.075)"
+                              },
+                              "hover": {
+                                "mode": "nearest",
+                                "intersect": true
+                              }
+                            }
+                          }'>
+              </canvas>
+            </div>
+            <!-- End Bar Chart -->
+
+            <!-- Legend Indicators -->
+            <div class="row justify-content-center">
+              <div class="col-auto">
+                <span class="legend-indicator"></span> Yesterday
+              </div>
+              <div class="col-auto">
+                <span class="legend-indicator bg-primary"></span> Today
+              </div>
+            </div>
+            <!-- End Legend Indicators -->
+          </div>
+          <!-- Body -->
+        </div>
+        <!-- End Card -->
+      </div>
     </div>
-    <!-- End Card -->
+    <!-- End Row -->
+
+    <form action="adminCustomer?action=deleteCustomer&&Cid=${customer.getId()}" method="post">
+      <div class="d-lg-none">
+        <button type="submit" class="btn btn-danger">Delete customer</button>
+      </div>
+    </form>
   </div>
   <!-- End Content -->
 
@@ -1330,217 +1704,110 @@
 </div>
 <!-- End Welcome Message Modal -->
 
-<!-- Export Customers Modal -->
-<div class="modal fade" id="exportCustomersModal" tabindex="-1" role="dialog" aria-labelledby="exportCustomersModalTitle" aria-hidden="true">
+<!-- Invoice Modal -->
+<div class="modal fade" id="invoiceReceiptModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <!-- Header -->
-      <div class="modal-header">
-        <h4 id="exportCustomersModalTitle" class="modal-title">Export customers</h4>
+      <div class="modal-top-cover bg-dark text-center">
+        <figure class="position-absolute right-0 bottom-0 left-0 ie-modal-curved-shape">
+          <svg preserveaspectratio="none" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewbox="0 0 1920 100.1" style="margin-bottom: -2px;">
+            <path fill="#fff" d="M0,0c0,0,934.4,93.4,1920,0v100.1H0L0,0z"></path>
+          </svg>
+        </figure>
 
-        <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
-          <i class="tio-clear tio-lg"></i>
-        </button>
+        <div class="modal-close">
+          <button type="button" class="btn btn-icon btn-sm btn-ghost-light" data-dismiss="modal" aria-label="Close">
+            <i class="tio-clear tio-lg"></i>
+          </button>
+        </div>
       </div>
       <!-- End Header -->
 
-      <!-- Body -->
-      <div class="modal-body">
-        <!-- Form Group -->
-        <div class="form-group">
-          <!-- Custom Checkbox -->
-          <div class="custom-control custom-radio mb-2">
-            <input type="radio" id="customersRadio1" name="customersRadio" class="custom-control-input" checked="">
-            <label class="custom-control-label" for="customersRadio1">Current page</label>
-          </div>
-          <div class="custom-control custom-radio mb-2">
-            <input type="radio" id="customersRadio2" name="customersRadio" class="custom-control-input">
-            <label class="custom-control-label" for="customersRadio2">All customers</label>
-          </div>
-          <div class="custom-control custom-radio mb-2">
-            <input type="radio" id="customersRadio3" name="customersRadio" class="custom-control-input" disabled="">
-            <label class="custom-control-label" for="customersRadio3">Selected: 24 customers</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input type="radio" id="customersRadio4" name="customersRadio" class="custom-control-input">
-            <label class="custom-control-label" for="customersRadio4">Order by date</label>
-          </div>
-          <!-- End Custom Checkbox -->
-        </div>
-        <!-- End Form Group -->
-
-        <label class="input-label">Export as</label>
-
-        <!-- Custom Checkbox -->
-        <div class="custom-control custom-radio mb-2">
-          <input type="radio" id="orderAsRadio1" name="orderAsRadio" class="custom-control-input" checked="">
-          <label class="custom-control-label" for="orderAsRadio1">CSV for Excel, Numbers, or other spreadsheet programs</label>
-        </div>
-        <div class="custom-control custom-radio">
-          <input type="radio" id="orderAsRadio2" name="orderAsRadio" class="custom-control-input">
-          <label class="custom-control-label" for="orderAsRadio2">Plain CSV file</label>
-        </div>
-        <!-- End Custom Checkbox -->
+      <div class="modal-top-cover-icon">
+            <span class="icon icon-lg icon-light icon-circle icon-centered shadow-soft">
+              <i class="tio-receipt-outlined"></i>
+            </span>
       </div>
-      <!-- End Body -->
-
-      <!-- Footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-white mr-2" data-dismiss="modal" aria-label="Close">Cancel</button>
-        <button type="button" class="btn btn-primary">Export customers</button>
-      </div>
-      <!-- End Footer -->
-    </div>
-  </div>
-</div>
-<!-- End Export Customers Modal -->
-
-<!-- Import Customers Modal -->
-<div class="modal fade" id="importCustomersModal" tabindex="-1" role="dialog" aria-labelledby="importCustomersModalTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <!-- Header -->
-      <div class="modal-header">
-        <h4 id="importCustomersModalTitle" class="modal-title">Import customers by CSV</h4>
-
-        <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
-          <i class="tio-clear tio-lg"></i>
-        </button>
-      </div>
-      <!-- End Header -->
 
       <!-- Body -->
-      <div class="modal-body">
-        <p><a href="#">Download a sample CSV template</a> to see an example of the format required.</p>
+      <div class="modal-body pt-3 pb-sm-5 px-sm-5">
+        <div class="text-center mb-5">
+          <h2 class="mb-1">Invoice from Front</h2>
+          <span class="d-block">Invoice #3682303</span>
+        </div>
 
-        <!-- Form Group -->
-        <div class="form-group">
-          <!-- Dropzone -->
-          <div id="attachFilesNewProjectLabel" class="js-dropzone dropzone-custom custom-file-boxed">
-            <div class="dz-message custom-file-boxed-label">
-              <img class="avatar avatar-xl avatar-4by3 mb-3" src="assets\svg\illustrations\browse.svg" alt="Image Description">
-              <h5 class="mb-1">Choose files to upload</h5>
-              <p class="mb-2">or</p>
-              <span class="btn btn-sm btn-primary">Browse files</span>
+        <div class="row mb-6">
+          <div class="col-md-4 mb-3">
+            <small class="text-cap">Amount paid:</small>
+            <span class="text-dark">$316.8</span>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <small class="text-cap">Date paid:</small>
+            <span class="text-dark">April 22, 2020</span>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <small class="text-cap">Payment method:</small>
+            <div class="d-flex align-items-center">
+              <img class="avatar avatar-xss avatar-4by3 mr-2" src="assets\svg\brands\mastercard.svg" alt="Image Description">
+              <span class="text-dark">&bull;&bull;&bull;&bull; 4242</span>
             </div>
           </div>
-          <!-- End Dropzone -->
         </div>
-        <!-- End Form Group -->
 
-        <!-- Custom Checkbox -->
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="overwriteCurrentCustomersCheckbox">
-          <label class="custom-control-label" for="overwriteCurrentCustomersCheckbox">Overwrite existing customers that have the same email or phone</label>
+        <small class="text-cap mb-2">Summary</small>
+
+        <ul class="list-group mb-4">
+          <li class="list-group-item text-dark">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>Payment to Front</span>
+              <span>$264.00</span>
+            </div>
+          </li>
+
+          <li class="list-group-item text-dark">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>Tax fee</span>
+              <span>$52.8</span>
+            </div>
+          </li>
+
+          <li class="list-group-item list-group-item-light text-dark">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="font-weight-bold">Amount paid</span>
+              <span class="font-weight-bold">$316.8</span>
+            </div>
+          </li>
+        </ul>
+
+        <div class="d-flex justify-content-end">
+          <a class="btn btn-sm btn-white mr-2" href="#"><i class="tio-download-to mr-1"></i> PDF</a>
+          <a class="btn btn-sm btn-white" href="#"><i class="tio-print mr-1"></i> Print Details</a>
         </div>
-        <!-- End Custom Checkbox -->
+
+        <hr class="my-5">
+
+        <p class="modal-footer-text">If you have any questions, contact us at <a href="mailto:example@gmail.com">example@gmail.com</a> or call at <a href="#">+1 898 34-5492</a></p>
       </div>
       <!-- End Body -->
-
-      <!-- Footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-white mr-2" data-dismiss="modal" aria-label="Close">Cancel</button>
-        <button type="button" class="btn btn-primary">Import customers</button>
-      </div>
-      <!-- End Footer -->
     </div>
   </div>
 </div>
-<!-- End Import Customers Modal -->
-
-<!-- Customers Guide Modal -->
-<div class="modal fade" id="customersGuideModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <!-- Header -->
-      <div class="modal-close">
-        <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
-          <i class="tio-clear tio-lg"></i>
-        </button>
-      </div>
-      <!-- End Header -->
-
-      <!-- Body -->
-      <div class="modal-body p-sm-5">
-        <div class="text-center mb-5">
-          <h4 class="h1">Welcome to Front Customers</h4>
-        </div>
-
-        <!-- Media -->
-        <div class="d-sm-flex">
-          <img class="avatar avatar-xl avatar-4by3 mb-3 mb-sm-0 mr-4" src="assets\svg\illustrations\chat.svg" alt="Image Description">
-
-          <div class="media-body">
-            <h4>All your customers in one place</h4>
-            <p>The E-commerce is where you can view &amp; manage your customers and all their activity at your business.</p>
-          </div>
-        </div>
-        <!-- End Media -->
-
-        <hr class="my-4">
-
-        <!-- Media -->
-        <div class="d-sm-flex">
-          <img class="avatar avatar-xl avatar-4by3 mb-3 mb-sm-0 mr-4" src="assets\svg\illustrations\yelling.svg" alt="Image Description">
-
-          <div class="media-body">
-            <h4>Search, sort, filter, and group your customers</h4>
-            <p>Quickly find the customers you need, and organize them however you prefer.</p>
-          </div>
-        </div>
-        <!-- End Media -->
-      </div>
-      <!-- End Body -->
-
-      <!-- Footer -->
-      <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Continue</button>
-      </div>
-      <!-- End Footer -->
-    </div>
-  </div>
-</div>
-<!-- End Customers Guide Modal -->
+<!-- End Invoice Modal -->
 <!-- ========== END SECONDARY CONTENTS ========== -->
 
 
 <!-- JS Implementing Plugins -->
-<script src="js\vendor.min.js"></script>
-
-<script>
-
-  const form = document.getElementById("listAllCustomerForm");
-  // Lắng nghe sự kiện nhấp chuột vào nút "Delete"
-  document.getElementById("deleteButton").addEventListener("click", function(event) {
-    event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+<script src="assets\js\vendor.min.js"></script>
+<script src="assets\vendor\chart.js\dist\Chart.min.js"></script>
+<script src="assets\vendor\chartjs-chart-matrix\dist\chartjs-chart-matrix.min.js"></script>
 
 
-    var selectedIds = getSelectedProductIds(); // Lấy danh sách ID sản phẩm được chọn
-    $(document.body).append(form);
-    // Tạo một input ẩn để gửi danh sách ID sản phẩm đến Servlet
-    var input = document.createElement("input");
-    input.type = "hidden";
-    input.name = "customerIds";
-    input.value = selectedIds.join(","); // Ghép các ID thành một chuỗi phân cách bằng dấu phẩy
-    form.appendChild(input);
-
-    form.submit(); // Gửi yêu cầu xóa sản phẩm đến Servlet
-  });
-
-  function getSelectedProductIds() {
-    var checkboxes = document.querySelectorAll('input[name="customerId"]:checked');
-    var selectedIds = [];
-    for (var i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i].checked) {
-        selectedIds.push(checkboxes[i].value);
-      }
-    }
-    return selectedIds;
-  }
-</script>
 
 <!-- JS Front -->
-<script src="js\theme.min.js"></script>
+<script src="assets\js\theme.min.js"></script>
 
 <!-- JS Plugins Init. -->
 <script>
@@ -1615,13 +1882,6 @@
     });
 
 
-    // INITIALIZATION OF NAV SCROLLER
-    // =======================================================
-    $('.js-nav-scroller').each(function () {
-      new HsNavScroller($(this)).init()
-    });
-
-
     // INITIALIZATION OF TABS
     // =======================================================
     $('.js-tabs-to-dropdown').each(function () {
@@ -1634,6 +1894,12 @@
     $('.js-select2-custom').each(function () {
       var select2 = $.HSCore.components.HSSelect2.init($(this));
     });
+
+
+    // INITIALIZATION OF QUILLJS EDITOR
+    // =======================================================
+    var quill = $.HSCore.components.HSQuill.init('.js-quill');
+    var quill = $.HSCore.components.HSQuill.init('.js-quill-step');
 
 
     // INITIALIZATION OF DATATABLES
@@ -1650,7 +1916,7 @@
       },
       language: {
         zeroRecords: '<div class="text-center p-4">' +
-                '<img class="mb-3" src="svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">' +
+                '<img class="mb-3" src="./assets/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">' +
                 '<p class="mb-0">No data to show</p>' +
                 '</div>'
       }
@@ -1680,54 +1946,29 @@
       }, 1);
     });
 
-    $('#toggleColumn_name').change(function (e) {
-      datatable.columns(1).visible(e.target.checked)
-    })
 
-    $('#toggleColumn_email').change(function (e) {
-      datatable.columns(2).visible(e.target.checked)
-    })
-
-    datatable.columns(3).visible(false)
-
-    $('#toggleColumn_phone').change(function (e) {
-      datatable.columns(3).visible(e.target.checked)
-    })
-
-    $('#toggleColumn_country').change(function (e) {
-      datatable.columns(4).visible(e.target.checked)
-    })
-
-    datatable.columns(5).visible(false)
-
-    $('#toggleColumn_account_status').change(function (e) {
-      datatable.columns(5).visible(e.target.checked)
-    })
-
-    $('#toggleColumn_orders').change(function (e) {
-      datatable.columns(6).visible(e.target.checked)
-    })
-
-    $('#toggleColumn_total_spent').change(function (e) {
-      datatable.columns(7).visible(e.target.checked)
-    })
-
-    datatable.columns(8).visible(false)
-
-    $('#toggleColumn_last_activity').change(function (e) {
-      datatable.columns(8).visible(e.target.checked)
-    })
-
-
-    // INITIALIZATION OF MODAL ON PAGE LOAD
+    // INITIALIZATION OF CHARTJS
     // =======================================================
-    $('#customersGuideModal').modal('show')
+    $('.js-chart').each(function () {
+      $.HSCore.components.HSChartJS.init($(this));
+    });
+
+
+    // INITIALIZATION OF LEAFLET
+    // =======================================================
+    $('#map').each(function () {
+      var leaflet = $.HSCore.components.HSLeaflet.init($(this)[0]);
+
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        id: 'mapbox/light-v9'
+      }).addTo(leaflet);
+    });
   });
 </script>
 
 <!-- IE Support -->
 <script>
-  if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="assets/vendor/babel-polyfill/polyfill.min.js"><\/script>');
+  if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="./assets/vendor/babel-polyfill/polyfill.min.js"><\/script>');
 </script>
 </body>
 </html>

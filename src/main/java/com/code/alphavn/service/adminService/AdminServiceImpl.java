@@ -1,11 +1,11 @@
 package com.code.alphavn.service.adminService;
 
 import com.code.alphavn.connection.ConnectionDB;
-import com.code.alphavn.model.Product;
-import com.code.alphavn.model.ProductDiscount;
-import com.code.alphavn.model.ProductInfo;
-import com.code.alphavn.model.ProductReview;
+import com.code.alphavn.model.*;
+import com.code.alphavn.model.adminModel.Admin;
 import com.code.alphavn.model.adminModel.ManageOrder;
+import com.code.alphavn.model.adminModel.Manager;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 import java.sql.*;
 import java.sql.Date;
@@ -16,12 +16,15 @@ import java.util.ArrayList;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.code.alphavn.service.userService.UserServiceImpl.con;
+
 public class AdminServiceImpl implements IAdminService {
     private boolean cacheValid;
     private List<ProductInfo> productInfos;
     private List<ProductDiscount> productDiscounts;
     private List<ProductReview> productReviews;
 
+    private List<Order> orders;
 
     public AdminServiceImpl() {
         this.cacheValid = false;
@@ -303,52 +306,68 @@ public class AdminServiceImpl implements IAdminService {
 
     // ======================= DATKD CODE =================================================
 
-    public Order getTotalOrder() throws SQLException {
-        Order order = null;
-        PreparedStatement pstm = con.prepareStatement("SELECT  COUNT(*) AS total FROM orders");
-        ResultSet rs = pstm.executeQuery();
-        while (rs.next()) {
-            order = new Order(rs.getInt("total")
-            );
-        }
-        return order;
-    }
-    public Order getTotalPriceOrder() throws SQLException {
-        Order order = null;
-        PreparedStatement pstm = con.prepareStatement("SELECT  AVG(final_price) AS total FROM orderDetails");
-        ResultSet rs = pstm.executeQuery();
-        while (rs.next()) {
-            order = new Order(rs.getInt("total"));
-        }
-        return order;
-    }
-
-    public List<Customer> getCustomers() throws SQLException {
-        PreparedStatement pstm = con.prepareStatement("select * from customers;");
+    public List<Customer> getAllCustomer() {
         List<Customer> customers = new ArrayList<>();
 
-        ResultSet rs = pstm.executeQuery();
-        while (rs.next()) {
-            customers.add(new Customer(rs.getInt("customer_id"),
-                    rs.getString("name"),
-                    rs.getString("password"),
-                    rs.getString("address"),
-                    rs.getString("email"),
-                    rs.getString("phone"),
-                    rs.getDate("created_At")));
+        String query = "SELECT * FROM customers";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                customers.add(new Customer(rs.getInt("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("address"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getDate("created_At"),
+                        rs.getString("status"))
+                );
+            }
+
+        } catch (Exception e) {
         }
         return customers;
     }
 
-    public Customer getTotalCus() throws SQLException {
-        Customer customer = null;
-        PreparedStatement pstm = con.prepareStatement("SELECT  COUNT(*) AS total FROM customers");
-        ResultSet rs = pstm.executeQuery();
-        while (rs.next()) {
-            customer = new Customer(rs.getDouble("total")
-            );
+    public void UpdateStatusCustomer(int cusId, String status) {
+        String query = "update customers\n" +
+                "set status = ?\n" +
+                "where customer_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, status);
+            pstm.setInt(2, cusId);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
         }
-        return customer;
+    }
+
+    public void DeleteCustomerSelected(List<Customer> customers) {
+
+        String query = "delete from customers \n" +
+                "where customer_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+
+            for (Customer customerId : customers) {
+                pstm.setInt(1, customerId.getId());
+                pstm.executeUpdate();
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    public void DeleteCustomer(int Cusid) {
+        String query = "delete from customers \n" +
+                "where customer_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setInt(1, Cusid);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
 
     public Manager getTotalMan() throws SQLException {
@@ -448,7 +467,7 @@ public class AdminServiceImpl implements IAdminService {
                 return new Manager(rs.getInt("manager_id"),
                         rs.getInt("admin_id"),
                         rs.getString("name"),
-rs.getString("password"),
+                        rs.getString("password"),
                         rs.getString("email"),
                         rs.getString("phone"),
                         rs.getString("address"),
@@ -463,7 +482,7 @@ rs.getString("password"),
     }
 
     public boolean updateInfoMana(Manager manager) {
-        String query = "update managers set name=? , phone=?, address=?, roles=?\n" +
+        String query = "update managers set name=? , phone=?, address=?, role=?\n" +
                 "  where email = ?";
         try {
             PreparedStatement pstm = con.prepareStatement(query);
@@ -525,21 +544,22 @@ rs.getString("password"),
         return true;
     }
     public List<Order> getAllOrder() {
-        orders = new ArrayList<>();
-
+        List<Order> orders = new ArrayList<>();
+        UserServiceImpl userService = new UserServiceImpl();
         String query = "SELECT * FROM orders";
         try {
             PreparedStatement pstm = con.prepareStatement(query);
             ResultSet rs = pstm.executeQuery();
 
             while (rs.next()) {
+                Customer cusId = new Customer(rs.getInt("customer_id"));
                 orders.add(new Order(
                         rs.getInt("order_id"),
-                        rs.getInt("customer_id"),
+                        userService.getAccountByCusID(cusId),
                         rs.getString("orderDate"),
                         rs.getString("status"),
-                        rs.getString("payMethod")
-
+                        rs.getString("payMethod"),
+                        userService.getOrderDetailByOID(rs.getInt("order_id"))
                 ));
             }
 
@@ -548,6 +568,56 @@ rs.getString("password"),
         return orders;
     }
 
+    public void UpdateStatusOrder(int orderId, String status) {
+        String query = "update orders\n" +
+                "set status = ?\n" +
+                "where order_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, status);
+            pstm.setInt(2, orderId);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+    public double getTotalPriceOrder() throws SQLException {
+        List<Order> orders = getAllOrder();
+        double totalPriceOrder = 0;
+        for( Order order : orders) {
+
+            for (OrderDetail orderDetail : order.getOrderDetail()){
+                totalPriceOrder = totalPriceOrder + orderDetail.getPrice() * orderDetail.getQuantityOrdered();
+                order.setTotalPriceOrder(totalPriceOrder);
+            }
+        }
+        return  (double) Math.round(totalPriceOrder * 100) / 100;
+    }
+
+    public void DeleteOrderSelected(List<Order> orders) {
+
+        String query = "delete from orders \n" +
+                "where order_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+
+            for (Order orderId : orders) {
+                pstm.setInt(1, orderId.getId());
+                pstm.executeUpdate();
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    public void DeleteOrder(int orderId) {
+        String query = "delete from orders \n" +
+                "where order_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setInt(1, orderId);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
 
     public List<Order> filterOrderBySatus(String status) {
         orders= getAllOrder();
@@ -557,6 +627,49 @@ rs.getString("password"),
                 order -> order.getStatus().equalsIgnoreCase(status)
         ).collect(Collectors.toList()); // Pending , Shipping , Completed , Cancel
         return filterOrders;
+    }
+
+    public Admin getAdminById(int id) {
+        String query = "select * from admins where admin_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setInt(1, id);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Admin(rs.getInt("admin_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email")
+                );
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+    public boolean updateInfoAdmin(Admin admin) {
+        String query = "update admins set name=? , email=?\n" +
+                "  where admin_id = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, admin.getName().trim());
+            pstm.setString(2, admin.getEmail().trim());
+            pstm.setInt(3,admin.getId());
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+    public boolean updatePassAdmin(String email,String pass) throws SQLException {
+        try {
+            PreparedStatement pst = con.prepareStatement("update admins set password = ? where email = ? ");
+            pst.setString(1, pass);
+            pst.setString(2, email);
+            pst.executeUpdate();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     // ======================= END DATKD CODE =================================================
@@ -589,6 +702,8 @@ rs.getString("password"),
             System.out.println("Manage Order: " + manageOrder);
             System.out.println("---------------------------");
         }
+
+        System.out.println(ad.getTotalPriceOrder());
 
     }
 }

@@ -9,7 +9,7 @@
 
 <a href="home">Home</a>
 <a href="./loginCustomer">login</a>
-<a href="./admin">Admin</a>
+<a href="./adminOrder?action=viewAllOrder">Admin</a>
 
 
 </body>

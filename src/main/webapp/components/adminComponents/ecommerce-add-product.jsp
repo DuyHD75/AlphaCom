@@ -35,7 +35,6 @@
 <%@include file="../../components/commons/adminCommons/header.jsp" %>
 <%--  END HEADER --%>
 
-<script src="assets\js\demo.js"></script>
 
 <!-- END ONLY DEV -->
 
