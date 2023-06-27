@@ -22,8 +22,7 @@ public class Constants {
 
 //VNPAY
 public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-   // public static String vnp_Returnurl = "http://localhost:8080/alphavn/ServletVNPayPayment?action=return";
-   public static String vnp_Returnurl = "http://localhost:8080/alphavn//components/userComponents/vnpay_return.jsp";
+    public static String vnp_Returnurl = "http://localhost:8080/alphavn/ServletVNPayPayment?action=return";
 
     public static String vnp_TmnCode = "3FCGRI72";
     public static String vnp_HashSecret = "IIPVAHTBWTBFFXMPXACCWNDZMMTOHUMS";

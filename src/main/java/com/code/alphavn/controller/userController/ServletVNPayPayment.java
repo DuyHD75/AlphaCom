@@ -1,16 +1,24 @@
 package com.code.alphavn.controller.userController;
 
+import com.code.alphavn.model.Cart;
+import com.code.alphavn.model.Customer;
+import com.code.alphavn.model.Order;
 import com.code.alphavn.service.PaymentServices;
+import com.code.alphavn.service.UserServiceImpl;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -21,9 +29,11 @@ public class ServletVNPayPayment extends HttpServlet {
         String action = req.getParameter("action");
         switch (action) {
             case "return":
-                returnHandle(req, resp);
-            case "createTransaction":
-                createTransaction(req, resp);
+                try {
+                    returnHandle(req, resp);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
         }
     }
 
@@ -31,8 +41,6 @@ public class ServletVNPayPayment extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         switch (action) {
-            case "return":
-                returnHandle(req, resp);
             case "createTransaction":
                 createTransaction(req, resp);
         }
@@ -41,9 +49,8 @@ public class ServletVNPayPayment extends HttpServlet {
     protected void createTransaction(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
-        String orderType = "";
-        //String orderType = (String) request.getAttribute("ordertype");
-        long amount = Integer.parseInt((String) request.getAttribute("amount")) * 100;
+        String orderType = (String) request.getAttribute("ordertype");
+        long amount = (long) (Double.parseDouble((String) request.getAttribute("amount")) * 100);
         String bankCode = (String) request.getAttribute("bankCode");
 
         String vnp_TxnRef = PaymentServices.getRandomNumber(8);
@@ -109,25 +116,19 @@ public class ServletVNPayPayment extends HttpServlet {
         String vnp_SecureHash = PaymentServices.hmacSHA512(Constants.vnp_HashSecret, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = Constants.vnp_PayUrl + "?" + queryUrl;
-//        com.google.gson.JsonObject job = new JsonObject();
-//        job.addProperty("code", "00");
-//        job.addProperty("message", "success");
-//        job.addProperty("data", paymentUrl);
-//        Gson gson = new Gson();
-//        resp.getWriter().write(gson.toJson(job));
-
-
-
         response.sendRedirect(paymentUrl);
     }
 
-    protected void returnHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void returnHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
         //Begin process return from VNPAY
+        request.setAttribute("hide", "hide");
+        request.setAttribute("show", "hide");
         Map fields = new HashMap();
         for (Enumeration params = request.getParameterNames(); params.hasMoreElements(); ) {
-            String fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
+            String fieldName= URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
+            if(fieldName.equals("action")) continue;
             String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII.toString());
-            if ((fieldValue != null) && (fieldValue.length() > 0)) {
+            if ((fieldValue!=null) && (fieldValue.length() > 0)) {
                 fields.put(fieldName, fieldValue);
             }
         }
@@ -141,20 +142,38 @@ public class ServletVNPayPayment extends HttpServlet {
         }
 
         String signValue = PaymentServices.hashAllFields(fields);
-
         if (signValue.equals(vnp_SecureHash)) {
+
             if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
-                request.setAttribute("paymentStatus", "Success");
+
                 //add to DB
+                UserServiceImpl userService = new UserServiceImpl();
+                HttpSession session = request.getSession();
+                String isPayNow = (String) session.getAttribute("isPayNow");
+                if (isPayNow.equals("true")){
+                    Order order = (Order) session.getAttribute("order");
+                    userService.InsertPlaceOrderWithBuyNow(order.getCustomer(), order.getPaymentMethod(), order.getPid(), order.getPrice(), order.getAmount());
+                }else {
+                    userService.InsertPlaceOrder((Customer) session.getAttribute("customerId"), (List<Cart>) session.getAttribute("carts"), (String) session.getAttribute("payMetthod"));
+                    userService.DeleteCartByCusID((Integer) session.getAttribute("cusId"));
+                }
+                request.setAttribute("paymentStatus", "Success");
+                request.setAttribute("hide2","show");
+                request.setAttribute("show2", "hide");
 
             } else {
                 request.setAttribute("paymentStatus", "Failed");
+                request.setAttribute("hide2","hide");
+                request.setAttribute("show2", "show");
             }
 
         } else {
             request.setAttribute("paymentStatus", "invalid signature");
+            request.setAttribute("hide2","hide");
+            request.setAttribute("show2", "show");
         }
         request.setAttribute("vnp_TxnRef", request.getParameter("vnp_TxnRef"));
+        request.setAttribute("vnp_Amount",request.getParameter("vnp_Amount"));
         request.setAttribute("vnp_OrderInfo", request.getParameter("vnp_OrderInfo"));
         request.setAttribute("vnp_ResponseCode", request.getParameter("vnp_ResponseCode"));
         request.setAttribute("vnp_TransactionNo", request.getParameter("vnp_TransactionNo"));
@@ -162,13 +181,13 @@ public class ServletVNPayPayment extends HttpServlet {
         request.setAttribute("vnp_PayDate", request.getParameter("vnp_PayDate"));
 
 
+        ServletContext servletContext = getServletContext();
+        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/components/userComponents/reviewAndReceipt.jsp");
 
-//
-//        request.setAttribute("show", "hide");
-//        request.setAttribute("hide", "hide");
-//        request.setAttribute("show_vnpay", "show");
-        System.out.println("success handle return");
-        //request.getRequestDispatcher("/components/userComponents/reviewAndReceipt.jsp").forward(request, response);
-        request.getRequestDispatcher("/components/userComponents/vnpay_return.jsp");
+
+        request.setAttribute("show_vnpay", "show");
+
+        requestDispatcher.forward(request,response);
+
     }
 }

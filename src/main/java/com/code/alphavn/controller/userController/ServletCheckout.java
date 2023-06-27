@@ -1,6 +1,11 @@
 package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.model.*;
+
+import com.code.alphavn.service.PaymentServices;
+import com.code.alphavn.service.UserServiceImpl;
+import org.json.JSONObject;
+
 import com.paypal.api.payments.PayerInfo;
 import com.paypal.api.payments.Transaction;
 import com.code.alphavn.model.Cart;
@@ -8,9 +13,7 @@ import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.ProductDiscount;
 import com.code.alphavn.service.userService.UserServiceImpl;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,9 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 @WebServlet(name = "ServletCheckout", value = "/checkout")
 public class ServletCheckout extends HttpServlet {
@@ -32,10 +35,8 @@ public class ServletCheckout extends HttpServlet {
         try {
             switch (action) {
                 case "checkout":
-                    handleInfomationAndListCart(request, response);
+                    handleInformationAndListCart(request, response);
                     break;
-
-
                 default:
                     break;
             }
@@ -63,7 +64,7 @@ public class ServletCheckout extends HttpServlet {
         }
     }
 
-    public void handleInfomationAndListCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleInformationAndListCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
         session.setAttribute("isPayNow", "false");
@@ -136,6 +137,12 @@ public class ServletCheckout extends HttpServlet {
                     Double price = Double.parseDouble(request.getParameter("price"));
                     int amount = Integer.parseInt(request.getParameter("amount"));
                     String lastProductName = request.getParameter("productName");
+
+                    Order order1 = new Order(customerId, payMetthod, pid, price, amount);
+
+                    session.setAttribute("order", order1);
+                    session.setMaxInactiveInterval(108000);
+
                     if (payMetthod.equals("PAYPAL")) {
                         info.setPhone(request.getParameter("number"));
                         info.setEmail(request.getParameter("email"));
@@ -146,15 +153,28 @@ public class ServletCheckout extends HttpServlet {
                         request.setAttribute("customerInf", info);
                         request.setAttribute("orderDetail", orderDetail);
 
-
-                        Order order1 = new Order(customerId, payMetthod, pid, price, amount);
-
-                        session.setAttribute("order", order1);
-                        session.setMaxInactiveInterval(108000);
                         request.getRequestDispatcher("paypalPayment").forward(request, response);
                     } else if (payMetthod.equals("VNPAY")) {
+                        // FOR REALTIME CURRENCY (USD TO VND)
+//                            JSONObject jsonObject = PaymentServices.readJsonFromUrl("https://api.currencyapi.com/v3/latest?apikey=R5AaCB7IvKqkY3F3OQhfJAJKD90rp34pTA6uaeLR");
+//                            JSONObject jsonData = jsonObject.getJSONObject("data");
+//                            JSONObject jsonVND = jsonData.getJSONObject("VND");
+//                            float currencyValue = jsonVND.getFloat("value");
+//                            System.out.println(currencyValue);
 
+                        // comment bellow line if you want to change realtime to fixed currency
+                        float currencyValue = 23525.033F;
 
+                        DecimalFormat df = new DecimalFormat();
+                        df.setMaximumFractionDigits(3);
+                        df.format(currencyValue);
+                        request.setAttribute("ordertype", request.getParameter("ordertype"));
+                        request.setAttribute("amount", Double.toString(currencyValue * price));
+                        request.setAttribute("bankCode", request.getParameter("bankCode"));
+                        request.setAttribute("language", request.getParameter("language"));
+                        System.out.println(request.getAttribute("language"));
+                        System.out.println(request.getAttribute("bankCode"));
+                        request.getRequestDispatcher("ServletVNPayPayment?action=createTransaction").forward(request, response);
                     } else {
                         userService.InsertPlaceOrderWithBuyNow(customerId, payMetthod, pid, price, amount);
                     }
@@ -162,6 +182,7 @@ public class ServletCheckout extends HttpServlet {
 
 //                        sendBillViaEmail(request, response, order);
                     }
+
 //                    response.sendRedirect("order?action=viewLastOrder");
                 } else { // mua bang cart
                     if (carts.size() == 0) {
@@ -186,7 +207,10 @@ public class ServletCheckout extends HttpServlet {
                             }
                             total += cart.getFinalPrice() * cart.getAmount();
                         }
-
+                        session.setAttribute("customerId", customerId);
+                        session.setAttribute("carts", carts);
+                        session.setAttribute("payMetthod", payMetthod);
+                        session.setAttribute("cusId", cusId);
                         if (payMetthod.equals("PAYPAL")) {
                             info.setPhone(request.getParameter("number"));
                             info.setEmail(request.getParameter("email"));
@@ -197,18 +221,30 @@ public class ServletCheckout extends HttpServlet {
                             request.setAttribute("customerInf", info);
                             request.setAttribute("orderDetail", orderDetail);
 
-                            session.setAttribute("customerId",customerId);
-                            session.setAttribute("carts",carts);
-                            session.setAttribute("payMetthod", payMetthod);
-                            session.setAttribute("cusId", cusId);
-
                             request.getRequestDispatcher("paypalPayment").forward(request, response);
                         } else if (payMetthod.equals("VNPAY")) {
-                            request.setAttribute("ordertype","");
-                            request.setAttribute("amount",Double.toString(total*100).replace(".0",""));
-                            request.setAttribute("bankCode",request.getAttribute("bankCode"));
-                            request.setAttribute("language",request.getAttribute("language"));
-                            request.getRequestDispatcher("ServletVNPayPayment?action=createTransaction").forward(request,response);
+                            // FOR REALTIME CURRENCY (USD TO VND)
+
+//                            JSONObject jsonObject = PaymentServices.readJsonFromUrl("https://api.currencyapi.com/v3/latest?apikey=R5AaCB7IvKqkY3F3OQhfJAJKD90rp34pTA6uaeLR");
+//                            JSONObject jsonData = jsonObject.getJSONObject("data");
+//                            JSONObject jsonVND = jsonData.getJSONObject("VND");
+//                            float currencyValue = jsonVND.getFloat("value");
+
+
+                            // comment bellow line if you want to change realtime to fixed currency
+                            float currencyValue = 23525.033F;
+
+                            DecimalFormat df = new DecimalFormat();
+                            df.setMaximumFractionDigits(3);
+                            df.format(currencyValue);
+
+                            request.setAttribute("ordertype", request.getParameter("ordertype"));
+                            request.setAttribute("amount", Double.toString(currencyValue * total));
+                            request.setAttribute("bankCode", request.getParameter("bankCode"));
+                            request.setAttribute("language", request.getParameter("language"));
+                            System.out.println(request.getAttribute("language"));
+                            System.out.println(request.getAttribute("bankCode"));
+                            request.getRequestDispatcher("ServletVNPayPayment?action=createTransaction").forward(request, response);
                         } else {
                             userService.InsertPlaceOrder(customerId, carts, payMetthod);
                             userService.DeleteCartByCusID(cusId);
@@ -218,6 +254,7 @@ public class ServletCheckout extends HttpServlet {
 //                            sendBillViaEmail(request, response, order);
                         }
 //                        response.sendRedirect("order?action=viewLastOrder");
+
                     }
                 }
                 int id = account.getId();
@@ -273,7 +310,6 @@ public class ServletCheckout extends HttpServlet {
             request.setAttribute("amount", amount);
 
             session.setAttribute("isPayNow", "true");
-            // request.setAttribute("isBuyNow","true");
         } else {
             response.sendRedirect("loginCustomer");
         }
