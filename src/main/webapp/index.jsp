@@ -11,6 +11,5 @@
 <a href="./loginCustomer">login</a>
 <a href="./admin">Admin</a>
 
-
 </body>
 </html>

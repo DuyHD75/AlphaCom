@@ -141,7 +141,7 @@
 
                             <input type="text" class="form-control" name="productName" id="productNameLabel"
                                    placeholder="Shirt, t-shirts, etc." aria-label="Shirt, t-shirts, etc."
-                                   value="${product.getProduct().getName()}">
+                                   value="${product.getProduct().getName()}" required>
                         </div>
                         <!-- End Form Group -->
                         <%--    <div class="row">
@@ -197,23 +197,31 @@
 
                         <label class="input-label">Description <span
                                 class="input-label-secondary">(Optional)</span></label>
+
                         <input type="hidden" value="${product.getProduct().getId()}" name="pid">
+
                         <!-- Quill -->
+
                         <div class="quill-custom">
                             <div class="js-quill" style="min-height: 15rem;" data-hs-quill-options='{
                           "placeholder": "Type your description..."
                          }'>
                                 <p>${product.getProduct().getDesc()}</p>
-
                             </div>
                         </div>
+
+
+                        <%--  BUTTON ADD DESC --%>
                         <div class="text-center mt-4">
+                            <p class="desc-status text-success m-3"></p>
                             <button id="saveDesc" class="btn btn-primary pr-2 pl-2">Add Description</button>
                         </div>
 
-                        <input type="hidden" id="description" value="" name="description">
+                        <input type="hidden" id="description" value="${product.getProduct().getDesc()}"
+                               name="description">
 
                         <!-- End Quill -->
+
                     </div>
                     <!-- Body -->
                 </div>
@@ -226,12 +234,11 @@
                         <h4 class="card-header-title">Media</h4>
 
                         <!-- Unfold -->
-                        <div class="hs-unfold">
+                     <%--   <div class="hs-unfold">
                             <a class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary" href="javascript:;"
-                               data-hs-unfold-options='{
-                       "target": "#mediaDropdown",
-                       "type": "css-animation"
-                     }'>
+                               data-hs-unfold-options='{   "target": "#mediaDropdown",
+                                                   "type": "css-animation"
+                                                 }'>
                                 Add media from URL <i class="tio-chevron-down"></i>
                             </a>
 
@@ -246,7 +253,7 @@
                                     <i class="tio-youtube-outlined dropdown-item-icon"></i> Embed video
                                 </a>
                             </div>
-                        </div>
+                        </div>--%>
                         <!-- End Unfold -->
                     </div>
                     <!-- End Header -->
@@ -369,6 +376,7 @@
                             <input type="hidden" name="fileNames"
                                    value="${product.getImg1()} ; ${product.getImg2()} ; ${product.getImg3()}"
                                    id="fileNames">
+
                         </div>
                         <!-- End Dropzone -->
                     </div>
@@ -390,12 +398,12 @@
                     <!-- Body -->
                     <div class="card-body">
                         <!-- Form Group -->
-                        <div class="form-group">
+                        <div class="form-group" id="price-form">
                             <label for="priceNameLabel" class="input-label">Price</label>
 
                             <div class="input-group">
                                 <input type="text" class="form-control" name="product-price" id="priceNameLabel"
-                                       placeholder="0.00"
+                                       placeholder="0.00" required
                                        aria-label="0.00" value="${product.getPrice()}">
 
                                 <div class="input-group-append">
@@ -420,79 +428,27 @@
                             <div class="input-group">
                                 <input type="number" class="form-control"
                                        placeholder="Type quantities of this product ..."
-                                       aria-label="" value="" name="quantity" id="quantityNameLable" required>
+                                       value="${product.getProduct().getAmount_remaining()}"
+                                       aria-label=""
+                                       name="quantity" id="quantityNameLable" required>
                             </div>
 
-                            <label for="discountLable" class="input-label mt-3">Discount</label>
-
-
-                            <c:choose>
-                                <c:when test="${discount.isPresent()}">
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" name="product-discount"
-                                               placeholder="Type discount: eg. 0.4 -> (40%)"
-                                               aria-label="" value="${discount.get().getDis_amount()}" id="" required>
-
-                                        <input type="text" class="form-control" name="discount-name"
-                                               placeholder="Type discount code ..." required
-                                               aria-label="" value="${discount.get().getDis_name()}">
-                                    </div>
-                                    <label for="priceNameLabel" class="input-label mt-3">Effective date</label>
-
-                                    <div class="input-group">
-                                        <input type="date" class="form-control" name="start-date" required
-                                               aria-label="" value="${discount.get().getStart_date()}">
-
-                                        <input type="date" class="form-control" name="end-date"
-                                               aria-label="" value="${discount.get().getEnd_date()}" required>
-                                    </div>
-                                </c:when>
-                                <c:otherwise>
-
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" name="product-discount"
-                                               placeholder="Type discount: eg. 0.4 -> (40%)"
-                                               aria-label="" value="" id="discountLable" required>
-
-                                        <input type="text" class="form-control" name="discount-name"
-                                               placeholder="Type discount code ..." required
-                                               aria-label="" value="">
-                                    </div>
-                                    <label for="priceNameLabel" class="input-label mt-3">Effective date</label>
-
-                                    <div class="input-group">
-                                        <input type="date" class="form-control" name="start-date" required
-                                               aria-label="" value="">
-
-                                        <input type="date" class="form-control" name="end-date"
-                                               aria-label="" value="" required>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
-
-
-
-
-
                         </div>
-                        <!-- End Form Group -->
 
                         <hr class="my-4">
 
                         <!-- Toggle Switch -->
-                        <label class="row toggle-switch" for="availabilitySwitch1">
+                        <label class="row toggle-switch mb-3" for="availabilitySwitch1">
                                 <span class="col-8 col-sm-9 toggle-switch-content">
-                            <span class="text-dark">Availability <i class="tio-help-outlined text-body ml-1"
-                                                                    data-toggle="tooltip"
-                                                                    data-placement="top"
-                                                                    title="Product availability switch toggler."></i></span>
+                            <span class="text-dark ">Availability Discount <i class="tio-help-outlined text-body"
+                                                                              data-toggle="tooltip"
+                                                                              data-placement="top"
+                                                                              title="Product availability switch toggler."></i></span>
                                 </span>
-
 
                             <span class="col-4 col-sm-3">
                               <input type="checkbox" class="toggle-switch-input"
-                                     id="availabilitySwitch1"
-                                     checked="${product.getProduct().getAmount_remaining() > 0}">
+                                     id="availabilitySwitch1"  ${discount.isPresent() ? 'checked="checked"' : ''}>
 
                               <span class="toggle-switch-label ml-auto">
                                 <span class="toggle-switch-indicator"></span>
@@ -500,6 +456,38 @@
                             </span>
                         </label>
                         <!-- End Toggle Switch -->
+
+                        <div class="form-group" id="discount-form" style="display: none">
+
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="product-discount"
+                                       placeholder="Type discount: 15 -> 15%"
+                                       aria-label=""
+                                       value="${discount.isPresent() ?  discount.get().getDis_amount() : 0}"
+                                       id="discountInput">
+
+                                <input type="text" class="form-control" name="discount-name"
+                                       placeholder="Type discount code ..."
+                                       aria-label=""
+                                       value="${discount.isPresent() ?  discount.get().getDis_name() : ''}">
+                            </div>
+                            <label for="priceNameLabel" class="input-label mt-3">Effective date</label>
+
+                            <div class="input-group">
+                                <input type="date" class="form-control" name="start-date"
+                                       aria-label=""
+                                       value="${discount.isPresent() ? discount.get().getStart_date() : ''}">
+
+                                <input type="date" class="form-control" name="end-date"
+                                       aria-label=""
+                                       value="${discount.isPresent() ? discount.get().getEnd_date() : ''}">
+                            </div>
+
+
+                        </div>
+                        <!-- End Form Group -->
+
+
                     </div>
                     <!-- Body -->
                 </div>
@@ -517,7 +505,7 @@
                     <div class="card-body">
                         <!-- Form Group -->
                         <div class="form-group">
-                            <label for="vendorLabel" class="input-label">Vendor</label>
+                            <label for="vendorLabel" class="input-label">Supplier</label>
 
 
                             <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
@@ -525,16 +513,14 @@
                                     name="vendor"
                                     data-hs-select2-options='{
                             "minimumResultsForSearch": "Infinity",
-                            "placeholder": "Select category"
+                            "placeholder": "Select supplier"
                           }'>
-                                <option label="empty"></option>
                                 <option value="1">Razer Group</option>
-                                <option value="2" selected>FPT Company</option>
+                                <option value="2">FPT Company</option>
                                 <option value="3">ASUSTeK Incorporated</option>
                                 <option value="4">Lenovo Group Ltd</option>
                                 <option value="5">Sony Company</option>
                             </select>
-
                         </div>
                         <!-- End Form Group -->
 
@@ -550,7 +536,6 @@
                             "minimumResultsForSearch": "Infinity",
                             "placeholder": "Select category"
                           }'>
-                                <option label="empty"></option>
                                 <option value="1">Laptop</option>
                                 <option value="2">Mouse</option>
                                 <option value="3">Keyboard</option>
@@ -598,7 +583,7 @@
         </div>
         <!-- End Row -->
 
-        <div class="position-fixed bottom-0 content-centered-x w-100 z-index-99 mb-3" style="max-width: 40rem;">
+        <div class="position-fixed bottom-0 content-centered-x w-50 z-index-99 mb-3" style="max-width: 40rem;">
             <!-- Card -->
             <div class="card card-sm bg-dark border-dark mx-2">
                 <div class="card-body">
@@ -898,6 +883,31 @@
 <!-- JS Plugins Init. -->
 <script>
     $(document).on('ready', function () {
+
+
+        // ============================ SET THE CURR DATE ==========
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("start-date")[0].setAttribute('min', today);
+        document.getElementsByName("end-date")[0].setAttribute('min', today);
+
+        // HANDLE TOGGLE SWITCH
+        // =======================================================
+
+        if ($("#availabilitySwitch1").is(":checked")) {
+            $("#discount-form").show();
+        }
+
+        $("#availabilitySwitch1").change(function () {
+            var discountForm = $('#discount-form')
+            if ($(this).is(":checked")) {
+                discountForm.show();
+            } else {
+                discountForm.hide();
+                discountForm.find('input[name="product-discount"]').val(0)
+            }
+        });
+
+
         // ONLY DEV
         // =======================================================
 
@@ -987,8 +997,8 @@
 
             var data = quill.getText();
             var desc = $('#description').val(quill.getText());
-            console.log('Editor Data:', desc);
-            $(this).style.disable();
+
+            $('.desc-status').text("Description was added !");
         });
 
 
@@ -1056,6 +1066,8 @@
                 }
             }).init();
         });
+
+
     });
 </script>
 

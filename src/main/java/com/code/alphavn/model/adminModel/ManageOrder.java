@@ -4,6 +4,7 @@ import java.util.*;
 
 public class ManageOrder {
     private Date orderDate;
+    private String dayOfWeek;
     private Long totalOrders;
     private Long totalProducts;
     private Double revernues;
@@ -13,7 +14,8 @@ public class ManageOrder {
     public ManageOrder() {
     }
 
-    public ManageOrder(Date orderDate, Long totalOrders, Long totalProducts, Double revernues) {
+    public ManageOrder( String dayOfWeek,Date orderDate, Long totalOrders, Long totalProducts, Double revernues) {
+        this.dayOfWeek = dayOfWeek;
         this.orderDate = orderDate;
         this.totalProducts = totalProducts;
         this.totalOrders = totalOrders;
@@ -52,11 +54,21 @@ public class ManageOrder {
         this.totalProducts = totalProducts;
     }
 
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
     @Override
     public String toString() {
-        return "MangeOrder{" +
+        return "ManageOrder{" +
                 "orderDate=" + orderDate +
+                ", dayOfWeek='" + dayOfWeek + '\'' +
                 ", totalOrders=" + totalOrders +
+                ", totalProducts=" + totalProducts +
                 ", revernues=" + revernues +
                 '}';
     }

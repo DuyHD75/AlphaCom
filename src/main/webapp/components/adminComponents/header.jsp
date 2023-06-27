@@ -1030,7 +1030,7 @@
                                         class="hs-sub-menu dropdown-menu dropdown-menu-lg"
                                         aria-labelledby="pagesDropdownEcommerce" style="min-width: 16rem;">
                                         <li>
-                                            <a class="dropdown-item" href="ecommerce.html">
+                                            <a class="dropdown-item" href="ecommerce-product?action=overview">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span> Overview
                                             </a>
                                         </li>
@@ -1049,19 +1049,14 @@
                                                 aria-labelledby="pagesDropdownEcommerceSublevel"
                                                 style="min-width: 16rem;">
                                                 <li>
-                                                    <a class="dropdown-item" href="ecommerce-products.html">
+                                                    <a class="dropdown-item" href="ecommerce-product?action=products">
                                                         <span class="tio-circle-outlined nav-indicator-icon"></span>
-                                                        Products
+                                                        Manage Products
                                                     </a>
                                                 </li>
+
                                                 <li>
-                                                    <a class="dropdown-item" href="ecommerce-product-details.html">
-                                                        <span class="tio-circle-outlined nav-indicator-icon"></span>
-                                                        Product Details
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="ecommerce-add-product.html">
+                                                    <a class="dropdown-item" href="ecommerce-product?action=add-product">
                                                         <span class="tio-circle nav-indicator-icon"></span> Add Product
                                                     </a>
                                                 </li>

@@ -5,7 +5,7 @@ import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.Order;
 import com.code.alphavn.model.OrderDetail;
 import com.code.alphavn.service.PaymentServices;
-import com.code.alphavn.service.UserServiceImpl;
+import com.code.alphavn.service.userService.UserServiceImpl;
 import com.paypal.api.payments.PayerInfo;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.ShippingAddress;

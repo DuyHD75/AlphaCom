@@ -106,6 +106,7 @@ public class ServletCheckout extends HttpServlet {
         try {
             //String isBuyNow = request.getParameter("isBuyNow");
             String Pid = request.getParameter("pid");
+
             String exportBillValue = request.getParameter("ExportBill");
             UserServiceImpl userService = new UserServiceImpl();
 
@@ -122,8 +123,8 @@ public class ServletCheckout extends HttpServlet {
                 List<Cart> carts = userService.getCartByCusID(cusId);
                 request.setAttribute("countProductInCart", carts.size());
 
-                List<Order> orders = userService.getOrderByCusId(customerId);
-                Order order = orders.get(orders.size() - 1);
+           /*     List<Order> orders = userService.getOrderByCusId(customerId);
+                Order order = orders.get(orders.size() - 1);*/
 
                 if (!Pid.equals("")) {
                     int pid = Integer.parseInt(Pid);
@@ -149,17 +150,14 @@ public class ServletCheckout extends HttpServlet {
                     } else if (payMetthod.equals("VNPAY")) {
 
 
-
-
                     } else {
                         userService.InsertPlaceOrderWithBuyNow(customerId, payMetthod, pid, price, amount);
+                        response.sendRedirect("order?action=viewLastOrder");
                     }
-                    //userService.InsertPlaceOrderWithBuyNow(customerId, payMetthod, pid, price, amount);
-                    if (exportBillValue != null) {
 
+                    if (exportBillValue != null) {
 //                        sendBillViaEmail(request, response, order);
                     }
-                    response.sendRedirect("order?action=viewLastOrder");
                 } else {
                     if (carts.size() == 0) {
                         request.setAttribute("error", "Your cart is empty, can't placed order. Buy now");
@@ -194,27 +192,27 @@ public class ServletCheckout extends HttpServlet {
                             request.setAttribute("customerInf", info);
                             request.setAttribute("orderDetail", orderDetail);
 
-                            session.setAttribute("customerId",customerId);
-                            session.setAttribute("carts",carts);
+                            session.setAttribute("customerId", customerId);
+                            session.setAttribute("carts", carts);
                             session.setAttribute("payMetthod", payMetthod);
                             session.setAttribute("cusId", cusId);
 
                             request.getRequestDispatcher("paypalPayment").forward(request, response);
                         } else if (payMetthod.equals("VNPAY")) {
-                            request.setAttribute("ordertype","");
-                            request.setAttribute("amount",Double.toString(total*100).replace(".0",""));
-                            request.setAttribute("bankCode",request.getAttribute("bankCode"));
-                            request.setAttribute("language",request.getAttribute("language"));
-                            request.getRequestDispatcher("ServletVNPayPayment?action=createTransaction").forward(request,response);
+                            request.setAttribute("ordertype", "");
+                            request.setAttribute("amount", Double.toString(total * 100).replace(".0", ""));
+                            request.setAttribute("bankCode", request.getAttribute("bankCode"));
+                            request.setAttribute("language", request.getAttribute("language"));
+                            request.getRequestDispatcher("ServletVNPayPayment?action=createTransaction").forward(request, response);
                         } else {
                             userService.InsertPlaceOrder(customerId, carts, payMetthod);
                             userService.DeleteCartByCusID(cusId);
+                            response.sendRedirect("order?action=viewLastOrder");
                         }
 
                         if (exportBillValue != null) {
 //                            sendBillViaEmail(request, response, order);
                         }
-                        //response.sendRedirect("order?action=viewLastOrder");
                     }
                 }
             } else {

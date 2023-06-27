@@ -125,15 +125,15 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="#">All products</a>
                     </li>
-                   <%-- <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Archived</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Publish</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Unpublish</a>
-                    </li>--%>
+                    <%-- <li class="nav-item">
+                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Archived</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Publish</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Unpublish</a>
+                     </li>--%>
                 </ul>
                 <!-- End Nav -->
             </div>
@@ -266,7 +266,8 @@
                                             <!-- End Checkbox Switch -->
                                         </div>
 
-                                        <div class="d-flex justify-content-between align-items-center mb-3" style="display: none">
+                                        <div class="d-flex justify-content-between align-items-center mb-3"
+                                             style="display: none">
                                             <span class="mr-2">Stocks</span>
 
                                             <!-- Checkbox Switch -->
@@ -367,13 +368,16 @@
                         <tr>
                             <td class="table-column-pr-0">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="productsCheck${product.getProduct().getId()}">
-                                    <label class="custom-control-label" for="productsCheck${product.getProduct().getId()}"></label>
+                                    <input type="checkbox" class="custom-control-input"
+                                           id="productsCheck${product.getProduct().getId()}">
+                                    <label class="custom-control-label"
+                                           for="productsCheck${product.getProduct().getId()}"></label>
                                 </div>
                             </td>
                             <td class="table-column-pl-0">
-                                <a class="media align-items-center" href="?action=product-details&id=${product.getProduct().getId()}">
-                                    <img class="avatar avatar-lg mr-3" src="imgs/productImg/${product.getImg3()}"
+                                <a class="media align-items-center"
+                                   href="?action=product-details&id=${product.getProduct().getId()}">
+                                    <img class="avatar avatar-lg mr-3" src="imgs/productImg/${product.getImg2()}"
                                          alt="Image Description">
                                     <div class="media-body">
                                         <h5 class="text-hover-primary mb-0">${product.getProduct().getName()}</h5>
@@ -383,8 +387,10 @@
                             <td class="">${product.getProduct().getCategory()}</td>
                             <td class="">Razer Company</td>
                             <td>
-                                <label class="toggle-switch toggle-switch-sm" for="stocksCheckbox${product.getProduct().getId()}">
-                                    <input type="checkbox" class="toggle-switch-input" id="stocksCheckbox${product.getProduct().getId()}" checked="">
+                                <label class="toggle-switch toggle-switch-sm"
+                                       for="stocksCheckbox${product.getProduct().getId()}">
+                                    <input type="checkbox" class="toggle-switch-input"
+                                           id="stocksCheckbox${product.getProduct().getId()}" checked="">
                                     <span class="toggle-switch-label">
                                        <span class="toggle-switch-indicator"></span>
                                      </span>
@@ -396,7 +402,8 @@
                             <td style="display: none">2</td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <a class="btn btn-sm btn-white" href="?action=update-product&id=${product.getProduct().getId()}">
+                                    <a class="btn btn-sm btn-white"
+                                       href="?action=update-product&id=${product.getProduct().getId()}">
                                         <i class="tio-edit"></i> Edit
                                     </a>
 
@@ -411,7 +418,8 @@
 
                                         <div id="productsEditDropdown${product.getProduct().getId()}"
                                              class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
-                                            <a class="dropdown-item" href="?action=delete-product&pid=${product.getProduct().getId()}">
+                                            <a class="dropdown-item"
+                                               href="?action=delete-product&pid=${product.getProduct().getId()}">
                                                 <i class="tio-delete-outlined dropdown-item-icon"></i> Delete
                                             </a>
                                             <a class="dropdown-item" href="#">
