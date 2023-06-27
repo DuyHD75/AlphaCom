@@ -180,8 +180,7 @@
                                     Available: ${pdDetail.getProduct().getAmount_remaining()}
                                 </span>
                                 <div class="input-number">
-                                    <input name="amount" type="number" value="1" min="1"
-                                           max="${pdDetail.getProduct().getAmount_remaining()}"/>
+                                    <input name="amount" type="number" value="1" min="1"/>
                                     <span class="qty-up">+</span>
                                     <span class="qty-down">-</span>
                                 </div>

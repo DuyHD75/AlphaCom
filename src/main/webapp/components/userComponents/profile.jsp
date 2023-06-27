@@ -28,7 +28,6 @@
     <link rel="stylesheet" href="./css/profile.css">
     <link rel="stylesheet" href="./css/style.css">
 
-
     <style>
         .show {
             display: block;

@@ -294,7 +294,7 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <div class="product-btns">
-                                            <form action="wishList?action=addToWishList&&pid=${p.getProduct().getId()}" method="get">
+                                            <form action="wishList?action=addToWishList&&pid=${p.getProduct().getId()}" method="post">
                                                 <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                                         class="tooltipp">add to wishlist</span></button>
                                             </form>
