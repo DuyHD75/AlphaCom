@@ -32,12 +32,12 @@
 <body class="   footer-offset">
 
 <script src="assets\vendor\hs-navbar-vertical-aside\hs-navbar-vertical-aside-mini-cache.js"></script>
-<%@ include file="header.jsp"%>
 
 <!-- ONLY DEV -->
 
-
-<script src="assets\js\demo.js"></script>
+<%--  HEADER --%>
+<%@include file="../../components/commons/adminCommons/header.jsp" %>
+<%--  END HEADER --%>
 
 <!-- END ONLY DEV -->
 
@@ -115,7 +115,7 @@
 
                         <div class="row align-items-center gx-2 mb-1">
                             <div class="col-6">
-                                <span class="card-title h2">${totalCus.getTotal()}</span>
+                                <span class="card-title h2">${totalCus}</span>
                             </div>
 
                             <div class="col-6">
@@ -178,7 +178,7 @@
 
                         <div class="row align-items-center gx-2 mb-1">
                             <div class="col-6">
-                                <span class="card-title h2">${totalOrder.getTotal()}</span>
+                                <span class="card-title h2">${totalOrder}</span>
                             </div>
 
                             <div class="col-6">
@@ -241,7 +241,7 @@
 
                         <div class="row align-items-center gx-2 mb-1">
                             <div class="col-6">
-                                <span class="card-title h2">${totalPrice.getTotalPrice()}</span>
+                                <span class="card-title h2">${totalPrice}</span>
                             </div>
 
                             <div class="col-6">

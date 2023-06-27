@@ -1,15 +1,21 @@
 package com.code.alphavn.controller.adminController;
 
+import com.code.alphavn.model.adminModel.Admin;
 import com.code.alphavn.model.adminModel.Manager;
 import com.code.alphavn.service.adminService.AdminServiceImpl;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Properties;
 
 @WebServlet(name = "ServletManager", value = "/manager")
 public class ServletManager extends HttpServlet {
@@ -23,6 +29,8 @@ public class ServletManager extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=UTF-8");
+
         String action = req.getParameter("action");
         if (action == null) {
             action = "";
@@ -50,6 +58,7 @@ public class ServletManager extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=UTF-8");
         String formType = req.getParameter("formType");
 
         try {
@@ -75,14 +84,18 @@ public class ServletManager extends HttpServlet {
     }
 
     public void ShowManagerAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+
+
         request.getRequestDispatcher("/components/adminComponents/addManager.jsp").forward(request, response);
+
     }
 
     public void ShowManagerOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 
+
         request.setAttribute("totalMan", adminService.getTotalMan());
         request.setAttribute("managers", adminService.getManager());
-        System.out.println(adminService.getManager());
+
 
         request.getRequestDispatcher("/components/adminComponents/manager.jsp").forward(request, response);
     }
@@ -107,6 +120,9 @@ public class ServletManager extends HttpServlet {
     }
 
     public void AddManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+
+        Admin admin= (Admin) session.getAttribute("acc");
         String email = request.getParameter("email");
         System.out.println(email);
         Manager account = adminService.getManagerByEmail(email);
@@ -116,8 +132,36 @@ public class ServletManager extends HttpServlet {
             String address = request.getParameter("addressLine");
             String role = request.getParameter("roleSelect");
 
-            if (adminService.AddMana(new Manager(name, email, phone, address, role))) {
+            if (adminService.AddMana(new Manager(admin.getId(),name, email, phone, address, role))) {
                 request.setAttribute("message", "Add success");
+                // Get the session object
+                Properties props = new Properties();
+                props.put("mail.smtp.host", "smtp.gmail.com");
+                props.put("mail.smtp.socketFactory.port", "465");
+                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.port", "465");
+                Session session1 = Session.getDefaultInstance(props, new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("hdat1502@gmail.com", "ootkbvbsapgibuas");
+                        // Put your email
+
+                        // id and
+                        // password here
+                    }
+                });
+                // compose message
+                try {
+                    MimeMessage message = new MimeMessage(session1);
+                    message.setFrom(new InternetAddress("hdat1502@gmail.com"));// change accordingly
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+                    message.setSubject("Welcome");
+                    message.setText("Welcome to our web \nYour username is: "+email+"\nYour password is: 12345678 " );
+                    // send message
+                    Transport.send(message);
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
                 ShowManagerOverview(request, response);
             } else {
                 ShowManagerAdd(request, response);

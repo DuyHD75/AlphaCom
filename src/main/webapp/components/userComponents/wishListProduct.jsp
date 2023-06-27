@@ -77,9 +77,21 @@
 
                                 <div class="flex">
                                     <div class="price">${p.getPrice()}</div>
-
+                                    <div class="product-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
                                 </div>
+                            <div class="flex">
 
+                            <form action="./cart?action=AddToCart&&pid=${p.getProduct_id()}"
+                                  method="post">
+                                <input type="submit" value="Add to cart"
+                                       class="delete-btn" name="submit_btn">
+                            </form>
 
                             <form action="./wishList?action=deleteFromWishList&&pid=${p.getProduct_id()}"
                                   method="post">
@@ -87,6 +99,8 @@
                                        onclick="return confirm('Delete this from WISHLIST?');"
                                        class="delete-btn" name="submit_btn">
                             </form>
+
+                            </div>
 
 
                             <c:set var="grandTotal" value="${grandTotal + subTotal}"/>

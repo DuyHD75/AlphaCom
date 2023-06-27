@@ -8,7 +8,7 @@
         <div class="navbar-nav-wrap">
             <div class="navbar-brand-wrapper">
                 <!-- Logo -->
-                <a class="navbar-brand" href="index.html" aria-label="Front">
+                <a class="navbar-brand" href="adminHome" aria-label="Front">
                     <img class="navbar-brand-logo" src="assets\svg\logos\logo.svg" alt="Logo">
                     <img class="navbar-brand-logo-mini" src="assets\svg\logos\logo-short.svg" alt="Logo">
                 </a>
@@ -319,7 +319,7 @@
         <div class="js-mega-menu navbar-nav-wrap">
             <div class="navbar-brand-wrapper">
                 <!-- Logo -->
-                <a class="navbar-brand" href="index.html" aria-label="Front">
+                <a class="navbar-brand" href="adminHome" aria-label="Front">
                     <img class="navbar-brand-logo" src="assets\svg\logos\logo.svg" alt="Logo">
                 </a>
                 <!-- End Logo -->
@@ -925,14 +925,14 @@
                                        class="hs-mega-menu-invoker dropdown-item dropdown-item-toggle"
                                        href="javascript:;" aria-haspopup="true" aria-expanded="false"
                                        aria-controls="navLinkPagesDropdownUsers">
-                                        <span class="tio-circle nav-indicator-icon"></span> Users
+                                        <span class="tio-circle nav-indicator-icon"></span> Managers
                                     </a>
 
                                     <ul id="navLinkPagesDropdownUsers"
                                         class="hs-sub-menu dropdown-menu dropdown-menu-lg"
                                         aria-labelledby="pagesDropdownUsers" style="min-width: 16rem;">
                                         <li>
-                                            <a class="dropdown-item" href="users.html">
+                                            <a class="dropdown-item" href="manager?action=managerOverview">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span> Overview
                                             </a>
                                         </li>
@@ -942,8 +942,8 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="users-add-user.html">
-                                                <span class="tio-circle-outlined nav-indicator-icon"></span> Add User
+                                            <a class="dropdown-item" href="manager?action=managerAdd">
+                                                <span class="tio-circle-outlined nav-indicator-icon"></span> Add Managers
                                                 <span
                                                         class="badge badge-info badge-pill ml-1">Hot</span>
                                             </a>
@@ -958,7 +958,7 @@
                                        class="hs-mega-menu-invoker dropdown-item dropdown-item-toggle"
                                        href="javascript:;" aria-haspopup="true" aria-expanded="false"
                                        aria-controls="navLinkPagesDropdownUserProfile">
-                                        <span class="tio-circle nav-indicator-icon"></span> User Profile <span
+                                        <span class="tio-circle nav-indicator-icon"></span> Manage Profile <span
                                             class="badge badge-primary badge-pill ml-2">5</span>
                                     </a>
 
@@ -967,13 +967,13 @@
                                         aria-labelledby="pagesDropdownUserProfile" style="min-width: 16rem;">
                                         <li>
                                             <a class="dropdown-item" href="user-profile.html">
-                                                <span class="tio-circle-outlined nav-indicator-icon"></span> Profile
+                                                <span class="tio-circle-outlined nav-indicator-icon"></span> My Profile
                                             </a>
                                         </li>
 
                                         <li>
-                                            <a class="dropdown-item" href="user-profile-my-profile.html">
-                                                <span class="tio-circle-outlined nav-indicator-icon"></span> My Profile
+                                            <a class="dropdown-item" href="managerProfile?action=showProfile">
+                                                <span class="tio-circle-outlined nav-indicator-icon"></span> Settings
                                             </a>
                                         </li>
                                     </ul>
@@ -1077,7 +1077,7 @@
                                                 aria-labelledby="pagesDropdownEcommerceSublevel"
                                                 style="min-width: 16rem;">
                                                 <li>
-                                                    <a class="dropdown-item" href="ecommerce-orders.html">
+                                                    <a class="dropdown-item" href="adminOrder?action=viewAllOrder">
                                                         <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                         Orders
                                                     </a>
@@ -1105,7 +1105,7 @@
                                                 aria-labelledby="pagesDropdownEcommerceSublevel"
                                                 style="min-width: 16rem;">
                                                 <li>
-                                                    <a class="dropdown-item" href="ecommerce-customers.html">
+                                                    <a class="dropdown-item" href="adminCustomer?action=viewAllCustomer">
                                                         <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                         Customers
                                                     </a>
@@ -1126,7 +1126,7 @@
                                         </li>
 
                                         <li>
-                                            <a class="dropdown-item" href="ecommerce-manage-reviews.html">
+                                            <a class="dropdown-item" href="manageReviews?action=reviews">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span> Manage
                                                 Reviews
                                             </a>
@@ -1320,7 +1320,7 @@
                 <div class="navbar-nav-wrap">
                     <div class="navbar-brand-wrapper">
                         <!-- Logo -->
-                        <a class="navbar-brand" href="index.html" aria-label="Front">
+                        <a class="navbar-brand" href="adminHome" aria-label="Front">
                             <img class="navbar-brand-logo" src="assets\svg\logos\logo-white.svg" alt="Logo">
                         </a>
                         <!-- End Logo -->
@@ -2097,7 +2097,7 @@
                                            class="hs-mega-menu-invoker dropdown-item dropdown-item-toggle"
                                            href="javascript:;" aria-haspopup="true" aria-expanded="false"
                                            aria-controls="navLinkPagesDropdownUsers">
-                                            <span class="tio-circle nav-indicator-icon"></span> Users
+                                            <span class="tio-circle nav-indicator-icon"></span> Managers
                                         </a>
 
                                         <ul id="navLinkPagesDropdownUsers"
@@ -2118,7 +2118,7 @@
                                             <li>
                                                 <a class="dropdown-item" href="users-add-user.html">
                                                     <span class="tio-circle-outlined nav-indicator-icon"></span> Add
-                                                    User <span
+                                                    Managers <span
                                                         class="badge badge-info badge-pill ml-1">Hot</span>
                                                 </a>
                                             </li>
@@ -2132,7 +2132,7 @@
                                            class="hs-mega-menu-invoker dropdown-item dropdown-item-toggle"
                                            href="javascript:;" aria-haspopup="true" aria-expanded="false"
                                            aria-controls="navLinkPagesDropdownUserProfile">
-                                            <span class="tio-circle nav-indicator-icon"></span> User Profile <span
+                                            <span class="tio-circle nav-indicator-icon"></span> Manage Profile <span
                                                 class="badge badge-primary badge-pill ml-2">5</span>
                                         </a>
 
@@ -2254,7 +2254,7 @@
                                                     aria-labelledby="pagesDropdownEcommerceSublevel"
                                                     style="min-width: 16rem;">
                                                     <li>
-                                                        <a class="dropdown-item" href="ecommerce-orders.html">
+                                                        <a class="dropdown-item" href="adminOrder?action=viewAllOrder">
                                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                             Orders
                                                         </a>
@@ -2282,7 +2282,7 @@
                                                     aria-labelledby="pagesDropdownEcommerceSublevel"
                                                     style="min-width: 16rem;">
                                                     <li>
-                                                        <a class="dropdown-item" href="ecommerce-customers.html">
+                                                        <a class="dropdown-item" href="adminCustomer?action=viewAllCustomer">
                                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                             Customers
                                                         </a>
@@ -2303,7 +2303,7 @@
                                             </li>
 
                                             <li>
-                                                <a class="dropdown-item" href="ecommerce-manage-reviews.html">
+                                                <a class="dropdown-item" href="manageReviews?action=reviews">
                                                     <span class="tio-circle-outlined nav-indicator-icon"></span> Manage
                                                     Reviews
                                                 </a>
@@ -2505,7 +2505,7 @@
                     <!-- Logo -->
 
 
-                    <a class="navbar-brand" href="index.html" aria-label="Front">
+                    <a class="navbar-brand" href="adminHome" aria-label="Front">
                         <img class="navbar-brand-logo" src="assets\svg\logos\logo.svg" alt="Logo">
                         <img class="navbar-brand-logo-mini" src="assets\svg\logos\logo-short.svg" alt="Logo">
                     </a>
@@ -2561,7 +2561,7 @@
                                     <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
                                        title="Users">
                                         <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="text-truncate">Users</span>
+                                        <span class="text-truncate">Managers</span>
                                     </a>
 
                                     <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
@@ -2580,7 +2580,7 @@
                                         <li class="nav-item">
                                             <a class="nav-link " href="users-add-user.html" title="Add User">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
-                                                <span class="text-truncate">Add User <span
+                                                <span class="text-truncate">Add Managers <span
                                                         class="badge badge-info badge-pill ml-1">Hot</span></span>
                                             </a>
                                         </li>
@@ -2591,7 +2591,7 @@
                                     <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
                                        title="User Profile">
                                         <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="text-truncate">User Profile <span
+                                        <span class="text-truncate">Manage Profile <span
                                                 class="badge badge-primary badge-pill ml-1">5</span></span>
                                     </a>
 
@@ -2694,7 +2694,7 @@
 
                                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                                 <li class="nav-item">
-                                                    <a class="nav-link " href="ecommerce-orders.html" title="Orders">
+                                                    <a class="nav-link " href="adminOrder?action=viewAllOrder" title="Orders">
                                                         <span class="tio-circle nav-indicator-icon"></span>
                                                         <span class="text-truncate">Orders</span>
                                                     </a>
@@ -2717,7 +2717,7 @@
 
                                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                                 <li class="nav-item">
-                                                    <a class="nav-link " href="ecommerce-customers.html" title="Customers">
+                                                    <a class="nav-link " href="adminCustomer?action=viewAllCustomer" title="Customers">
                                                         <span class="tio-circle nav-indicator-icon"></span>
                                                         <span class="text-truncate">Customers</span>
                                                     </a>
@@ -2738,7 +2738,7 @@
                                         </li>
 
                                         <li class="nav-item">
-                                            <a class="nav-link " href="ecommerce-manage-reviews.html" title="Manage Reviews">
+                                            <a class="nav-link " href="manageReviews?action=reviews" title="Manage Reviews">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Manage Reviews</span>
                                             </a>
@@ -2941,7 +2941,7 @@
                 <!-- Logo -->
 
 
-                <a class="navbar-brand" href="index.html" aria-label="Front">
+                <a class="navbar-brand" href="adminHome" aria-label="Front">
                     <img class="navbar-brand-logo-short" src="assets\svg\logos\logo-short.svg" alt="Logo">
                 </a>
 
@@ -2981,7 +2981,7 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
                                    title="Users">
                                     <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate">Users</span>
+                                    <span class="text-truncate">Managers</span>
                                 </a>
 
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
@@ -3000,7 +3000,7 @@
                                     <li class="nav-item">
                                         <a class="nav-link " href="users-add-user.html" title="Add User">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
-                                            <span class="text-truncate">Add User <span
+                                            <span class="text-truncate">Add Managers <span
                                                     class="badge badge-info badge-pill ml-1">Hot</span></span>
                                         </a>
                                     </li>
@@ -3009,9 +3009,9 @@
 
                             <li class="navbar-vertical-aside-has-menu ">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
-                                   title="User Profile">
+                                   title="Manage Profile">
                                     <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate">User Profile <span
+                                    <span class="text-truncate">Manage Profile <span
                                             class="badge badge-primary badge-pill ml-1">5</span></span>
                                 </a>
 
@@ -3115,7 +3115,7 @@
 
                                         <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                             <li class="nav-item">
-                                                <a class="nav-link " href="ecommerce-orders.html" title="Orders">
+                                                <a class="nav-link " href="adminOrder?action=viewAllOrder" title="Orders">
                                                     <span class="tio-circle nav-indicator-icon"></span>
                                                     <span class="text-truncate">Orders</span>
                                                 </a>
@@ -3138,7 +3138,7 @@
 
                                         <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                             <li class="nav-item">
-                                                <a class="nav-link " href="ecommerce-customers.html" title="Customers">
+                                                <a class="nav-link " href="adminCustomer?action=viewAllCustomer" title="Customers">
                                                     <span class="tio-circle nav-indicator-icon"></span>
                                                     <span class="text-truncate">Customers</span>
                                                 </a>
@@ -3159,7 +3159,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link " href="ecommerce-manage-reviews.html" title="Manage Reviews">
+                                        <a class="nav-link " href="manageReviews?action=reviews" title="Manage Reviews">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                             <span class="text-truncate">Manage Reviews</span>
                                         </a>

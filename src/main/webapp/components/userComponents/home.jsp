@@ -61,7 +61,16 @@
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                     </div>
-                    <a href="./view_product?pid=${pdLaptop.get(0).getProduct().getId()}" class="btn">BUY now</a>
+                    <form action="./checkout?action=BuyNow&&pid=${pdLaptop.get(0).getProduct().getId()}" method="post">
+                        <input type="hidden" name="name" value="${pdLaptop.get(0).getProduct().getName()}">
+                        <input type="hidden" name="img" value="${pdLaptop.get(0).getImg1()}">
+                        <input type="hidden" name="price" value="${pdLaptop.get(0).getPrice()}">
+                        <input type="hidden" name="amount" value="1">
+                        <c:if test="${pdLaptop.get(0).getProduct().getAmount_remaining() == 0}">
+                            <c:set var="disabled" value="disabled"/>
+                        </c:if>
+                        <button class="btn" ${disabled}>BUY now</button>
+                    </form>
                 </div>
 
                 <div class="image col-md-6 col-12">
@@ -85,7 +94,16 @@
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                     </div>
-                    <a href="./view_product?pid=${pdLaptop.get(1).getProduct().getId()}" class="btn">BUY now</a>
+                    <form action="./checkout?action=BuyNow&&pid=${pdLaptop.get(1).getProduct().getId()}" method="post">
+                        <input type="hidden" name="name" value="${pdLaptop.get(1).getProduct().getName()}">
+                        <input type="hidden" name="img" value="${pdLaptop.get(1).getImg1()}">
+                        <input type="hidden" name="price" value="${pdLaptop.get(1).getPrice()}">
+                        <input type="hidden" name="amount" value="1">
+                        <c:if test="${pdLaptop.get(0).getProduct().getAmount_remaining() == 0}">
+                            <c:set var="disabled" value="disabled"/>
+                        </c:if>
+                        <button class="btn" ${disabled}>BUY now</button>
+                    </form>
                 </div>
 
                 <div class="image col-md-6 col">
@@ -109,7 +127,16 @@
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                     </div>
-                    <a href="./view_product?pid=${pdLaptop.get(2).getProduct().getId()}" class="btn">BUY now</a>
+                    <form action="./checkout?action=BuyNow&&pid=${pdLaptop.get(2).getProduct().getId()}" method="post">
+                        <input type="hidden" name="name" value="${pdLaptop.get(2).getProduct().getName()}">
+                        <input type="hidden" name="img" value="${pdLaptop.get(2).getImg1()}">
+                        <input type="hidden" name="price" value="${pdLaptop.get(2).getPrice()}">
+                        <input type="hidden" name="amount" value="1">
+                        <c:if test="${pdLaptop.get(0).getProduct().getAmount_remaining() == 0}">
+                            <c:set var="disabled" value="disabled"/>
+                        </c:if>
+                        <button class="btn" ${disabled}>BUY now</button>
+                    </form>
                 </div>
 
                 <div class="image col-md-6 col-12">
@@ -227,7 +254,6 @@
                                                     href="./view_product?pid=${p.getProduct().getId()}">${p.getProduct().getName()}</a>
                                             </h3>
 
-
                                             <c:choose>
                                                 <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
                                                     <c:set var="finalPrice" value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
@@ -270,7 +296,7 @@
 
 
                                         <div class="add-to-cart">
-                                            <a class="add-to-cart-btn" href="cart?action=homeAddToCart&&pid=${p.getProduct().getId()}"><i
+                                            <a class="add-to-cart-btn" href="cart?action=AddToCart&&pid=${p.getProduct().getId()}"><i
                                                     class="fa fa-shopping-cart"></i> add to cart
                                             </a>
                                         </div>
@@ -421,7 +447,7 @@
 
 
                                         <div class="add-to-cart">
-                                            <a class="add-to-cart-btn" href="cart?action=homeAddToCart&&pid=${p.getProduct().getId()}"><i
+                                            <a class="add-to-cart-btn" href="cart?action=AddToCart&&pid=${p.getProduct().getId()}"><i
                                                     class="fa fa-shopping-cart"></i> add to cart
                                             </a>
                                         </div>

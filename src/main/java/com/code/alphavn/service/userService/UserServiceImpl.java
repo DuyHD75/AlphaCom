@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public class UserServiceImpl implements IUserService {
 
-    private static final Connection con = ConnectionDB.getConnection();
+    public static final Connection con = ConnectionDB.getConnection();
 
     private boolean cacheValid;
     private List<ProductInfo> productInfos;
@@ -122,7 +122,7 @@ public class UserServiceImpl implements IUserService {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 productDiscounts.add(new ProductDiscount(
-                        rs.getInt("id"),
+                        rs.getInt("discount_id"),
                         rs.getInt("product_id"),
                         rs.getString("discount_name"),
                         rs.getDouble("discount_amount"),
@@ -244,7 +244,8 @@ public class UserServiceImpl implements IUserService {
                         rs.getString("address"),
                         rs.getString("email"),
                         rs.getString("phone"),
-                        rs.getDate("created_At"));
+                        rs.getDate("created_At"),
+                        rs.getString("status"));
             }
 
         } catch (SQLException e) {
@@ -309,8 +310,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     public void Signup(Customer customer) {
-        String query = "insert into customers (name, password, address, email, phone, created_At)" +
-                " values(?, ?, '', ?, ?, GETDATE());";
+        String query = "insert into customers (name, password, address, email, phone, created_At, status)" +
+                " values(?, ?, '', ?, ?, GETDATE(), 'Active');";
         try {
             PreparedStatement pstm = con.prepareStatement(query);
             pstm.setString(1, customer.getName());
@@ -336,7 +337,8 @@ public class UserServiceImpl implements IUserService {
                         rs.getString("address"),
                         rs.getString("email"),
                         rs.getString("phone"),
-                        rs.getDate("created_At"));
+                        rs.getDate("created_At"),
+                        rs.getString("status"));
             }
         } catch (Exception e) {
         }
@@ -494,43 +496,39 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    public void InsertOrderDetailsWithBuyNow(int pid, int oid, double price, int amount) throws SQLException {
+        String query = "insert into orderDetails values(?, ? , ? , ? );";
 
-    public List<Order> getAllOrder() {
-         orders = new ArrayList<>();
-
-        String query = "SELECT * FROM orders";
         try {
             PreparedStatement pstm = con.prepareStatement(query);
-            ResultSet rs = pstm.executeQuery();
+            pstm.setInt(1, oid);
+            pstm.setInt(2, pid);
+            pstm.setDouble(3, price);
+            pstm.setInt(4, amount);
+            pstm.executeUpdate();
 
-            while (rs.next()) {
-                Customer cusId = new Customer(rs.getInt("customer_id"));
-                orders.add(new Order(
-                        rs.getInt("order_id"),
-                        getAccountByCusID(cusId),
-                        rs.getString("orderDate"),
-                        rs.getString("status"),
-                        rs.getString("payMethod"),
-                        getOrderDetailByOID(rs.getInt("order_id"))
-                ));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void InsertPlaceOrderWithBuyNow(Customer customer, String payMethod, int pid, double price, int amount) throws SQLException {
+        String query = "insert into orders (customer_id, orderDate, payMethod)  values(? , GETDATE() , ? );";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            pstm.setInt(1, customer.getId());
+            pstm.setString(2, payMethod);
+            pstm.executeUpdate();
+            ResultSet generatedKeys = pstm.getGeneratedKeys();
+            int orderId = 0;
+            if (generatedKeys.next()) {
+                orderId = generatedKeys.getInt(1);
             }
+            InsertOrderDetailsWithBuyNow(pid, orderId, price, amount);
 
         } catch (Exception e) {
         }
-        return orders;
     }
-
-
-    public List<Order> filterOrderBySatus(String status) {
-
-        List<Order> filterOrders = new ArrayList<>();
-
-        filterOrders =orders.stream().filter(
-                order -> order.getStatus().equalsIgnoreCase(status)
-        ).collect(Collectors.toList()); // Pending , Shipping , Completed , Cancel
-        return filterOrders;
-    }
-
 
     public List<OrderDetail> getOrderDetailByOID(int order_id) throws SQLException {
         List<OrderDetail> ods = new ArrayList<>();
@@ -576,14 +574,15 @@ public class UserServiceImpl implements IUserService {
         return orders;
     }
 
-    public Order getOrderByOrderId(int orderId, Customer customer) {
-        Customer cusId = new Customer(customer.getId());
+    public Order getOrderByOrderId(int orderId) {
+
         String query = "SELECT * FROM orders where order_id = ? ;";
         try {
             PreparedStatement pstm = con.prepareStatement(query);
             pstm.setInt(1, orderId);
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
+                Customer cusId = new Customer(rs.getInt("customer_id"));
                 return new Order(
                         rs.getInt("order_id"),
                         getAccountByCusID(cusId),
@@ -610,18 +609,6 @@ public class UserServiceImpl implements IUserService {
         } catch (SQLException e) {
         }
     }
-
-    public void DeleteOrder(int orderId) {
-        String query = "delete from orders \n" +
-                "where order_id = ?";
-        try {
-            PreparedStatement pstm = con.prepareStatement(query);
-            pstm.setInt(1, orderId);
-            pstm.executeUpdate();
-        } catch (SQLException e) {
-        }
-    }
-
 
     // ================= Encrypt password
     public String getBase64Encoded(String input) {

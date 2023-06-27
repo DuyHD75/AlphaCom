@@ -733,8 +733,8 @@
                         <!-- End Notification -->
                     </li>
 
-
-                    <li class="nav-item">
+<c:if test="${sessionScope.acc != null}">
+    <li class="nav-item">
                         <!-- Account -->
                         <div class="hs-unfold">
                             <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;"
@@ -743,7 +743,7 @@
                  "type": "css-animation"
                }'>
                                 <div class="avatar avatar-sm avatar-circle">
-                                    <img class="avatar-img" src="assets\img\160x160\img6.jpg" alt="Image Description">
+                                    <img class="avatar-img" src="assets\img\160x160\img1.jpg" alt="Image Description">
                                     <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                                 </div>
                             </a>
@@ -758,8 +758,8 @@
                                                  alt="Image Description">
                                         </div>
                                         <div class="media-body">
-                                            <span class="card-title h5">Mark Williams</span>
-                                            <span class="card-text">mark@example.com</span>
+                                            <span class="card-title h5">${sessionScope.acc.name}</span>
+                                            <span class="card-text">${sessionScope.acc.email}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -767,7 +767,7 @@
                                 <div class="dropdown-divider"></div>
 
                                 <!-- Unfold -->
-                                <div class="hs-unfold w-100">
+                                <div class="hs-unfold w-100 d-none">
                                     <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
                                        href="javascript:;" data-hs-unfold-options='{
                      "target": "#navSubmenuPagesAccountDropdown1",
@@ -804,13 +804,13 @@
                                           title="Profile &amp; account">Profile &amp; account</span>
                                 </a>
 
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="./managerProfile">
                                     <span class="text-truncate pr-2" title="Settings">Settings</span>
                                 </a>
 
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item d-none" href="#">
                                     <div class="media align-items-center">
                                         <div class="avatar avatar-sm avatar-dark avatar-circle mr-2">
                                             <span class="avatar-initials">HS</span>
@@ -826,7 +826,7 @@
                                 <div class="dropdown-divider"></div>
 
                                 <!-- Unfold -->
-                                <div class="hs-unfold w-100">
+                                <div class="hs-unfold w-100 d-none">
                                     <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
                                        href="javascript:;" data-hs-unfold-options='{
                      "target": "#navSubmenuPagesAccountDropdown2",
@@ -854,20 +854,20 @@
                                 </div>
                                 <!-- End Unfold -->
 
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item d-none  " href="#">
                                     <span class="text-truncate pr-2" title="Manage team">Manage team</span>
                                 </a>
 
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="./logout">
                                     <span class="text-truncate pr-2" title="Sign out">Sign out</span>
                                 </a>
                             </div>
                         </div>
                         <!-- End Account -->
                     </li>
-
+</c:if>
                     <li class="nav-item">
                         <!-- Toggle -->
                         <button type="button" class="navbar-toggler btn btn-ghost-secondary rounded-circle"
@@ -972,7 +972,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="managerProfile?action=showProfile">
+                                            <a class="dropdown-item" href="./managerProfile">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span> Settings
                                             </a>
                                         </li>

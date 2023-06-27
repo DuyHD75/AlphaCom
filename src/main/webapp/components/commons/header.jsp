@@ -52,10 +52,11 @@
                         <div class="account-dropdown">
                             <div class="account-list">
                                 <div class="account-link">
-                                    <a href="./profileCustomer">My profile</a>
+                                    <a href="profileCustomer?action=viewProfile">My profile</a>
                                 </div>
                                 <div class="account-link">
-                                    <a href="#">Change password</a>
+                                    <a href="profileCustomer?action=changePassword">Change password</a>
+
                                 </div>
                                 <div class="account-link">
                                     <a href="order?action=viewOrder">View Order</a>

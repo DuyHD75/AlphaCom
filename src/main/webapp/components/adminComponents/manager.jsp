@@ -28,11 +28,12 @@
 <body class="   footer-offset">
 
 <script src="assets\vendor\hs-navbar-vertical-aside\hs-navbar-vertical-aside-mini-cache.js"></script>
-<%@ include file="header.jsp" %>
 
 <!-- ONLY DEV -->
 
-<script src="assets\js\demo.js"></script>
+<%--  HEADER --%>
+<%@include file="../../components/commons/adminCommons/header.jsp" %>
+<%--  END HEADER --%>
 
 <!-- END ONLY DEV -->
 
@@ -83,39 +84,19 @@
         <!-- Page Header -->
         <div class="page-header">
             <div class="row align-items-center">
-                <div class="col-sm-4 mb-2 mb-sm-0">
+                <div class="col-sm-6 mb-2 mb-sm-0">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-no-gutter">
-                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Pages</a></li>
-                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="javascript:;">Users</a></li>
+                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="adminHome">Pages</a></li>
+                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="manager?action=managerOverview">Managers</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Overview</li>
                         </ol>
                     </nav>
 
-                    <h1 class="page-header-title">Users</h1>
+                    <h1 class="page-header-title">Managers: ${totalMan.getTotalMan()}</h1>
                 </div>
-                <div class="col-sm-4 ">
-                    <!-- Card -->
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h6 class="card-subtitle mb-2">Total Managers</h6>
 
-                            <div class="row align-items-center gx-2">
-                                <div class="col">
-                                    <span class="js-counter display-4 text-dark">${totalMan.getTotalMan()}</span>
-                                </div>
-
-                                <div class="col-auto">
-                    <span class="badge badge-soft-success p-1">
-                      <i class="tio-trending-up"></i> 5.0%
-                    </span>
-                                </div>
-                            </div>
-                            <!-- End Row -->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4 text-center">
+                <div class="col-sm-6 text-right">
                     <a class="btn btn-primary" href="manager?action=managerAdd">
                         <i class="tio-user-add mr-1"></i> Add user
                     </a>
@@ -1533,7 +1514,7 @@
                                     </a>
 
                                 </div>
-                                <a href="?action=DeleteMana&id=${manager.getId()}" class="btn btn-sm btn-white btndel-email" type="submit" >Delete</a>
+                                <a href="?action=DeleteMana&id=${manager.getId()}" class="btn btn-sm btn-white btndel-email" type="submit" onclick="return confirm('Are you sure cancel this manager?');">Delete</a>
 <%--                                <form method="post" action="manager">--%>
 <%--                                    <input type="hidden" name="formType" value="form3">--%>
 <%--                                    <input type="hidden" id="editEmailModalLabel4" name="email" >--%>
@@ -2409,7 +2390,7 @@
                                         <input type="text" class="form-control"
                                                name="editNameModal" id="editNameModalLabel"
                                                placeholder="Your Name" aria-label="Your name"
-                                               value="">
+                                               value="" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -2427,6 +2408,7 @@
                                         <input type="email" class="form-control"
                                                name="editEmailModal" id="editEmailModalLabel"
                                                placeholder="Email" aria-label="Email" value=""
+                                               readonly
                                               >
 
                                     </div>
@@ -2445,7 +2427,7 @@
                                     <div class="input-group input-group-sm-down-break align-items-center">
                                         <input type="text" class="js-masked-input form-control"
                                                name="phone" id="editPhoneLabel" placeholder=""
-                                               aria-label="" value="">
+                                               aria-label="" value="" readonly>
                                         <div class="input-group-append d-none">
                                             <!-- Select -->
                                             <div class="select2-custom">
@@ -2550,7 +2532,8 @@
                                                name="editAddressLineModal"
                                                id="editAddressLineModalLabel"
                                                placeholder="Your address"
-                                               aria-label="Your address" value="">
+                                               aria-label="Your address" value=""
+                                                readonly>
                                     </div>
                                 </div>
                             </div>
@@ -2563,7 +2546,7 @@
                                         <select class="js-select2-custom custom-select" size="1" style="opacity: 0;" name="roleSelect" id="editRoleModalLabel" data-hs-select2-options='{
                                       "minimumResultsForSearch": "Infinity",
                                       "dropdownAutoWidth": true,
-                                      "width": "6rem"
+                                      "width": "100%"
                                     }'>
                                             <option value="Sale" selected="">Sales</option>
                                             <option value="Marketing">Marketing</option>

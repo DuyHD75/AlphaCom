@@ -11,6 +11,13 @@ public class Admin {
         this.id = id;
     }
 
+
+    public Admin(int id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+
     public Admin(String pass, String email) {
         this.pass = pass;
         this.email = email;

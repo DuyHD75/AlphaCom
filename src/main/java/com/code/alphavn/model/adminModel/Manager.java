@@ -10,6 +10,15 @@ public class Manager {
 private int totalMan;
     public Manager() {    }
 
+    public Manager(int adminId, String name, String email, String phone, String address, String role) {
+        this.adminId = adminId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.role = role;
+    }
+
     public Manager(int id, int adminId, String name, String pass, String email, String phone, String address, Date create_At, String role) {
         this.id = id;
         this.adminId = adminId;

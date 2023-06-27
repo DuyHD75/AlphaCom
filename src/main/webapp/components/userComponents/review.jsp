@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Le_Nin
-  Date: 6/22/2023
-  Time: 11:01 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -39,7 +32,6 @@
         .show {
             display: block;
         }
-
         .hide {
             display: none;
         }
@@ -114,78 +106,75 @@
 
 <div class="container-review ${hide}">
     <h1>Please Review Before Paying</h1>
-    <form action="paypalPayment?action=receipt" method="post">
+    <form action="execute_payment" method="post">
         <div class="transaction-details">
-            <input type="hidden" name="paymentId" value="${param.paymentId}"/>
-            <input type="hidden" name="PayerID" value="${param.PayerID}"/>
+            <input type="hidden" name="paymentId" value="123" />
+            <input type="hidden" name="PayerID" value="1" />
 
             <div class="detail-row">
                 <label>Description:</label>
-                <span>${transaction.description}</span>
+                <span>Product1 x 2 | Product 2 x 5</span>
             </div>
             <div class="detail-row">
                 <label>Subtotal:</label>
-                <span>${transaction.amount.details.subtotal} USD</span>
+                <span>1000 USD</span>
             </div>
             <div class="detail-row">
                 <label>Shipping:</label>
-                <span>${transaction.amount.details.shipping} USD</span>
+                <span>0 USD</span>
             </div>
             <div class="detail-row">
                 <label>Tax:</label>
-                <span>${transaction.amount.details.tax} USD</span>
+                <span>0 USD</span>
             </div>
             <div class="detail-row">
                 <label>Total:</label>
-                <span>${transaction.amount.total} USD</span>
+                <span>1000 USD</span>
             </div>
         </div>
         <div class="payer-info">
             <div class="detail-row">
                 <label>First Name:</label>
-                <span>${payer.firstName}</span>
+                <span>Nin</span>
             </div>
             <div class="detail-row">
                 <label>Last Name:</label>
-                <span>${payer.lastName}</span>
+                <span>Lê Hoàng</span>
             </div>
             <div class="detail-row">
                 <label>Email:</label>
-                <span>${payer.email}</span>
+                <span>ninlh123@gmail.com</span>
             </div>
         </div>
         <div class="shipping-address">
             <div class="detail-row">
                 <label>Recipient Name:</label>
-                <span>${shippingAddress.recipientName}</span>
+                <span>Lê Hoàng Nin</span>
             </div>
             <div class="detail-row">
                 <label>Line 1:</label>
-                <span>${shippingAddress.line1}</span>
+                <span>line1</span>
             </div>
             <div class="detail-row">
                 <label>City:</label>
-                <span>${shippingAddress.city}</span>
+                <span>town 1</span>
             </div>
             <div class="detail-row">
                 <label>State:</label>
-                <span>${shippingAddress.state}</span>
+                <span>đà nẵng</span>
             </div>
             <div class="detail-row">
                 <label>Country Code:</label>
-                <span>${shippingAddress.countryCode}</span>
+                <span>VN</span>
             </div>
             <div class="detail-row">
                 <label>Postal Code:</label>
-                <span>${shippingAddress.postalCode}</span>
+                <span>555700</span>
             </div>
         </div>
         <div class="submit-row">
-            <input type="submit" value="Pay Now"/>
+            <input type="submit" value="Pay Now" />
         </div>
-        <input type="hidden" name="pid" value="${pid}">
-        <input type="hidden" name="price" value="${price}">
-        <input type="hidden" name="amount" value="${amount}">
     </form>
 </div>
 
@@ -197,7 +186,7 @@
         <table>
             <tr>
                 <td><b>Merchant:</b></td>
-                <td>Alpha Electro</td>
+                <td>Company ABC Ltd.</td>
             </tr>
             <tr>
                 <td><b>Payer:</b></td>
@@ -226,70 +215,14 @@
         </table>
     </div>
     <div class="submit-row">
-        <a type="submit" value="View Order" href="order?action=viewLastOrder">View Order</a>
+        <input type="submit" value="Print Receipt" onclick="window.print()"/>
     </div>
 </div>
 
-
-
-
-<div class="container-review hide ${show_vnpay}">
-    <h1 class="hide ${hide2}" style="color: green">Payment Done. Thank you for purchasing our products</h1>
-    <h1 class="hide ${show2}" style="color: red">Payment Cancel</h1>
-
-    <br/>
-    <h2>Receipt Details:</h2>
-    <div class="header clearfix">
-        <h3 class="text-muted">VNPAY RESPONSE</h3>
-    </div>
-    <div class="table-responsive">
-        <div class="form-group">
-            <label >Merchant Transaction Code:</label>
-            <label>${vnp_TxnRef}</label>
-        </div>
-        <div class="form-group">
-            <label >Amount:</label>
-            <label>${vnp_Amount}</label>
-        </div>
-        <div class="form-group">
-            <label >Order info:</label>
-            <label>${vnp_OrderInfo}</label>
-        </div>
-        <div class="form-group">
-            <label >VNPAY Response Code:</label>
-            <label>${vnp_ResponseCode}</label>
-        </div>
-        <div class="form-group">
-            <label >VNPAY Transaction Code:</label>
-            <label>${vnp_TransactionNo}</label>
-        </div>
-        <div class="form-group">
-            <label >Bank Code:</label>
-            <label>${vnp_BankCode}</label>
-        </div>
-        <div class="form-group">
-            <label >Pay Date:</label>
-            <label>${vnp_PayDate}</label>
-        </div>
-        <div class="form-group">
-            <label >Payment Status:</label>
-            <label>
-                ${paymentStatus}
-            </label>
-        </div>
-    </div>
-
-<%--    <footer class="footer">--%>
-<%--        <p>&copy; VNPAY 2020</p>--%>
-<%--    </footer>--%>
-    <div class="submit-row">
-        <a type="submit" value="View Order" href="order?action=viewLastOrder">View Order</a>
-    </div>
-</div>
 <!-- FOOTER -->
 
-<%@include file="../../components/commons/newsletter.jsp" %>
-<%@include file="../../components/commons/footer.jsp" %>
+<%@include file="../../components/commons/newsletter.jsp"%>
+<%@include file="../../components/commons/footer.jsp"%>
 
 <!-- /FOOTER -->
 
@@ -307,3 +240,4 @@
 </script>
 </body>
 </html>
+

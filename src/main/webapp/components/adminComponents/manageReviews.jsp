@@ -30,12 +30,11 @@
 
 <script src="assets\vendor\hs-navbar-vertical-aside\hs-navbar-vertical-aside-mini-cache.js"></script>
 
-<%@ include file="header.jsp" %>
-
 <!-- ONLY DEV -->
 
-
-<script src="assets\js\demo.js"></script>
+<%--  HEADER --%>
+<%@include file="../../components/commons/adminCommons/header.jsp" %>
+<%--  END HEADER --%>
 
 <!-- END ONLY DEV -->
 
@@ -105,7 +104,7 @@
         <!-- End Page Header -->
 
         <!-- Card -->
-        <div class="card mb-3 mb-lg-5">
+        <div class="card mb-3 mb-lg-5" style="margin-top: 60px">
             <!-- Body -->
             <div class="card-body">
                 <div class="row align-items-md-center gx-md-5">
@@ -328,7 +327,7 @@
                    }'>
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col" class="table-column-pr-0">
+                        <th scope="col" class="table-column-pr-0 d-none">
                             <div class="custom-control custom-checkbox">
                                 <input id="datatableCheckAll" type="checkbox" class="custom-control-input">
                                 <label class="custom-control-label" for="datatableCheckAll"></label>
@@ -346,10 +345,10 @@
                     <tbody>
                     <c:forEach var="review" items="${reviews}" varStatus="loop">
                         <tr>
-                            <td class="table-column-pr-0">
+                            <td class="table-column-pr-0 d-none">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="usersDataCheck2">
-                                    <label class="custom-control-label" for="usersDataCheck2"></label>
+                                    <input type="checkbox" class="custom-control-input" id="usersDataCheck${review.id}">
+                                    <label class="custom-control-label" for="usersDataCheck${review.id}"></label>
                                 </div>
                             </td>
                             <th>
@@ -405,39 +404,43 @@
                             <td class="d-none"><span class="badge badge-soft-success ml-2">Published</span></td>
                             <td>
                                 <!-- Unfold -->
-                                <div class="hs-unfold">
-                                    <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-ghost-secondary rounded-circle"
-                                       href="javascript:;" data-hs-unfold-options='{
-                           "target": "#settingsDropdown1",
-                           "type": "css-animation"
-                         }'>
-                                        <i class="tio-more-horizontal"></i>
-                                    </a>
+<%--                                <div class="hs-unfold">--%>
+<%--                                    <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-ghost-secondary rounded-circle"--%>
+<%--                                       href="javascript:;" data-hs-unfold-options='{--%>
+<%--                           "target": "#settingsDropdown1",--%>
+<%--                           "type": "css-animation"--%>
+<%--                         }'>--%>
+<%--                                        <i class="tio-more-horizontal"></i>--%>
+<%--                                    </a>--%>
 
-                                    <div id="settingsDropdown1"
-                                         class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
-                                        <span class="dropdown-header">Settings</span>
+<%--                                    <div id="settingsDropdown1"--%>
+<%--                                         class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">--%>
+<%--                                        <span class="dropdown-header">Settings</span>--%>
 
-                                        <a class="dropdown-item" href="#">
-                                            <i class="tio-edit dropdown-item-icon"></i> Edit
-                                        </a>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="tio-publish dropdown-item-icon"></i> Publish
-                                        </a>
-                                        <a class="dropdown-item" href="?action=DeleteReview&id=${review.getId()}" type="submit">
-                                            <i class="tio-delete-outlined dropdown-item-icon"></i> Delete
-                                        </a>
+<%--                                        <a class="dropdown-item" href="#">--%>
+<%--                                            <i class="tio-edit dropdown-item-icon"></i> Edit--%>
+<%--                                        </a>--%>
+<%--                                        <a class="dropdown-item" href="#">--%>
+<%--                                            <i class="tio-publish dropdown-item-icon"></i> Publish--%>
+<%--                                        </a>--%>
+<%--                                        <a class="dropdown-item" href="?action=DeleteReview&id=${review.getId()}" type="submit">--%>
+<%--                                            <i class="tio-delete-outlined dropdown-item-icon"></i> Delete--%>
+<%--                                        </a>--%>
 
-                                        <div class="dropdown-divider"></div>
+<%--                                        <div class="dropdown-divider"></div>--%>
 
-                                        <span class="dropdown-header">Feedback</span>
+<%--                                        <span class="dropdown-header">Feedback</span>--%>
 
-                                        <a class="dropdown-item" href="#">
-                                            <i class="tio-reply dropdown-item-icon"></i> Reply
-                                        </a>
-                                    </div>
-                                </div>
+<%--                                        <a class="dropdown-item" href="#">--%>
+<%--                                            <i class="tio-reply dropdown-item-icon"></i> Reply--%>
+<%--                                        </a>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                                 <!-- End Unfold -->
+
+                                <a class="dropdown-item " href="?action=DeleteReview&id=${review.getId()}" type="submit">
+                                    <i class="tio-delete-outlined dropdown-item-icon"></i> Delete
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>
