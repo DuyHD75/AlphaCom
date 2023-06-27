@@ -34,6 +34,9 @@ public class ServletEcommerceProduct extends HttpServlet {
 
         try {
             switch (action) {
+                case "overview":
+                    showOverView(request, response);
+                    break;
                 case "products":
                     showProductList(request, response);
                     break;
@@ -46,11 +49,12 @@ public class ServletEcommerceProduct extends HttpServlet {
                 case "add-product":
                     showAddProductLayOut(request, response);
                     break;
-
                 case "delete-product":
                     deleleProduct(request, response);
                     break;
+                case"searchSTC":
 
+                    break;
                 default:
                     System.out.println("This is the do get of ecommerce-product");
                     break;
@@ -102,8 +106,17 @@ public class ServletEcommerceProduct extends HttpServlet {
         int pid = Integer.parseInt(request.getParameter("id"));
         request.setAttribute("product", adminService.getProductByID(pid));
         request.setAttribute("discount", adminService.findDiscountProductById(pid));
-        System.out.println(adminService.findDiscountProductById(pid));
         request.getRequestDispatcher("components/adminComponents/ecommerce-product-details.jsp").forward(request, response);
+    }
+
+    public void showOverView(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        String week = request.getParameter("week");
+        System.out.println(week);
+        request.setAttribute("statistic", adminService.manageProducts(Integer.parseInt(week)));
+        request.setAttribute("manages", adminService.getManageProductInCurrDate(Integer.parseInt(week)));
+        request.setAttribute("prdTops", adminService.getTopSellingProduct());
+
+        request.getRequestDispatcher("/components/adminComponents/ecommerce.jsp").forward(request, response);
     }
 
 
@@ -114,9 +127,10 @@ public class ServletEcommerceProduct extends HttpServlet {
     public void deleleProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int pid = Integer.parseInt(request.getParameter("pid"));
         boolean isDeleted = adminService.deleteProduct(pid);
-        if(isDeleted) {
+        if (isDeleted) {
             request.setAttribute("success", "Delete product successfully!");
-        } request.setAttribute("error", "Delete product faild!");
+        }
+        request.setAttribute("error", "Delete product faild!");
         showProductList(request, response);
     }
 
@@ -130,26 +144,31 @@ public class ServletEcommerceProduct extends HttpServlet {
         String files = request.getParameter("fileNames");
         String prdDesc = request.getParameter("description");
         String price = request.getParameter("product-price");
-        String discount = request.getParameter("product-discount");
-        String discountName = request.getParameter("discount-name");
         String vendor = request.getParameter("vendor");
         String category = request.getParameter("category");
         String prdQuantity = request.getParameter("quantity");
-        String startDate = request.getParameter("start-date");
-        String endDate = request.getParameter("end-date");
+        String discount = request.getParameter("product-discount");
 
         String[] splitFiles = files.split(" ; ");
 
         Product product = new Product(prdName, prdDesc, Integer.parseInt(prdQuantity), category);
-
         ProductInfo productInfo = new ProductInfo(product, Double.parseDouble(price), splitFiles[0], splitFiles[1], splitFiles[2], vendor);
 
-        ProductDiscount productDiscount = new ProductDiscount(discountName, Double.parseDouble(discount), Date.valueOf(startDate), Date.valueOf(endDate));
+        ProductDiscount productDiscount = null;
+
+        // == CHECK THE PRODUCT HAVE THE DISCOUNT OR NOT AND HANDLE
+        if (!discount.equalsIgnoreCase("0")) {
+            System.out.println("Vao dis 156 servlet");
+            String discountName = request.getParameter("discount-name");
+            String startDate = request.getParameter("start-date");
+            String endDate = request.getParameter("end-date");
+
+            productDiscount = new ProductDiscount(discountName, Double.parseDouble(discount), Date.valueOf(startDate), Date.valueOf(endDate));
+        }
 
         boolean isCreated = adminService.createProduct(productInfo, productDiscount);
 
         if (!isCreated) {
-            System.out.println("Faild");
             request.setAttribute("error", "Create new product faild, Try again !");
         }
         request.setAttribute("success", "Create product successfully !");
@@ -160,21 +179,19 @@ public class ServletEcommerceProduct extends HttpServlet {
     public void updateProduct(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
 
         String pid = request.getParameter("pid");
+
         String prdName = request.getParameter("productName");
-
         String files = request.getParameter("fileNames");
-
         String prdDesc = request.getParameter("description");
         String price = request.getParameter("product-price");
-        String discount = request.getParameter("product-discount");
-        String discountName = request.getParameter("discount-name");
         String vendor = request.getParameter("vendor");
         String category = request.getParameter("category");
         String prdQuantity = request.getParameter("quantity");
-        String startDate = request.getParameter("start-date");
-        String endDate = request.getParameter("end-date");
+        String discount = request.getParameter("product-discount");
 
-        System.out.println("files" + files);
+
+        System.out.println("DIS " + discount);
+
 
         String[] splitFiles = files.split(" ; ");
 
@@ -182,12 +199,23 @@ public class ServletEcommerceProduct extends HttpServlet {
 
         ProductInfo productInfo = new ProductInfo(product, Double.parseDouble(price), splitFiles[0], splitFiles[1], splitFiles[2], vendor);
 
-        ProductDiscount productDiscount = new ProductDiscount(Integer.parseInt(pid), discountName, Double.parseDouble(discount), Date.valueOf(startDate), Date.valueOf(endDate));
+        // == CHECK THE PRODUCT HAVE THE DISCOUNT OR NOT AND HANDLE
+        ProductDiscount productDiscount = null;
 
+        if (!discount.equalsIgnoreCase("0")) {
+            String startDate = request.getParameter("start-date");
+            String endDate = request.getParameter("end-date");
+            String discountName = request.getParameter("discount-name");
+            productDiscount = new ProductDiscount(Integer.parseInt(pid), discountName,
+                    Double.parseDouble(discount), Date.valueOf(startDate), Date.valueOf(endDate));
+        }else {
+            adminService.deleteDiscountByPID(Integer.parseInt(pid));
+        }
+
+        // == HANDLE UPADTE PRODUCT
         boolean isCreated = adminService.updateProduct(productInfo, productDiscount);
 
         if (!isCreated) {
-            System.out.println("Faild");
             request.setAttribute("error", "Create new product faild, Try again !");
         }
         request.setAttribute("success", "Create product successfully !");

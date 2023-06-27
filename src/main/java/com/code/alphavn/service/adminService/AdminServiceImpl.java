@@ -7,11 +7,11 @@ import com.code.alphavn.model.adminModel.ManageOrder;
 import com.code.alphavn.model.adminModel.Manager;
 import com.code.alphavn.service.userService.UserServiceImpl;
 
+
 import java.sql.*;
 import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,6 +23,7 @@ public class AdminServiceImpl implements IAdminService {
     private List<ProductInfo> productInfos;
     private List<ProductDiscount> productDiscounts;
     private List<ProductReview> productReviews;
+    private List<Order> orders;
 
     private List<Order> orders;
 
@@ -33,12 +34,12 @@ public class AdminServiceImpl implements IAdminService {
     // ============================ HANDLE METHOD ===================
 
     public List<ProductInfo> getAllProducts() throws SQLException {
-        String query = "SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining, pd.price, pd.img1, pd.img2, pd.img3,c.category_name " + "FROM products p JOIN productDetails pd ON p.pid = pd.product_id JOIN categorys c ON p.category_id = c.category_id";
+        String query = "SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining, pd.price, pd.img1, pd.img2, pd.img3,c.category_name " +
+                "FROM products p JOIN productDetails pd ON p.pid = pd.product_id JOIN categorys c ON p.category_id = c.category_id";
         Connection con = ConnectionDB.getConnection();
         PreparedStatement pstm = con.prepareStatement(query);
 
         if (!cacheValid || productInfos == null) {
-            System.out.println("vao cache 1");
             productInfos = new ArrayList<>();
             ResultSet rs = pstm.executeQuery();
             productInfos = convertResultSetToList(rs);
@@ -72,6 +73,7 @@ public class AdminServiceImpl implements IAdminService {
 
             int rowEffect = pstm.executeUpdate();
 
+            System.out.println("vao create ! 70");
             if (rowEffect > 0) {
                 try (ResultSet generatedKeys = pstm.getGeneratedKeys()) {
                     if (generatedKeys != null && generatedKeys.next()) {
@@ -107,6 +109,10 @@ public class AdminServiceImpl implements IAdminService {
 
     public boolean createProductDiscount(ProductDiscount productDiscount, int pid) throws SQLException {
         String query = "INSERT INTO productDiscount values (? , ? , ? , ?, ?);";
+        if (productDiscount == null) {
+            return true;
+        }
+
         try (Connection con = ConnectionDB.getConnection(); PreparedStatement pstm = con.prepareStatement(query);) {
             pstm.setInt(1, pid);
             pstm.setString(2, productDiscount.getDis_name());
@@ -121,8 +127,7 @@ public class AdminServiceImpl implements IAdminService {
 
     // ====================== UPDATE PRODUCT =========================
     public boolean updateProduct(ProductInfo productInfo, ProductDiscount productDiscount) throws SQLException {
-        boolean isCreated = false;
-
+        boolean isUpdated = false;
 
         String query = "UPDATE products set product_name = ? , product_desc = ? , amount_remaining= ? , " +
                 "manager_id= ? , supplier_id = ? , category_id = ? where pid = ?";
@@ -135,13 +140,16 @@ public class AdminServiceImpl implements IAdminService {
             pstm.setInt(5, Integer.parseInt(productInfo.getVendor()));
             pstm.setInt(6, Integer.parseInt(productInfo.getProduct().getCategory()));
             pstm.setInt(7, productInfo.getProduct().getId());
-            isCreated = pstm.executeUpdate() > 0;
+            isUpdated = pstm.executeUpdate() > 0;
 
-            isCreated = updateProductDetail(productInfo);
-            isCreated = updateProductDiscount(productDiscount);
+            isUpdated = updateProductDetail(productInfo);
 
+            if (findDiscountProductById(productInfo.getProduct().getId()).isPresent()) {
+                isUpdated = updateProductDiscount(productDiscount);
+            } else isUpdated = createProductDiscount(productDiscount, productInfo.getProduct().getId());
         }
-        return isCreated;
+
+        return isUpdated;
     }
 
 
@@ -160,6 +168,10 @@ public class AdminServiceImpl implements IAdminService {
 
     public boolean updateProductDiscount(ProductDiscount productDiscount) throws SQLException {
         String query = "UPDATE productDiscount SET discount_name = ? ,discount_amount =  ? ,start_date =  ? , end_date =  ? where  product_id = ?;";
+
+        if (productDiscount == null) {
+            return true;
+        }
 
         try (Connection con = ConnectionDB.getConnection(); PreparedStatement pstm = con.prepareStatement(query);) {
             pstm.setString(1, productDiscount.getDis_name());
@@ -197,30 +209,40 @@ public class AdminServiceImpl implements IAdminService {
                 cacheValid = true;
             }
         }
-        return filterDiscount(productDiscounts);
+        return productDiscounts;
+    }
+
+    public boolean deleteDiscountByPID(int pid) throws SQLException {
+        String query = "DELETE FROM productDiscount where product_id = ?";
+
+        try (Connection con = ConnectionDB.getConnection();
+             PreparedStatement pstm = con.prepareStatement(query);
+        ) {
+            System.out.println("amd :  vao delltee");
+
+            pstm.setInt(1, pid);
+            return pstm.executeUpdate() > 0;
+        }
     }
 
     public Optional<ProductDiscount> findDiscountProductById(int pid) throws SQLException {
         LocalDate currentDate = LocalDate.now();
-
         Optional<ProductDiscount> prdDiscount = getProductDiscounts().stream()
                 .filter(productDiscount -> productDiscount.getPid() == pid).findFirst();
 
         return prdDiscount;
     }
 
-    public List<ProductDiscount> filterDiscount(List<ProductDiscount> productDiscounts) {
+   /* public List<ProductDiscount> filterDiscount(List<ProductDiscount> productDiscounts) {
         LocalDate currentDate = LocalDate.now();
         productDiscounts = productDiscounts.stream()
-                .filter(productDiscount ->
-                        convertToLocalDate((Date) productDiscount.getStart_date()).isBefore(currentDate)
-                                && convertToLocalDate((Date) productDiscount.getEnd_date()).isAfter(currentDate)
-                                || convertToLocalDate((Date) productDiscount.getStart_date()).isEqual(currentDate)
-                                || convertToLocalDate((Date) productDiscount.getEnd_date()).isEqual(currentDate)
+                .filter(productDiscount -> convertToLocalDate((Date) productDiscount.getEnd_date()).isAfter(currentDate)
+                        || convertToLocalDate((Date) productDiscount.getEnd_date()).isEqual(currentDate)
                 ).collect(Collectors.toList());
 
         return productDiscounts;
-    }
+    }*/
+
 
     private LocalDate convertToLocalDate(Date date) {
         return date.toLocalDate();
@@ -243,44 +265,37 @@ public class AdminServiceImpl implements IAdminService {
 
     // =====================  METHOD HANDLE RENDER OVERVIEW PRODUCT =============================
 
-    public List<ManageOrder> manageOrders() throws SQLException {
-        String query = "SELECT o.orderDate, COUNT(DISTINCT o.order_id) AS TotalOrders, SUM(od.quantityOrdered) AS TotalQuantity, SUM(od.final_price) AS TotalPrice\n" +
-                "FROM orders o JOIN orderDetails od ON o.order_id = od.order_id GROUP BY o.orderDate;\n";
+    public List<ManageOrder> manageProducts(int week) throws SQLException {
+        String query =  "SELECT DATENAME(WEEKDAY, o.orderDate) AS DayOfWeek,\n" +
+                "       o.orderDate,\n" +
+                "       COUNT(DISTINCT o.order_id) AS TotalOrders,\n" +
+                "       SUM(od.quantityOrdered) AS TotalQuantity,\n" +
+                "       SUM(od.final_price) AS TotalPrice\n" +
+                "FROM orders o\n" +
+                "JOIN orderDetails od ON o.order_id = od.order_id\n" +
+                "WHERE DATEPART(ISO_WEEK, o.orderDate) = ?\n" +
+                "GROUP BY DATENAME(WEEKDAY, o.orderDate), o.orderDate;";
 
         List<ManageOrder> mangeOrders = new ArrayList<>();
         try (Connection con = ConnectionDB.getConnection(); PreparedStatement pstm = con.prepareStatement(query);) {
+            pstm.setInt(1, week);
             ResultSet rs = pstm.executeQuery();
 
             while (rs.next()) {
                 mangeOrders.add(new ManageOrder(
-                        rs.getDate(1),
-                        rs.getLong(2),
+                        rs.getString(1),
+                        rs.getDate(2),
                         rs.getLong(3),
-                        rs.getDouble(4)));
+                        rs.getLong(4),
+                        rs.getDouble(5)));
             }
         }
         return mangeOrders;
     }
 
-    public Map<DayOfWeek, ManageOrder> saveOrdersByDayOfWeek() throws SQLException {
-        Map<DayOfWeek, ManageOrder> ordersByDayOfWeek = new HashMap<>();
-
-        for (ManageOrder order : manageOrders()) {
-            LocalDate orderDate = convertToLocalDate((Date) order.getOrderDate());
-            DayOfWeek dayOfWeek = orderDate.getDayOfWeek();
-
-            if (!ordersByDayOfWeek.containsKey(dayOfWeek)) {
-                ordersByDayOfWeek.put(dayOfWeek, order);
-            }
-        }
-
-        return ordersByDayOfWeek;
-    }
-
-
-    public Optional<ManageOrder> getManageOrderInCurrDate() throws SQLException {
+    public Optional<ManageOrder> getManageProductInCurrDate(int week) throws SQLException {
         LocalDate currentDate = LocalDate.now();
-        Optional<ManageOrder> currManageOrder = manageOrders().stream()
+        Optional<ManageOrder> currManageOrder = manageProducts(week).stream()
                 .filter(mangeOrder -> convertToLocalDate((Date) mangeOrder.getOrderDate()).isEqual(currentDate))
                 .findFirst();
         return currManageOrder;
@@ -327,6 +342,7 @@ public class AdminServiceImpl implements IAdminService {
             }
 
         } catch (Exception e) {
+
         }
         return customers;
     }
@@ -341,11 +357,19 @@ public class AdminServiceImpl implements IAdminService {
             pstm.setInt(2, cusId);
             pstm.executeUpdate();
         } catch (SQLException e) {
+
+    public Order getTotalPriceOrder() throws SQLException {
+        Order order = null;
+        Connection con = ConnectionDB.getConnection();
+        PreparedStatement pstm = con.prepareStatement("SELECT  AVG(final_price) AS total FROM orderDetails");
+        ResultSet rs = pstm.executeQuery();
+        while (rs.next()) {
+            order = new Order(rs.getInt("total"));
+
         }
     }
 
     public void DeleteCustomerSelected(List<Customer> customers) {
-
         String query = "delete from customers \n" +
                 "where customer_id = ?";
         try {
@@ -358,6 +382,7 @@ public class AdminServiceImpl implements IAdminService {
         } catch (SQLException e) {
         }
     }
+
 
     public void DeleteCustomer(int Cusid) {
         String query = "delete from customers \n" +
@@ -372,6 +397,7 @@ public class AdminServiceImpl implements IAdminService {
 
     public Manager getTotalMan() throws SQLException {
         Manager manager = null;
+        Connection con = ConnectionDB.getConnection();
         PreparedStatement pstm = con.prepareStatement("SELECT  COUNT(*) AS total FROM managers");
         ResultSet rs = pstm.executeQuery();
         while (rs.next()) {
@@ -382,6 +408,7 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     public List<Manager> getManager() throws SQLException {
+        Connection con = ConnectionDB.getConnection();
         PreparedStatement pstm = con.prepareStatement("select * from managers;");
         List<Manager> managers = new ArrayList<>();
 
@@ -399,14 +426,16 @@ public class AdminServiceImpl implements IAdminService {
         }
         return managers;
     }
+
     public ProductReview getProductRatingReviews() throws SQLException {
         String query = "SELECT AVG(rating) as avgrating,\n" +
-"       COUNT(CASE WHEN rating = 1 THEN 1 ELSE NULL END) AS rating_1,\n" +
+                "       COUNT(CASE WHEN rating = 1 THEN 1 ELSE NULL END) AS rating_1,\n" +
                 "       COUNT(CASE WHEN rating = 2 THEN 1 ELSE NULL END) AS rating_2,\n" +
                 "       COUNT(CASE WHEN rating = 3 THEN 1 ELSE NULL END) AS rating_3,\n" +
                 "       COUNT(CASE WHEN rating = 4 THEN 1 ELSE NULL END) AS rating_4,\n" +
                 "       COUNT(CASE WHEN rating = 5 THEN 1 ELSE NULL END) AS rating_5\n" +
-                "FROM productReivews\n" ;
+                "FROM productReivews\n";
+        Connection con = ConnectionDB.getConnection();
         PreparedStatement pstmt = con.prepareStatement(query);
         ResultSet rs = pstmt.executeQuery();
         ProductReview productReviews = null;
@@ -421,12 +450,14 @@ public class AdminServiceImpl implements IAdminService {
         }
         return productReviews;
     }
+
     public List<ProductReview> getProductReviews() throws SQLException {
 
         String query = "SELECT  pr.id, c.name as cus_name, c.email as email1, pd.img1 as img, p.product_name as product_name1 , pr.comment ,  pr.rating ,  pr.create_at\n" +
                 "  FROM productReivews pr JOIN customers c ON pr.customer_id = c.customer_id\n" +
                 "JOIN productDetails pd On pr.product_id=pd.product_id\n" +
                 "Join products p on pr.product_id=p.pid";
+        Connection con = ConnectionDB.getConnection();
         PreparedStatement pstm = con.prepareStatement(query);
         ResultSet rs = pstm.executeQuery();
 
@@ -446,8 +477,10 @@ public class AdminServiceImpl implements IAdminService {
         }
         return productReviews;
     }
+
     public boolean deleteReviewById(int id) throws SQLException {
         try {
+            Connection con = ConnectionDB.getConnection();
             PreparedStatement pst = con.prepareStatement("DELETE FROM productReivews where id = ? ");
             pst.setInt(1, id);
             pst.executeUpdate();
@@ -457,7 +490,9 @@ public class AdminServiceImpl implements IAdminService {
         return true;
 
     }
+
     public Manager getManagerByEmail(String email) {
+        Connection con = ConnectionDB.getConnection();
         String query = "select * from managers where email = ?";
         try {
             PreparedStatement pstm = con.prepareStatement(query);
@@ -485,11 +520,12 @@ public class AdminServiceImpl implements IAdminService {
         String query = "update managers set name=? , phone=?, address=?, role=?\n" +
                 "  where email = ?";
         try {
+            Connection con = ConnectionDB.getConnection();
             PreparedStatement pstm = con.prepareStatement(query);
             pstm.setString(1, manager.getName().trim());
             pstm.setString(2, manager.getPhone().trim());
             pstm.setString(3, manager.getAddress().trim());
-            pstm.setString(4,manager.getRole().trim());
+            pstm.setString(4, manager.getRole().trim());
             pstm.setString(5, manager.getEmail().trim());
             pstm.executeUpdate();
         } catch (Exception e) {
@@ -504,6 +540,7 @@ public class AdminServiceImpl implements IAdminService {
 
     public boolean updatePassMana(Manager manager) throws SQLException {
         try {
+            Connection con = ConnectionDB.getConnection();
             PreparedStatement pst = con.prepareStatement("update managers set password = ? where email = ? ");
             pst.setString(1, manager.getPass());
             pst.setString(2, manager.getEmail());
@@ -517,6 +554,7 @@ public class AdminServiceImpl implements IAdminService {
 
     public boolean deleteManagerById(int id) throws SQLException {
         try {
+            Connection con = ConnectionDB.getConnection();
             PreparedStatement pst = con.prepareStatement("DELETE FROM managers where manager_id = ? ");
             pst.setInt(1, id);
             pst.executeUpdate();
@@ -531,6 +569,7 @@ public class AdminServiceImpl implements IAdminService {
         String query = "insert into managers (name, email, phone, address,role , created_At)" +
                 " values(?, ?, ?, ?, ?, GETDATE());";
         try {
+            Connection con = ConnectionDB.getConnection();
             PreparedStatement pstm = con.prepareStatement(query);
             pstm.setString(1, manager.getName());
             pstm.setString(2, manager.getEmail());
@@ -543,11 +582,13 @@ public class AdminServiceImpl implements IAdminService {
         }
         return true;
     }
+
     public List<Order> getAllOrder() {
         List<Order> orders = new ArrayList<>();
         UserServiceImpl userService = new UserServiceImpl();
         String query = "SELECT * FROM orders";
         try {
+            Connection con = ConnectionDB.getConnection();
             PreparedStatement pstm = con.prepareStatement(query);
             ResultSet rs = pstm.executeQuery();
 
@@ -620,10 +661,10 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     public List<Order> filterOrderBySatus(String status) {
-        orders= getAllOrder();
+        orders = getAllOrder();
         List<Order> filterOrders = new ArrayList<>();
 
-        filterOrders =orders.stream().filter(
+        filterOrders = orders.stream().filter(
                 order -> order.getStatus().equalsIgnoreCase(status)
         ).collect(Collectors.toList()); // Pending , Shipping , Completed , Cancel
         return filterOrders;
@@ -673,7 +714,7 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     // ======================= END DATKD CODE =================================================
-    
+
 
     // ===================== COMMONS METHOD ======================
 
@@ -692,18 +733,26 @@ public class AdminServiceImpl implements IAdminService {
     public static void main(String[] args) throws SQLException {
         AdminServiceImpl ad = new AdminServiceImpl();
 
-        Map<DayOfWeek, ManageOrder> ordersByDayOfWeek = ad.saveOrdersByDayOfWeek();
-
-        for (Map.Entry<DayOfWeek, ManageOrder> entry : ordersByDayOfWeek.entrySet()) {
-            DayOfWeek dayOfWeek = entry.getKey();
-            ManageOrder manageOrder = entry.getValue();
-
-            System.out.println("Day of Week: " + dayOfWeek);
-            System.out.println("Manage Order: " + manageOrder);
-            System.out.println("---------------------------");
-        }
-
-        System.out.println(ad.getTotalPriceOrder());
-
     }
 }
+
+
+
+/*
+    public Map<DayOfWeek, ManageOrder> saveOrdersByDayOfWeek() throws SQLException {
+        Map<DayOfWeek, ManageOrder> ordersByDayOfWeek = new HashMap<>();
+
+        for (ManageOrder order : manageOrders()) {
+            LocalDate orderDate = convertToLocalDate((Date) order.getOrderDate());
+            DayOfWeek dayOfWeek = orderDate.getDayOfWeek();
+
+            if (!ordersByDayOfWeek.containsKey(dayOfWeek)) {
+                ordersByDayOfWeek.put(dayOfWeek, order);
+            }
+        }
+
+        return ordersByDayOfWeek;
+
+    }
+*/
+

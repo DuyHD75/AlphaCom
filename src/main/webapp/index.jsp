@@ -11,6 +11,5 @@
 <a href="./loginCustomer">login</a>
 <a href="./adminOrder?action=viewAllOrder">Admin</a>
 
-
 </body>
 </html>

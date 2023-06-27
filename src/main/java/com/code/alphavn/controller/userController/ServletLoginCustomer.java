@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet( name = "ServletLoginCustomer", value = "/loginCustomer" )
+@WebServlet(name = "ServletLoginCustomer", value = "/loginCustomer")
 public class ServletLoginCustomer extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +46,7 @@ public class ServletLoginCustomer extends HttpServlet {
                     session.setAttribute("acc", account);
                     //add session for number of wishList
                     try {
-                        session.setAttribute("numWish",userService.getWishList(email).size());
+                        session.setAttribute("numWish", userService.getWishList(email).size());
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -60,17 +60,17 @@ public class ServletLoginCustomer extends HttpServlet {
             Admin admin = new Admin(encodedpass,email);
             Admin accountAdmin= userService.Login(admin);
             if(accountAdmin == null){
+
                 request.setAttribute("messLogin", "Wrong username or password.");
                 request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
-            }else{
-
+            } else {
                     HttpSession session = request.getSession();
                     session.setAttribute("acc", accountAdmin);
 //                request.getRequestDispatcher("/adminHome").forward(request, response);
-            response.sendRedirect("adminHome");
+                response.sendRedirect("adminHome");
 
             }
-        };
+        }
     }
 
     @Override

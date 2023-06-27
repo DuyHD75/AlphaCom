@@ -107,6 +107,7 @@ public class ServletCheckout extends HttpServlet {
         try {
             //String isBuyNow = request.getParameter("isBuyNow");
             String Pid = request.getParameter("pid");
+
             String exportBillValue = request.getParameter("ExportBill");
 
             String name = request.getParameter("name");
@@ -129,8 +130,8 @@ public class ServletCheckout extends HttpServlet {
                 List<Cart> carts = userService.getCartByCusID(cusId);
                 request.setAttribute("countProductInCart", carts.size());
 
-                List<Order> orders = userService.getOrderByCusId(customerId);
-                Order order = orders.get(orders.size() - 1);
+           /*     List<Order> orders = userService.getOrderByCusId(customerId);
+                Order order = orders.get(orders.size() - 1);*/
 
                 if (!Pid.equals("")) { // cho buy now
                     int pid = Integer.parseInt(Pid);
@@ -155,6 +156,7 @@ public class ServletCheckout extends HttpServlet {
 
                         request.getRequestDispatcher("paypalPayment").forward(request, response);
                     } else if (payMetthod.equals("VNPAY")) {
+
                         // FOR REALTIME CURRENCY (USD TO VND)
 //                            JSONObject jsonObject = PaymentServices.readJsonFromUrl("https://api.currencyapi.com/v3/latest?apikey=R5AaCB7IvKqkY3F3OQhfJAJKD90rp34pTA6uaeLR");
 //                            JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -175,11 +177,13 @@ public class ServletCheckout extends HttpServlet {
                         System.out.println(request.getAttribute("language"));
                         System.out.println(request.getAttribute("bankCode"));
                         request.getRequestDispatcher("ServletVNPayPayment?action=createTransaction").forward(request, response);
+
                     } else {
                         userService.InsertPlaceOrderWithBuyNow(customerId, payMetthod, pid, price, amount);
+                        response.sendRedirect("order?action=viewLastOrder");
                     }
-                    if (exportBillValue != null) {
 
+                    if (exportBillValue != null) {
 //                        sendBillViaEmail(request, response, order);
                     }
 
@@ -248,6 +252,7 @@ public class ServletCheckout extends HttpServlet {
                         } else {
                             userService.InsertPlaceOrder(customerId, carts, payMetthod);
                             userService.DeleteCartByCusID(cusId);
+                            response.sendRedirect("order?action=viewLastOrder");
                         }
 
                         if (exportBillValue != null) {
