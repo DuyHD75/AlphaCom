@@ -71,26 +71,9 @@ Table OF Contents
     --font-family-Montserrat: 'Montserrat', sans-serif;
 }
 
-
-/*!* Customize the scrollbar track *!*/
-/*::-webkit-scrollbar-track {*/
-/*    background-color: var(--light-bg); !* Change to your desired color *!*/
-/*}*/
-
-/*!* Customize the scrollbar thumb *!*/
-/*::-webkit-scrollbar-thumb {*/
-/*    background-color: var(--main-color); !* Change to your desired color *!*/
-/*}*/
-
-/*!* Customize the scrollbar thumb on hover *!*/
-/*::-webkit-scrollbar-thumb:hover {*/
-/*    background-color: #555; !* Change to your desired color *!*/
-/*}*/
-
-
 ::-webkit-scrollbar {
-    height: .5rem;
-    width: .8rem;
+    height: 10px;
+    width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -101,6 +84,7 @@ Table OF Contents
     background-color: var(--main-color);
     border-radius: 4px;
     cursor: pointer;
+    width: 2px;
 }
 
 
@@ -218,13 +202,13 @@ ol {
 
 .swiper-slide .content span {
     font-size: 1.6rem;
-    padding: 10px 0;
     color: #453d3d;
     word-wrap: break-word;
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    display: -webkit-box;
 }
 
 .swiper-slide .content .product-rating {
@@ -1294,7 +1278,12 @@ textarea.input {
     background-color: #E4E7ED;
 }
 
-.product .product-body .product-btns > button {
+.product .product-body .product-btns {
+    display: flex;
+    justify-content: center;
+}
+
+.product .product-body .product-btns button {
     position: relative;
     width: 40px;
     height: 40px;
@@ -1305,13 +1294,13 @@ textarea.input {
     transition: 0.2s all;
 }
 
-.product .product-body .product-btns > button:hover {
+.product .product-body .product-btns button:hover {
     background-color: #E4E7ED;
     color: #D10024;
     border-radius: 50%;
 }
 
-.product .product-body .product-btns > button .tooltipp {
+.product .product-body .product-btns button .tooltipp {
     position: absolute;
     bottom: 100%;
     left: 50%;
@@ -1332,7 +1321,7 @@ textarea.input {
     transition: 0.2s all;
 }
 
-.product .product-body .product-btns > button:hover .tooltipp {
+.product .product-body .product-btns button:hover .tooltipp {
     opacity: 1;
     visibility: visible;
     -webkit-transform: translate(-50%, -5px);
@@ -1392,6 +1381,7 @@ textarea.input {
 }
 
 .product .add-to-cart .add-to-cart-btn > i {
+    position: absolute;
     position: absolute;
     left: 0;
     top: 0;
@@ -2138,7 +2128,7 @@ textarea.input {
 .reviews li {
     position: relative;
     padding-left: 145px;
-    margin-bottom: 30px;
+    margin-bottom: 16px;
 }
 
 .reviews .review-heading {
@@ -2670,8 +2660,8 @@ textarea.input {
 }
 
 .reviews {
-    margin: 3rem 0;
-    padding: 3rem 0;
+    max-height: 270px;
+    overflow-x: scroll;
 }
 
 .reviews .slide {

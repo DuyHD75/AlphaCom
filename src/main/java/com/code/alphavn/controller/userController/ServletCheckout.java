@@ -1,9 +1,18 @@
 package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.model.*;
+
 import com.code.alphavn.service.PaymentServices;
 import com.code.alphavn.service.UserServiceImpl;
 import org.json.JSONObject;
+
+import com.paypal.api.payments.PayerInfo;
+import com.paypal.api.payments.Transaction;
+import com.code.alphavn.model.Cart;
+import com.code.alphavn.model.Customer;
+import com.code.alphavn.model.ProductDiscount;
+import com.code.alphavn.service.userService.UserServiceImpl;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -99,6 +108,12 @@ public class ServletCheckout extends HttpServlet {
             //String isBuyNow = request.getParameter("isBuyNow");
             String Pid = request.getParameter("pid");
             String exportBillValue = request.getParameter("ExportBill");
+
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("number");
+            String address = request.getParameter("flat");
+
             UserServiceImpl userService = new UserServiceImpl();
 
             HttpSession session = request.getSession();
@@ -117,8 +132,7 @@ public class ServletCheckout extends HttpServlet {
                 List<Order> orders = userService.getOrderByCusId(customerId);
                 Order order = orders.get(orders.size() - 1);
 
-                //FOR BUY NOW
-                if (!Pid.equals("")) {
+                if (!Pid.equals("")) { // cho buy now
                     int pid = Integer.parseInt(Pid);
                     Double price = Double.parseDouble(request.getParameter("price"));
                     int amount = Integer.parseInt(request.getParameter("amount"));
@@ -154,7 +168,6 @@ public class ServletCheckout extends HttpServlet {
                         DecimalFormat df = new DecimalFormat();
                         df.setMaximumFractionDigits(3);
                         df.format(currencyValue);
-
                         request.setAttribute("ordertype", request.getParameter("ordertype"));
                         request.setAttribute("amount", Double.toString(currencyValue * price));
                         request.setAttribute("bankCode", request.getParameter("bankCode"));
@@ -162,19 +175,16 @@ public class ServletCheckout extends HttpServlet {
                         System.out.println(request.getAttribute("language"));
                         System.out.println(request.getAttribute("bankCode"));
                         request.getRequestDispatcher("ServletVNPayPayment?action=createTransaction").forward(request, response);
-
-
                     } else {
                         userService.InsertPlaceOrderWithBuyNow(customerId, payMetthod, pid, price, amount);
                     }
-                    //userService.InsertPlaceOrderWithBuyNow(customerId, payMetthod, pid, price, amount);
                     if (exportBillValue != null) {
 
 //                        sendBillViaEmail(request, response, order);
                     }
-                    response.sendRedirect("order?action=viewLastOrder");
-                    //FOR CART CHECKOUT
-                } else {
+
+//                    response.sendRedirect("order?action=viewLastOrder");
+                } else { // mua bang cart
                     if (carts.size() == 0) {
                         request.setAttribute("error", "Your cart is empty, can't placed order. Buy now");
                         request.getRequestDispatcher("/components/userComponents/checkout.jsp").forward(request, response);
@@ -243,9 +253,14 @@ public class ServletCheckout extends HttpServlet {
                         if (exportBillValue != null) {
 //                            sendBillViaEmail(request, response, order);
                         }
-                        response.sendRedirect("order?action=viewLastOrder");
+//                        response.sendRedirect("order?action=viewLastOrder");
+
                     }
                 }
+                int id = account.getId();
+                Customer customer = new Customer(id, name, address, email, phone);
+                userService.updateProfile(customer);
+                response.sendRedirect("order?action=viewLastOrder");
             } else {
                 response.sendRedirect("loginCustomer");
             }

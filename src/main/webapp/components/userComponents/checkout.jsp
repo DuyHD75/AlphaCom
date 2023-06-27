@@ -97,9 +97,6 @@
               </select>
               <span class="form__msg"></span>
             </div>
-
-
-
 <%--            thêm mới --%>
             <div style="margin-left: 10%" class="credit_box" id="credit_box">
             <h4>Chọn phương thức thanh toán</h4>
@@ -156,11 +153,13 @@
             </div>
 
           </div>
+
           <input type="hidden" name="pid" value="${pid}">
           <input type="hidden" name="price" value="${price}">
           <input type="hidden" name="amount" value="${amount}">
           <input type="hidden" name="productName" value="${pname}">
           <input type="hidden" name="isBuyNow" value="${isBuyNow}">
+
           <input type="submit" name="order"
                  class="btn primary-btn order-submit"
                  value="place order">
@@ -175,6 +174,65 @@
             <h3 class="heading" style="font-size: 2.5rem;">Your Order</h3>
           </div>
           <div class="display-orders">
+            <c:if test="${pname != null}">
+              <c:set var="totalPro" value="0" />
+              <c:set var="grandTotal" value="0" />
+              <div class="order-summary">
+                <div class="order-col">
+                  <div><strong>PRODUCT</strong></div>
+                  <div><strong>TOTAL</strong></div>
+                </div>
+                <div class="order-list" style="" >
+                  <div class="order-products">
+                    <input type="hidden" name="total_products" value="${totalPro + amount}">
+                    <input type="hidden" name="total_price" value="${price * amount}">
+
+                    <div class="order-col">
+                      <div> <img src="imgs/productImg/${pimg}" width="40px" height="40px">
+                          ${amount} x ${pname}
+                      </div>
+                      <div style="color: var(--main-color); font-weight: 700;">${price}</div>
+                    </div>
+                    <c:set var="grandTotal" value="${grandTotal + price * amount}" />
+
+                  </div>
+                </div>
+
+                <div class="order-col">
+                  <div><strong>SHIPING</strong></div>
+                  <div><strong>FREE</strong></div>
+                </div>
+                <div class="order-col">
+                  <div><strong>TOTAL</strong></div>
+                  <div><strong class="order-total">${grandTotal}</strong></div>
+                </div>
+              </div>
+            </c:if>
+            <c:if test="${pname == null}">
+            <c:choose>
+              <c:when test='${requestScope["listCart"] != null}'>
+                <c:set var="totalPro" value="0" />
+                <c:set var="grandTotal" value="0" />
+
+
+                <div class="order-summary">
+                  <div class="order-col">
+                    <div><strong>PRODUCT</strong></div>
+                    <div><strong>TOTAL</strong></div>
+                  </div>
+                  <div class="order-list" style="" >
+                    <c:forEach items="${listCart}" var="cart">
+                      <div class="order-products">
+                        <input type="hidden" name="total_products" value="${totalPro + cart.amount}">
+                        <input type="hidden" name="total_price" value="${cart.getFinalPrice() * cart.amount}">
+
+                        <div class="order-col">
+                          <div> <img src="imgs/productImg/${cart.getProductInfo().getImg1()}" width="40px" height="40px">
+                              ${cart.amount} x ${cart.getProductInfo().getProduct().getName()}
+                          </div>
+                          <div style="color: var(--main-color); font-weight: 700;">${cart.getFinalPrice()}</div>
+                        </div>
+                        <c:set var="grandTotal" value="${grandTotal + cart.getFinalPrice() * cart.amount}" />
 
             <c:if test="${pname != null}">
               <c:set var="totalPro" value="0" />
@@ -236,6 +294,15 @@
                             <div style="color: var(--main-color); font-weight: 700;">${cart.getFinalPrice()}</div>
                           </div>
                           <c:set var="grandTotal" value="${grandTotal + cart.getFinalPrice() * cart.amount}" />
+              </c:when>
+              <c:otherwise>
+                <div>
+                  <p class="empty">Do not product!</p>
+                </div>
+              </c:otherwise>
+            </c:choose>
+            </c:if>
+
 
                         </div>
                       </c:forEach>

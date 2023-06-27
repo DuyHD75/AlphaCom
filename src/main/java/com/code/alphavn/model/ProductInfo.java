@@ -6,6 +6,7 @@ public class ProductInfo {
     private String img1;
     private String img2;
     private String img3;
+    private String vendor;
 
     public ProductInfo() {
     }
@@ -18,6 +19,14 @@ public class ProductInfo {
         this.img3 = img3;
     }
 
+    public ProductInfo(Product product, double price, String img1, String img2, String img3, String vendor) {
+        this.product = product;
+        this.price = price;
+        this.img1 = img1;
+        this.img2 = img2;
+        this.img3 = img3;
+        this.vendor = vendor;
+    }
 
     public Product getProduct() {
         return product;
@@ -57,6 +66,14 @@ public class ProductInfo {
 
     public void setImg3(String img3) {
         this.img3 = img3;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
     }
 
     @Override

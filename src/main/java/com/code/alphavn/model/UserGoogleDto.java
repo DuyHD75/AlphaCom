@@ -1,6 +1,6 @@
 package com.code.alphavn.model;
 
-import com.code.alphavn.service.UserServiceImpl;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 public class UserGoogleDto {
     private String id;

@@ -4,7 +4,7 @@ import com.code.alphavn.model.Cart;
 import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.ProductDiscount;
 import com.code.alphavn.model.ProductInfo;
-import com.code.alphavn.service.UserServiceImpl;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

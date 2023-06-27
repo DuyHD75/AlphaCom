@@ -1,7 +1,7 @@
 package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.model.Customer;
-import com.code.alphavn.service.UserServiceImpl;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -57,7 +57,9 @@ public class ForgotPassword extends HttpServlet {
                     props.put("mail.smtp.port", "465");
                     Session session = Session.getDefaultInstance(props, new Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication("hdat1502@gmail.com", "ootkbvbsapgibuas");// Put your email
+                            return new PasswordAuthentication("hdat1502@gmail.com", "ootkbvbsapgibuas");
+                            // Put your email
+
                             // id and
                             // password here
                         }
@@ -71,7 +73,6 @@ public class ForgotPassword extends HttpServlet {
                         message.setText("Your OTP is: " + otpvalue);
                         // send message
                         Transport.send(message);
-                        System.out.println("message sent successfully");
                     } catch (MessagingException e) {
                         throw new RuntimeException(e);
                     }

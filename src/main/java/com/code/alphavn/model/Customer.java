@@ -7,6 +7,10 @@ public class Customer {
     private String name, password, address, email, phone;
     private Date create_At;
 
+    private String Status;
+    private int quantityOrder;
+    private double totalSpent;
+
     public Customer() {
     }
 
@@ -22,6 +26,17 @@ public class Customer {
         this.email = email;
         this.phone = phone;
         this.create_At = create_At;
+    }
+
+    public Customer(int id, String name, String password, String address, String email, String phone, Date create_At, String Status) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.create_At = create_At;
+        this.Status = Status;
     }
 
     public Customer(String name, String password, String address, String email, String phone, Date create_At) {
@@ -48,12 +63,41 @@ public class Customer {
         this.phone = phone;
     }
 
+    public Customer(int id, String name, String email, Date create_At) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.create_At = create_At;
+    }
+
     public Customer(String password, String email) {
         this.password = password;
         this.email = email;
     }
 
+    public String getStatus() {
+        return Status;
+    }
 
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public int getQuantityOrder() {
+        return quantityOrder;
+    }
+
+    public void setQuantityOrder(int quantityOrder) {
+        this.quantityOrder = quantityOrder;
+    }
+
+    public double getTotalSpent() {
+        return totalSpent;
+    }
+
+    public void setTotalSpent(double totalSpent) {
+        this.totalSpent = totalSpent;
+    }
 
     public int getId() {
         return id;

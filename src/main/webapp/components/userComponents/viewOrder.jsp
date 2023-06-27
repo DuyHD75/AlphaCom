@@ -41,58 +41,64 @@
         <h4 style="color: green"> ${success}</h4>
         <h4 style="color: red">  ${warning}</h4>
 
-        <div class="box-container">
+        <c:forEach items="${orders}" var="ord">
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse${ord.id}">Order Id: AE${ord.id} <br> Customer: ${ord.getCustomer().getName()}</a>
+                        </h4>
+                    </div>
+                    <div id="collapse${ord.id}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p> Placed on : <span>${ord.getOrderDate()}</span> </p>
+                            <p> Name : <span>${ord.getCustomer().getName()}</span> </p>
+                            <p> Email : <span>${ord.getCustomer().getEmail()}</span> </p>
+                            <p> Phone Number : <span>${ord.getCustomer().getPhone()}</span> </p>
+                            <p> Address : <span>${ord.getCustomer().getAddress()}</span> </p>
+                            <p> Payment method : <span
+                                    style="color: ${ord.getPaymentMethod() == "Pending" ? red : green} ">
+                                    ${ord.getPaymentMethod()}
+                            </span>
+                            </p>
+                            <c:set var="totalPrice" value="0" />
+                            <p>Products: <br>
+                                <c:forEach items="${ord.getOrderDetail()}" var="orderDetail" >
+                                        <span>
+                                           [ ${orderDetail.getProduct().getProduct().getName()} : ${orderDetail.getPrice()} x ${orderDetail.getQuantityOrdered()}] <br>
+                                        </span>
+                                    <c:set  var="totalPrice"
+                                            value="${totalPrice + (orderDetail.getPrice() * orderDetail.getQuantityOrdered()) }"/>
+                                </c:forEach>
+                            </p>
 
-            <%--        <c:choose>--%>
-            <%--            <c:when test='${requestScope["orders"] != null}'>--%>
-            <c:forEach items="${orders}" var="ord">
-                <div class="box">
-                    <p> Placed on : <span>${ord.getOrderDate()}</span> </p>
-                    <p> Name : <span>${ord.getCustomer().getName()}</span> </p>
-                    <p> Email : <span>${ord.getCustomer().getEmail()}</span> </p>
-                    <p> Phone Number : <span>${ord.getCustomer().getPhone()}</span> </p>
-                    <p> Address : <span>${ord.getCustomer().getAddress()}</span> </p>
-                    <p> Payment method : <span
-                            style="color: ${ord.getPaymentMethod() == "Pending" ? red : green} ">
-                            ${ord.getPaymentMethod()}
-                    </span>
-                    </p>
-                    <c:set var="totalPrice" value="0" />
-                    <p>Products: <br>
-                        <c:forEach items="${ord.getOrderDetail()}" var="orderDetail" >
-                                <span>
-                                   [ ${orderDetail.getProduct().getProduct().getName()} : ${orderDetail.getPrice()} x ${orderDetail.getQuantityOrdered()}] <br>
-                                </span>
-                            <c:set  var="totalPrice"
-                                    value="${totalPrice + (orderDetail.getPrice() * orderDetail.getQuantityOrdered()) }"/>
-                        </c:forEach>
-                    </p>
-
-                    <p>Grand Total: <span>${totalPrice}</span></p>
-                    <p>Status: <span>${ord.getStatus()}</span></p>
-                    <p>
-                        <c:set var="PendingStatus" value="Pending"/>
-                            <c:choose>
-                            <c:when test="${ord.getStatus() == PendingStatus}">
-                                <a class="btn" href="order?action=cancelOrder&&oid=${ord.getId()}" onclick="return confirm('Are you sure cancel this order?');">
-                                    Cancel Order
-                                </a>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="btn disabled" href="order?action=cancelOrder&&oid=${ord.getId()}" onclick="return confirm('Are you sure cancel this order?');">
-                                    Cancel Order
-                                </a>
-                            </c:otherwise>
-                            </c:choose>
-                    </p>
+                            <p>Grand Total: <span>${totalPrice}</span></p>
+                            <p>Status: <span>${ord.getStatus()}</span></p>
+                            <p>
+                                <c:set var="PendingStatus" value="Pending"/>
+                                    <c:choose>
+                                    <c:when test="${ord.getStatus() == PendingStatus}">
+                                        <a class="btn" href="order?action=cancelOrder&&oid=${ord.getId()}" onclick="return confirm('Are you sure cancel this order?');">
+                                            Cancel Order
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a class="btn disabled" href="order?action=cancelOrder&&oid=${ord.getId()}" onclick="return confirm('Are you sure cancel this order?');">
+                                            Cancel Order
+                                        </a>
+                                    </c:otherwise>
+                                    </c:choose>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </c:forEach>
+            </div>
+        </c:forEach>
 
             <%--            </c:when>--%>
 
             <%--        </c:choose>--%>
 
-        </div>
     </div>
 
 
