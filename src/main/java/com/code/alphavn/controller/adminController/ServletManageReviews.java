@@ -45,8 +45,8 @@ public class ServletManageReviews extends HttpServlet {
     public void ShowManageReviews(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         request.setAttribute("reviews", adminService.getProductReviews());
         request.setAttribute("productRatings",adminService.getProductRatingReviews());
-        System.out.println(adminService.getProductReviews());
         request.getRequestDispatcher("/components/adminComponents/manageReviews.jsp").forward(request, response);
+        System.out.println(adminService.getProductReviews());
     }
     public void DeleteReview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String id= (request.getParameter("id"));
