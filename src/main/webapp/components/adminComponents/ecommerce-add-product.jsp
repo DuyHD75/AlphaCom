@@ -80,7 +80,7 @@
 
 <!-- End Navbar Vertical -->
 
-<form id="content" role="main" class="main" action="ecommerce-product" method="post">
+<form id="content" role="main" class="main" action="" method="post">
     <!-- Content -->
     <div class="content container-fluid">
         <!-- Page Header -->
@@ -121,8 +121,10 @@
                                     data-toggle="tooltip" data-placement="top"
                                     title="Products are the goods or services you sell."></i></label>
 
-                            <input type="text" class="form-control" name="productName" id="productNameLabel"
-                                   placeholder="Type product name ..." aria-label="Shirt, t-shirts, etc.">
+                            <input type="text" class="form-control" name="productName"
+                                   id="productNameLabel" required
+                                   placeholder="Type product name ..."
+                                   aria-label="">
 
                         </div>
                         <!-- End Form Group -->
@@ -132,26 +134,19 @@
                         <label class="input-label">Description <span
                                 class="input-label-secondary">(Optional)</span></label>
 
-
                         <!-- Quill -->
                         <div class="quill-custom">
                             <div class="js-quill " style="min-height: 15rem;" data-hs-quill-options='{
                               "placeholder": "Type your description..."
                              }'>
-                                <%-- <textarea name="description"
-                                           id="description"
-                                           cols="100%"
-                                           rows="10"
-                                           style="border: 0.0625rem solid #e7eaf3; padding: 20px;   border-radius: 0.3125rem">
-
-                                 </textarea>--%>
                             </div>
 
-                          <div class="text-center mt-4">
-                              <button id="saveDesc" class="btn btn-primary pr-2 pl-2" >Add Description</button>
-                          </div>
-
-
+                            <div class="text-center mt-4">
+                                <p class="desc-status text-success m-3"></p>
+                                <button id="saveDesc" class="btn btn-primary pr-2 pl-2">
+                                    Add Description
+                                </button>
+                            </div>
 
                             <input type="hidden" id="description" value="" name="description">
                         </div>
@@ -168,27 +163,27 @@
                         <h4 class="card-header-title">Media</h4>
 
                         <!-- Unfold -->
-                        <div class="hs-unfold">
-                            <a class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary" href="javascript:;"
-                               data-hs-unfold-options='{
-                                           "target": "#mediaDropdown",
-                                           "type": "css-animation"
-                                         }'>
-                                Add media from URL <i class="tio-chevron-down"></i>
-                            </a>
+                        <%--   <div class="hs-unfold">
+                               <a class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary" href="javascript:;"
+                                  data-hs-unfold-options='{
+                                              "target": "#mediaDropdown",
+                                              "type": "css-animation"
+                                            }'>
+                                   Add media from URL <i class="tio-chevron-down"></i>
+                               </a>
 
-                            <div id="mediaDropdown"
-                                 class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
-                                <a class="dropdown-item" href="javascript:;" data-toggle="modal"
-                                   data-target="#addImageFromURLModal">
-                                    <i class="tio-link dropdown-item-icon"></i> Add image from URL
-                                </a>
-                                <a class="dropdown-item" href="javascript:;" data-toggle="modal"
-                                   data-target="#embedVideoModal">
-                                    <i class="tio-youtube-outlined dropdown-item-icon"></i> Embed video
-                                </a>
-                            </div>
-                        </div>
+                               <div id="mediaDropdown"
+                                    class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
+                                   <a class="dropdown-item" href="javascript:;" data-toggle="modal"
+                                      data-target="#addImageFromURLModal">
+                                       <i class="tio-link dropdown-item-icon"></i> Add image from URL
+                                   </a>
+                                   <a class="dropdown-item" href="javascript:;" data-toggle="modal"
+                                      data-target="#embedVideoModal">
+                                       <i class="tio-youtube-outlined dropdown-item-icon"></i> Embed video
+                                   </a>
+                               </div>
+                           </div>--%>
                         <!-- End Unfold -->
                     </div>
                     <!-- End Header -->
@@ -227,13 +222,13 @@
                     <!-- Body -->
                     <div class="card-body">
                         <!-- Form Group -->
-                        <div class="form-group">
+                        <div class="form-group" id="price-form">
                             <label for="priceNameLabel" class="input-label">Price</label>
 
                             <div class="input-group">
                                 <input type="text" class="form-control" name="product-price" id="priceNameLabel"
                                        placeholder="0.00"
-                                       aria-label="0.00"  required>
+                                       aria-label="0.00" required>
 
                                 <div class="input-group-append">
                                     <!-- Select -->
@@ -243,9 +238,8 @@
                                     "dropdownParent": "#priceSelect",
                                     "dropdownAutoWidth": true,
                                     "width": true
-                                  }'  required>
+                                  }' required>
                                             <option value="USD" selected="">USD</option>
-
                                         </select>
                                     </div>
                                     <!-- End Select -->
@@ -257,180 +251,187 @@
                             <div class="input-group">
                                 <input type="number" class="form-control"
                                        placeholder="Type quantities of this product ..."
-                                       aria-label="" value="" name="quantity" id="quantityNameLable" required>
+                                       aria-label="" value=""
+                                       name="quantity" id="quantityNameLable" required>
                             </div>
 
-                            <label for="discountLable" class="input-label mt-3">Discount</label>
 
-                            <div class="input-group">
-                                <input type="number" class="form-control" name="product-discount"
-                                       placeholder="Type discount: eg. 0.4 -> (40%)"
-                                       aria-label="" value="" id="discountLable" required>
-                                <input type="text" class="form-control" name="discount-name"
-                                       placeholder="Type discount code ..." required
-                                       aria-label="" value="" >
-                            </div>
 
-                            <label for="priceNameLabel" class="input-label mt-3">Effective date</label>
 
-                            <div class="input-group">
-                                <input type="date" class="form-control" name="start-date" required
-                                       aria-label="" value="">
-                                <input type="date" class="form-control" name="end-date"
-                                       aria-label="" value=""  required>
-                            </div>
+                            <!-- End Form Group -->
                         </div>
-                        <!-- End Form Group -->
-
-                        <div class="mb-2">
-                            <a class="d-inline-block" href="javascript:;" data-toggle="modal"
-                               data-target="#productsAdvancedFeaturesModal">
-                                <i class="tio-star tio-lg text-warning mr-1"></i> Set "Compare to" price
-                            </a>
-                        </div>
-
-                        <a class="d-inline-block" href="javascript:;" data-toggle="modal"
-                           data-target="#productsAdvancedFeaturesModal">
-                            <i class="tio-star tio-lg text-warning mr-1"></i> Bulk discount pricing
-                        </a>
 
                         <hr class="my-4">
 
                         <!-- Toggle Switch -->
-                        <label class="row toggle-switch" for="availabilitySwitch1">
-                            <span class="col-8 col-sm-9 toggle-switch-content">
-                              <span class="text-dark">Availability</span>
-                            </span>
+                        <label class="row toggle-switch mb-3" for="availabilitySwitch1">
+                                    <span class="col-8 col-sm-9 toggle-switch-content">
+                                <span class="text-dark ">Availability Discount <i class="tio-help-outlined text-body"
+                                                                                  data-toggle="tooltip"
+                                                                                  data-placement="top"
+                                                                                  title="Product availability switch toggler."></i></span>
+                                </span>
+
                             <span class="col-4 col-sm-3">
-                              <input type="checkbox" class="toggle-switch-input" id="availabilitySwitch1">
+                              <input type="checkbox" class="toggle-switch-input"
+                                     id="availabilitySwitch1">
+
                               <span class="toggle-switch-label ml-auto">
                                 <span class="toggle-switch-indicator"></span>
                               </span>
                             </span>
                         </label>
                         <!-- End Toggle Switch -->
-                    </div>
-                    <!-- Body -->
-                </div>
-                <!-- End Card -->
 
+                        <div class="form-group" id="discount-form" style="display: none">
+
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="product-discount"
+                                       placeholder="Type discount: 15 -> 15%"
+                                       aria-label=""
+                                       value="0"
+                                       min="0"
+                                       id="discountInput">
+
+                                <input type="text" class="form-control" name="discount-name"
+                                       placeholder="Type discount code ..."
+                                       aria-label=""
+                                       value="">
+                            </div>
+                            <label for="priceNameLabel" class="input-label mt-3">Effective date</label>
+
+                            <div class="input-group">
+                                <input type="date" class="form-control" name="start-date"
+                                       aria-label=""
+                                       value="">
+
+                                <input type="date" class="form-control" name="end-date"
+                                       aria-label=""
+                                       value="">
+                            </div>
+
+                        </div>
+                        <!-- Body -->
+                    </div>
+                    <!-- End Card -->
+                </div>
+
+                    <!-- Card -->
+                    <div class="card">
+                        <!-- Header -->
+                        <div class="card-header">
+                            <h4 class="card-header-title">Organization</h4>
+                        </div>
+                        <!-- End Header -->
+
+                        <!-- Body -->
+                        <div class="card-body">
+                            <!-- Form Group -->
+                            <div class="form-group">
+                                <label for="vendorLabel" class="input-label">Vendor</label>
+
+                                <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                        id="vendorLabel"
+                                        name="vendor"
+                                        data-hs-select2-options='{
+                            "minimumResultsForSearch": "Infinity",
+                            "placeholder": "Select supplier"
+                          }'>
+                                    <option value="1">Razer Group</option>
+                                    <option value="2">FPT Company</option>
+                                    <option value="3">ASUSTeK Incorporated</option>
+                                    <option value="4">Lenovo Group Ltd</option>
+                                    <option value="5">Sony Company</option>
+                                </select>
+                            </div>
+                            <!-- End Form Group -->
+
+                            <!-- Form Group -->
+                            <div class="form-group">
+                                <label for="categoryLabel" class="input-label">Category</label>
+
+                                <!-- Select -->
+                                <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                        id="categoryLabel"
+                                        name="category"
+                                        data-hs-select2-options='{
+                            "minimumResultsForSearch": "Infinity",
+                            "placeholder": "Select category"
+                          }'>
+                                    <option label="empty"></option>
+                                    <option value="1">Laptop</option>
+                                    <option value="2">Mouse</option>
+                                    <option value="3">Keyboard</option>
+                                    <option value="4">Monitor</option>
+                                    <option value="5">PC</option>
+                                    <option value="6">Headphone</option>
+                                </select>
+                                <!-- End Select -->
+                            </div>
+                            <!-- Form Group -->
+
+                            <label for="tagsLabel" class="input-label">Tags</label>
+
+                            <input type="text" class="js-tagify tagify-form-control form-control" name="tagsName"
+                                   id="tagsLabel"
+                                   placeholder="Enter tags here" aria-label="Enter tags here">
+                        </div>
+                        <!-- End Body -->
+                    </div>
+                    <!-- End Card -->
+                </div>
+            </div>
+            <!-- End Row -->
+
+            <div class="position-fixed bottom-0 content-centered-x w-10 z-index-99 mb-3" style="max-width: 40rem;">
                 <!-- Card -->
-                <div class="card">
-                    <!-- Header -->
-                    <div class="card-header">
-                        <h4 class="card-header-title">Organization</h4>
-                    </div>
-                    <!-- End Header -->
-
-                    <!-- Body -->
+                <div class="card card-sm bg-dark border-dark ">
                     <div class="card-body">
-                        <!-- Form Group -->
-                        <div class="form-group">
-                            <label for="vendorLabel" class="input-label">Vendor</label>
-
-                            <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
-                                    id="vendorLabel"
-                                    name="vendor"
-                                    data-hs-select2-options='{
-                            "minimumResultsForSearch": "Infinity",
-                            "placeholder": "Select category"
-                          }'>
-                                <option label="empty"></option>
-                                <option value="1">Razer Group</option>
-                                <option value="2" selected>FPT Company</option>
-                                <option value="3">ASUSTeK Incorporated</option>
-                                <option value="4">Lenovo Group Ltd</option>
-                                <option value="5">Sony Company</option>
-                            </select>
+                        <div class="row justify-content-center justify-content-sm-between">
+                            <div class="col">
+                                <button type="button" class="btn btn-ghost-light bg-danger">
+                                    <Delete>Delete</Delete>
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-ghost-light mr-2">Discard</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
                         </div>
-                        <!-- End Form Group -->
-
-                        <!-- Form Group -->
-                        <div class="form-group">
-                            <label for="categoryLabel" class="input-label">Category</label>
-
-                            <!-- Select -->
-                            <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
-                                    id="categoryLabel"
-                                    name="category"
-                                    data-hs-select2-options='{
-                            "minimumResultsForSearch": "Infinity",
-                            "placeholder": "Select category"
-                          }'>
-                                <option label="empty"></option>
-                                <option value="1">Laptop</option>
-                                <option value="2">Mouse</option>
-                                <option value="3">Keyboard</option>
-                                <option value="4">Monitor</option>
-                                <option value="5">PC</option>
-                                <option value="6">Headphone</option>
-                            </select>
-                            <!-- End Select -->
-                        </div>
-                        <!-- Form Group -->
-
-                        <label for="tagsLabel" class="input-label">Tags</label>
-
-                        <input type="text" class="js-tagify tagify-form-control form-control" name="tagsName"
-                               id="tagsLabel"
-                               placeholder="Enter tags here" aria-label="Enter tags here">
+                        <!-- End Row -->
                     </div>
-                    <!-- End Body -->
                 </div>
                 <!-- End Card -->
             </div>
         </div>
-        <!-- End Row -->
+        <!-- End Content -->
 
-        <div class="position-fixed bottom-0 content-centered-x w-100 z-index-99 mb-3" style="max-width: 40rem;">
-            <!-- Card -->
-            <div class="card card-sm bg-dark border-dark mx-2">
-                <div class="card-body">
-                    <div class="row justify-content-center justify-content-sm-between">
-                        <div class="col">
-                            <button type="button" class="btn btn-ghost-danger">
-                                <Delete>Delete</Delete>
-                            </button>
-                        </div>
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-ghost-light mr-2">Discard</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </div>
-                    <!-- End Row -->
+        <!-- Footer -->
+
+        <div class="footer">
+            <div class="row justify-content-between align-items-center">
+                <div class="col">
+                    <p class="font-size-sm mb-0">&copy; Front. <span
+                            class="d-none d-sm-inline-block">2020 Htmlstream.</span></p>
                 </div>
-            </div>
-            <!-- End Card -->
-        </div>
-    </div>
-    <!-- End Content -->
+                <div class="col-auto">
+                    <div class="d-flex justify-content-end">
+                        <!-- List Dot -->
+                        <ul class="list-inline list-separator">
+                            <li class="list-inline-item">
+                                <a class="list-separator-link" href="#">FAQ</a>
+                            </li>
 
-    <!-- Footer -->
+                            <li class="list-inline-item">
+                                <a class="list-separator-link" href="#">License</a>
+                            </li>
 
-    <div class="footer">
-        <div class="row justify-content-between align-items-center">
-            <div class="col">
-                <p class="font-size-sm mb-0">&copy; Front. <span
-                        class="d-none d-sm-inline-block">2020 Htmlstream.</span></p>
-            </div>
-            <div class="col-auto">
-                <div class="d-flex justify-content-end">
-                    <!-- List Dot -->
-                    <ul class="list-inline list-separator">
-                        <li class="list-inline-item">
-                            <a class="list-separator-link" href="#">FAQ</a>
-                        </li>
-
-                        <li class="list-inline-item">
-                            <a class="list-separator-link" href="#">License</a>
-                        </li>
-
-                        <li class="list-inline-item">
-                            <!-- Keyboard Shortcuts Toggle -->
-                            <div class="hs-unfold">
-                                <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
-                                   href="javascript:;"
-                                   data-hs-unfold-options='{
+                            <li class="list-inline-item">
+                                <!-- Keyboard Shortcuts Toggle -->
+                                <div class="hs-unfold">
+                                    <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
+                                       href="javascript:;"
+                                       data-hs-unfold-options='{
                               "target": "#keyboardShortcutsSidebar",
                               "type": "css-animation",
                               "animationIn": "fadeInRight",
@@ -438,20 +439,20 @@
                               "hasOverlay": true,
                               "smartPositionOff": true
                              }'>
-                                    <i class="tio-command-key"></i>
-                                </a>
-                            </div>
-                            <!-- End Keyboard Shortcuts Toggle -->
-                        </li>
-                    </ul>
-                    <!-- End List Dot -->
+                                        <i class="tio-command-key"></i>
+                                    </a>
+                                </div>
+                                <!-- End Keyboard Shortcuts Toggle -->
+                            </li>
+                        </ul>
+                        <!-- End List Dot -->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <!-- End Footer -->
+        <!-- End Footer -->
 </form>
 <!-- ========== END MAIN CONTENT ========== -->
 
@@ -1274,6 +1275,29 @@
         // ONLY DEV
         // =======================================================
 
+        // ============================ SET THE CURR DATE ==========
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("start-date")[0].setAttribute('min', today);
+        document.getElementsByName("end-date")[0].setAttribute('min', today);
+
+        // HANDLE TOGGLE SWITCH
+        // =======================================================
+
+        if ($("#availabilitySwitch1").is(":checked")) {
+            $("#discount-form").show();
+        }
+
+        $("#availabilitySwitch1").change(function () {
+            var discountForm = $('#discount-form')
+            if ($(this).is(":checked")) {
+                discountForm.show();
+            } else {
+                discountForm.hide();
+                discountForm.find('input[name="product-discount"]').val(0)
+            }
+        });
+
+        //=============================================================
 
         if (window.localStorage.getItem('hs-builder-popover') === null) {
             $('#builderPopover').popover('show')
@@ -1357,7 +1381,8 @@
 
             var data = quill.getText();
             var desc = $('#description').val(quill.getText());
-            console.log('Editor Data:', desc);
+
+            $('.desc-status').text("Description was added !");
         });
 
 

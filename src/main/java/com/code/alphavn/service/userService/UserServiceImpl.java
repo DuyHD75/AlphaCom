@@ -706,6 +706,40 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    public void InsertOrderDetailsWithBuyNow(int pid, int oid, double price, int amount) throws SQLException {
+        String query = "insert into orderDetails values(?, ? , ? , ? );";
+
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setInt(1, oid);
+            pstm.setInt(2, pid);
+            pstm.setDouble(3, price);
+            pstm.setInt(4, amount);
+            pstm.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void InsertPlaceOrderWithBuyNow(Customer customer, String payMethod, int pid, double price, int amount) throws SQLException {
+        String query = "insert into orders (customer_id, orderDate, payMethod)  values(? , GETDATE() , ? );";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            pstm.setInt(1, customer.getId());
+            pstm.setString(2, payMethod);
+            pstm.executeUpdate();
+            ResultSet generatedKeys = pstm.getGeneratedKeys();
+            int orderId = 0;
+            if (generatedKeys.next()) {
+                orderId = generatedKeys.getInt(1);
+            }
+            InsertOrderDetailsWithBuyNow(pid, orderId, price, amount);
+
+        } catch (Exception e) {
+        }
+    }
+
     public static void main(String[] args) throws SQLException {
         UserServiceImpl userService = new UserServiceImpl();
         System.out.println(userService.getProductDiscounts());

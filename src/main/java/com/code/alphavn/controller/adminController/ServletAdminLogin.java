@@ -25,8 +25,6 @@ public class ServletAdminLogin extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            request.setAttribute("statistic", adminService.saveOrdersByDayOfWeek());
-            request.setAttribute("manages",adminService.getManageOrderInCurrDate());
             request.setAttribute("prdTops", adminService.getTopSellingProduct());
         } catch (SQLException e) {
             e.printStackTrace();

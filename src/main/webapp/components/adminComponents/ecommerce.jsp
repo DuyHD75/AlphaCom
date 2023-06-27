@@ -50,16 +50,27 @@
         </div>
         <!-- End Page Header -->
 
+
+        <c:set var="revenueWeek" value="0"/>
+        <c:set var="totalProducts" value="0"/>
+
+
+        <c:forEach items="${statistic}" var="item">
+            <c:set var="revenueWeek" value="${revenueWeek + item.getRevernues()}"/>
+            <c:set var="totalProducts" value="${totalProducts + item.getTotalProducts()}"/>
+        </c:forEach>
+
+
         <!-- Card -->
         <div class="card card-body mb-3 mb-lg-5">
             <div class="row gx-lg-4">
                 <div class="col-sm-12 col-lg-4 column-divider-sm">
                     <div class="media">
                         <div class="media-body">
-                            <h6 class="card-subtitle">Daily Revernues</h6>
+                            <h6 class="card-subtitle">Daily Revenues</h6>
 
                             <div class="d-flex align-items-center">
-                                <span class="card-title h3 mr-3">$${manages.get().getRevernues()}</span>
+                                <span class="card-title h3 mr-3">$${empty manages ? manages.get().getRevernues() : 0}</span>
 
                                 <span class="badge badge-soft-success ml-2">
                                     <i class="tio-trending-up"></i> 12.5%
@@ -83,7 +94,7 @@
                             <h6 class="card-subtitle">Total Orders</h6>
 
                             <div class="d-flex align-items-center">
-                                <span class="card-title h3 mr-3">${manages.get().getTotalOrders()}</span>
+                                <span class="card-title h3 mr-3">${empty manages ? manages.get().getTotalOrders() : 0}</span>
                                 <span class="d-block font-size-sm">orders</span>
                             </div>
                         </div>
@@ -104,7 +115,7 @@
                             <h6 class="card-subtitle">Total products sold</h6>
 
                             <div class="d-flex align-items-center">
-                                <span class="card-title h3 mr-3">${manages.get().getTotalProducts()}</span>
+                                <span class="card-title h3 mr-3">${empty manages ? manages.get().getTotalProducts() : 0}</span>
 
                                 <span class="d-block font-size-sm">products</span>
                                 <span class="badge badge-soft-danger ml-2">
@@ -138,13 +149,16 @@
 
                     <div class="col-sm-auto">
                         <!-- Daterangepicker -->
-                        <button id="js-daterangepicker-predefined"
+                       <%-- <button id="js-daterangepicker-predefined"
                                 class="btn btn-sm btn-white dropdown-toggle mb-2 mb-sm-0">
                             <i class="tio-date-range"></i>
                             <span class="js-daterangepicker-predefined-preview ml-1"></span>
-                        </button>
+                        </button>--%>
+                        <a href="?action=overview&week=25" class="btn btn-light">Last week</a>
+                        <a href="?action=overview&week=26" class="btn btn-light">This week</a>
                         <!-- End Daterangepicker -->
                     </div>
+
                 </div>
                 <!-- End Row -->
             </div>
@@ -156,28 +170,26 @@
                     <div class="col-md-9 mb-5 mb-md-0">
 
 
-                        <c:forEach items="${statistic}" var="item">
-                            <c:out value="${item.key}"/>
-                            <c:out value="${item.value.getTotalOrders()}"/>
-                        </c:forEach>
-
                         <!-- Bar Chart -->
-                            <div class="chartjs-custom mb-4">
-                                <canvas class="js-chart" style="height: 18rem;" data-hs-chartjs-options='{
+                        <div class="chartjs-custom mb-4">
+                            <canvas class="js-chart" id="js-chart-1" style="height: 18rem;"
+                                    data-hs-chartjs-options='{
                                 "type": "bar",
                                 "data": {
                                   "labels": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
-                                  "datasets": [{
-                                    "data": [567, 321, 343, 126, 223,321, 434],
+                                  "datasets": [
+                                  {
+                                    "data": [],
                                     "backgroundColor": "#377dff",
                                     "hoverBackgroundColor": "#377dff",
                                     "borderColor": "#377dff"
                                   },
                                   {
-                                    "data": [7890, 3452, 4021, 1230, 253, 2876, 2346, 8796],
+                                    "data": [],
                                     "backgroundColor": "#e7eaf8",
                                     "borderColor": "#e7eaf3"
-                                  }]
+                                  }
+                                  ]
                                 },
                                 "options": {
                                   "scales": {
@@ -189,7 +201,7 @@
                                       },
                                       "ticks": {
                                         "beginAtZero": true,
-                                        "stepSize": 1000,
+                                        "stepSize": 500,
                                         "fontSize": 12,
                                         "fontColor": "#33B",
                                         "fontFamily": "Open Sans, sans-serif",
@@ -223,7 +235,7 @@
                                   }
                                 }
                               }'></canvas>
-                            </div>
+                        </div>
                         <!-- End Bar Chart -->
 
                         <!-- Legend Indicators -->
@@ -232,7 +244,7 @@
                                 <span class="legend-indicator"></span> Revenue
                             </div>
                             <div class="col-auto">
-                                <span class="legend-indicator bg-primary"></span> Orders
+                                <span class="legend-indicator bg-primary"></span> Products Sold
                             </div>
                         </div>
                         <!-- End Legend Indicators -->
@@ -245,10 +257,10 @@
                                 <div class="d-flex justify-content-center flex-column" style="min-height: 10.5rem;">
                                     <h6 class="card-subtitle">Revenue</h6>
                                     <span class="d-block display-4 text-dark mb-1 mr-3">
-                                        $97,458.20
+                                        $${revenueWeek}
                                     </span>
                                     <span class="d-block text-success">
-                                      <i class="tio-trending-up mr-1"></i> $2,401.02 (3.7%)
+                                      <i class="tio-trending-up mr-1"></i> $579.3 (3.7%)
                                     </span>
                                 </div>
                                 <!-- End Stats -->
@@ -265,10 +277,10 @@
                             <div class="col-sm-6 col-md-12">
                                 <!-- Stats -->
                                 <div class="d-flex justify-content-center flex-column" style="min-height: 10.5rem;">
-                                    <h6 class="card-subtitle">Orders</h6>
-                                    <span class="d-block display-4 text-dark mb-1 mr-3">67,893</span>
+                                    <h6 class="card-subtitle">Products</h6>
+                                    <span class="d-block display-4 text-dark mb-1 mr-3">${totalProducts}</span>
                                     <span class="d-block text-danger">
-                                      <i class="tio-trending-down mr-1"></i> +3,301 (1.2%)
+                                      <i class="tio-trending-down mr-1"></i> +${totalProducts} (1.2%)
                                     </span>
                                 </div>
                                 <!-- End Stats -->
@@ -434,14 +446,14 @@
 
                         <div class="row align-items-sm-center mb-5">
                             <div class="col-sm">
-                                <span class="display-4 text-dark mr-2">$597,820.75</span>
+                                <span class="display-4 text-dark mr-2">${empty manages ? manages.get().getRevernues() : 0}</span>
                             </div>
 
                             <div class="col-sm-auto">
                                   <span class="h3 text-success">
                                     <i class="tio-trending-up"></i> 25.9%
                                   </span>
-                                <span class="d-block">&mdash; 1,347,935 orders <span
+                                <span class="d-block">&mdash; ${empty manages ? manages.get().getTotalOrders() : 0} orders <span
                                         class="badge badge-soft-dark badge-pill ml-1">+$97k today</span></span>
                             </div>
                         </div>
@@ -449,10 +461,10 @@
 
                         <!-- Bar Chart -->
                         <div class="chartjs-custom mb-4" style="height: 18rem;">
-                            <canvas class="js-chart" data-hs-chartjs-options='{
+                            <canvas class="js-chart" id="js-chart-1"  data-hs-chartjs-options='{
                             "type": "line",
                             "data": {
-                               "labels": ["1AM","2AM","3AM","4AM","5AM","6AM","7AM","8AM","9AM","10AM"],
+                                "labels": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
                                "datasets": [{
                                 "data": [200, 200, 240, 350, 200, 350, 200, 250, 285, 220],
                                 "backgroundColor": "transparent",
@@ -530,10 +542,10 @@
                         <!-- Legend Indicators -->
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <span class="legend-indicator"></span> Yesterday
+                                <span class="legend-indicator"></span> Last week
                             </div>
                             <div class="col-auto">
-                                <span class="legend-indicator bg-primary"></span> Today
+                                <span class="legend-indicator bg-primary"></span> This week
                             </div>
                         </div>
                         <!-- End Legend Indicators -->
@@ -552,7 +564,7 @@
 
                         <div class="row align-items-sm-center mb-5">
                             <div class="col-sm">
-                                <span class="display-4 text-dark mr-2">1,348,935</span>
+                                <span class="display-4 text-dark mr-2">${empty manages ? manages.get().getTotalOrders() : 0}</span>
                             </div>
 
                             <div class="col-sm-auto">
@@ -560,7 +572,7 @@
                     <i class="tio-trending-up"></i> 4.7%
                   </span>
                                 <span class="d-block">&mdash; orders over time <span
-                                        class="badge badge-soft-dark badge-pill ml-1">+5k
+                                        class="badge badge-soft-dark badge-pill ml-1">+${empty manages ? manages.get().getTotalOrders() : 0}k
                       today</span></span>
                             </div>
                         </div>
@@ -568,10 +580,10 @@
 
                         <!-- Bar Chart -->
                         <div class="chartjs-custom mb-4" style="height: 18rem;">
-                            <canvas class="js-chart" data-hs-chartjs-options='{
+                            <canvas class="js-chart" id="js-chart-1" data-hs-chartjs-options='{
                             "type": "line",
                             "data": {
-                               "labels": ["1AM","2AM","3AM","4AM","5AM","6AM","7AM","8AM","9AM","10AM"],
+                               "labels": ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
                                "datasets": [{
                                 "data": [15, 26, 29, 20, 23, 38, 20, 30, 20, 22],
                                 "backgroundColor": "transparent",
@@ -647,10 +659,10 @@
                         <!-- Legend Indicators -->
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <span class="legend-indicator"></span> Yesterday
+                                <span class="legend-indicator"></span> Last Week
                             </div>
                             <div class="col-auto">
-                                <span class="legend-indicator bg-primary"></span> Today
+                                <span class="legend-indicator bg-primary"></span> This week
                             </div>
                         </div>
                         <!-- End Legend Indicators -->
@@ -670,229 +682,229 @@
 
             <div class="row">
 
-             <%--   <div class="col-lg-6 ">
-                    <!-- Body -->
-                    <div class="card-body">
-                        <h4>Visitors</h4>
+                <%--   <div class="col-lg-6 ">
+                       <!-- Body -->
+                       <div class="card-body">
+                           <h4>Visitors</h4>
 
-                        <div class="row align-items-sm-center mb-5">
-                            <div class="col-sm">
-                                <span class="display-4 text-dark mr-2">831,071</span>
-                            </div>
+                           <div class="row align-items-sm-center mb-5">
+                               <div class="col-sm">
+                                   <span class="display-4 text-dark mr-2">831,071</span>
+                               </div>
 
-                            <div class="col-sm-auto">
-                  <span class="h3 text-danger">
-                    <i class="tio-trending-down"></i> 16%
-                  </span>
-                                <span class="d-block">&mdash; 467,001 unique <span
-                                        class="badge badge-soft-dark badge-pill ml-1">+7k
-                      today</span></span>
-                            </div>
-                        </div>
-                        <!-- End Row -->
+                               <div class="col-sm-auto">
+                     <span class="h3 text-danger">
+                       <i class="tio-trending-down"></i> 16%
+                     </span>
+                                   <span class="d-block">&mdash; 467,001 unique <span
+                                           class="badge badge-soft-dark badge-pill ml-1">+7k
+                         today</span></span>
+                               </div>
+                           </div>
+                           <!-- End Row -->
 
-                        <!-- Bar Chart -->
-                        <div class="chartjs-custom mb-4" style="height: 18rem;">
-                            <canvas class="js-chart" data-hs-chartjs-options='{
-                            "type": "line",
-                            "data": {
-                               "labels": ["1AM","2AM","3AM","4AM","5AM","6AM","7AM","8AM","9AM","10AM"],
-                               "datasets": [{
-                                "data": [20, 20, 24, 15, 30, 35, 20, 28, 18, 16],
-                                "backgroundColor": "transparent",
-                                "borderColor": "#377dff",
-                                "borderWidth": 2,
-                                "pointRadius": 0,
-                                "hoverBorderColor": "#377dff",
-                                "pointBackgroundColor": "#377dff",
-                                "pointBorderColor": "#fff",
-                                "pointHoverRadius": 0
-                              },
-                              {
-                                "data": [15, 23, 18, 20, 36, 29, 20, 22, 20, 22],
-                                "backgroundColor": "transparent",
-                                "borderColor": "#e7eaf3",
-                                "borderWidth": 2,
-                                "pointRadius": 0,
-                                "hoverBorderColor": "#e7eaf3",
-                                "pointBackgroundColor": "#e7eaf3",
-                                "pointBorderColor": "#fff",
-                                "pointHoverRadius": 0
-                              }]
-                            },
-                            "options": {
-                               "scales": {
-                                  "yAxes": [{
-                                    "gridLines": {
-                                      "color": "#e7eaf3",
-                                      "drawBorder": false,
-                                      "zeroLineColor": "#e7eaf3"
-                                    },
-                                    "ticks": {
-                                      "beginAtZero": true,
-                                      "stepSize": 10,
-                                      "fontSize": 12,
-                                      "fontColor": "#97a4af",
-                                      "fontFamily": "Open Sans, sans-serif",
-                                      "padding": 10,
-                                      "postfix": "k"
-                                    }
-                                  }],
-                                  "xAxes": [{
-                                    "gridLines": {
-                                      "display": false,
-                                      "drawBorder": false
-                                    },
-                                    "ticks": {
-                                      "fontSize": 12,
-                                      "fontColor": "#97a4af",
-                                      "fontFamily": "Open Sans, sans-serif",
-                                      "padding": 5
-                                    }
-                                  }]
-                              },
-                              "tooltips": {
-                                "postfix": "k",
-                                "hasIndicator": true,
-                                "mode": "index",
-                                "intersect": false,
-                                "lineMode": true,
-                                "lineWithLineColor": "rgba(19, 33, 68, 0.075)"
-                              },
-                              "hover": {
-                                "mode": "nearest",
-                                "intersect": true
-                              }
-                            }
-                          }'>
-                            </canvas>
-                        </div>
-                        <!-- End Bar Chart -->
+                           <!-- Bar Chart -->
+                           <div class="chartjs-custom mb-4" style="height: 18rem;">
+                               <canvas class="js-chart" data-hs-chartjs-options='{
+                               "type": "line",
+                               "data": {
+                                  "labels": ["1AM","2AM","3AM","4AM","5AM","6AM","7AM","8AM","9AM","10AM"],
+                                  "datasets": [{
+                                   "data": [20, 20, 24, 15, 30, 35, 20, 28, 18, 16],
+                                   "backgroundColor": "transparent",
+                                   "borderColor": "#377dff",
+                                   "borderWidth": 2,
+                                   "pointRadius": 0,
+                                   "hoverBorderColor": "#377dff",
+                                   "pointBackgroundColor": "#377dff",
+                                   "pointBorderColor": "#fff",
+                                   "pointHoverRadius": 0
+                                 },
+                                 {
+                                   "data": [15, 23, 18, 20, 36, 29, 20, 22, 20, 22],
+                                   "backgroundColor": "transparent",
+                                   "borderColor": "#e7eaf3",
+                                   "borderWidth": 2,
+                                   "pointRadius": 0,
+                                   "hoverBorderColor": "#e7eaf3",
+                                   "pointBackgroundColor": "#e7eaf3",
+                                   "pointBorderColor": "#fff",
+                                   "pointHoverRadius": 0
+                                 }]
+                               },
+                               "options": {
+                                  "scales": {
+                                     "yAxes": [{
+                                       "gridLines": {
+                                         "color": "#e7eaf3",
+                                         "drawBorder": false,
+                                         "zeroLineColor": "#e7eaf3"
+                                       },
+                                       "ticks": {
+                                         "beginAtZero": true,
+                                         "stepSize": 10,
+                                         "fontSize": 12,
+                                         "fontColor": "#97a4af",
+                                         "fontFamily": "Open Sans, sans-serif",
+                                         "padding": 10,
+                                         "postfix": "k"
+                                       }
+                                     }],
+                                     "xAxes": [{
+                                       "gridLines": {
+                                         "display": false,
+                                         "drawBorder": false
+                                       },
+                                       "ticks": {
+                                         "fontSize": 12,
+                                         "fontColor": "#97a4af",
+                                         "fontFamily": "Open Sans, sans-serif",
+                                         "padding": 5
+                                       }
+                                     }]
+                                 },
+                                 "tooltips": {
+                                   "postfix": "k",
+                                   "hasIndicator": true,
+                                   "mode": "index",
+                                   "intersect": false,
+                                   "lineMode": true,
+                                   "lineWithLineColor": "rgba(19, 33, 68, 0.075)"
+                                 },
+                                 "hover": {
+                                   "mode": "nearest",
+                                   "intersect": true
+                                 }
+                               }
+                             }'>
+                               </canvas>
+                           </div>
+                           <!-- End Bar Chart -->
 
-                        <!-- Legend Indicators -->
-                        <div class="row justify-content-center">
-                            <div class="col-auto">
-                                <span class="legend-indicator"></span> Yesterday
-                            </div>
-                            <div class="col-auto">
-                                <span class="legend-indicator bg-primary"></span> Today
-                            </div>
-                        </div>
-                        <!-- End Legend Indicators -->
-                    </div>
-                    <!-- End Body -->
-                </div>--%>
+                           <!-- Legend Indicators -->
+                           <div class="row justify-content-center">
+                               <div class="col-auto">
+                                   <span class="legend-indicator"></span> Yesterday
+                               </div>
+                               <div class="col-auto">
+                                   <span class="legend-indicator bg-primary"></span> Today
+                               </div>
+                           </div>
+                           <!-- End Legend Indicators -->
+                       </div>
+                       <!-- End Body -->
+                   </div>--%>
 
                 <%--  REFUNDED --%>
-               <%-- <div class="col-lg-6 column-divider-lg">
-                    <!-- Body -->
-                    <div class="card-body">
-                        <h4>Refunded</h4>
+                <%-- <div class="col-lg-6 column-divider-lg">
+                     <!-- Body -->
+                     <div class="card-body">
+                         <h4>Refunded</h4>
 
-                        <div class="row align-items-sm-center mb-5">
-                            <div class="col-sm">
-                                <span class="display-4 text-dark mr-2">52,441</span>
-                            </div>
+                         <div class="row align-items-sm-center mb-5">
+                             <div class="col-sm">
+                                 <span class="display-4 text-dark mr-2">52,441</span>
+                             </div>
 
-                            <div class="col-sm-auto">
-                  <span class="h3 text-success">
-                    <i class="tio-trending-up"></i> 11%
-                  </span>
-                                <span class="d-block">&mdash; refunds over time <span
-                                        class="badge badge-soft-dark badge-pill ml-1">+21 today</span></span>
-                            </div>
-                        </div>
-                        <!-- End Row -->
+                             <div class="col-sm-auto">
+                   <span class="h3 text-success">
+                     <i class="tio-trending-up"></i> 11%
+                   </span>
+                                 <span class="d-block">&mdash; refunds over time <span
+                                         class="badge badge-soft-dark badge-pill ml-1">+21 today</span></span>
+                             </div>
+                         </div>
+                         <!-- End Row -->
 
-                        <!-- Bar Chart -->
-                        <div class="chartjs-custom mb-4" style="height: 18rem;">
-                            <canvas class="js-chart" data-hs-chartjs-options='{
-                            "type": "line",
-                            "data": {
-                               "labels": ["1AM","2AM","3AM","4AM","5AM","6AM","7AM","8AM","9AM","10AM"],
-                               "datasets": [{
-                                "data": [10, 20, 22, 15, 20, 15, 20, 19, 14, 15],
-                                "backgroundColor": "transparent",
-                                "borderColor": "#377dff",
-                                "borderWidth": 2,
-                                "pointRadius": 0,
-                                "hoverBorderColor": "#377dff",
-                                "pointBackgroundColor": "#377dff",
-                                "pointBorderColor": "#fff",
-                                "pointHoverRadius": 0
-                              },
-                              {
-                                "data": [15, 13, 18, 10, 16, 19, 15, 14, 10, 26],
-                                "backgroundColor": "transparent",
-                                "borderColor": "#e7eaf3",
-                                "borderWidth": 2,
-                                "pointRadius": 0,
-                                "hoverBorderColor": "#e7eaf3",
-                                "pointBackgroundColor": "#e7eaf3",
-                                "pointBorderColor": "#fff",
-                                "pointHoverRadius": 0
-                              }]
-                            },
-                            "options": {
-                               "scales": {
-                                  "yAxes": [{
-                                    "gridLines": {
-                                      "color": "#e7eaf3",
-                                      "drawBorder": false,
-                                      "zeroLineColor": "#e7eaf3"
-                                    },
-                                    "ticks": {
-                                      "beginAtZero": true,
-                                      "stepSize": 10,
-                                      "fontSize": 12,
-                                      "fontColor": "#97a4af",
-                                      "fontFamily": "Open Sans, sans-serif",
-                                      "padding": 10
-                                    }
-                                  }],
-                                  "xAxes": [{
-                                    "gridLines": {
-                                      "display": false,
-                                      "drawBorder": false
-                                    },
-                                    "ticks": {
-                                      "fontSize": 12,
-                                      "fontColor": "#97a4af",
-                                      "fontFamily": "Open Sans, sans-serif",
-                                      "padding": 5
-                                    }
-                                  }]
-                              },
-                              "tooltips": {
-                                "hasIndicator": true,
-                                "mode": "index",
-                                "intersect": false,
-                                "lineMode": true,
-                                "lineWithLineColor": "rgba(19, 33, 68, 0.075)"
-                              },
-                              "hover": {
-                                "mode": "nearest",
-                                "intersect": true
-                              }
-                            }
-                          }'>
-                            </canvas>
-                        </div>
-                        <!-- End Bar Chart -->
+                         <!-- Bar Chart -->
+                         <div class="chartjs-custom mb-4" style="height: 18rem;">
+                             <canvas class="js-chart" data-hs-chartjs-options='{
+                             "type": "line",
+                             "data": {
+                                "labels": ["1AM","2AM","3AM","4AM","5AM","6AM","7AM","8AM","9AM","10AM"],
+                                "datasets": [{
+                                 "data": [10, 20, 22, 15, 20, 15, 20, 19, 14, 15],
+                                 "backgroundColor": "transparent",
+                                 "borderColor": "#377dff",
+                                 "borderWidth": 2,
+                                 "pointRadius": 0,
+                                 "hoverBorderColor": "#377dff",
+                                 "pointBackgroundColor": "#377dff",
+                                 "pointBorderColor": "#fff",
+                                 "pointHoverRadius": 0
+                               },
+                               {
+                                 "data": [15, 13, 18, 10, 16, 19, 15, 14, 10, 26],
+                                 "backgroundColor": "transparent",
+                                 "borderColor": "#e7eaf3",
+                                 "borderWidth": 2,
+                                 "pointRadius": 0,
+                                 "hoverBorderColor": "#e7eaf3",
+                                 "pointBackgroundColor": "#e7eaf3",
+                                 "pointBorderColor": "#fff",
+                                 "pointHoverRadius": 0
+                               }]
+                             },
+                             "options": {
+                                "scales": {
+                                   "yAxes": [{
+                                     "gridLines": {
+                                       "color": "#e7eaf3",
+                                       "drawBorder": false,
+                                       "zeroLineColor": "#e7eaf3"
+                                     },
+                                     "ticks": {
+                                       "beginAtZero": true,
+                                       "stepSize": 10,
+                                       "fontSize": 12,
+                                       "fontColor": "#97a4af",
+                                       "fontFamily": "Open Sans, sans-serif",
+                                       "padding": 10
+                                     }
+                                   }],
+                                   "xAxes": [{
+                                     "gridLines": {
+                                       "display": false,
+                                       "drawBorder": false
+                                     },
+                                     "ticks": {
+                                       "fontSize": 12,
+                                       "fontColor": "#97a4af",
+                                       "fontFamily": "Open Sans, sans-serif",
+                                       "padding": 5
+                                     }
+                                   }]
+                               },
+                               "tooltips": {
+                                 "hasIndicator": true,
+                                 "mode": "index",
+                                 "intersect": false,
+                                 "lineMode": true,
+                                 "lineWithLineColor": "rgba(19, 33, 68, 0.075)"
+                               },
+                               "hover": {
+                                 "mode": "nearest",
+                                 "intersect": true
+                               }
+                             }
+                           }'>
+                             </canvas>
+                         </div>
+                         <!-- End Bar Chart -->
 
-                        <!-- Legend Indicators -->
-                        <div class="row justify-content-center">
-                            <div class="col-auto">
-                                <span class="legend-indicator"></span> Yesterday
-                            </div>
-                            <div class="col-auto">
-                                <span class="legend-indicator bg-primary"></span> Today
-                            </div>
-                        </div>
-                        <!-- End Legend Indicators -->
-                    </div>
-                    <!-- End Body -->
-                </div>--%>
+                         <!-- Legend Indicators -->
+                         <div class="row justify-content-center">
+                             <div class="col-auto">
+                                 <span class="legend-indicator"></span> Yesterday
+                             </div>
+                             <div class="col-auto">
+                                 <span class="legend-indicator bg-primary"></span> Today
+                             </div>
+                         </div>
+                         <!-- End Legend Indicators -->
+                     </div>
+                     <!-- End Body -->
+                 </div>--%>
                 <%--  END REFUNDED --%>
 
             </div>
@@ -935,6 +947,8 @@
 
 <%-- END CODE --%>
 
+<input type="hidden" value="${statistic}" name="data-statistic" id="data-statistic">
+
 
 <!-- JS Implementing Plugins -->
 <script src="assets\js\vendor.min.js"></script>
@@ -942,10 +956,14 @@
 <script src="assets\vendor\chartjs-chart-matrix\dist\chartjs-chart-matrix.min.js"></script>
 <!-- JS Front -->
 <script src="assets\js\theme.min.js"></script>
+<script src="assets/js/handleChart.js"></script>
 
 <!-- JS Plugins Init. -->
 <script>
     $(document).on('ready', function () {
+
+
+        // =======================================================================
 
         if (window.localStorage.getItem('hs-builder-popover') === null) {
             $('#builderPopover').popover('show')
@@ -1041,10 +1059,8 @@
             startDate: start,
             endDate: end,
             ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This week': [moment(), moment()],
+                'Last week': [moment().subtract(6, 'days'), moment()],
                 'This Month': [moment().startOf('month'), moment().endOf('month')],
                 'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             }

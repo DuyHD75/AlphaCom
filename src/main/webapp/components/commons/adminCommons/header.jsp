@@ -1030,7 +1030,7 @@
                                         class="hs-sub-menu dropdown-menu dropdown-menu-lg"
                                         aria-labelledby="pagesDropdownEcommerce" style="min-width: 16rem;">
                                         <li>
-                                            <a class="dropdown-item" href="ecommerce.html">
+                                            <a class="dropdown-item" href="ecommerce-product?action=overview&week=26">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span> Overview
                                             </a>
                                         </li>
