@@ -134,7 +134,7 @@
             </li>
           </ul>
           <!-- End Step -->
-        <form method="post" action="">
+        <form method="post" action="" id="form-add">
           <input type="hidden" name="formType" value="form4">
           <!-- Content Step Form -->
           <div id="addUserStepFormContent">
@@ -181,6 +181,7 @@
                       <div class="input-group input-group-sm-down-break">
                         <input type="text" class="form-control" name="name" id="firstNameLabel" placeholder="Clarice" aria-label="Clarice">
                       </div>
+                      <span class="form__msg"></span>
                     </div>
                   </div>
                   <!-- End Form Group -->
@@ -192,6 +193,7 @@
                     <div class="col-sm-9">
                       <input type="email" class="form-control" name="email" id="emailLabel" placeholder="clarice@example.com" aria-label="clarice@example.com">
                     </div>
+                    <span class="form__msg"></span>
                   </div>
                   <!-- End Form Group -->
 
@@ -205,8 +207,8 @@
 
                     <div class="col-sm-9">
                       <div class="input-group input-group-sm-down-break align-items-center">
-                        <input type="text" class="js-masked-input form-control" name="phone" id="phoneLabel" placeholder="0987654321" aria-label="" >
-
+                        <input type="text" class="js-masked-input form-control" name="phone" id="phoneLabel" placeholder="" aria-label="" >
+                        <span class="form__msg"></span>
                         <div class="input-group-append d-none">
                           <!-- Select -->
                           <div class="select2-custom">
@@ -243,6 +245,7 @@
                   <div class="col-sm-9">
                     <input type="text" class="form-control" name="addressLine" id="addressLineLabel" placeholder="Your address" aria-label="Your address">
                   </div>
+                  <span class="form__msg"></span>
                 </div>
                   <!-- End Add Phone Input Field -->
                 <div class="row form-group">
@@ -1177,7 +1180,20 @@
 
 <!-- JS Front -->
 <script src="assets\js\theme.min.js"></script>
-
+<script src="js/validator.js" type="text/javascript"></script>
+<script>
+  Validator({
+    form: '#form-add',
+    formGroupSelector: '.form-group',
+    erorrSelector: '.form__msg',
+        rules: [
+      Validator.isRequired('#firstNameLabel', 'Please enter your full name'),
+      Validator.isRequired('#emailLabel', 'Please enter your email address'),
+      Validator.isEmail('#emailLabel'),
+      Validator.isRequired('#phoneLabel', 'Please enter your phone number'),
+      Validator.isPhoneNumber('#phoneLabel'),
+      Validator.isRequired('#addressLineLabel','Please enter your address')  ],});
+</script>
 <!-- JS Plugins Init. -->
 <script>
   $(document).on('ready', function () {

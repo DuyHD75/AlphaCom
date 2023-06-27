@@ -191,13 +191,17 @@ public class ProductReview {
     }
 
     @Override
+
     public String toString() {
         return "ProductReview{" +
-                "rating=" + rating +
+                "id=" + id +
+                ", cus_name='" + cus_name + '\'' +
+                ", rating=" + rating +
                 ", comment='" + comment + '\'' +
+                ", email='" + email + '\'' +
                 ", cus_id=" + cus_id +
                 ", pid=" + pid +
+                ", product_name='" + product_name + '\'' +
                 '}';
     }
-
 }

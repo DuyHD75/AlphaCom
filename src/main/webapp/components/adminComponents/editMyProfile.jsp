@@ -147,7 +147,7 @@
                   <i class="tio-user-outlined nav-icon"></i> Basic information
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item d-none">
                 <a class="nav-link" href="#emailSection">
                   <i class="tio-online nav-icon"></i> Email
                 </a>
@@ -159,18 +159,18 @@
               </li>
 
 
-              <li class="nav-item">
+              <li class="nav-item d-none">
                 <a class="nav-link" href="#notificationsSection">
                   <i class="tio-notifications-on-outlined nav-icon"></i> Notifications
                 </a>
               </li>
 
-              <li class="nav-item">
+              <li class="nav-item d-none">
                 <a class="nav-link" href="#socialAccountsSection">
                   <i class="tio-instagram nav-icon"></i> Social accounts
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item d-none">
                 <a class="nav-link" href="#deleteAccountSection">
                   <i class="tio-delete-outlined nav-icon"></i> Delete account
                 </a>
@@ -255,14 +255,19 @@
         <div class="card mb-3 mb-lg-5">
           <div class="card-header">
             <h2 class="card-title h4">Basic information</h2>
+            <span>${messInfo}</span>
           </div>
 
           <!-- Body -->
           <div class="card-body">
             <!-- Form -->
-            <form>
+<c:if test="${sessionScope.acc != null}">
+
+<form method="post" action="managerProfile" id="form-profile">
+  <input type="hidden" name="formType" value="form1">
+
               <!-- Form Group -->
-              <div class="row form-group">
+              <div class="row form-group invalid">
                 <label for="editNameModalLabel"
                        class="col-sm-3 col-form-label input-label">Full name <i
                         class="tio-help-outlined text-body ml-1"
@@ -270,18 +275,19 @@
                         title="Displayed on public forums, such as Front."></i></label>
 
                 <div class="col-sm-9">
-                  <div class="js-form-message input-group input-group-sm-down-break">
+                  <div class="js-form-message input-group input-group-sm-down-break ">
                     <input type="text" class="form-control"
                            name="editNameModal" id="editNameModalLabel"
                            placeholder="Your Name" aria-label="Your name"
-                           value="">
+                           value="${sessionScope.acc.name}">
+                    <span class="form__msg "></span>
                   </div>
                 </div>
               </div>
               <!-- End Form Group -->
 
               <!-- Form Group -->
-              <div class="row form-group">
+              <div class="row form-group invalid">
                 <label for="editEmailModalLabel"
                        class="col-sm-3 col-form-label input-label">Email</label>
 
@@ -291,9 +297,8 @@
                            name="email">
                     <input type="email" class="form-control"
                            name="editEmailModal" id="editEmailModalLabel"
-                           placeholder="Email" aria-label="Email" value=""
-                    >
-
+                           placeholder="Email" aria-label="Email" value="${sessionScope.acc.email}" >
+                    <span class="form__msg "></span>
                   </div>
                   <%-- ID để nhận dạng cái input--%>
                 </div>
@@ -301,7 +306,7 @@
               <!-- End Form Group -->
 
               <!-- Form Group -->
-              <div class="row form-group ">
+              <div class="row form-group d-none ">
                 <label for="editPhoneLabel"
                        class="col-sm-3 col-form-label input-label">Phone <span
                         class="input-label-secondary">(Optional)</span></label>
@@ -405,7 +410,7 @@
                 </div>
               </div>
 
-              <div class="row form-group">
+              <div class="row form-group d-none">
                 <label for="editAddressLineModalLabel"
                        class="col-sm-3 col-form-label input-label">Address </label>
 
@@ -419,11 +424,11 @@
                   </div>
                 </div>
               </div>
-              <div class="row form-group">
+              <div class="row form-group d-none">
                 <label for=""
                        class="col-sm-3 col-form-label input-label">Role </label>
 
-                <div class="col-sm-9">
+                <div class="col-sm-9 d-none">
                   <div class="select2-custom auto-apply">
                     <select class="js-select2-custom custom-select" size="1" style="opacity: 0;" name="roleSelect" id="editRoleModalLabel" data-hs-select2-options='{
                                       "minimumResultsForSearch": "Infinity",
@@ -454,6 +459,7 @@
                 <button type="submit" class="btn btn-primary">Save changes</button>
               </div>
             </form>
+</c:if>
             <!-- End Form -->
           </div>
           <!-- End Body -->
@@ -496,12 +502,14 @@
         <div id="passwordSection" class="card mb-3 mb-lg-5">
           <div class="card-header">
             <h4 class="card-title">Change your password</h4>
+            <span>${mess}</span>
           </div>
 
           <!-- Body -->
           <div class="card-body">
             <!-- Form -->
-            <form id="changePasswordForm">
+            <form method="post" action="managerProfile" id="form-password">
+              <input type="hidden" name="formType" value="form2">
               <!-- Form Group -->
               <div class="row form-group">
                 <label for="currentPasswordLabel" class="col-sm-3 col-form-label input-label">Current password</label>
@@ -509,6 +517,7 @@
                 <div class="col-sm-9">
                   <input type="password" class="form-control" name="currentPassword" id="currentPasswordLabel" placeholder="Enter current password" aria-label="Enter current password">
                 </div>
+                <span class="form__msg">${messCurrent}</span>
               </div>
               <!-- End Form Group -->
 
@@ -517,42 +526,23 @@
                 <label for="newPassword" class="col-sm-3 col-form-label input-label">New password</label>
 
                 <div class="col-sm-9">
-                  <input type="password" class="js-pwstrength form-control" name="newPassword" id="newPassword" placeholder="Enter new password" aria-label="Enter new password" data-hs-pwstrength-options='{
-                               "ui": {
-                                 "container": "#changePasswordForm",
-                                 "viewports": {
-                                   "progress": "#passwordStrengthProgress",
-                                   "verdict": "#passwordStrengthVerdict"
-                                 }
-                               }
-                             }'>
-
-                  <p id="passwordStrengthVerdict" class="form-text mb-2">
-
-                  <div id="passwordStrengthProgress"></div>
+                  <input type="password" class=" form-control" name="newPassword" id="newPassword" placeholder="Enter new password" aria-label="Enter new password" >
                 </div>
+                <span class="form__msg"></span>
               </div>
               <!-- End Form Group -->
 
               <!-- Form Group -->
               <div class="row form-group">
-                <label for="confirmNewPasswordLabel" class="col-sm-3 col-form-label input-label">Confirm new password</label>
+                <label for="confirmPassword" class="col-sm-3 col-form-label input-label">Confirm new password</label>
 
                 <div class="col-sm-9">
                   <div class="mb-3">
-                    <input type="password" class="form-control" name="confirmNewPassword" id="confirmNewPasswordLabel" placeholder="Confirm your new password" aria-label="Confirm your new password">
+                    <input type="password" class="form-control" name="confirmNewPassword" id="confirmPassword" placeholder="Confirm your new password" aria-label="Confirm your new password">
                   </div>
+                  <span class="form__msg"></span>
 
-                  <h5>Password requirements:</h5>
 
-                  <p class="font-size-sm mb-2">Ensure that these requirements are met:</p>
-
-                  <ul class="font-size-sm">
-                    <li>Minimum 8 characters long - the more, the better</li>
-                    <li>At least one lowercase character</li>
-                    <li>At least one uppercase character</li>
-                    <li>At least one number, symbol, or whitespace character</li>
-                  </ul>
                 </div>
               </div>
               <!-- End Form Group -->
@@ -1623,6 +1613,22 @@
 
 <!-- JS Front -->
 <script src="assets\js\theme.min.js"></script>
+<script src="js/validator.js" type="text/javascript"></script>
+<script>
+  Validator({
+    form: '#form-profile',
+    formGroupSelector: '.form-group',
+    erorrSelector: '.form__msg',
+
+    rules: [
+      Validator.isRequired('#editNameModalLabel', 'Please enter your full name'),
+      Validator.isRequired('#editEmailModalLabel', 'Please enter your email address'),
+      Validator.isEmail('#editEmailModalLabel'),
+
+    ],});
+
+
+</script>
 
 <!-- JS Plugins Init. -->
 <script>
