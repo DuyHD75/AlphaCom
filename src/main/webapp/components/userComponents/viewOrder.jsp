@@ -76,18 +76,19 @@
                             <p>Status: <span>${ord.getStatus()}</span></p>
                             <p>
                                 <c:set var="PendingStatus" value="Pending"/>
-                                    <c:choose>
-                                    <c:when test="${ord.getStatus() == PendingStatus}">
-                                        <a class="btn" href="order?action=cancelOrder&&oid=${ord.getId()}" onclick="return confirm('Are you sure cancel this order?');">
-                                            Cancel Order
-                                        </a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a class="btn disabled" href="order?action=cancelOrder&&oid=${ord.getId()}" onclick="return confirm('Are you sure cancel this order?');">
-                                            Cancel Order
-                                        </a>
-                                    </c:otherwise>
-                                    </c:choose>
+                                <c:set var="PAYPAL" value="PAYPAL"/>
+                                <c:set var="VNPAY" value="VNPAY"/>
+
+                                <c:if test="${ord.getStatus() == PendingStatus && ord.getPaymentMethod() != PAYPAL && ord.getPaymentMethod() != VNPAY}">
+                                    <a class="btn" href="order?action=cancelOrder&&oid=${ord.getId()}" onclick="return confirm('Are you sure cancel this order?');">
+                                        Cancel Order
+                                    </a>
+                                </c:if>
+                                <c:if test="${ord.getStatus() != PendingStatus || ord.getPaymentMethod() == PAYPAL || ord.getPaymentMethod() == VNPAY}">
+                                    <a class="btn disabled" href="order?action=cancelOrder&&oid=${ord.getId()}" onclick="return confirm('Are you sure cancel this order?');">
+                                        Cancel Order
+                                    </a>
+                                </c:if>
                             </p>
                         </div>
                     </div>

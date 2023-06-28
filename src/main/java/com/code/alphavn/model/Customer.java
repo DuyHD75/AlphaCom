@@ -157,6 +157,17 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" + "id=" + id + ", name=" + name + ", password=" + password + ", address=" + address + ", email=" + email + ", phone=" + phone + ", create_At=" + create_At + '}';
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", create_At=" + create_At +
+                ", Status='" + Status + '\'' +
+                ", quantityOrder=" + quantityOrder +
+                ", totalSpent=" + totalSpent +
+                '}';
     }
 }

@@ -702,7 +702,7 @@
 
                     <!-- Body -->
                     <div class="card-body">
-                        <a class="media align-items-center" href="ecommerce-customer-details.html">
+                        <a class="media align-items-center" href="adminCustomer?action=viewCustomerDetail&&Cid=${order.getCustomer().getId()}">
                             <div class="avatar avatar-circle mr-3">
                                 <img class="avatar-img" src="assets\img\160x160\img10.jpg" alt="Image Description">
                             </div>
@@ -716,7 +716,7 @@
 
                         <hr>
 
-                        <a class="media align-items-center" href="ecommerce-customer-details.html">
+                        <a class="media align-items-center" href="adminCustomer?action=viewCustomerDetail&&Cid=${order.getCustomer().getId()}">
                             <div class="icon icon-soft-info icon-circle mr-3">
                                 <i class="tio-shopping-basket-outlined"></i>
                             </div>
@@ -768,10 +768,10 @@
                             ${order.getCustomer().getAddress()}
                         </span>
 
-                        <div class="mt-3">
-                            <h5 class="mb-0">Mastercard</h5>
-                            <span class="d-block">Card Number: ************4291</span>
-                        </div>
+<%--                        <div class="mt-3">--%>
+<%--                            <h5 class="mb-0">Mastercard</h5>--%>
+<%--                            <span class="d-block">Card Number: ************4291</span>--%>
+<%--                        </div>--%>
                     </div>
                     <!-- End Body -->
                 </div>

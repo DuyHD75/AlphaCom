@@ -252,10 +252,15 @@
         password: '#form-change-password #newpassword',
         confirmPassword: '#form-change-password #confirmnewpassword',
         rules: [
+            Validator.isRequired('#oldpassword'),
+            Validator.isPassword('#oldpassword', 8),
+            Validator.isRequired('#newpassword'),
             Validator.isPassword('#newpassword', 8),
             Validator.isConfirmedPassword('#newpassword', function () {
                 return document.querySelector('#form-change-password #confirmnewpassword').value;
             }, 'New Password and Comfirm New Password must be the same'),
+            Validator.isRequired('#confirmnewpassword'),
+            Validator.isPassword('#confirmnewpassword', 8),
             Validator.isConfirmed('#confirmnewpassword', function () {
                 return document.querySelector('#form-change-password #newpassword').value;
             }, 'New Password and Comfirm New Password must be the same'),

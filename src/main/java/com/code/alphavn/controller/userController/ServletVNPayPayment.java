@@ -150,12 +150,27 @@ public class ServletVNPayPayment extends HttpServlet {
                 UserServiceImpl userService = new UserServiceImpl();
                 HttpSession session = request.getSession();
                 String isPayNow = (String) session.getAttribute("isPayNow");
+                Customer account = (Customer) session.getAttribute("acc");
+                Customer customer = new Customer(account.getId());
+                String exportBillValue = (String) session.getAttribute("exportBillValue");
                 if (isPayNow.equals("true")){
                     Order order = (Order) session.getAttribute("order");
                     userService.InsertPlaceOrderWithBuyNow(order.getCustomer(), order.getPaymentMethod(), order.getPid(), order.getPrice(), order.getAmount());
+                    List<Order> orders = userService.getOrderByCusId(customer);
+                    Order order1 = orders.get(orders.size() - 1);
+                    ServletCheckout checkout = new ServletCheckout();
+                    if (exportBillValue != null) {
+                        checkout.sendBillViaEmail(request, response, order1);
+                    }
                 }else {
                     userService.InsertPlaceOrder((Customer) session.getAttribute("customerId"), (List<Cart>) session.getAttribute("carts"), (String) session.getAttribute("payMetthod"));
                     userService.DeleteCartByCusID((Integer) session.getAttribute("cusId"));
+                    List<Order> orders = userService.getOrderByCusId(customer);
+                    Order order = orders.get(orders.size() - 1);
+                    ServletCheckout checkout = new ServletCheckout();
+                    if (exportBillValue != null) {
+                        checkout.sendBillViaEmail(request, response, order);
+                    }
                 }
                 request.setAttribute("paymentStatus", "Success");
                 request.setAttribute("hide2","show");

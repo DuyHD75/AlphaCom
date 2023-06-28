@@ -134,10 +134,6 @@ public class ServletCheckout extends HttpServlet {
                 List<Cart> carts = userService.getCartByCusID(cusId);
                 request.setAttribute("countProductInCart", carts.size());
 
-                List<Order> orders = userService.getOrderByCusId(customerId);
-                Order order = orders.get(orders.size() - 1);
-                //nếu list rỗng thì set đơn hàng vào.
-
                 if (!Pid.equals("")) { // cho buy now
                     int pid = Integer.parseInt(Pid);
                     Double price = Double.parseDouble(request.getParameter("price"));
@@ -158,6 +154,7 @@ public class ServletCheckout extends HttpServlet {
                         request.setAttribute("paymentMethod", payMetthod);
                         request.setAttribute("customerInf", info);
                         request.setAttribute("orderDetail", orderDetail);
+                        session.setAttribute("exportBillValue", exportBillValue);
 
                         request.getRequestDispatcher("paypalPayment").forward(request, response);
                     } else if (payMetthod.equals("VNPAY")) {
@@ -181,18 +178,18 @@ public class ServletCheckout extends HttpServlet {
                         request.setAttribute("language", request.getParameter("language"));
                         System.out.println(request.getAttribute("language"));
                         System.out.println(request.getAttribute("bankCode"));
+                        session.setAttribute("exportBillValue", exportBillValue);
                         request.getRequestDispatcher("ServletVNPayPayment?action=createTransaction").forward(request, response);
 
                     } else {
                         userService.InsertPlaceOrderWithBuyNow(customerId, payMetthod, pid, price, amount);
+                        List<Order> orders = userService.getOrderByCusId(customerId);
+                        Order order = orders.get(orders.size() - 1);
+                        if (exportBillValue != null) {
+                            sendBillViaEmail(request, response, order);
+                        }
                         response.sendRedirect("order?action=viewLastOrder");
                     }
-
-                    if (exportBillValue != null) {
-//                        sendBillViaEmail(request, response, order);
-                    }
-
-//                    response.sendRedirect("order?action=viewLastOrder");
                 } else { // mua bang cart
                     if (carts.size() == 0) {
                         request.setAttribute("error", "Your cart is empty, can't placed order. Buy now");
@@ -229,6 +226,7 @@ public class ServletCheckout extends HttpServlet {
                             request.setAttribute("paymentMethod", payMetthod);
                             request.setAttribute("customerInf", info);
                             request.setAttribute("orderDetail", orderDetail);
+                            session.setAttribute("exportBillValue", exportBillValue);
 
                             request.getRequestDispatcher("paypalPayment").forward(request, response);
                         } else if (payMetthod.equals("VNPAY")) {
@@ -251,19 +249,18 @@ public class ServletCheckout extends HttpServlet {
                             request.setAttribute("amount", Double.toString(currencyValue * total));
                             request.setAttribute("bankCode", request.getParameter("bankCode"));
                             request.setAttribute("language", request.getParameter("language"));
-                            System.out.println(request.getAttribute("language"));
-                            System.out.println(request.getAttribute("bankCode"));
+                            session.setAttribute("exportBillValue", exportBillValue);
                             request.getRequestDispatcher("ServletVNPayPayment?action=createTransaction").forward(request, response);
                         } else {
                             userService.InsertPlaceOrder(customerId, carts, payMetthod);
                             userService.DeleteCartByCusID(cusId);
+                            List<Order> orders = userService.getOrderByCusId(customerId);
+                            Order order = orders.get(orders.size() - 1);
+                            if (exportBillValue != null) {
+                                sendBillViaEmail(request, response, order);
+                            }
                             response.sendRedirect("order?action=viewLastOrder");
                         }
-
-                        if (exportBillValue != null) {
-//                            sendBillViaEmail(request, response, order);
-                        }
-//                        response.sendRedirect("order?action=viewLastOrder");
 
                     }
                 }
@@ -299,7 +296,10 @@ public class ServletCheckout extends HttpServlet {
             //thêm cái này vào những trang có header.jsp
             ServletCart viewcart = new ServletCart();
             viewcart.handleViewCartHeader(request, response);
-
+            ProductInfo productInfo = userService.getProductByID(pid);
+            if (amount > productInfo.getProduct().getAmount_remaining()) {
+                amount = productInfo.getProduct().getAmount_remaining();
+            }
             request.setAttribute("infomation", info);
             Date currentDate = new Date();
             double newPrice = 0;
