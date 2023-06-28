@@ -7,6 +7,7 @@ public class Manager {
     private String name,pass,email,phone,address;
     private Date create_At;
     private String role;
+    private String status;
 private int totalMan;
     public Manager() {    }
 
@@ -17,6 +18,25 @@ private int totalMan;
         this.phone = phone;
         this.address = address;
         this.role = role;
+    }
+
+    public Manager(int id, int adminId, String name, String pass, String email, String phone, String address, Date create_At, String role, String status) {
+        this.id = id;
+        this.adminId = adminId;
+        this.name = name;
+        this.pass = pass;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.create_At = create_At;
+        this.role = role;
+        this.status = status;
+    }
+
+    public Manager(int id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
     }
 
     public Manager(int id, int adminId, String name, String pass, String email, String phone, String address, Date create_At, String role) {
@@ -30,6 +50,7 @@ private int totalMan;
         this.create_At = create_At;
         this.role = role;
     }
+
 
     public Manager(int id, int adminId, String name, String pass, String email, String phone, String address, Date create_At) {
         this.id = id;
@@ -82,6 +103,14 @@ private int totalMan;
         this.phone = phone;
         this.address = address;
         this.role = role;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getRole() {
