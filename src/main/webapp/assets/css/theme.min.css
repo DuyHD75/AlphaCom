@@ -22351,7 +22351,7 @@ label.btn {
 }
 
 .card {
-    box-shadow: 0 2px 2px #c3c3c3;
+    box-shadow: 0 2px 6px #888;
 }
 
 .card[href]:hover .card-header-title,
@@ -23328,8 +23328,11 @@ label.btn {
 }
 
 .footer:not([class*="container"]) {
+    padding-top: 3rem;
     padding-right: 2rem;
     padding-left: 2rem;
+    padding-top: 3rem;
+
 }
 
 @media (max-width: 575.98px) {

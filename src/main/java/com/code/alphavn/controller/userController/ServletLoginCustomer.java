@@ -2,6 +2,7 @@ package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.adminModel.Admin;
+import com.code.alphavn.model.adminModel.Manager;
 import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.servlet.ServletException;
@@ -25,19 +26,19 @@ public class ServletLoginCustomer extends HttpServlet {
 
         UserServiceImpl userService = new UserServiceImpl();
         String encodedpass = userService.getBase64Encoded(password);
-        if(userService.getCustomerByEmail(email)!=null){
+
+        if (userService.getCustomerByEmail(email) != null) {
             Customer customer = new Customer(encodedpass, email);
             Customer account = userService.Login(customer);
 
-            if(account == null){
+            if (account == null) {
                 request.setAttribute("messLogin", "Wrong username or password.");
                 request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
-            } else if (account.getStatus().equals("Block")){
+            } else if (account.getStatus().equals("Block")) {
                 request.setAttribute("messLogin", "Your account has been blocked");
                 request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
-            }
-            else{
-                if(fullname != null){
+            } else {
+                if (fullname != null) {
                     request.setAttribute("email", email);
                     request.setAttribute("password", password);
                     request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
@@ -50,23 +51,33 @@ public class ServletLoginCustomer extends HttpServlet {
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
-                    //
                     session.setMaxInactiveInterval(108000);
-    //                request.getRequestDispatcher("/components/userComponents/home.jsp").forward(request, response);
                     response.sendRedirect("home");
                 }
             }
-        }else if (userService.getAdminByEmail(email)!=null){
-            Admin admin = new Admin(encodedpass,email);
-            Admin accountAdmin= userService.Login(admin);
-            if(accountAdmin == null){
+        } else if (userService.getAdminByEmail(email) != null) {
+            Admin admin = new Admin(password, email);
+            Admin accountAdmin = userService.Login(admin);
+            if (accountAdmin == null) {
 
                 request.setAttribute("messLogin", "Wrong username or password.");
                 request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
             } else {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("acc", accountAdmin);
-//                request.getRequestDispatcher("/adminHome").forward(request, response);
+                HttpSession session = request.getSession();
+                session.setAttribute("acc", accountAdmin);
+                response.sendRedirect("adminHome");
+
+            }
+        } else if (userService.getManagerByEmail(email) != null) {
+            Manager manager = new Manager(password, email);
+            Manager accountMana = userService.LoginMana(manager);
+            System.out.println(accountMana);
+            if (accountMana == null) {
+                request.setAttribute("messLogin", "Wrong username or password.");
+                request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
+            } else {
+                HttpSession session = request.getSession();
+                session.setAttribute("accMana", accountMana);
                 response.sendRedirect("adminHome");
 
             }

@@ -33,7 +33,6 @@ public class AdminServiceImpl implements IAdminService {
     // ============================ HANDLE METHOD ===================
 
 
-
     public List<ProductInfo> getAllProducts() throws SQLException {
         String query = "SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining, pd.price, pd.img1, pd.img2, pd.img3,c.category_name " +
                 "FROM products p JOIN productDetails pd ON p.pid = pd.product_id JOIN categorys c ON p.category_id = c.category_id";
@@ -267,7 +266,7 @@ public class AdminServiceImpl implements IAdminService {
     // =====================  METHOD HANDLE RENDER OVERVIEW PRODUCT =============================
 
     public List<ManageOrder> manageProducts(int week) throws SQLException {
-        String query =  "SELECT DATENAME(WEEKDAY, o.orderDate) AS DayOfWeek,\n" +
+        String query = "SELECT DATENAME(WEEKDAY, o.orderDate) AS DayOfWeek,\n" +
                 "       o.orderDate,\n" +
                 "       COUNT(DISTINCT o.order_id) AS TotalOrders,\n" +
                 "       SUM(od.quantityOrdered) AS TotalQuantity,\n" +
@@ -613,17 +612,18 @@ public class AdminServiceImpl implements IAdminService {
         } catch (SQLException e) {
         }
     }
-    public double getTotalPriceOrder(){
+
+    public double getTotalPriceOrder() {
         List<Order> orders = getAllOrder();
         double totalPriceOrder = 0;
-        for( Order order : orders) {
+        for (Order order : orders) {
 
-            for (OrderDetail orderDetail : order.getOrderDetail()){
+            for (OrderDetail orderDetail : order.getOrderDetail()) {
                 totalPriceOrder = totalPriceOrder + orderDetail.getPrice() * orderDetail.getQuantityOrdered();
                 order.setTotalPriceOrder(totalPriceOrder);
             }
         }
-        return  (double) Math.round(totalPriceOrder * 100) / 100;
+        return (double) Math.round(totalPriceOrder * 100) / 100;
     }
 
     public void DeleteOrderSelected(List<Order> orders) {
@@ -679,6 +679,7 @@ public class AdminServiceImpl implements IAdminService {
         }
         return null;
     }
+
     public boolean updateInfoAdmin(Admin admin) {
         String query = "update admins set name=? , email=?\n" +
                 "  where admin_id = ?";
@@ -686,14 +687,15 @@ public class AdminServiceImpl implements IAdminService {
             PreparedStatement pstm = con.prepareStatement(query);
             pstm.setString(1, admin.getName().trim());
             pstm.setString(2, admin.getEmail().trim());
-            pstm.setInt(3,admin.getId());
+            pstm.setInt(3, admin.getId());
             pstm.executeUpdate();
         } catch (Exception e) {
             return false;
         }
         return true;
     }
-    public boolean updatePassAdmin(String email,String pass) throws SQLException {
+
+    public boolean updatePassAdmin(String email, String pass) throws SQLException {
         try {
             PreparedStatement pst = con.prepareStatement("update admins set password = ? where email = ? ");
             pst.setString(1, pass);

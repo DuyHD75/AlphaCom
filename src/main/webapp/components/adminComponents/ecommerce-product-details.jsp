@@ -87,7 +87,8 @@
                 <div class="col-sm mb-2 mb-sm-0">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-no-gutter">
-                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="ecommerce-products.html">Products</a>
+                            <li class="breadcrumb-item"><a class="breadcrumb-link"
+                                                           href="ecommerce-product?action=products">Products</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Product details</li>
                         </ol>
@@ -95,33 +96,13 @@
 
                     <h1 class="page-header-title">${product.getProduct().getName()}</h1>
 
-                    <%-- <div class="mt-2">
-                         <a class="text-body mr-3" href="javascript:;">
-                             <i class="tio-copy mr-1"></i> Duplicate
-                         </a>
-                         <a class="text-body" href="javascript:;">
-                             <i class="tio-visible-outlined mr-1"></i> Preview
-                         </a>
-                     </div>--%>
                 </div>
-
-                <%--<div class="col-sm-auto">
-                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle mr-1" href="#"
-                       data-toggle="tooltip"
-                       data-placement="top" title="Previous product">
-                        <i class="tio-arrow-backward"></i>
-                    </a>
-                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle" href="#" data-toggle="tooltip"
-                       data-placement="top" title="Next product">
-                        <i class="tio-arrow-forward"></i>
-                    </a>
-                </div>--%>
             </div>
         </div>
         <!-- End Page Header -->
 
-        <div class="row">
-            <div class="col-lg-7">
+        <div class="row m-auto" style="display: flex; justify-content: center;">
+            <div class="col-lg-10">
                 <!-- Card -->
                 <div class="card mb-3 mb-lg-5">
                     <!-- Header -->
@@ -234,26 +215,26 @@
                         <h4 class="card-header-title">Media</h4>
 
                         <!-- Unfold -->
-                     <%--   <div class="hs-unfold">
-                            <a class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary" href="javascript:;"
-                               data-hs-unfold-options='{   "target": "#mediaDropdown",
-                                                   "type": "css-animation"
-                                                 }'>
-                                Add media from URL <i class="tio-chevron-down"></i>
-                            </a>
+                        <%--   <div class="hs-unfold">
+                               <a class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary" href="javascript:;"
+                                  data-hs-unfold-options='{   "target": "#mediaDropdown",
+                                                      "type": "css-animation"
+                                                    }'>
+                                   Add media from URL <i class="tio-chevron-down"></i>
+                               </a>
 
-                            <div id="mediaDropdown"
-                                 class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
-                                <a class="dropdown-item" href="javascript:;" data-toggle="modal"
-                                   data-target="#addImageFromURLModal">
-                                    <i class="tio-link dropdown-item-icon"></i> Add image from URL
-                                </a>
-                                <a class="dropdown-item" href="javascript:;" data-toggle="modal"
-                                   data-target="#embedVideoModal">
-                                    <i class="tio-youtube-outlined dropdown-item-icon"></i> Embed video
-                                </a>
-                            </div>
-                        </div>--%>
+                               <div id="mediaDropdown"
+                                    class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
+                                   <a class="dropdown-item" href="javascript:;" data-toggle="modal"
+                                      data-target="#addImageFromURLModal">
+                                       <i class="tio-link dropdown-item-icon"></i> Add image from URL
+                                   </a>
+                                   <a class="dropdown-item" href="javascript:;" data-toggle="modal"
+                                      data-target="#embedVideoModal">
+                                       <i class="tio-youtube-outlined dropdown-item-icon"></i> Embed video
+                                   </a>
+                               </div>
+                           </div>--%>
                         <!-- End Unfold -->
                     </div>
                     <!-- End Header -->
@@ -384,11 +365,9 @@
                 </div>
                 <!-- End Card -->
 
-            </div>
 
-            <div class="col-lg-5">
                 <!-- Card -->
-                <div class="card mb-3 mb-lg-5">
+                <div class="card mb-3 mb-lg-5 ">
                     <!-- Header -->
                     <div class="card-header">
                         <h4 class="card-header-title">Pricing</h4>
@@ -482,7 +461,7 @@
                                        aria-label=""
                                        value="${discount.isPresent() ? discount.get().getEnd_date() : ''}">
                             </div>
-
+                            <p class="text-center text-danger error-message mt-4"></p>
 
                         </div>
                         <!-- End Form Group -->
@@ -494,7 +473,7 @@
                 <!-- End Card -->
 
                 <!-- Card -->
-                <div class="card">
+                <div class="card ">
                     <!-- Header -->
                     <div class="card-header">
                         <h4 class="card-header-title">Organization</h4>
@@ -547,28 +526,6 @@
                         </div>
                         <!-- Form Group -->
 
-                        <!-- Form Group -->
-                        <%--  <div class="form-group">
-                              <label for="collectionsLabel" class="input-label">Collections</label>
-
-                              <!-- Select -->
-                              <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
-                                      id="collectionsLabel"
-                                      data-hs-select2-options='{
-                              "minimumResultsForSearch": "Infinity",
-                              "placeholder": "Select collections"
-                            }'>
-                                  <option label="empty"></option>
-                                  <option value="Winter">Winter</option>
-                                  <option value="Spring">Spring</option>
-                                  <option value="Summer" selected="">Summer</option>
-                                  <option value="Autumn">Autumn</option>
-                              </select>
-                              <!-- End Select -->
-
-                              <span class="form-text">Add this product to a collection so it’s easy to find in your store.</span>
-                          </div>--%>
-                        <!-- Form Group -->
 
                         <label for="tagsLabel" class="input-label">Tags</label>
 
@@ -581,19 +538,19 @@
                 <!-- End Card -->
             </div>
         </div>
+
         <!-- End Row -->
 
-        <div class="position-fixed bottom-0 content-centered-x w-50 z-index-99 mb-3" style="max-width: 40rem;">
+        <div class="position-fixed bottom-0 content-centered-x w-30 z-index-99 mb-3" style="max-width: 40rem;">
             <!-- Card -->
             <div class="card card-sm bg-dark border-dark mx-2">
                 <div class="card-body">
                     <div class="row justify-content-center justify-content-sm-between">
                         <div class="col">
-                            <button type="button" class="btn btn-ghost-danger">Delete</button>
+                            <a href="?action=delete-product?id=${product.getProduct().getId()}"
+                               class="btn btn-ghost-danger">Delete</a>
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-ghost-light mr-2">Discard</button>
-
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
@@ -884,6 +841,25 @@
 <script>
     $(document).on('ready', function () {
 
+        // ================ VALIDATE INPUT DATE ========================
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                const startDate = new Date($('input[name="start-date"]').val());
+                const startDateInput = $('input[name="start-date"]');
+                const endDate = new Date($('input[name="end-date"]').val());
+                const errorMessageSpan = $('p.error-message');
+
+                if (startDate >= endDate) {
+                    event.preventDefault();
+                    errorMessageSpan.text("Start date must be before end date !");
+                    startDateInput.addClass('text-danger');
+                } else {
+                    errorMessageSpan.text("");
+
+                    $(this).submit();
+                }
+            });
+        });
 
         // ============================ SET THE CURR DATE ==========
         var today = new Date().toISOString().split('T')[0];

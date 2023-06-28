@@ -79,7 +79,7 @@
 
 <!-- End Navbar Vertical -->
 
-<form id="content" role="main" class="main" action="" method="post">
+<form id="content" role="main" class="main" action="" method="post" enctype="multipart/form-data">
     <!-- Content -->
     <div class="content container-fluid">
         <!-- Page Header -->
@@ -88,7 +88,8 @@
                 <div class="col-sm mb-2 mb-sm-0">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-no-gutter">
-                            <li class="breadcrumb-item"><a class="breadcrumb-link" href="ecommerce-products.html">Products</a>
+                            <li class="breadcrumb-item"><a class="breadcrumb-link"
+                                                           href="ecommerce-product?action=products">Products</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">Add product</li>
                         </ol>
@@ -101,8 +102,8 @@
         </div>
         <!-- End Page Header -->
 
-        <div class="row">
-            <div class="col-lg-7">
+        <div class="row m-auto" style="display: flex; justify-content: center;">
+            <div class="col-lg-10">
                 <!-- Card -->
                 <div class="card mb-3 mb-lg-5">
                     <!-- Header -->
@@ -160,30 +161,6 @@
                     <!-- Header -->
                     <div class="card-header">
                         <h4 class="card-header-title">Media</h4>
-
-                        <!-- Unfold -->
-                        <%--   <div class="hs-unfold">
-                               <a class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary" href="javascript:;"
-                                  data-hs-unfold-options='{
-                                              "target": "#mediaDropdown",
-                                              "type": "css-animation"
-                                            }'>
-                                   Add media from URL <i class="tio-chevron-down"></i>
-                               </a>
-
-                               <div id="mediaDropdown"
-                                    class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
-                                   <a class="dropdown-item" href="javascript:;" data-toggle="modal"
-                                      data-target="#addImageFromURLModal">
-                                       <i class="tio-link dropdown-item-icon"></i> Add image from URL
-                                   </a>
-                                   <a class="dropdown-item" href="javascript:;" data-toggle="modal"
-                                      data-target="#embedVideoModal">
-                                       <i class="tio-youtube-outlined dropdown-item-icon"></i> Embed video
-                                   </a>
-                               </div>
-                           </div>--%>
-                        <!-- End Unfold -->
                     </div>
                     <!-- End Header -->
 
@@ -209,7 +186,7 @@
 
             </div>
 
-            <div class="col-lg-5">
+            <div class="col-lg-10">
                 <!-- Card -->
                 <div class="card mb-3 mb-lg-5">
                     <!-- Header -->
@@ -253,10 +230,6 @@
                                        aria-label="" value=""
                                        name="quantity" id="quantityNameLable" required>
                             </div>
-
-
-
-
                             <!-- End Form Group -->
                         </div>
 
@@ -308,6 +281,7 @@
                                        aria-label=""
                                        value="">
                             </div>
+                            <p class="text-center text-danger error-message mt-4"></p>
 
                         </div>
                         <!-- Body -->
@@ -315,122 +289,121 @@
                     <!-- End Card -->
                 </div>
 
-                    <!-- Card -->
-                    <div class="card">
-                        <!-- Header -->
-                        <div class="card-header">
-                            <h4 class="card-header-title">Organization</h4>
-                        </div>
-                        <!-- End Header -->
+                <!-- Card -->
+                <div class="card">
+                    <!-- Header -->
+                    <div class="card-header">
+                        <h4 class="card-header-title">Organization</h4>
+                    </div>
+                    <!-- End Header -->
 
-                        <!-- Body -->
-                        <div class="card-body">
-                            <!-- Form Group -->
-                            <div class="form-group">
-                                <label for="vendorLabel" class="input-label">Vendor</label>
+                    <!-- Body -->
+                    <div class="card-body">
+                        <!-- Form Group -->
+                        <div class="form-group">
+                            <label for="vendorLabel" class="input-label">Vendor</label>
 
-                                <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
-                                        id="vendorLabel"
-                                        name="vendor"
-                                        data-hs-select2-options='{
+                            <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                    id="vendorLabel"
+                                    name="vendor"
+                                    data-hs-select2-options='{
                             "minimumResultsForSearch": "Infinity",
                             "placeholder": "Select supplier"
                           }'>
-                                    <option value="1">Razer Group</option>
-                                    <option value="2">FPT Company</option>
-                                    <option value="3">ASUSTeK Incorporated</option>
-                                    <option value="4">Lenovo Group Ltd</option>
-                                    <option value="5">Sony Company</option>
-                                </select>
-                            </div>
-                            <!-- End Form Group -->
+                                <option value="1">Razer Group</option>
+                                <option value="2">FPT Company</option>
+                                <option value="3">ASUSTeK Incorporated</option>
+                                <option value="4">Lenovo Group Ltd</option>
+                                <option value="5">Sony Company</option>
+                            </select>
+                        </div>
+                        <!-- End Form Group -->
 
-                            <!-- Form Group -->
-                            <div class="form-group">
-                                <label for="categoryLabel" class="input-label">Category</label>
+                        <!-- Form Group -->
+                        <div class="form-group">
+                            <label for="categoryLabel" class="input-label">Category</label>
 
-                                <!-- Select -->
-                                <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
-                                        id="categoryLabel"
-                                        name="category"
-                                        data-hs-select2-options='{
+                            <!-- Select -->
+                            <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                    id="categoryLabel"
+                                    name="category"
+                                    data-hs-select2-options='{
                             "minimumResultsForSearch": "Infinity",
                             "placeholder": "Select category"
                           }'>
-                                    <option label="empty"></option>
-                                    <option value="1">Laptop</option>
-                                    <option value="2">Mouse</option>
-                                    <option value="3">Keyboard</option>
-                                    <option value="4">Monitor</option>
-                                    <option value="5">PC</option>
-                                    <option value="6">Headphone</option>
-                                </select>
-                                <!-- End Select -->
-                            </div>
-                            <!-- Form Group -->
-
-                            <label for="tagsLabel" class="input-label">Tags</label>
-
-                            <input type="text" class="js-tagify tagify-form-control form-control" name="tagsName"
-                                   id="tagsLabel"
-                                   placeholder="Enter tags here" aria-label="Enter tags here">
+                                <option label="empty"></option>
+                                <option value="1">Laptop</option>
+                                <option value="2">Mouse</option>
+                                <option value="3">Keyboard</option>
+                                <option value="4">Monitor</option>
+                                <option value="5">PC</option>
+                                <option value="6">Headphone</option>
+                            </select>
+                            <!-- End Select -->
                         </div>
-                        <!-- End Body -->
-                    </div>
-                    <!-- End Card -->
-                </div>
-            </div>
-            <!-- End Row -->
+                        <!-- Form Group -->
 
-            <div class="position-fixed bottom-0 content-centered-x w-10 z-index-99 mb-3" style="max-width: 40rem;">
-                <!-- Card -->
-                <div class="card card-sm bg-dark border-dark ">
-                    <div class="card-body">
-                        <div class="row justify-content-center justify-content-sm-between">
-                            <div class="col">
-                                <button type="button" class="btn btn-ghost-light bg-danger">
-                                    <Delete>Delete</Delete>
-                                </button>
-                            </div>
-                            <div class="col-auto">
-                                <button type="button" class="btn btn-ghost-light mr-2">Discard</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </div>
-                        <!-- End Row -->
+                        <label for="tagsLabel" class="input-label">Tags</label>
+
+                        <input type="text" class="js-tagify tagify-form-control form-control" name="tagsName"
+                               id="tagsLabel"
+                               placeholder="Enter tags here" aria-label="Enter tags here">
                     </div>
+                    <!-- End Body -->
                 </div>
                 <!-- End Card -->
             </div>
         </div>
-        <!-- End Content -->
+        <!-- End Row -->
 
-        <!-- Footer -->
-
-        <div class="footer">
-            <div class="row justify-content-between align-items-center">
-                <div class="col">
-                    <p class="font-size-sm mb-0">&copy; Front. <span
-                            class="d-none d-sm-inline-block">2020 Htmlstream.</span></p>
+        <div class="position-fixed bottom-0 content-centered-x w-30 z-index-99 mb-3" style="max-width: 40rem;">
+            <!-- Card -->
+            <div class="card card-sm bg-dark border-dark ">
+                <div class="card-body">
+                    <div class="row justify-content-center justify-content-sm-between">
+                      <%--  <div class="col">
+                            <button type="button" class="btn btn-ghost-light bg-danger">
+                                <Delete>Delete</Delete>
+                            </button>
+                        </div>--%>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                    <!-- End Row -->
                 </div>
-                <div class="col-auto">
-                    <div class="d-flex justify-content-end">
-                        <!-- List Dot -->
-                        <ul class="list-inline list-separator">
-                            <li class="list-inline-item">
-                                <a class="list-separator-link" href="#">FAQ</a>
-                            </li>
+            </div>
+            <!-- End Card -->
+        </div>
+    </div>
+    <!-- End Content -->
 
-                            <li class="list-inline-item">
-                                <a class="list-separator-link" href="#">License</a>
-                            </li>
+    <!-- Footer -->
 
-                            <li class="list-inline-item">
-                                <!-- Keyboard Shortcuts Toggle -->
-                                <div class="hs-unfold">
-                                    <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
-                                       href="javascript:;"
-                                       data-hs-unfold-options='{
+    <div class="footer">
+        <div class="row justify-content-between align-items-center">
+            <div class="col">
+                <p class="font-size-sm mb-0">&copy; Front. <span
+                        class="d-none d-sm-inline-block">2020 Htmlstream.</span></p>
+            </div>
+            <div class="col-auto">
+                <div class="d-flex justify-content-end">
+                    <!-- List Dot -->
+                    <ul class="list-inline list-separator">
+                        <li class="list-inline-item">
+                            <a class="list-separator-link" href="#">FAQ</a>
+                        </li>
+
+                        <li class="list-inline-item">
+                            <a class="list-separator-link" href="#">License</a>
+                        </li>
+
+                        <li class="list-inline-item">
+                            <!-- Keyboard Shortcuts Toggle -->
+                            <div class="hs-unfold">
+                                <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
+                                   href="javascript:;"
+                                   data-hs-unfold-options='{
                               "target": "#keyboardShortcutsSidebar",
                               "type": "css-animation",
                               "animationIn": "fadeInRight",
@@ -438,20 +411,20 @@
                               "hasOverlay": true,
                               "smartPositionOff": true
                              }'>
-                                        <i class="tio-command-key"></i>
-                                    </a>
-                                </div>
-                                <!-- End Keyboard Shortcuts Toggle -->
-                            </li>
-                        </ul>
-                        <!-- End List Dot -->
-                    </div>
+                                    <i class="tio-command-key"></i>
+                                </a>
+                            </div>
+                            <!-- End Keyboard Shortcuts Toggle -->
+                        </li>
+                    </ul>
+                    <!-- End List Dot -->
                 </div>
             </div>
         </div>
+    </div>
 
 
-        <!-- End Footer -->
+    <!-- End Footer -->
 </form>
 <!-- ========== END MAIN CONTENT ========== -->
 
@@ -1273,6 +1246,25 @@
     $(document).on('ready', function () {
         // ONLY DEV
         // =======================================================
+        // ================ VALIDATE INPUT DATE ========================
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                const startDate = new Date($('input[name="start-date"]').val());
+                const startDateInput = $('input[name="start-date"]');
+                const endDate = new Date($('input[name="end-date"]').val());
+                const errorMessageSpan = $('p.error-message');
+
+                if (startDate >= endDate) {
+                    event.preventDefault();
+                    errorMessageSpan.text("Start date must be before end date !");
+                    startDateInput.addClass('text-danger');
+                } else {
+                    errorMessageSpan.text("");
+
+                    $(this).submit();
+                }
+            });
+        });
 
         // ============================ SET THE CURR DATE ==========
         var today = new Date().toISOString().split('T')[0];
@@ -1414,11 +1406,10 @@
             var dropzone = $.HSCore.components.HSDropzone.init('#' + $(this).attr('id'));
             console.log(dropzone)
             dropzone.on('addedfile', function (file) {
-                console.log(file.name);
+                console.log(file);
                 fileNamesArr.push(file.name)
                 var files = $('#fileNames').val(fileNamesArr.join(" ; "));
                 console.log(files)
-                console.log($('.ql-editor').val())
             });
         });
 

@@ -8,7 +8,8 @@ import com.code.alphavn.service.adminService.AdminServiceImpl;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -52,7 +53,7 @@ public class ServletEcommerceProduct extends HttpServlet {
                 case "delete-product":
                     deleleProduct(request, response);
                     break;
-                case"searchSTC":
+                case "searchSTC":
 
                     break;
                 default:
@@ -115,7 +116,6 @@ public class ServletEcommerceProduct extends HttpServlet {
         request.setAttribute("statistic", adminService.manageProducts(Integer.parseInt(week)));
         request.setAttribute("manages", adminService.getManageProductInCurrDate(Integer.parseInt(week)));
         request.setAttribute("prdTops", adminService.getTopSellingProduct());
-
         request.getRequestDispatcher("/components/adminComponents/ecommerce.jsp").forward(request, response);
     }
 
@@ -138,6 +138,29 @@ public class ServletEcommerceProduct extends HttpServlet {
 
 
     // =================== HANDLE DO POST OF ECOMMERCE PRODUCT =====================
+
+    public void handleUploadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Part filePart = request.getPart("file");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+
+        // Specify the destination folder
+        String uploadFolder = "src/main/webapp/imgs/productImg";
+
+        // Create the output file
+        File outputFile = new File(uploadFolder, fileName);
+
+        // Write the uploaded file to the output file
+        try (InputStream inputStream = filePart.getInputStream();
+             OutputStream outputStream = new FileOutputStream(outputFile)) {
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void createProduct(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String prdName = request.getParameter("productName");
@@ -208,7 +231,7 @@ public class ServletEcommerceProduct extends HttpServlet {
             String discountName = request.getParameter("discount-name");
             productDiscount = new ProductDiscount(Integer.parseInt(pid), discountName,
                     Double.parseDouble(discount), Date.valueOf(startDate), Date.valueOf(endDate));
-        }else {
+        } else {
             adminService.deleteDiscountByPID(Integer.parseInt(pid));
         }
 
@@ -227,4 +250,4 @@ public class ServletEcommerceProduct extends HttpServlet {
 }
 
 
-//        System.out.println(prdName + file + prdDesc + discount + discountName + "/ vendor" + vendor + " cate" +  category + " / uqua"  +prdQuantity);
+

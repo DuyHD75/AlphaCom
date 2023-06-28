@@ -36,6 +36,8 @@
 
 <!-- End Navbar Vertical -->
 
+
+
 <main id="content" role="main" class="main">
     <!-- Content -->
     <div class="content container-fluid">
@@ -397,7 +399,7 @@
                                     <tr>
                                         <td>
                                             <!-- Media -->
-                                            <a class="media align-items-center" href="">
+                                            <a class="media align-items-center" href="?action=product-details&id=${entry.key.getProduct().getId()}">
                                                 <img class="avatar mr-3" src="imgs/productImg/${entry.key.getImg2()}"
                                                      alt="Image Description">
 

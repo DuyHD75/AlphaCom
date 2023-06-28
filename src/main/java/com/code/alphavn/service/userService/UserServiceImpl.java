@@ -4,6 +4,7 @@ package com.code.alphavn.service.userService;
 import com.code.alphavn.connection.ConnectionDB;
 import com.code.alphavn.model.*;
 import com.code.alphavn.model.adminModel.Admin;
+import com.code.alphavn.model.adminModel.Manager;
 
 
 import java.sql.*;
@@ -279,6 +280,7 @@ public class UserServiceImpl implements IUserService {
         }
         return null;
     }
+
     public Admin getAdminByEmail(String email) {
         String query = "select * from admins where email = ?";
         try {
@@ -290,9 +292,60 @@ public class UserServiceImpl implements IUserService {
                         rs.getString("name"),
                         rs.getString("password"),
                         rs.getString("email")
-                        );
+                );
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public Manager getManagerByEmail(String email) {
+        Connection con = ConnectionDB.getConnection();
+        String query = "select * from managers where email = ? and status LIKE 'Active';";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, email);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Manager(rs.getInt("manager_id"),
+                        rs.getInt("admin_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getDate("created_At")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Manager LoginMana(Manager manager) {
+        System.out.println("vao loginMange");
+        String query = "select * from managers where email = ? and password =?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, manager.getEmail());
+            pstm.setString(2, manager.getPass());
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Manager(rs.getInt("manager_id"),
+                        rs.getInt("admin_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getDate("created_At")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -695,7 +748,7 @@ public class UserServiceImpl implements IUserService {
 
     public static void main(String[] args) throws SQLException {
         UserServiceImpl userService = new UserServiceImpl();
-        System.out.println(userService.getProductDiscounts());
+        System.out.println(userService.getManagerByEmail("nghiadchde160153@fpt.edu.vn"));
     }
 
 
