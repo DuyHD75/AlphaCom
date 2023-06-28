@@ -1,6 +1,7 @@
 package com.code.alphavn.controller.userController;
 
 import com.code.alphavn.connection.ConnectionDB;
+import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.UserGoogleDto;
 import com.code.alphavn.service.userService.UserServiceImpl;
 
@@ -42,13 +43,18 @@ public class LoginGoogleHandler extends HttpServlet {
             while (rs.next()) {
                 if (userGoogleDto.getEmail().equals(rs.getString(1))) {
                     regis = true;
+                    Customer customer = userService.getCustomerByEmail(userGoogleDto.getEmail());
+                    if (customer.getStatus().equals("Block")){
+                        request.setAttribute("messLogin", "Your account has been blocked");
+                        request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
+                    } else {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("numWish", userService.getWishList(userGoogleDto.getEmail()).size());
+                        session.setAttribute("acc", customer);
+                        session.setMaxInactiveInterval(108000);
 
-                    HttpSession session = request.getSession();
-                    session.setAttribute("numWish", userService.getWishList(userGoogleDto.getEmail()).size());
-                    session.setAttribute("acc", userService.getCustomerByEmail(userGoogleDto.getEmail()));
-                    session.setMaxInactiveInterval(108000);
-
-                    response.sendRedirect("home");
+                        response.sendRedirect("home");
+                    }
                     break;
                 }
             }
@@ -66,8 +72,8 @@ public class LoginGoogleHandler extends HttpServlet {
 
                 PreparedStatement st = con
                         .prepareStatement("INSERT INTO customers\n" +
-                                "	(name, password, address, email, phone, created_At)\n" +
-                                "VALUES (?,?,?,?,?,GETDATE())");
+                                "	(name, password, address, email, phone, created_At, status)\n" +
+                                "VALUES (?,?,?,?,?,GETDATE(), 'Active')");
 
                 // For the first parameter,
                 // get the data using request object

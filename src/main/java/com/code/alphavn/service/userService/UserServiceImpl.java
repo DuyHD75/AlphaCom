@@ -274,7 +274,8 @@ public class UserServiceImpl implements IUserService {
                         rs.getString("address"),
                         rs.getString("email"),
                         rs.getString("phone"),
-                        rs.getDate("created_At"));
+                        rs.getDate("created_At"),
+                        rs.getString("status"));
             }
         } catch (SQLException e) {
         }

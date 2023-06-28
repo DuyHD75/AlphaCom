@@ -637,7 +637,7 @@
                 </td>
                 <td>${ord.getOrderDate()}</td>
                 <td>
-                  <a class="text-body" href="ecommerce-customer-details.html">${ord.getCustomer().getName()}</a>
+                  <a class="text-body" href="adminCustomer?action=viewCustomerDetail&&Cid=${order.getCustomer().getId()}">${ord.getCustomer().getName()}</a>
                 </td>
 
                 <td>
