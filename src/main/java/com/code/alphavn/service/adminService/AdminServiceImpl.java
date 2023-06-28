@@ -706,54 +706,7 @@ public class AdminServiceImpl implements IAdminService {
         }
         return true;
     }
-    public boolean updatePassMana(String email,String pass) throws SQLException {
-        try {
-            PreparedStatement pst = con.prepareStatement("update managers set password = ? where email = ? ");
-            pst.setString(1, pass);
-            pst.setString(2, email);
-            pst.executeUpdate();
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-    public boolean updateInfoManaByMana(Manager manager) {
-        String query = "update managers set name=? , email=?\n" +
-                "  where manager_id = ?";
-        try {
-            PreparedStatement pstm = con.prepareStatement(query);
-            pstm.setString(1, manager.getName().trim());
-            pstm.setString(2, manager.getEmail().trim());
-            pstm.setInt(3,manager.getId());
-            pstm.executeUpdate();
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-    public Manager getManaById(int id) {
-        String query = "select * from managers where manager_id=?";
-        try {
-            PreparedStatement pstm = con.prepareStatement(query);
-            pstm.setInt(1, id);
-            ResultSet rs = pstm.executeQuery();
-            while (rs.next()) {
-                return new Manager(rs.getInt("manager_id"),
-                        rs.getInt("admin_id"),
-                        rs.getString("name"),
-                        rs.getString("password"),
-                        rs.getString("email"),
-                        rs.getString("phone"),
-                        rs.getString("address"),
-                        rs.getDate("created_At"),
-                        rs.getString("roles"),
-                        rs.getString("status")
-                       );
-            }
-        } catch (SQLException e) {
-        }
-        return null;
-    }
+
     // ======================= END DATKD CODE =================================================
 
 
@@ -775,7 +728,7 @@ public class AdminServiceImpl implements IAdminService {
 
     public static void main(String[] args) throws SQLException {
         AdminServiceImpl ad = new AdminServiceImpl();
-        System.out.println(ad.getManaById(8));
+        System.out.println(ad.filterOrderBySatus("Complete"));
     }
 }
 

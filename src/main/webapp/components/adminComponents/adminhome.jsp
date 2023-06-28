@@ -370,11 +370,12 @@
 
                         <!-- Nav -->
                         <ul class="nav nav-segment" id="expensesTab" role="tablist">
-                            <li class="nav-item" data-toggle="chart-bar" data-datasets="thisWeek" data-trigger="click" data-action="toggle">
-                                <a class="nav-link active" href="javascript:;" data-toggle="tab">This week</a>
-                            </li>
+
                             <li class="nav-item" data-toggle="chart-bar" data-datasets="lastWeek" data-trigger="click" data-action="toggle">
-                                <a class="nav-link" href="javascript:;" data-toggle="tab">Last week</a>
+                                <a class="nav-link" href="javascript:;" data-toggle="tab">Last Month</a>
+                            </li>
+                            <li class="nav-item" data-toggle="chart-bar" data-datasets="thisWeek" data-trigger="click" data-action="toggle">
+                                <a class="nav-link active" href="javascript:;" data-toggle="tab">This Month</a>
                             </li>
                         </ul>
                         <!-- End Nav -->
@@ -413,15 +414,15 @@
                             <canvas id="updatingData" style="height: 20rem;" data-hs-chartjs-options='{
                             "type": "bar",
                             "data": {
-                              "labels": ["May 1", "May 2", "May 3", "May 4", "May 5", "May 6", "May 7", "May 8", "May 9", "May 10"],
+                              "labels": ["Week 1", "Week 2", "Week 3", "Week 4"],
                               "datasets": [{
-                                "data": [200, 300, 290, 350, 150, 350, 300, 100, 125, 220],
+                                "data": [200, 300, 290, 350],
                                 "backgroundColor": "#377dff",
                                 "hoverBackgroundColor": "#377dff",
                                 "borderColor": "#377dff"
                               },
                               {
-                                "data": [150, 230, 382, 204, 169, 290, 300, 100, 300, 225, 120],
+                                "data": [150, 230, 382, 204, 169],
                                 "backgroundColor": "#e7eaf3",
                                 "borderColor": "#e7eaf3"
                               }]
@@ -2326,32 +2327,32 @@
             let keyDataset = $(e.currentTarget).attr('data-datasets')
 
             if (keyDataset === 'lastWeek') {
-                updatingChart.data.labels = ["Apr 22", "Apr 23", "Apr 24", "Apr 25", "Apr 26", "Apr 27", "Apr 28", "Apr 29", "Apr 30", "Apr 31"];
+                updatingChart.data.labels = ["Week 1", "Week 2", "Week 3", "Week 4"];
                 updatingChart.data.datasets = [
                     {
-                        "data": [120, 250, 300, 200, 300, 290, 350, 100, 125, 320],
+                        "data": [120, 250, 300, 200],
                         "backgroundColor": "#377dff",
                         "hoverBackgroundColor": "#377dff",
                         "borderColor": "#377dff"
                     },
                     {
-                        "data": [250, 130, 322, 144, 129, 300, 260, 120, 260, 245, 110],
+                        "data": [250, 130, 322, 144],
                         "backgroundColor": "#e7eaf3",
                         "borderColor": "#e7eaf3"
                     }
                 ];
                 updatingChart.update();
             } else {
-                updatingChart.data.labels = ["May 1", "May 2", "May 3", "May 4", "May 5", "May 6", "May 7", "May 8", "May 9", "May 10"];
+                updatingChart.data.labels = ["Week 1", "Week 2", "Week 3", "Week 4"];
                 updatingChart.data.datasets = [
                     {
-                        "data": [200, 300, 290, 350, 150, 350, 300, 100, 125, 220],
+                        "data": [200, 300, 290, 350],
                         "backgroundColor": "#377dff",
                         "hoverBackgroundColor": "#377dff",
                         "borderColor": "#377dff"
                     },
                     {
-                        "data": [150, 230, 382, 204, 169, 290, 300, 100, 300, 225, 120],
+                        "data": [150, 230, 382, 204, 169],
                         "backgroundColor": "#e7eaf3",
                         "borderColor": "#e7eaf3"
                     }

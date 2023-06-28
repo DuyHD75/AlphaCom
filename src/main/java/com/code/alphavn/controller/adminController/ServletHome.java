@@ -37,9 +37,9 @@ public class ServletHome extends HttpServlet {
     public void implementAdminHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         request.setAttribute("totalOrder", adminService.getAllOrder().size());
         request.setAttribute("customers", adminService.getAllCustomer());
-        request.setAttribute("totalCus",adminService.getAllCustomer().size());
-       request.setAttribute("completed",adminService.filterOrderBySatus("Fulfilled").size());
-       request.setAttribute("totalPrice",adminService.getTotalPriceOrder());
+        request.setAttribute("totalCus", adminService.getAllCustomer().size());
+        request.setAttribute("completed", adminService.filterOrderBySatus("Complete").size());
+        request.setAttribute("totalPrice", adminService.getTotalPriceOrder());
         request.getRequestDispatcher("/components/adminComponents/adminhome.jsp").forward(request, response);
     }
 
