@@ -862,7 +862,135 @@
                             <!-- End Account -->
                         </li>
                     </c:if>
+                    <c:if test="${sessionScope.accMana != null}">
+                        <li class="nav-item">
+                            <!-- Account -->
+                            <div class="hs-unfold">
+                                <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;"
+                                   data-hs-unfold-options='{
+                 "target": "#accountNavbarDropdown",
+                 "type": "css-animation"
+               }'>
+                                    <div class="avatar avatar-sm avatar-circle">
+                                        <img class="avatar-img" src="assets\img\160x160\img1.jpg" alt="Image Description">
+                                        <span class="avatar-status avatar-sm-status avatar-status-success"></span>
+                                    </div>
+                                </a>
 
+                                <div id="accountNavbarDropdown"
+                                     class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu navbar-dropdown-account"
+                                     style="width: 16rem;">
+                                    <div class="dropdown-item-text">
+                                        <div class="media align-items-center">
+                                            <div class="avatar avatar-sm avatar-circle mr-2">
+                                                <img class="avatar-img" src="assets\img\160x160\img6.jpg"
+                                                     alt="Image Description">
+                                            </div>
+                                            <div class="media-body">
+                                                <span class="card-title h5">${sessionScope.accMana.name}</span>
+                                                <span class="card-text">${sessionScope.accMana.email}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown-divider"></div>
+
+                                    <!-- Unfold -->
+                                    <div class="hs-unfold w-100 d-none">
+                                        <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
+                                           href="javascript:;" data-hs-unfold-options='{
+                     "target": "#navSubmenuPagesAccountDropdown1",
+                     "event": "hover"
+                   }'>
+                                            <span class="text-truncate pr-2" title="Set status">Set status</span>
+                                            <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker ml-auto"></i>
+                                        </a>
+
+                                        <div id="navSubmenuPagesAccountDropdown1"
+                                             class="hs-unfold-content hs-unfold-has-submenu dropdown-unfold dropdown-menu navbar-dropdown-sub-menu">
+                                            <a class="dropdown-item" href="#">
+                                                <span class="legend-indicator bg-success mr-1"></span>
+                                                <span class="text-truncate pr-2" title="Available">Available</span>
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                                <span class="legend-indicator bg-danger mr-1"></span>
+                                                <span class="text-truncate pr-2" title="Busy">Busy</span>
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                                <span class="legend-indicator bg-warning mr-1"></span>
+                                                <span class="text-truncate pr-2" title="Away">Away</span>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">
+                                                <span class="text-truncate pr-2" title="Reset status">Reset status</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- End Unfold -->
+
+                                    <a class="dropdown-item" href="#">
+                                    <span class="text-truncate pr-2"
+                                          title="Profile &amp; account">Profile &amp; account</span>
+                                    </a>
+
+                                    <a class="dropdown-item" href="managerProfile?action=showProfile">
+                                        <span class="text-truncate pr-2" title="Settings">Settings</span>
+                                    </a>
+
+
+                                    <a class="dropdown-item d-none" href="#">
+                                        <div class="media align-items-center">
+                                            <div class="avatar avatar-sm avatar-dark avatar-circle mr-2">
+                                                <span class="avatar-initials">HS</span>
+                                            </div>
+                                            <div class="media-body">
+                        <span class="card-title h5">Htmlstream <span
+                                class="badge badge-primary badge-pill text-uppercase ml-1">PRO</span></span>
+                                                <span class="card-text">hs.example.com</span>
+                                            </div>
+                                        </div>
+                                    </a>
+
+
+                                    <!-- Unfold -->
+                                    <div class="hs-unfold w-100 d-none">
+                                        <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
+                                           href="javascript:;" data-hs-unfold-options='{
+                     "target": "#navSubmenuPagesAccountDropdown2",
+                     "event": "hover"
+                   }'>
+                                            <span class="text-truncate pr-2" title="Customization">Customization</span>
+                                            <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker  ml-auto"></i>
+                                        </a>
+
+                                        <div id="navSubmenuPagesAccountDropdown2"
+                                             class="hs-unfold-content hs-unfold-has-submenu dropdown-unfold dropdown-menu navbar-dropdown-sub-menu">
+                                            <a class="dropdown-item" href="#">
+                                                <span class="text-truncate pr-2" title="Invite people">Invite people</span>
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                                <span class="text-truncate pr-2" title="Analytics">Analytics</span>
+                                                <i class="tio-open-in-new"></i>
+                                            </a>
+                                            <a class="dropdown-item" href="#">
+                                            <span class="text-truncate pr-2"
+                                                  title="Customize Front">Customize Front</span>
+                                                <i class="tio-open-in-new"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- End Unfold -->
+
+                                    <div class="dropdown-divider"></div>
+
+                                    <a class="dropdown-item" href="./logout">
+                                        <span class="text-truncate pr-2" title="Sign out">Sign out</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End Account -->
+                        </li>
+                    </c:if>
                     <li class="nav-item">
                         <!-- Toggle -->
                         <button type="button" class="navbar-toggler btn btn-ghost-secondary rounded-circle"
@@ -916,6 +1044,7 @@
                             <ul id="navLinkPagesDropdown" class="hs-sub-menu dropdown-menu dropdown-menu-lg"
                                 aria-labelledby="pagesDropdown" style="min-width: 16rem;">
                                 <!-- Users -->
+                                <c:if test="${sessionScope.acc!=null}">
                                 <li class="hs-has-sub-menu">
                                     <a id="pagesDropdownUsers"
                                        class="hs-mega-menu-invoker dropdown-item dropdown-item-toggle"
@@ -946,6 +1075,39 @@
                                         </li>
                                     </ul>
                                 </li>
+                                </c:if>
+                                <c:if test="${sessionScope.accMana!=null}">
+                                    <li class="hs-has-sub-menu d-none">
+                                        <a id="pagesDropdownUsers"
+                                           class="hs-mega-menu-invoker dropdown-item dropdown-item-toggle"
+                                           href="javascript:;" aria-haspopup="true" aria-expanded="false"
+                                           aria-controls="navLinkPagesDropdownUsers">
+                                            <span class="tio-circle nav-indicator-icon"></span> Managers
+                                        </a>
+
+                                        <ul id="navLinkPagesDropdownUsers"
+                                            class="hs-sub-menu dropdown-menu dropdown-menu-lg"
+                                            aria-labelledby="pagesDropdownUsers" style="min-width: 16rem;">
+                                            <li>
+                                                <a class="dropdown-item" href="manager?action=managerOverview">
+                                                    <span class="tio-circle-outlined nav-indicator-icon"></span> Overview
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="users-leaderboard.html">
+                                                    <span class="tio-circle-outlined nav-indicator-icon"></span> Leaderboard
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="manager?action=managerAdd">
+                                                    <span class="tio-circle-outlined nav-indicator-icon"></span> Add Managers
+                                                    <span
+                                                            class="badge badge-info badge-pill ml-1">Hot</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </c:if>
                                 <!-- End Users -->
 
                                 <!-- User Profile -->
