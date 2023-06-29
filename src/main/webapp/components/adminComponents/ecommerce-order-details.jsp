@@ -494,19 +494,11 @@
                                 <div class="media-body">
                                     <div class="row">
                                         <div class="col-md-6 mb-3 mb-md-0">
-                                            <a class="h5 d-block" href="ecommerce-product-details.html">${orderDetail.getProduct().getProduct().getName()}</a>
+                                            <a class="h5 d-block" href="ecommerce-product?action=product-details&id=${orderDetail.getProduct().getProduct().getId()}">${orderDetail.getProduct().getProduct().getName()}</a>
 
                                             <div class="font-size-sm text-body">
-                                                <span>Gender:</span>
-                                                <span class="font-weight-bold">Women</span>
-                                            </div>
-                                            <div class="font-size-sm text-body">
-                                                <span>Color:</span>
-                                                <span class="font-weight-bold">Green</span>
-                                            </div>
-                                            <div class="font-size-sm text-body">
-                                                <span>Size:</span>
-                                                <span class="font-weight-bold">UK 7</span>
+                                                <span>Category:</span>
+                                                <span class="font-weight-bold">${orderDetail.getProduct().getProduct().getCategory()}</span>
                                             </div>
                                         </div>
 

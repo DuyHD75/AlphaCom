@@ -128,13 +128,13 @@ public class ServletAdminOrder extends HttpServlet {
         List<Order> orders = adminService.getAllOrder();
         int currentIndex = getOrderIndex(orders, Oid);
 
-        int nextOrderId = getPreviousOrderId(orders, currentIndex);
+        int previousOrderId = getPreviousOrderId(orders, currentIndex);
 
         Order order = userService.getOrderByOrderId(Oid);
 
         int CusId = order.getCustomer().getId();
 
-        response.sendRedirect("adminOrder?action=viewOrderDetail&&Oid=" + nextOrderId + "&&Cid=" + CusId);
+        response.sendRedirect("adminOrder?action=viewOrderDetail&&Oid=" + previousOrderId + "&&Cid=" + CusId);
 //        } else {
 //            response.sendRedirect("loginCustomer");
 //        }

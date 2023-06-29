@@ -72,7 +72,7 @@
                             <h6 class="card-subtitle">Daily Revenues</h6>
 
                             <div class="d-flex align-items-center">
-                                <span class="card-title h3 mr-3">$${empty manages ? manages.get().getRevernues() : 0}</span>
+                                <span class="card-title h3 mr-3">$${empty manages ?0 :  manages.get().getRevernues()}</span>
 
                                 <span class="badge badge-soft-success ml-2">
                                     <i class="tio-trending-up"></i> 12.5%
@@ -96,7 +96,7 @@
                             <h6 class="card-subtitle">Total Orders</h6>
 
                             <div class="d-flex align-items-center">
-                                <span class="card-title h3 mr-3">${empty manages ? manages.get().getTotalOrders() : 0}</span>
+                                <span class="card-title h3 mr-3">${empty manages ? 0 :  manages.get().getTotalOrders()}</span>
                                 <span class="d-block font-size-sm">orders</span>
                             </div>
                         </div>
@@ -117,7 +117,7 @@
                             <h6 class="card-subtitle">Total products sold</h6>
 
                             <div class="d-flex align-items-center">
-                                <span class="card-title h3 mr-3">${empty manages ? manages.get().getTotalProducts() : 0}</span>
+                                <span class="card-title h3 mr-3">${empty manages ? 0:  manages.get().getTotalProducts()}</span>
 
                                 <span class="d-block font-size-sm">products</span>
                                 <span class="badge badge-soft-danger ml-2">
@@ -203,7 +203,7 @@
                                       },
                                       "ticks": {
                                         "beginAtZero": true,
-                                        "stepSize": 500,
+                                        "stepSize": 200,
                                         "fontSize": 12,
                                         "fontColor": "#33B",
                                         "fontFamily": "Open Sans, sans-serif",

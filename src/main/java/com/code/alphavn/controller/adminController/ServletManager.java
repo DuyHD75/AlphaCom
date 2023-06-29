@@ -30,7 +30,8 @@ public class ServletManager extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
-
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
         if (action == null) {
             action = "";
@@ -59,6 +60,8 @@ public class ServletManager extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         String formType = req.getParameter("formType");
 
         try {
@@ -120,6 +123,9 @@ public class ServletManager extends HttpServlet {
     }
 
     public void AddManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
 
         Admin admin= (Admin) session.getAttribute("acc");

@@ -79,7 +79,7 @@
 
 <!-- End Navbar Vertical -->
 
-<form id="content" role="main" class="main" action="" method="post" enctype="multipart/form-data">
+<form id="content" role="main" class="main" action="" method="post">
     <!-- Content -->
     <div class="content container-fluid">
         <!-- Page Header -->
@@ -1406,10 +1406,10 @@
             var dropzone = $.HSCore.components.HSDropzone.init('#' + $(this).attr('id'));
             console.log(dropzone)
             dropzone.on('addedfile', function (file) {
-                console.log(file);
+                console.log(file.name);
                 fileNamesArr.push(file.name)
                 var files = $('#fileNames').val(fileNamesArr.join(" ; "));
-                console.log(files)
+
             });
         });
 

@@ -1505,7 +1505,7 @@
 
 
 <!-- JS Implementing Plugins -->
-<script src="js\vendor.min.js"></script>
+<script src="assets\js\vendor.min.js"></script>
 
 <script>
 
@@ -1540,7 +1540,7 @@
 </script>
 
 <!-- JS Front -->
-<script src="js\theme.min.js"></script>
+<script src="assets\js\theme.min.js"></script>
 
 <!-- JS Plugins Init. -->
 <script>

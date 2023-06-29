@@ -176,9 +176,9 @@
                         <input type="hidden" name="price" value="${pdDetail.getPrice()}">
                         <div class="add-to-cart">
                             <div class="qty-label" style="width: 100%; margin-bottom: 28px;">
-                                <span style="padding-right:10px; color: var(--black); font-size: 14px; font-weight: 600;">
-                                    Available: ${pdDetail.getProduct().getAmount_remaining()}
-                                </span>
+<%--                                <span style="padding-right:10px; color: var(--black); font-size: 14px; font-weight: 600;">--%>
+<%--                                    Available: ${pdDetail.getProduct().getAmount_remaining()}--%>
+<%--                                </span>--%>
                                 <div class="input-number">
                                     <input name="amount" type="number" value="1" min="1"/>
                                     <span class="qty-up">+</span>

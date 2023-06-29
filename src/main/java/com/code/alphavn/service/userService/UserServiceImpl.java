@@ -4,6 +4,7 @@ package com.code.alphavn.service.userService;
 import com.code.alphavn.connection.ConnectionDB;
 import com.code.alphavn.model.*;
 import com.code.alphavn.model.adminModel.Admin;
+import com.code.alphavn.model.adminModel.Manager;
 
 
 import java.sql.*;
@@ -132,7 +133,7 @@ public class UserServiceImpl implements IUserService {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 productDiscounts.add(new ProductDiscount(
-                        rs.getInt("discount_id"),
+                        rs.getInt("id"),
                         rs.getInt("product_id"),
                         rs.getString("discount_name"),
                         rs.getDouble("discount_amount"),
@@ -279,6 +280,7 @@ public class UserServiceImpl implements IUserService {
         }
         return null;
     }
+
     public Admin getAdminByEmail(String email) {
         String query = "select * from admins where email = ?";
         try {
@@ -290,7 +292,7 @@ public class UserServiceImpl implements IUserService {
                         rs.getString("name"),
                         rs.getString("password"),
                         rs.getString("email")
-                        );
+                );
             }
         } catch (SQLException e) {
         }
@@ -349,6 +351,31 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    public Manager getManaById(int id) {
+        String query = "select * from managers where manager_id=?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setInt(1, id);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Manager(rs.getInt("manager_id"),
+                        rs.getInt("admin_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getDate("created_At"),
+                        rs.getString("roles"),
+                        rs.getString("status")
+                );
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+
     public void changePassword(Customer customer) {
         String query = "update customers set password = ? where customer_id = ?";
         try {
@@ -357,8 +384,10 @@ public class UserServiceImpl implements IUserService {
             pstm.setInt(2, customer.getId());
             pstm.executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 
     //=================================== CART =========================================================
 
@@ -680,6 +709,60 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    // =================== MANAGER CODE DATKH =====================================
+    public Manager getManagerByEmail(String email) {
+        Connection con = ConnectionDB.getConnection();
+        String query = "select * from managers where email = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, email);
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Manager(rs.getInt("manager_id"),
+                        rs.getInt("admin_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getDate("created_At")
+
+
+                );
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+
+    public Manager LoginMana(Manager manager) {
+        String query = "select * from managers where email = ? and password =?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            pstm.setString(1, manager.getEmail());
+            pstm.setString(2, manager.getPass());
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                return new Manager(rs.getInt("manager_id"),
+                        rs.getInt("admin_id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("address"),
+                        rs.getDate("created_At")
+                );
+            }
+
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+
+    // =================== MANAGER CODE DATKH =====================================
+
     public boolean insertReview(ProductReview productReview) throws SQLException {
         String query = "insert into productReivews (product_id, customer_id, rating, comment)" +
                 " values(?, ?,  ?, ?);";
@@ -689,13 +772,13 @@ public class UserServiceImpl implements IUserService {
         pstm.setInt(3, productReview.getRating());
         pstm.setString(4, productReview.getComment());
         return pstm.executeUpdate() > 0;
-
     }
 
 
     public static void main(String[] args) throws SQLException {
         UserServiceImpl userService = new UserServiceImpl();
-        System.out.println(userService.getProductDiscounts());
+        System.out.println(userService.getBase64Encoded("alex9898"));
+
     }
 
 

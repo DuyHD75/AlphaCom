@@ -181,9 +181,9 @@
                         <div class="hs-unfold">
                             <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;"
                                data-hs-unfold-options='{
-                 "target": "#accountNavbarDropdown",
-                 "type": "css-animation"
-               }'>
+                                         "target": "#accountNavbarDropdown",
+                                         "type": "css-animation"
+                                       }'>
                                 <div class="avatar avatar-sm avatar-circle">
                                     <img class="avatar-img" src="assets\img\160x160\img6.jpg" alt="Image Description">
                                     <span class="avatar-status avatar-sm-status avatar-status-success"></span>
@@ -212,9 +212,9 @@
                                 <div class="hs-unfold w-100">
                                     <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
                                        href="javascript:;" data-hs-unfold-options='{
-                     "target": "#navSubmenuPagesAccountDropdown1",
-                     "event": "hover"
-                   }'>
+                                         "target": "#navSubmenuPagesAccountDropdown1",
+                                         "event": "hover"
+                                       }'>
                                         <span class="text-truncate pr-2" title="Set status">Set status</span>
                                         <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker ml-auto"></i>
                                     </a>
@@ -739,9 +739,9 @@
                             <div class="hs-unfold">
                                 <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;"
                                    data-hs-unfold-options='{
-                 "target": "#accountNavbarDropdown",
-                 "type": "css-animation"
-               }'>
+                                         "target": "#accountNavbarDropdown",
+                                         "type": "css-animation"
+                                       }'>
                                     <div class="avatar avatar-sm avatar-circle">
                                         <img class="avatar-img" src="assets\img\160x160\img1.jpg" alt="Image Description">
                                         <span class="avatar-status avatar-sm-status avatar-status-success"></span>
@@ -770,9 +770,9 @@
                                     <div class="hs-unfold w-100 d-none">
                                         <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
                                            href="javascript:;" data-hs-unfold-options='{
-                     "target": "#navSubmenuPagesAccountDropdown1",
-                     "event": "hover"
-                   }'>
+                                                 "target": "#navSubmenuPagesAccountDropdown1",
+                                                 "event": "hover"
+                                               }'>
                                             <span class="text-truncate pr-2" title="Set status">Set status</span>
                                             <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker ml-auto"></i>
                                         </a>
@@ -868,9 +868,9 @@
                             <div class="hs-unfold">
                                 <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;"
                                    data-hs-unfold-options='{
-                 "target": "#accountNavbarDropdown",
-                 "type": "css-animation"
-               }'>
+                                             "target": "#accountNavbarDropdown",
+                                             "type": "css-animation"
+                                           }'>
                                     <div class="avatar avatar-sm avatar-circle">
                                         <img class="avatar-img" src="assets\img\160x160\img1.jpg" alt="Image Description">
                                         <span class="avatar-status avatar-sm-status avatar-status-success"></span>

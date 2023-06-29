@@ -1,9 +1,11 @@
 package com.code.alphavn.controller.adminController;
 
+import com.code.alphavn.model.Order;
 import com.code.alphavn.model.Product;
 import com.code.alphavn.model.ProductDiscount;
 import com.code.alphavn.model.ProductInfo;
 import com.code.alphavn.service.adminService.AdminServiceImpl;
+import com.code.alphavn.service.userService.UserServiceImpl;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -12,6 +14,7 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "ServletEcommerceProduct", value = "/ecommerce-product")
 public class ServletEcommerceProduct extends HttpServlet {
@@ -27,6 +30,9 @@ public class ServletEcommerceProduct extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
 
         if (action == null) {
@@ -53,8 +59,11 @@ public class ServletEcommerceProduct extends HttpServlet {
                 case "delete-product":
                     deleleProduct(request, response);
                     break;
-                case "searchSTC":
-
+                case "nextProductDetail":
+                    nextProductDetail(request, response);
+                    break;
+                case "priviousProductDetail":
+                    priviousProductDetail(request, response);
                     break;
                 default:
                     System.out.println("This is the do get of ecommerce-product");
@@ -68,6 +77,9 @@ public class ServletEcommerceProduct extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
 
         System.out.println("action" + action);
@@ -172,6 +184,8 @@ public class ServletEcommerceProduct extends HttpServlet {
         String prdQuantity = request.getParameter("quantity");
         String discount = request.getParameter("product-discount");
 
+        System.out.println("files" + files);
+
         String[] splitFiles = files.split(" ; ");
 
         Product product = new Product(prdName, prdDesc, Integer.parseInt(prdQuantity), category);
@@ -186,7 +200,7 @@ public class ServletEcommerceProduct extends HttpServlet {
             String startDate = request.getParameter("start-date");
             String endDate = request.getParameter("end-date");
 
-            productDiscount = new ProductDiscount(discountName, Double.parseDouble(discount), Date.valueOf(startDate), Date.valueOf(endDate));
+            productDiscount = new ProductDiscount(discountName, Double.parseDouble(discount) /100, Date.valueOf(startDate), Date.valueOf(endDate));
         }
 
         boolean isCreated = adminService.createProduct(productInfo, productDiscount);
@@ -230,7 +244,7 @@ public class ServletEcommerceProduct extends HttpServlet {
             String endDate = request.getParameter("end-date");
             String discountName = request.getParameter("discount-name");
             productDiscount = new ProductDiscount(Integer.parseInt(pid), discountName,
-                    Double.parseDouble(discount), Date.valueOf(startDate), Date.valueOf(endDate));
+                    Double.parseDouble(discount) / 100, Date.valueOf(startDate), Date.valueOf(endDate));
         } else {
             adminService.deleteDiscountByPID(Integer.parseInt(pid));
         }
@@ -246,7 +260,72 @@ public class ServletEcommerceProduct extends HttpServlet {
     }
 
     // =================== END HANDLE DO POST OF ECOMMERCE PRODUCT =====================
+    //============================= CODE NGHIA ===========================================
+    public void nextProductDetail(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
+        UserServiceImpl userService = new UserServiceImpl();
+        HttpSession session = request.getSession();
+//        Customer account = (Customer) session.getAttribute("acc");
+//        if (account != null) {
+        int pid = Integer.parseInt(request.getParameter("id"));
+        List<ProductInfo> products = adminService.getAllProducts();
+        int currentIndex =  getProductIndex(products, pid);
 
+        int nextProductId = getNextProductId(products, currentIndex);
+
+        response.sendRedirect("ecommerce-product?action=product-details&id=" + nextProductId);
+
+//        } else {
+//            response.sendRedirect("loginCustomer");
+//        }
+
+    }
+
+    public void priviousProductDetail(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
+        UserServiceImpl userService = new UserServiceImpl();
+        HttpSession session = request.getSession();
+//        Customer account = (Customer) session.getAttribute("acc");
+//        if (account != null) {
+        int pid = Integer.parseInt(request.getParameter("id"));
+        List<ProductInfo> products = adminService.getAllProducts();
+        int currentIndex = getProductIndex(products, pid);
+
+        int previousProductId= getPreviousProductId(products, currentIndex);
+
+        response.sendRedirect("ecommerce-product?action=product-details&id=" + previousProductId);
+//        } else {
+//            response.sendRedirect("loginCustomer");
+//        }
+
+    }
+
+    // Hàm tìm vị trí của product hiện tại trong danh sách
+    private int getProductIndex(List<ProductInfo> productList, int currentId) {
+        for (int i = 0; i < productList.size(); i++) {
+            ProductInfo product = productList.get(i);
+            if (product.getProduct().getId() == currentId) {
+                return i;
+            }
+        }
+        return -1; // Không tìm thấy product hiện tại trong danh sách
+    }
+
+    // Hàm xác định ID product liền trước
+    private int getPreviousProductId(List<ProductInfo> productList, int currentIndex) {
+        if (currentIndex > 0) {
+            ProductInfo previousProduct = productList.get(currentIndex - 1);
+            return previousProduct.getProduct().getId();
+        }
+        return productList.get(productList.size() - 1).getProduct().getId(); // Không có product liền trước
+    }
+
+    // Hàm xác định ID product liền sau
+    private int getNextProductId(List<ProductInfo> productList, int currentIndex) {
+        if (currentIndex < productList.size() - 1) {
+            ProductInfo nextProduct = productList.get(currentIndex + 1);
+            return nextProduct.getProduct().getId();
+        }
+        return productList.get(0).getProduct().getId(); // Không có product liền sau
+    }
 }
 
 

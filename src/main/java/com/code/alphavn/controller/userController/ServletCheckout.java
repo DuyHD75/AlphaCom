@@ -33,8 +33,12 @@ import java.util.Properties;
 @WebServlet(name = "ServletCheckout", value = "/checkout")
 public class ServletCheckout extends HttpServlet {
 
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
         try {
             switch (action) {
@@ -51,6 +55,9 @@ public class ServletCheckout extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
         try {
             switch (action) {
@@ -108,6 +115,7 @@ public class ServletCheckout extends HttpServlet {
     }
 
     public void handleCheckout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         try {
             //String isBuyNow = request.getParameter("isBuyNow");
             String Pid = request.getParameter("pid");

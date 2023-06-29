@@ -616,7 +616,7 @@
                                 </div>
                             </td>
                             <td class="table-column-pl-0">
-                                <a class="media align-items-center" href="user-profile.html">
+                                <a class="media align-items-center" href="adminCustomer?action=viewCustomerDetail&&Cid=${customer.getId()}">
                                     <div class="avatar avatar-sm avatar-circle mr-2">
                                         <img class="avatar-img" src="assets\img\160x160\img1.jpg" alt="Image Description">
                                     </div>

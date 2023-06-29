@@ -23,6 +23,8 @@ public class ServletLoginCustomer extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String fullname = request.getParameter("fullname");
+        HttpSession session = request.getSession();
+//        session.setAttribute("isAdmin", "false");
 
         UserServiceImpl userService = new UserServiceImpl();
         String encodedpass = userService.getBase64Encoded(password);
@@ -43,7 +45,6 @@ public class ServletLoginCustomer extends HttpServlet {
                     request.setAttribute("password", password);
                     request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
                 } else {
-                    HttpSession session = request.getSession();
                     session.setAttribute("acc", account);
                     //add session for number of wishList
                     try {
@@ -59,27 +60,25 @@ public class ServletLoginCustomer extends HttpServlet {
             Admin admin = new Admin(password, email);
             Admin accountAdmin = userService.Login(admin);
             if (accountAdmin == null) {
-
                 request.setAttribute("messLogin", "Wrong username or password.");
                 request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
             } else {
-                HttpSession session = request.getSession();
+
                 session.setAttribute("acc", accountAdmin);
+//                session.setAttribute("isAdmin", "true");
                 response.sendRedirect("adminHome");
 
             }
         } else if (userService.getManagerByEmail(email) != null) {
-            Manager manager = new Manager(password, email);
+            Manager manager = new Manager(encodedpass, email);
             Manager accountMana = userService.LoginMana(manager);
             System.out.println(accountMana);
             if (accountMana == null) {
                 request.setAttribute("messLogin", "Wrong username or password.");
                 request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
             } else {
-                HttpSession session = request.getSession();
                 session.setAttribute("accMana", accountMana);
                 response.sendRedirect("adminHome");
-
             }
         }
     }

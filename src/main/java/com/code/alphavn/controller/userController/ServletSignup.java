@@ -70,8 +70,17 @@ public class ServletSignup extends HttpServlet {
                         MimeMessage message = new MimeMessage(session);
                         message.setFrom(new InternetAddress("hdat1502@gmail.com"));// change accordingly
                         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-                        message.setSubject("Change password");
-                        message.setText("Your OTP is: " + otpvalue);
+                        message.setSubject("Welcome To Alpha Electro | OTP CODE SIGN UP");
+                        message.setText("Hello,\n" +
+                                "\n" +
+                                "We sincerely greet you when you have successfully registered to our Alpha Electro website system. Congratulations for joining our community!\n" +
+                                "\n" +
+                                "Your OTP is:\n" + otpvalue +
+                                "\n" +
+                                "  We sincerely thank you and hope you have a pleasant experience on Alpha Electro.\n" +
+                                "\n" +
+                                "Best regards,\n" +
+                                "Team Alpha Electro");
                         // send message
                         Transport.send(message);
                         System.out.println("message sent successfully");
