@@ -98,10 +98,14 @@
 
                 </div>
                 <div class="col-sm-auto">
-                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle mr-1" href="ecommerce-product?action=priviousProductDetail&&id=${product.getProduct().getId()}" data-toggle="tooltip" data-placement="top" title="Previous order">
+                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle mr-1"
+                       href="ecommerce-product?action=priviousProductDetail&&id=${product.getProduct().getId()}"
+                       data-toggle="tooltip" data-placement="top" title="Previous order">
                         <i class="tio-arrow-backward"></i>
                     </a>
-                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle" href="ecommerce-product?action=nextProductDetail&&id=${product.getProduct().getId()}" data-toggle="tooltip" data-placement="top" title="Next order">
+                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle"
+                       href="ecommerce-product?action=nextProductDetail&&id=${product.getProduct().getId()}"
+                       data-toggle="tooltip" data-placement="top" title="Next order">
                         <i class="tio-arrow-forward"></i>
                     </a>
                 </div>

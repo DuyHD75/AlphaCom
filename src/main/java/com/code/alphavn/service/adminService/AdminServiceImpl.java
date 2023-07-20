@@ -294,9 +294,20 @@ public class AdminServiceImpl implements IAdminService {
         return mangeOrders;
     }
 
-    public Optional<ManageOrder> getManageProductInCurrDate(int week) throws SQLException {
+    public Optional<ManageOrder> getManageProductInCurrDate() throws SQLException {
+
+
         LocalDate currentDate = LocalDate.now();
-        Optional<ManageOrder> currManageOrder = manageProducts(week).stream()
+        Calendar calendar = Calendar.getInstance();
+
+        // Set the calendar to the current date
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        // Get the week number in the current year
+        int weekNumber = calendar.get(Calendar.WEEK_OF_YEAR);
+
+        System.out.println("Week number in the current year: " + weekNumber);
+        Optional<ManageOrder> currManageOrder = manageProducts(weekNumber).stream()
                 .filter(mangeOrder -> convertToLocalDate((Date) mangeOrder.getOrderDate()).isEqual(currentDate))
                 .findFirst();
         return currManageOrder;
@@ -499,8 +510,6 @@ public class AdminServiceImpl implements IAdminService {
                         rs.getString("phone"),
                         rs.getString("address"),
                         rs.getDate("created_At")
-
-
                 );
             }
         } catch (SQLException e) {
@@ -533,7 +542,7 @@ public class AdminServiceImpl implements IAdminService {
             PreparedStatement pstm = con.prepareStatement(query);
             pstm.setString(1, manager.getName().trim());
             pstm.setString(2, manager.getEmail().trim());
-            pstm.setInt(3,manager.getId());
+            pstm.setInt(3, manager.getId());
             pstm.executeUpdate();
         } catch (Exception e) {
             return false;
@@ -583,7 +592,7 @@ public class AdminServiceImpl implements IAdminService {
     }
 
 
-    public boolean updatePassMana(String email,String pass) throws SQLException {
+    public boolean updatePassMana(String email, String pass) throws SQLException {
         try {
             PreparedStatement pst = con.prepareStatement("update managers set password = ? where email = ? ");
             pst.setString(1, pass);
@@ -648,6 +657,7 @@ public class AdminServiceImpl implements IAdminService {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return orders;
     }
@@ -802,8 +812,7 @@ public class AdminServiceImpl implements IAdminService {
 
     public static void main(String[] args) throws SQLException {
         AdminServiceImpl ad = new AdminServiceImpl();
-        System.out.println(ad.getManageProductInCurrDate(25));
-        System.out.println(ad.getProductByID(18));
+        System.out.println(ad.getManageProductInCurrDate());
     }
 }
 

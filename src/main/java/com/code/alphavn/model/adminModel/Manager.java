@@ -3,13 +3,15 @@ package com.code.alphavn.model.adminModel;
 import java.util.Date;
 
 public class Manager {
-    private int id,adminId;
-    private String name,pass,email,phone,address;
+    private int id, adminId;
+    private String name, pass, email, phone, address;
     private Date create_At;
     private String role;
     private String status;
-private int totalMan;
-    public Manager() {    }
+    private int totalMan;
+
+    public Manager() {
+    }
 
     public Manager(int adminId, String name, String email, String phone, String address, String role) {
         this.adminId = adminId;

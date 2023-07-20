@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "ServletCart", value = "/cart")
 public class ServletCart extends HttpServlet {
@@ -68,10 +69,13 @@ public class ServletCart extends HttpServlet {
     }
 
     public void handleViewCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("ENTER HANDLE VIEW CART");
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
         if (account != null) {
+            System.out.println("ENTER HANDLE VIEW CART");
+
             int cusId = account.getId();
             List<Cart> listCart = userService.getCartByCusID(cusId);
             Date currentDate = new Date();
@@ -79,10 +83,16 @@ public class ServletCart extends HttpServlet {
                 double price = 0;
                 for (ProductDiscount productDiscount : cart.getProductDiscount()) {
                     if (productDiscount.getPid() == cart.getProductInfo().getProduct().getId()) {
+                        System.out.println("DISCOUTN : " + productDiscount.getDis_amount());
+
                         if (currentDate.before(productDiscount.getEnd_date()) && currentDate.after(productDiscount.getStart_date())) {
-                            price = (double) Math.round((cart.getProductInfo().getPrice() - (cart.getProductInfo().getPrice() * productDiscount.getDis_amount())) * 100) / 100;
+                            price = (double) Math.ceil((cart.getProductInfo().getPrice() - (
+                                    cart.getProductInfo().getPrice() * productDiscount.getDis_amount() / 100)) * 100) / 100;
                             cart.setFinalPrice(price);
+
+                            System.out.println("DISCOUTN 91: " + price);
                         }
+
                     }
                 }
             }
@@ -122,7 +132,8 @@ public class ServletCart extends HttpServlet {
         }
     }
 
-    public void handleAddToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleAddToCart(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
             int amount = 0;
             String id = request.getParameter("pid");
@@ -142,15 +153,27 @@ public class ServletCart extends HttpServlet {
                             amount = 1;
                         }
                         Cart cart = userService.CheckCartExist(cusId, pid);
+
                         if (productInfo.getProduct().getAmount_remaining() > 0) {
                             if (cart == null) {
-                                userService.InsertCart(cusId, pid, amount);
+                                if (amount > productInfo.getProduct().getAmount_remaining()) {
+//                                    userService.InsertCart(cusId, pid, productInfo.getProduct().getAmount_remaining());
+                                    request.setAttribute("error", "Amount product not available ! Instock " +
+                                            productInfo.getProduct().getAmount_remaining());
+                                } else {
+                                    userService.InsertCart(cusId, pid, amount);
+                                }
                             } else {
                                 int newAmount = amount + cart.getAmount();
-                                if (newAmount > productInfo.getProduct().getAmount_remaining()) {
-                                    userService.UpdateAmountCart(cusId, pid, productInfo.getProduct().getAmount_remaining());
+                                int remainAmount = productInfo.getProduct().getAmount_remaining() - cart.getAmount();
+                                if (remainAmount < 0) {
+                                    session.setAttribute("error", "Instock " + productInfo.getProduct().getAmount_remaining() + ".Amount product in your cart " + cart.getAmount());
                                 } else {
-                                    userService.UpdateAmountCart(cusId, pid, newAmount);
+                                    if (amount > remainAmount) {
+                                        session.setAttribute("error", "Amount product not available ! Instock " + remainAmount);
+                                    } else {
+                                        userService.UpdateAmountCart(cusId, pid, newAmount);
+                                    }
                                 }
                             }
                         }
@@ -159,25 +182,39 @@ public class ServletCart extends HttpServlet {
             } else {
                 response.sendRedirect("loginCustomer");
             }
-            responeCurrenPage(request,response);
+            responeCurrenPage(request, response);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void handleViewCartHeader(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleViewCartHeader(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
         int cusId = account.getId();
         List<Cart> listCart = userService.getCartByCusID(cusId);
+        List<ProductInfo> listProduct = userService.getAllProducts();
+
+
         Date currentDate = new Date();
         for (Cart cart : listCart) {
+
+            listProduct = listProduct.stream()
+                    .filter(productInfo -> productInfo.getProduct().getId() == cart.getProductInfo().getProduct().getId())
+                    .collect(Collectors.toList());
+
+            for (ProductInfo prd : listProduct) {
+                if (prd.getProduct().getAmount_remaining() < cart.getAmount()) {
+                    session.setAttribute("overAmount", true);
+                }
+            }
+
             double price = 0;
             for (ProductDiscount productDiscount : cart.getProductDiscount()) {
                 if (productDiscount.getPid() == cart.getProductInfo().getProduct().getId()) {
                     if (currentDate.before(productDiscount.getEnd_date()) && currentDate.after(productDiscount.getStart_date())) {
-                        price = (double) Math.round((cart.getProductInfo().getPrice() - (cart.getProductInfo().getPrice() * productDiscount.getDis_amount())) * 100) / 100;
+                        price = (double) Math.round((cart.getProductInfo().getPrice() - (cart.getProductInfo().getPrice() * productDiscount.getDis_amount() / 100)) * 100) / 100;
                         cart.setFinalPrice(price);
                     }
                 }
@@ -242,7 +279,7 @@ public class ServletCart extends HttpServlet {
         }
     }
 
-    public void responeCurrenPage (HttpServletRequest request, HttpServletResponse response) throws  IOException{
+    public void responeCurrenPage(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         String pidDetail = request.getParameter("pidDetail");
         String currentPage = (String) session.getAttribute("currentPage");
@@ -250,7 +287,7 @@ public class ServletCart extends HttpServlet {
         if (currentPage.equals("/alphavn/components/userComponents/home.jsp")) {
             response.sendRedirect("home");
         } else if (currentPage.equals("/alphavn/components/userComponents/detailProduct.jsp")) {
-            response.sendRedirect("view_product?pid=" + pidDetail);
+            request.getRequestDispatcher("view_product?action=view_product&&pid=" + pidDetail).forward(request, response);
         } else if (currentPage.equals("/alphavn/components/userComponents/profile.jsp")) {
             response.sendRedirect("profileCustomer");
         } else if (currentPage.equals("/alphavn/components/userComponents/cart.jsp")) {

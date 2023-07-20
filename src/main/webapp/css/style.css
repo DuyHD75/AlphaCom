@@ -2660,7 +2660,6 @@ textarea.input {
 }
 
 .reviews {
-    max-height: 270px;
     overflow-x: scroll;
 }
 

@@ -16,6 +16,7 @@
 
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="icon" href="imgs/logos/360_F_451269306_U5VVjfXzU2OZLyaLOKmkI73SCwBcjgvF.jpg" type="image/x-icon">
 
     <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="css/slick.css"/>
@@ -66,9 +67,12 @@
                         <input type="hidden" name="img" value="${pdLaptop.get(0).getImg1()}">
                         <input type="hidden" name="price" value="${pdLaptop.get(0).getPrice()}">
                         <input type="hidden" name="amount" value="1">
+                        <c:set var="disabled" value=""/>
+
                         <c:if test="${pdLaptop.get(0).getProduct().getAmount_remaining() == 0}">
                             <c:set var="disabled" value="disabled"/>
                         </c:if>
+
                         <button class="btn" ${disabled}>BUY now</button>
                         <c:set var="disabled" value=""/>
                     </form>
@@ -100,9 +104,11 @@
                         <input type="hidden" name="img" value="${pdLaptop.get(1).getImg1()}">
                         <input type="hidden" name="price" value="${pdLaptop.get(1).getPrice()}">
                         <input type="hidden" name="amount" value="1">
+                        <c:set var="disabled" value=""/>
                         <c:if test="${pdLaptop.get(1).getProduct().getAmount_remaining() == 0}">
                             <c:set var="disabled" value="disabled"/>
                         </c:if>
+
                         <button class="btn" ${disabled}>BUY now</button>
                         <c:set var="disabled" value=""/>
                     </form>
@@ -139,6 +145,7 @@
                         </c:if>
                         <button class="btn" ${disabled}>BUY now</button>
                         <c:set var="disabled" value=""/>
+                        <button class="btn" ${disabled} >BUY now</button>
                     </form>
                 </div>
 
@@ -189,7 +196,7 @@
                     </div>
                     <div class="shop-body">
                         <h3>Accessories<br>Collection</h3>
-                        <a href="store?category=Headphone" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="./store?category=Headphone" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -203,7 +210,7 @@
                     </div>
                     <div class="shop-body">
                         <h3>PC<br>Collection</h3>
-                        <a href="store?category=PC" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="./store?category=PC" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>

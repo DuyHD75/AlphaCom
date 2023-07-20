@@ -49,7 +49,8 @@
 
                 <c:choose>
                     <c:when test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
-                        <c:set var="finalPrice" value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
+                        <c:set var="finalPrice"
+                               value="${Math.ceil(p.getPrice() - (p.getPrice() * pdDiscount.get(idx).getDis_amount()))}"/>
                     </c:when>
 
                     <c:otherwise>
@@ -78,14 +79,16 @@
                     </form>
                     <button class="add-to-compare"><i class="fa fa-exchange"></i><span
                             class="tooltipp">add to compare</span></button>
-                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span>
+                    <button class="quick-view"
+                            href="./view_product?pid=${p.getProduct().getId()}"><i
+                            class="fa fa-eye"></i><span class="tooltipp">quick view</span>
                     </button>
                 </div>
             </div>
             <div class="add-to-cart">
                 <form id="add-to-cart-form" action="./cart?action=AddToCart&&pid=${p.getProduct().getId()}"
                       method="post">
-                    <button id="add-to-cart-btn" class="add-to-cart-btn"><i
+                    <button class="add-to-cart-btn" id="add-to-cart"><i
                             class="fa fa-shopping-cart"></i> add to cart
                     </button>
                 </form>

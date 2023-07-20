@@ -1,5 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.temporal.WeekFields" %>
+<%@ page import="java.util.Locale" %>
+
+
 <body>
 
 <div id="headerMain" class="d-none">
@@ -39,16 +45,16 @@
                             </div>
                             <input type="search" class="js-form-search form-control" placeholder="Search in front"
                                    aria-label="Search in front" data-hs-form-search-options='{
-                     "clearIcon": "#clearSearchResultsIcon",
-                     "dropMenuElement": "#searchDropdownMenu",
-                     "dropMenuOffset": 20,
-                     "toggleIconOnFocus": true,
-                     "activeClass": "focus"
-                   }'>
+                         "clearIcon": "#clearSearchResultsIcon",
+                         "dropMenuElement": "#searchDropdownMenu",
+                         "dropMenuOffset": 20,
+                         "toggleIconOnFocus": true,
+                         "activeClass": "focus"
+                       }'>
                             <a class="input-group-append" href="javascript:;">
-                  <span class="input-group-text">
-                    <i id="clearSearchResultsIcon" class="tio-clear" style="display: none;"></i>
-                  </span>
+                      <span class="input-group-text">
+                        <i id="clearSearchResultsIcon" class="tio-clear" style="display: none;"></i>
+                      </span>
                             </a>
                         </div>
                         <!-- End Input Group -->
@@ -61,16 +67,16 @@
                                 <small class="dropdown-header mb-n2">Recent searches</small>
 
                                 <div class="dropdown-item bg-transparent text-wrap my-2">
-                    <span class="h4 mr-1">
-                      <a class="btn btn-xs btn-soft-dark btn-pill" href="index.html">
-                        Gulp <i class="tio-search ml-1"></i>
-                      </a>
-                    </span>
+                        <span class="h4 mr-1">
+                          <a class="btn btn-xs btn-soft-dark btn-pill" href="index.html">
+                            Gulp <i class="tio-search ml-1"></i>
+                          </a>
+                        </span>
                                     <span class="h4">
-                      <a class="btn btn-xs btn-soft-dark btn-pill" href="index.html">
-                        Notification panel <i class="tio-search ml-1"></i>
-                      </a>
-                    </span>
+                          <a class="btn btn-xs btn-soft-dark btn-pill" href="index.html">
+                            Notification panel <i class="tio-search ml-1"></i>
+                          </a>
+                        </span>
                                 </div>
 
                                 <div class="dropdown-divider my-3"></div>
@@ -79,9 +85,9 @@
 
                                 <a class="dropdown-item my-2" href="index.html">
                                     <div class="media align-items-center">
-                      <span class="icon icon-xs icon-soft-dark icon-circle mr-2">
-                        <i class="tio-tune"></i>
-                      </span>
+                          <span class="icon icon-xs icon-soft-dark icon-circle mr-2">
+                            <i class="tio-tune"></i>
+                          </span>
 
                                         <div class="media-body text-truncate">
                                             <span>How to set up Gulp?</span>
@@ -91,9 +97,9 @@
 
                                 <a class="dropdown-item my-2" href="index.html">
                                     <div class="media align-items-center">
-                      <span class="icon icon-xs icon-soft-dark icon-circle mr-2">
-                        <i class="tio-paint-bucket"></i>
-                      </span>
+                          <span class="icon icon-xs icon-soft-dark icon-circle mr-2">
+                            <i class="tio-paint-bucket"></i>
+                          </span>
 
                                         <div class="media-body text-truncate">
                                             <span>How to change theme color?</span>
@@ -111,8 +117,8 @@
                                              src="assets\img\160x160\img10.jpg"
                                              alt="Image Description">
                                         <div class="media-body text-truncate">
-                        <span>Amanda Harvey <i class="tio-verified text-primary" data-toggle="tooltip"
-                                               data-placement="top" title="Top endorsed"></i></span>
+                            <span>Amanda Harvey <i class="tio-verified text-primary" data-toggle="tooltip"
+                                                   data-placement="top" title="Top endorsed"></i></span>
                                         </div>
                                     </div>
                                 </a>
@@ -164,12 +170,12 @@
                             <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
                                href="javascript:;"
                                data-hs-unfold-options='{
-                 "target": "#searchDropdown",
-                 "type": "css-animation",
-                 "animationIn": "fadeIn",
-                 "hasOverlay": "rgba(46, 52, 81, 0.1)",
-                 "closeBreakpoint": "md"
-               }'>
+                     "target": "#searchDropdown",
+                     "type": "css-animation",
+                     "animationIn": "fadeIn",
+                     "hasOverlay": "rgba(46, 52, 81, 0.1)",
+                     "closeBreakpoint": "md"
+                   }'>
                                 <i class="tio-search"></i>
                             </a>
                         </div>
@@ -181,9 +187,9 @@
                         <div class="hs-unfold">
                             <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;"
                                data-hs-unfold-options='{
-                                         "target": "#accountNavbarDropdown",
-                                         "type": "css-animation"
-                                       }'>
+                                             "target": "#accountNavbarDropdown",
+                                             "type": "css-animation"
+                                           }'>
                                 <div class="avatar avatar-sm avatar-circle">
                                     <img class="avatar-img" src="assets\img\160x160\img6.jpg" alt="Image Description">
                                     <span class="avatar-status avatar-sm-status avatar-status-success"></span>
@@ -212,9 +218,9 @@
                                 <div class="hs-unfold w-100">
                                     <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
                                        href="javascript:;" data-hs-unfold-options='{
-                                         "target": "#navSubmenuPagesAccountDropdown1",
-                                         "event": "hover"
-                                       }'>
+                                             "target": "#navSubmenuPagesAccountDropdown1",
+                                             "event": "hover"
+                                           }'>
                                         <span class="text-truncate pr-2" title="Set status">Set status</span>
                                         <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker ml-auto"></i>
                                     </a>
@@ -242,8 +248,8 @@
                                 <!-- End Unfold -->
 
                                 <a class="dropdown-item" href="#">
-                                    <span class="text-truncate pr-2"
-                                          title="Profile &amp; account">Profile &amp; account</span>
+                                        <span class="text-truncate pr-2"
+                                              title="Profile &amp; account">Profile &amp; account</span>
                                 </a>
 
                                 <a class="dropdown-item" href="#">
@@ -258,8 +264,8 @@
                                             <span class="avatar-initials">HS</span>
                                         </div>
                                         <div class="media-body">
-                        <span class="card-title h5">Htmlstream <span
-                                class="badge badge-primary badge-pill text-uppercase ml-1">PRO</span></span>
+                            <span class="card-title h5">Htmlstream <span
+                                    class="badge badge-primary badge-pill text-uppercase ml-1">PRO</span></span>
                                             <span class="card-text">hs.example.com</span>
                                         </div>
                                     </div>
@@ -271,9 +277,9 @@
                                 <div class="hs-unfold w-100">
                                     <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
                                        href="javascript:;" data-hs-unfold-options='{
-                     "target": "#navSubmenuPagesAccountDropdown2",
-                     "event": "hover"
-                   }'>
+                         "target": "#navSubmenuPagesAccountDropdown2",
+                         "event": "hover"
+                       }'>
                                         <span class="text-truncate pr-2" title="Customization">Customization</span>
                                         <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker  ml-auto"></i>
                                     </a>
@@ -288,8 +294,8 @@
                                             <i class="tio-open-in-new"></i>
                                         </a>
                                         <a class="dropdown-item" href="#">
-                                            <span class="text-truncate pr-2"
-                                                  title="Customize Front">Customize Front</span>
+                                                <span class="text-truncate pr-2"
+                                                      title="Customize Front">Customize Front</span>
                                             <i class="tio-open-in-new"></i>
                                         </a>
                                     </div>
@@ -320,7 +326,8 @@
             <div class="navbar-brand-wrapper">
                 <!-- Logo -->
                 <a class="navbar-brand" href="adminHome" aria-label="Front">
-                    <img class="navbar-brand-logo" src="assets\svg\logos\logo.svg" alt="Logo">
+                    <img class="navbar-brand-logo" src="imgs/logos/360_F_451269306_U5VVjfXzU2OZLyaLOKmkI73SCwBcjgvF.jpg"
+                         alt="Logo">
                 </a>
                 <!-- End Logo -->
             </div>
@@ -335,9 +342,9 @@
                             <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
                                href="javascript:;"
                                data-hs-unfold-options='{
-                 "target": "#notificationDropdown",
-                 "type": "css-animation"
-               }'>
+                     "target": "#notificationDropdown",
+                     "type": "css-animation"
+                   }'>
                                 <i class="tio-notifications-on-outlined"></i>
                                 <span class="btn-status btn-sm-status btn-status-danger"></span>
                             </a>
@@ -353,9 +360,9 @@
                                     <div class="hs-unfold">
                                         <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-ghost-secondary rounded-circle"
                                            href="javascript:;" data-hs-unfold-options='{
-                       "target": "#notificationSettingsOneDropdown",
-                       "type": "css-animation"
-                     }'>
+                                               "target": "#notificationSettingsOneDropdown",
+                                               "type": "css-animation"
+                                             }'>
                                             <i class="tio-more-vertical"></i>
                                         </a>
                                         <div id="notificationSettingsOneDropdown"
@@ -739,11 +746,12 @@
                             <div class="hs-unfold">
                                 <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;"
                                    data-hs-unfold-options='{
-                                         "target": "#accountNavbarDropdown",
-                                         "type": "css-animation"
-                                       }'>
+                                             "target": "#accountNavbarDropdown",
+                                             "type": "css-animation"
+                                           }'>
                                     <div class="avatar avatar-sm avatar-circle">
-                                        <img class="avatar-img" src="assets\img\160x160\img1.jpg" alt="Image Description">
+                                        <img class="avatar-img" src="assets\img\160x160\img1.jpg"
+                                             alt="Image Description">
                                         <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                                     </div>
                                 </a>
@@ -770,9 +778,9 @@
                                     <div class="hs-unfold w-100 d-none">
                                         <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
                                            href="javascript:;" data-hs-unfold-options='{
-                                                 "target": "#navSubmenuPagesAccountDropdown1",
-                                                 "event": "hover"
-                                               }'>
+                                                     "target": "#navSubmenuPagesAccountDropdown1",
+                                                     "event": "hover"
+                                                   }'>
                                             <span class="text-truncate pr-2" title="Set status">Set status</span>
                                             <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker ml-auto"></i>
                                         </a>
@@ -793,15 +801,16 @@
                                             </a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">
-                                                <span class="text-truncate pr-2" title="Reset status">Reset status</span>
+                                                <span class="text-truncate pr-2"
+                                                      title="Reset status">Reset status</span>
                                             </a>
                                         </div>
                                     </div>
                                     <!-- End Unfold -->
 
                                     <a class="dropdown-item" href="#">
-                                    <span class="text-truncate pr-2"
-                                          title="Profile &amp; account">Profile &amp; account</span>
+                                        <span class="text-truncate pr-2"
+                                              title="Profile &amp; account">Profile &amp; account</span>
                                     </a>
 
                                     <a class="dropdown-item" href="managerProfile?action=showProfile">
@@ -815,8 +824,8 @@
                                                 <span class="avatar-initials">HS</span>
                                             </div>
                                             <div class="media-body">
-                        <span class="card-title h5">Htmlstream <span
-                                class="badge badge-primary badge-pill text-uppercase ml-1">PRO</span></span>
+                            <span class="card-title h5">Htmlstream <span
+                                    class="badge badge-primary badge-pill text-uppercase ml-1">PRO</span></span>
                                                 <span class="card-text">hs.example.com</span>
                                             </div>
                                         </div>
@@ -827,9 +836,9 @@
                                     <div class="hs-unfold w-100 d-none">
                                         <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
                                            href="javascript:;" data-hs-unfold-options='{
-                     "target": "#navSubmenuPagesAccountDropdown2",
-                     "event": "hover"
-                   }'>
+                         "target": "#navSubmenuPagesAccountDropdown2",
+                         "event": "hover"
+                       }'>
                                             <span class="text-truncate pr-2" title="Customization">Customization</span>
                                             <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker  ml-auto"></i>
                                         </a>
@@ -837,15 +846,16 @@
                                         <div id="navSubmenuPagesAccountDropdown2"
                                              class="hs-unfold-content hs-unfold-has-submenu dropdown-unfold dropdown-menu navbar-dropdown-sub-menu">
                                             <a class="dropdown-item" href="#">
-                                                <span class="text-truncate pr-2" title="Invite people">Invite people</span>
+                                                <span class="text-truncate pr-2"
+                                                      title="Invite people">Invite people</span>
                                             </a>
                                             <a class="dropdown-item" href="#">
                                                 <span class="text-truncate pr-2" title="Analytics">Analytics</span>
                                                 <i class="tio-open-in-new"></i>
                                             </a>
                                             <a class="dropdown-item" href="#">
-                                            <span class="text-truncate pr-2"
-                                                  title="Customize Front">Customize Front</span>
+                                                <span class="text-truncate pr-2"
+                                                      title="Customize Front">Customize Front</span>
                                                 <i class="tio-open-in-new"></i>
                                             </a>
                                         </div>
@@ -1045,36 +1055,39 @@
                                 aria-labelledby="pagesDropdown" style="min-width: 16rem;">
                                 <!-- Users -->
                                 <c:if test="${sessionScope.acc!=null}">
-                                <li class="hs-has-sub-menu">
-                                    <a id="pagesDropdownUsers"
-                                       class="hs-mega-menu-invoker dropdown-item dropdown-item-toggle"
-                                       href="javascript:;" aria-haspopup="true" aria-expanded="false"
-                                       aria-controls="navLinkPagesDropdownUsers">
-                                        <span class="tio-circle nav-indicator-icon"></span> Managers
-                                    </a>
+                                    <li class="hs-has-sub-menu">
+                                        <a id="pagesDropdownUsers"
+                                           class="hs-mega-menu-invoker dropdown-item dropdown-item-toggle"
+                                           href="javascript:;" aria-haspopup="true" aria-expanded="false"
+                                           aria-controls="navLinkPagesDropdownUsers">
+                                            <span class="tio-circle nav-indicator-icon"></span> Managers
+                                        </a>
 
-                                    <ul id="navLinkPagesDropdownUsers"
-                                        class="hs-sub-menu dropdown-menu dropdown-menu-lg"
-                                        aria-labelledby="pagesDropdownUsers" style="min-width: 16rem;">
-                                        <li>
-                                            <a class="dropdown-item" href="manager?action=managerOverview">
-                                                <span class="tio-circle-outlined nav-indicator-icon"></span> Overview
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="users-leaderboard.html">
-                                                <span class="tio-circle-outlined nav-indicator-icon"></span> Leaderboard
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="manager?action=managerAdd">
-                                                <span class="tio-circle-outlined nav-indicator-icon"></span> Add Managers
-                                                <span
-                                                        class="badge badge-info badge-pill ml-1">Hot</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                        <ul id="navLinkPagesDropdownUsers"
+                                            class="hs-sub-menu dropdown-menu dropdown-menu-lg"
+                                            aria-labelledby="pagesDropdownUsers" style="min-width: 16rem;">
+                                            <li>
+                                                <a class="dropdown-item" href="manager?action=managerOverview">
+                                                    <span class="tio-circle-outlined nav-indicator-icon"></span>
+                                                    Overview
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="users-leaderboard.html">
+                                                    <span class="tio-circle-outlined nav-indicator-icon"></span>
+                                                    Leaderboard
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="manager?action=managerAdd">
+                                                    <span class="tio-circle-outlined nav-indicator-icon"></span> Add
+                                                    Managers
+                                                    <span
+                                                            class="badge badge-info badge-pill ml-1">Hot</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </c:if>
                                 <c:if test="${sessionScope.accMana!=null}">
                                     <li class="hs-has-sub-menu d-none">
@@ -1090,17 +1103,20 @@
                                             aria-labelledby="pagesDropdownUsers" style="min-width: 16rem;">
                                             <li>
                                                 <a class="dropdown-item" href="manager?action=managerOverview">
-                                                    <span class="tio-circle-outlined nav-indicator-icon"></span> Overview
+                                                    <span class="tio-circle-outlined nav-indicator-icon"></span>
+                                                    Overview
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item" href="users-leaderboard.html">
-                                                    <span class="tio-circle-outlined nav-indicator-icon"></span> Leaderboard
+                                                    <span class="tio-circle-outlined nav-indicator-icon"></span>
+                                                    Leaderboard
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item" href="manager?action=managerAdd">
-                                                    <span class="tio-circle-outlined nav-indicator-icon"></span> Add Managers
+                                                    <span class="tio-circle-outlined nav-indicator-icon"></span> Add
+                                                    Managers
                                                     <span
                                                             class="badge badge-info badge-pill ml-1">Hot</span>
                                                 </a>
@@ -1176,6 +1192,12 @@
 
                                 <!-- E-commerce -->
 
+
+                                <c:set var="currentDate" value="<%= LocalDate.now() %>"/>
+                                <c:set var="weekFields" value="<%= WeekFields.of(Locale.getDefault()) %>"/>
+                                <c:set var="weekNumber" value="${currentDate.get(weekFields.weekOfWeekBasedYear())}"/>
+
+
                                 <li class="hs-has-sub-menu">
                                     <a id="pagesDropdownEcommerce"
                                        class="hs-mega-menu-invoker dropdown-item dropdown-item-toggle"
@@ -1188,7 +1210,8 @@
                                         class="hs-sub-menu dropdown-menu dropdown-menu-lg"
                                         aria-labelledby="pagesDropdownEcommerce" style="min-width: 16rem;">
                                         <li>
-                                            <a class="dropdown-item" href="ecommerce-product?action=overview&week=26">
+                                            <a class="dropdown-item"
+                                               href="ecommerce-product?action=overview&week=${weekNumber}">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span> Overview
                                             </a>
                                         </li>
@@ -1199,7 +1222,7 @@
                                                href="javascript:;"
                                                aria-haspopup="true" aria-expanded="false"
                                                aria-controls="navLinkPagesDropdownEcommerceProducts">
-                                                    <span class="tio-circle nav-indicator-icon"></span> Manage Products
+                                                <span class="tio-circle nav-indicator-icon"></span> Manage Products
                                             </a>
 
                                             <ul id="navLinkPagesDropdownEcommerceProducts"
@@ -1214,7 +1237,8 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" href="ecommerce-product?action=add-product">
+                                                    <a class="dropdown-item"
+                                                       href="ecommerce-product?action=add-product">
                                                         <span class="tio-circle nav-indicator-icon"></span> Add Product
                                                     </a>
                                                 </li>
@@ -1263,7 +1287,8 @@
                                                 aria-labelledby="pagesDropdownEcommerceSublevel"
                                                 style="min-width: 16rem;">
                                                 <li>
-                                                    <a class="dropdown-item" href="adminCustomer?action=viewAllCustomer">
+                                                    <a class="dropdown-item"
+                                                       href="adminCustomer?action=viewAllCustomer">
                                                         <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                         Customers
                                                     </a>
@@ -1499,16 +1524,16 @@
                                     <input type="search" class="js-form-search form-control"
                                            placeholder="Search in front"
                                            aria-label="Search in front" data-hs-form-search-options='{
-                         "clearIcon": "#clearSearchResultsIcon",
-                         "dropMenuElement": "#searchDropdownMenu",
-                         "dropMenuOffset": 20,
-                         "toggleIconOnFocus": true,
-                         "activeClass": "focus"
-                       }'>
+                             "clearIcon": "#clearSearchResultsIcon",
+                             "dropMenuElement": "#searchDropdownMenu",
+                             "dropMenuOffset": 20,
+                             "toggleIconOnFocus": true,
+                             "activeClass": "focus"
+                           }'>
                                     <a class="input-group-append" href="javascript:;">
-                      <span class="input-group-text">
-                        <i id="clearSearchResultsIcon" class="tio-clear" style="display: none;"></i>
-                      </span>
+                          <span class="input-group-text">
+                            <i id="clearSearchResultsIcon" class="tio-clear" style="display: none;"></i>
+                          </span>
                                     </a>
                                 </div>
                                 <!-- End Input Group -->
@@ -1521,16 +1546,16 @@
                                         <small class="dropdown-header mb-n2">Recent searches</small>
 
                                         <div class="dropdown-item bg-transparent text-wrap my-2">
-                        <span class="h4 mr-1">
-                          <a class="btn btn-xs btn-soft-dark btn-pill" href="index.html">
-                            Gulp <i class="tio-search ml-1"></i>
-                          </a>
-                        </span>
+                            <span class="h4 mr-1">
+                              <a class="btn btn-xs btn-soft-dark btn-pill" href="index.html">
+                                Gulp <i class="tio-search ml-1"></i>
+                              </a>
+                            </span>
                                             <span class="h4">
-                          <a class="btn btn-xs btn-soft-dark btn-pill" href="index.html">
-                            Notification panel <i class="tio-search ml-1"></i>
-                          </a>
-                        </span>
+                              <a class="btn btn-xs btn-soft-dark btn-pill" href="index.html">
+                                Notification panel <i class="tio-search ml-1"></i>
+                              </a>
+                            </span>
                                         </div>
 
                                         <div class="dropdown-divider my-3"></div>
@@ -1539,9 +1564,9 @@
 
                                         <a class="dropdown-item my-2" href="index.html">
                                             <div class="media align-items-center">
-                          <span class="icon icon-xs icon-soft-dark icon-circle mr-2">
-                            <i class="tio-tune"></i>
-                          </span>
+                              <span class="icon icon-xs icon-soft-dark icon-circle mr-2">
+                                <i class="tio-tune"></i>
+                              </span>
 
                                                 <div class="media-body text-truncate">
                                                     <span>How to set up Gulp?</span>
@@ -1551,9 +1576,9 @@
 
                                         <a class="dropdown-item my-2" href="index.html">
                                             <div class="media align-items-center">
-                          <span class="icon icon-xs icon-soft-dark icon-circle mr-2">
-                            <i class="tio-paint-bucket"></i>
-                          </span>
+                              <span class="icon icon-xs icon-soft-dark icon-circle mr-2">
+                                <i class="tio-paint-bucket"></i>
+                              </span>
 
                                                 <div class="media-body text-truncate">
                                                     <span>How to change theme color?</span>
@@ -1571,8 +1596,8 @@
                                                      src="assets\img\160x160\img10.jpg"
                                                      alt="Image Description">
                                                 <div class="media-body text-truncate">
-                            <span>Amanda Harvey <i class="tio-verified text-primary" data-toggle="tooltip"
-                                                   data-placement="top" title="Top endorsed"></i></span>
+                                <span>Amanda Harvey <i class="tio-verified text-primary" data-toggle="tooltip"
+                                                       data-placement="top" title="Top endorsed"></i></span>
                                                 </div>
                                             </div>
                                         </a>
@@ -1624,12 +1649,12 @@
                                     <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-light rounded-circle"
                                        href="javascript:;"
                                        data-hs-unfold-options='{
-                     "target": "#searchDropdown",
-                     "type": "css-animation",
-                     "animationIn": "fadeIn",
-                     "hasOverlay": "rgba(46, 52, 81, 0.1)",
-                     "closeBreakpoint": "md"
-                   }'>
+                         "target": "#searchDropdown",
+                         "type": "css-animation",
+                         "animationIn": "fadeIn",
+                         "hasOverlay": "rgba(46, 52, 81, 0.1)",
+                         "closeBreakpoint": "md"
+                       }'>
                                         <i class="tio-search"></i>
                                     </a>
                                 </div>
@@ -1642,9 +1667,9 @@
                                     <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-light rounded-circle"
                                        href="javascript:;"
                                        data-hs-unfold-options='{
-                     "target": "#notificationNavbarDropdown",
-                     "type": "css-animation"
-                   }'>
+                         "target": "#notificationNavbarDropdown",
+                         "type": "css-animation"
+                       }'>
                                         <i class="tio-notifications-on-outlined"></i>
                                         <span class="btn-status btn-sm-status btn-status-danger"></span>
                                     </a>
@@ -1660,9 +1685,9 @@
                                             <div class="hs-unfold">
                                                 <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-ghost-secondary rounded-circle"
                                                    href="javascript:;" data-hs-unfold-options='{
-                           "target": "#notificationSettingsOneDropdown",
-                           "type": "css-animation"
-                         }'>
+                               "target": "#notificationSettingsOneDropdown",
+                               "type": "css-animation"
+                             }'>
                                                     <i class="tio-more-vertical"></i>
                                                 </a>
                                                 <div id="notificationSettingsOneDropdown"
@@ -2060,9 +2085,9 @@
                                 <div class="hs-unfold">
                                     <a class="js-hs-unfold-invoker navbar-dropdown-account-wrapper" href="javascript:;"
                                        data-hs-unfold-options='{
-                     "target": "#accountNavbarDropdown",
-                     "type": "css-animation"
-                   }'>
+                         "target": "#accountNavbarDropdown",
+                         "type": "css-animation"
+                       }'>
                                         <div class="avatar avatar-sm avatar-circle">
                                             <img class="avatar-img" src="assets\img\160x160\img6.jpg"
                                                  alt="Image Description">
@@ -2092,9 +2117,9 @@
                                         <div class="hs-unfold w-100">
                                             <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
                                                href="javascript:;" data-hs-unfold-options='{
-                         "target": "#navSubmenuPagesAccountDropdown1",
-                         "event": "hover"
-                       }'>
+                             "target": "#navSubmenuPagesAccountDropdown1",
+                             "event": "hover"
+                           }'>
                                                 <span class="text-truncate pr-2" title="Set status">Set status</span>
                                                 <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker ml-auto"></i>
                                             </a>
@@ -2115,8 +2140,8 @@
                                                 </a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" href="#">
-                                                    <span class="text-truncate pr-2"
-                                                          title="Reset status">Reset status</span>
+                                                        <span class="text-truncate pr-2"
+                                                              title="Reset status">Reset status</span>
                                                 </a>
                                             </div>
                                         </div>
@@ -2138,8 +2163,8 @@
                                                     <span class="avatar-initials">HS</span>
                                                 </div>
                                                 <div class="media-body">
-                            <span class="card-title h5">Htmlstream <span
-                                    class="badge badge-primary badge-pill text-uppercase ml-1">PRO</span></span>
+                                <span class="card-title h5">Htmlstream <span
+                                        class="badge badge-primary badge-pill text-uppercase ml-1">PRO</span></span>
                                                     <span class="card-text">hs.example.com</span>
                                                 </div>
                                             </div>
@@ -2151,19 +2176,19 @@
                                         <div class="hs-unfold w-100">
                                             <a class="js-hs-unfold-invoker navbar-dropdown-submenu-item dropdown-item d-flex align-items-center"
                                                href="javascript:;" data-hs-unfold-options='{
-                         "target": "#navSubmenuPagesAccountDropdown2",
-                         "event": "hover"
-                       }'>
-                                                <span class="text-truncate pr-2"
-                                                      title="Customization">Customization</span>
+                             "target": "#navSubmenuPagesAccountDropdown2",
+                             "event": "hover"
+                           }'>
+                                                    <span class="text-truncate pr-2"
+                                                          title="Customization">Customization</span>
                                                 <i class="tio-chevron-right navbar-dropdown-submenu-item-invoker  ml-auto"></i>
                                             </a>
 
                                             <div id="navSubmenuPagesAccountDropdown2"
                                                  class="hs-unfold-content hs-unfold-has-submenu dropdown-unfold dropdown-menu navbar-dropdown-sub-menu">
                                                 <a class="dropdown-item" href="#">
-                                                    <span class="text-truncate pr-2"
-                                                          title="Invite people">Invite people</span>
+                                                        <span class="text-truncate pr-2"
+                                                              title="Invite people">Invite people</span>
                                                 </a>
                                                 <a class="dropdown-item" href="#">
                                                     <span class="text-truncate pr-2" title="Analytics">Analytics</span>
@@ -2440,7 +2465,8 @@
                                                     aria-labelledby="pagesDropdownEcommerceSublevel"
                                                     style="min-width: 16rem;">
                                                     <li>
-                                                        <a class="dropdown-item" href="adminCustomer?action=viewAllCustomer">
+                                                        <a class="dropdown-item"
+                                                           href="adminCustomer?action=viewAllCustomer">
                                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                             Customers
                                                         </a>
@@ -2708,7 +2734,8 @@
 
                         <!-- Pages -->
                         <li class="navbar-vertical-aside-has-menu show">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle active" href="javascript:;"
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle active"
+                               href="javascript:;"
                                title="Pages">
                                 <i class="tio-pages-outlined nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Pages</span>
@@ -2716,7 +2743,8 @@
 
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                 <li class="navbar-vertical-aside-has-menu ">
-                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                       href="javascript:;"
                                        title="Users">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Managers</span>
@@ -2746,7 +2774,8 @@
                                 </li>
 
                                 <li class="navbar-vertical-aside-has-menu ">
-                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                       href="javascript:;"
                                        title="User Profile">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Manage Profile <span
@@ -2770,7 +2799,8 @@
                                 </li>
 
                                 <li class="navbar-vertical-aside-has-menu ">
-                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                       href="javascript:;"
                                        title="Account">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Account</span>
@@ -2805,7 +2835,8 @@
                                 </li>
 
                                 <li class="navbar-vertical-aside-has-menu show">
-                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                       href="javascript:;"
                                        title="E-commerce">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">E-commerce</span>
@@ -2820,7 +2851,8 @@
                                         </li>
 
                                         <li class="navbar-vertical-aside-has-menu ">
-                                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                               href="javascript:;"
                                                title="Products">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Products</span>
@@ -2828,14 +2860,16 @@
 
                                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                                 <li class="nav-item">
-                                                    <a class="nav-link " href="ecommerce-products.html" title="Products">
+                                                    <a class="nav-link " href="ecommerce-products.html"
+                                                       title="Products">
                                                         <span class="tio-circle nav-indicator-icon"></span>
                                                         <span class="text-truncate">Products</span>
                                                     </a>
                                                 </li>
 
                                                 <li class="nav-item">
-                                                    <a class="nav-link " href="ecommerce-add-product.html" title="Add Product">
+                                                    <a class="nav-link " href="ecommerce-add-product.html"
+                                                       title="Add Product">
                                                         <span class="tio-circle nav-indicator-icon"></span>
                                                         <span class="text-truncate">Add Product</span>
                                                     </a>
@@ -2844,7 +2878,8 @@
                                         </li>
 
                                         <li class="navbar-vertical-aside-has-menu ">
-                                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                               href="javascript:;"
                                                title="Orders">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Orders</span>
@@ -2852,13 +2887,15 @@
 
                                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                                 <li class="nav-item">
-                                                    <a class="nav-link " href="adminOrder?action=viewAllOrder" title="Orders">
+                                                    <a class="nav-link " href="adminOrder?action=viewAllOrder"
+                                                       title="Orders">
                                                         <span class="tio-circle nav-indicator-icon"></span>
                                                         <span class="text-truncate">Orders</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link " href="ecommerce-order-details.html" title="Order Details">
+                                                    <a class="nav-link " href="ecommerce-order-details.html"
+                                                       title="Order Details">
                                                         <span class="tio-circle nav-indicator-icon"></span>
                                                         <span class="text-truncate">Order Details</span>
                                                     </a>
@@ -2867,7 +2904,8 @@
                                         </li>
 
                                         <li class="navbar-vertical-aside-has-menu ">
-                                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                               href="javascript:;"
                                                title="Customers">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Customers</span>
@@ -2875,19 +2913,22 @@
 
                                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                                 <li class="nav-item">
-                                                    <a class="nav-link " href="adminCustomer?action=viewAllCustomer" title="Customers">
+                                                    <a class="nav-link " href="adminCustomer?action=viewAllCustomer"
+                                                       title="Customers">
                                                         <span class="tio-circle nav-indicator-icon"></span>
                                                         <span class="text-truncate">Customers</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link " href="ecommerce-customer-details.html" title="Customer Details">
+                                                    <a class="nav-link " href="ecommerce-customer-details.html"
+                                                       title="Customer Details">
                                                         <span class="tio-circle nav-indicator-icon"></span>
                                                         <span class="text-truncate">Customer Details</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link " href="ecommerce-add-customers.html" title="Add Customers">
+                                                    <a class="nav-link " href="ecommerce-add-customers.html"
+                                                       title="Add Customers">
                                                         <span class="tio-circle nav-indicator-icon"></span>
                                                         <span class="text-truncate">Add Customers</span>
                                                     </a>
@@ -2896,7 +2937,8 @@
                                         </li>
 
                                         <li class="nav-item">
-                                            <a class="nav-link " href="manageReviews?action=reviews" title="Manage Reviews">
+                                            <a class="nav-link " href="manageReviews?action=reviews"
+                                               title="Manage Reviews">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Manage Reviews</span>
                                             </a>
@@ -2924,7 +2966,8 @@
 
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                 <li class="navbar-vertical-aside-has-menu ">
-                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                       href="javascript:;"
                                        title="Sign In">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Sign In</span>
@@ -2947,7 +2990,8 @@
                                 </li>
 
                                 <li class="navbar-vertical-aside-has-menu ">
-                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                       href="javascript:;"
                                        title="Sign Up">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Sign Up</span>
@@ -2970,7 +3014,8 @@
                                 </li>
 
                                 <li class="navbar-vertical-aside-has-menu ">
-                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                       href="javascript:;"
                                        title="Reset Password">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Reset Password</span>
@@ -2978,13 +3023,15 @@
 
                                     <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                         <li class="nav-item">
-                                            <a class="nav-link " href="authentication-reset-password-basic.html" title="Basic">
+                                            <a class="nav-link " href="authentication-reset-password-basic.html"
+                                               title="Basic">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Basic</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="authentication-reset-password-cover.html" title="Cover">
+                                            <a class="nav-link " href="authentication-reset-password-cover.html"
+                                               title="Cover">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Cover</span>
                                             </a>
@@ -2993,7 +3040,8 @@
                                 </li>
 
                                 <li class="navbar-vertical-aside-has-menu ">
-                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                       href="javascript:;"
                                        title="Email Verification">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Email Verification</span>
@@ -3001,13 +3049,15 @@
 
                                     <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                         <li class="nav-item">
-                                            <a class="nav-link " href="authentication-email-verification-basic.html" title="Basic">
+                                            <a class="nav-link " href="authentication-email-verification-basic.html"
+                                               title="Basic">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Basic</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="authentication-email-verification-cover.html" title="Cover">
+                                            <a class="nav-link " href="authentication-email-verification-cover.html"
+                                               title="Cover">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Cover</span>
                                             </a>
@@ -3016,7 +3066,8 @@
                                 </li>
 
                                 <li class="navbar-vertical-aside-has-menu ">
-                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                       href="javascript:;"
                                        title="2-step Verification">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">2-step Verification</span>
@@ -3024,13 +3075,15 @@
 
                                     <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                         <li class="nav-item">
-                                            <a class="nav-link " href="authentication-two-step-verification-basic.html" title="Basic">
+                                            <a class="nav-link " href="authentication-two-step-verification-basic.html"
+                                               title="Basic">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Basic</span>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link " href="authentication-two-step-verification-cover.html" title="Cover">
+                                            <a class="nav-link " href="authentication-two-step-verification-cover.html"
+                                               title="Cover">
                                                 <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                 <span class="text-truncate">Cover</span>
                                             </a>
@@ -3039,7 +3092,8 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="javascript:;" data-toggle="modal" data-target="#welcomeMessageModal"
+                                    <a class="nav-link" href="javascript:;" data-toggle="modal"
+                                       data-target="#welcomeMessageModal"
                                        title="Welcome Message">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">Welcome Message</span>
@@ -3070,9 +3124,6 @@
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Welcome Page</span>
                             </a>
                         </li>
-
-
-
 
 
                         <li class="nav-item">
@@ -3136,7 +3187,8 @@
 
                         <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                             <li class="navbar-vertical-aside-has-menu ">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                   href="javascript:;"
                                    title="Users">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">Managers</span>
@@ -3166,7 +3218,8 @@
                             </li>
 
                             <li class="navbar-vertical-aside-has-menu ">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                   href="javascript:;"
                                    title="Manage Profile">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">Manage Profile <span
@@ -3191,7 +3244,8 @@
                             </li>
 
                             <li class="navbar-vertical-aside-has-menu ">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                   href="javascript:;"
                                    title="Account">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">Account</span>
@@ -3226,7 +3280,8 @@
                             </li>
 
                             <li class="navbar-vertical-aside-has-menu ">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                   href="javascript:;"
                                    title="E-commerce">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">E-commerce</span>
@@ -3241,7 +3296,8 @@
                                     </li>
 
                                     <li class="navbar-vertical-aside-has-menu ">
-                                        <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                        <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                           href="javascript:;"
                                            title="Products">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                             <span class="text-truncate">Products</span>
@@ -3256,7 +3312,8 @@
                                             </li>
 
                                             <li class="nav-item">
-                                                <a class="nav-link " href="ecommerce-add-product.html" title="Add Product">
+                                                <a class="nav-link " href="ecommerce-add-product.html"
+                                                   title="Add Product">
                                                     <span class="tio-circle-outlined nav-indicator-icon"></span>
                                                     <span class="text-truncate">Add Product</span>
                                                 </a>
@@ -3265,7 +3322,8 @@
                                     </li>
 
                                     <li class="navbar-vertical-aside-has-menu ">
-                                        <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                        <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                           href="javascript:;"
                                            title="Orders">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                             <span class="text-truncate">Orders</span>
@@ -3273,13 +3331,15 @@
 
                                         <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                             <li class="nav-item">
-                                                <a class="nav-link " href="adminOrder?action=viewAllOrder" title="Orders">
+                                                <a class="nav-link " href="adminOrder?action=viewAllOrder"
+                                                   title="Orders">
                                                     <span class="tio-circle nav-indicator-icon"></span>
                                                     <span class="text-truncate">Orders</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link " href="ecommerce-order-details.html" title="Order Details">
+                                                <a class="nav-link " href="ecommerce-order-details.html"
+                                                   title="Order Details">
                                                     <span class="tio-circle nav-indicator-icon"></span>
                                                     <span class="text-truncate">Order Details</span>
                                                 </a>
@@ -3288,7 +3348,8 @@
                                     </li>
 
                                     <li class="navbar-vertical-aside-has-menu ">
-                                        <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                        <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                           href="javascript:;"
                                            title="Customers">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                             <span class="text-truncate">Customers</span>
@@ -3296,19 +3357,22 @@
 
                                         <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                             <li class="nav-item">
-                                                <a class="nav-link " href="adminCustomer?action=viewAllCustomer" title="Customers">
+                                                <a class="nav-link " href="adminCustomer?action=viewAllCustomer"
+                                                   title="Customers">
                                                     <span class="tio-circle nav-indicator-icon"></span>
                                                     <span class="text-truncate">Customers</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link " href="ecommerce-customer-details.html" title="Customer Details">
+                                                <a class="nav-link " href="ecommerce-customer-details.html"
+                                                   title="Customer Details">
                                                     <span class="tio-circle nav-indicator-icon"></span>
                                                     <span class="text-truncate">Customer Details</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link " href="ecommerce-add-customers.html" title="Add Customers">
+                                                <a class="nav-link " href="ecommerce-add-customers.html"
+                                                   title="Add Customers">
                                                     <span class="tio-circle nav-indicator-icon"></span>
                                                     <span class="text-truncate">Add Customers</span>
                                                 </a>
@@ -3337,14 +3401,16 @@
 
                     <!-- Authentication -->
                     <li class="navbar-vertical-aside-has-menu nav-item">
-                        <a class="js-navbar-vertical-aside-menu-link nav-link " href="javascript:;" title="Authentication">
+                        <a class="js-navbar-vertical-aside-menu-link nav-link " href="javascript:;"
+                           title="Authentication">
                             <i class="tio-lock-outlined nav-icon"></i>
                             <span class="nav-compact-title text-truncate">Authentication</span>
                         </a>
 
                         <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                             <li class="navbar-vertical-aside-has-menu nav-item">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                   href="javascript:;"
                                    title="Sign In">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">Sign In</span>
@@ -3367,7 +3433,8 @@
                             </li>
 
                             <li class="navbar-vertical-aside-has-menu nav-item">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                   href="javascript:;"
                                    title="Sign Up">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">Sign Up</span>
@@ -3390,7 +3457,8 @@
                             </li>
 
                             <li class="navbar-vertical-aside-has-menu nav-item">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                   href="javascript:;"
                                    title="Reset Password">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">Reset Password</span>
@@ -3398,13 +3466,15 @@
 
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                     <li class="nav-item">
-                                        <a class="nav-link " href="authentication-reset-password-basic.html" title="Basic">
+                                        <a class="nav-link " href="authentication-reset-password-basic.html"
+                                           title="Basic">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                             <span class="text-truncate">Basic</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="authentication-reset-password-cover.html" title="Cover">
+                                        <a class="nav-link " href="authentication-reset-password-cover.html"
+                                           title="Cover">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                             <span class="text-truncate">Cover</span>
                                         </a>
@@ -3413,7 +3483,8 @@
                             </li>
 
                             <li class="navbar-vertical-aside-has-menu nav-item">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                   href="javascript:;"
                                    title="Email Verification">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">Email Verification</span>
@@ -3421,13 +3492,15 @@
 
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                     <li class="nav-item">
-                                        <a class="nav-link " href="authentication-email-verification-basic.html" title="Basic">
+                                        <a class="nav-link " href="authentication-email-verification-basic.html"
+                                           title="Basic">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                             <span class="text-truncate">Basic</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="authentication-email-verification-cover.html" title="Cover">
+                                        <a class="nav-link " href="authentication-email-verification-cover.html"
+                                           title="Cover">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                             <span class="text-truncate">Cover</span>
                                         </a>
@@ -3436,7 +3509,8 @@
                             </li>
 
                             <li class="navbar-vertical-aside-has-menu nav-item">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:;"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                   href="javascript:;"
                                    title="2-step Verification">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">2-step Verification</span>
@@ -3444,13 +3518,15 @@
 
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
                                     <li class="nav-item">
-                                        <a class="nav-link " href="authentication-two-step-verification-basic.html" title="Basic">
+                                        <a class="nav-link " href="authentication-two-step-verification-basic.html"
+                                           title="Basic">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                             <span class="text-truncate">Basic</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="authentication-two-step-verification-cover.html" title="Cover">
+                                        <a class="nav-link " href="authentication-two-step-verification-cover.html"
+                                           title="Cover">
                                             <span class="tio-circle-outlined nav-indicator-icon"></span>
                                             <span class="text-truncate">Cover</span>
                                         </a>
@@ -3459,7 +3535,8 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="javascript:;" data-toggle="modal" data-target="#welcomeMessageModal"
+                                <a class="nav-link" href="javascript:;" data-toggle="modal"
+                                   data-target="#welcomeMessageModal"
                                    title="Welcome Message">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate">Welcome Message</span>

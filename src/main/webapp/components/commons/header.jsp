@@ -9,7 +9,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-
 <body>
 <%
     String currentPage = request.getRequestURI();
@@ -21,14 +20,14 @@
         <c:when test="${not empty error}">
             <div class="error" style="background-color: transparent; position: relative">
                 <span>${error}</span>
-              <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
+                <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
             </div>
         </c:when>
 
         <c:when test="${not empty message}">
             <div class="message" style="background-color: #fff">
                 <span>${message}</span>
-           <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
+                <i class="fa-solid fa-x" onclick="this.parentElement.remove();"></i>
             </div>
         </c:when>
     </c:choose>
@@ -46,7 +45,7 @@
                 <c:if test="${sessionScope.acc != null}">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style="cursor: pointer"/>
-                            <i class="fa fa-user-o"></i>
+                        <i class="fa fa-user-o"></i>
                             ${sessionScope.acc.name}
                         </a>
                         <div class="account-dropdown">
@@ -88,9 +87,9 @@
                 <!-- LOGO -->
                 <div class="col-md-3 col-sm-4 col-xs-4">
                     <div class="header-logo">
-                      
+
                         <a href="./home" class="logo">
-                          
+
                             <img src="imgs/logo.png" alt="">
                         </a>
                     </div>
@@ -133,13 +132,14 @@
                             <%
                                 session.removeAttribute("open");
                             %>
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style="cursor: pointer"/>
-                                <i class="fa fa-shopping-cart"></i>
-                                <span>Your Cart</span>
-                                <div class="qty">
-                                    <c:if test="${countProductInCart == null}">0</c:if>
-                                    ${countProductInCart}
-                                </div>
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"
+                               style="cursor: pointer"/>
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>Your Cart</span>
+                            <div class="qty">
+                                <c:if test="${countProductInCart == null}">0</c:if>
+                                ${countProductInCart}
+                            </div>
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
@@ -154,10 +154,15 @@
                                                 <img src="imgs/productImg/${cart.getProductInfo().getImg1()}" alt="">
                                             </div>
                                             <div class="product-body">
-                                                <h3 class="product-name"><a href="view_product?pid=${cart.getProductInfo().getProduct().getId()}">${cart.getProductInfo().getProduct().getName()}</a></h3>
+                                                <h3 class="product-name"><a
+                                                        href="view_product?pid=${cart.getProductInfo().getProduct().getId()}">${cart.getProductInfo().getProduct().getName()}</a>
+                                                </h3>
                                                 <h4 class="product-price"><span class="qty">
                                                     ${cart.amount}  x</span>${cart.getFinalPrice()}
-                                                    <a href="cart?action=deleteFromCartHeader&&pid=${cart.getProductInfo().getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}" class="delete" onclick="return confirm('Delete this from cart?');" style="cursor: pointer" >Delete</a>
+                                                    <a href="cart?action=deleteFromCartHeader&&pid=${cart.getProductInfo().getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}"
+                                                       class="delete"
+                                                       onclick="return confirm('Delete this from cart?');"
+                                                       style="cursor: pointer">Delete</a>
                                                 </h4>
                                             </div>
                                         </div>
@@ -166,7 +171,23 @@
 
                                 <div class="cart-btns">
                                     <a href="cart?action=viewCart">View Cart</a>
-                                    <a href="checkout?action=checkout">Checkout <i class="fa fa-arrow-circle-right"></i></a>
+                                    <c:set var="disabled" value=""/>
+
+
+                                    <c:if test="${sessionScope.overAmount != null}">
+                                        <c:set var="disabled" value="disabled"/>
+                                    </c:if>
+
+                                    <%
+                                        session.removeAttribute("overAmount");
+                                    %>
+
+                                    <a href="checkout?action=checkout" class="${disabled}">
+                                        Checkout
+                                        <i class="fa fa-arrow-circle-right"></i>
+                                    </a>
+
+
                                 </div>
                             </div>
                         </div>

@@ -17,6 +17,7 @@
 
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="icon" href="imgs/logos/360_F_451269306_U5VVjfXzU2OZLyaLOKmkI73SCwBcjgvF.jpg" type="image/x-icon">
 
     <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="css/slick.css"/>
@@ -169,16 +170,17 @@
                     <p>${pdDetail.getProduct().getDesc()}</p>
 
 
-
                     <form id="productForm" method="post">
                         <input type="hidden" name="name" value="${pdDetail.getProduct().getName()}">
                         <input type="hidden" name="img" value="${pdDetail.getImg1()}">
                         <input type="hidden" name="price" value="${pdDetail.getPrice()}">
                         <div class="add-to-cart">
                             <div class="qty-label" style="width: 100%; margin-bottom: 28px;">
-<%--                                <span style="padding-right:10px; color: var(--black); font-size: 14px; font-weight: 600;">--%>
-<%--                                    Available: ${pdDetail.getProduct().getAmount_remaining()}--%>
-<%--                                </span>--%>
+
+                                <span style="padding-right:10px; color: var(--black); font-size: 14px; font-weight: 600;">
+                                    Available: ${pdDetail.getProduct().getAmount_remaining()}
+                                </span>
+
                                 <div class="input-number">
                                     <input id="amountAvailable" name="amount" type="number" value="1" min="1" max="${pdDetail.getProduct().getAmount_remaining()}"/>
                                     <span class="qty-up">+</span>
@@ -201,9 +203,10 @@
                             </div>
                         </div>
                     </form>
-                  
+
                     <ul class="product-btns">
-                        <li><a href="wishList?action=addToWishList&&pid=${pdDetail.getProduct().getId()}"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                        <li><a href="wishList?action=addToWishList&&pid=${pdDetail.getProduct().getId()}"><i
+                                class="fa fa-heart-o"></i> add to wishlist</a></li>
                     </ul>
 
                     <ul class="product-links">
@@ -531,7 +534,8 @@
                                             </div>
 
                                             <div class="product-btns">
-                                                <button class="add-to-wishlist"><a href="wishList?action=addToWishList&&pid=${p.getProduct().getId()}"><i
+                                                <button class="add-to-wishlist"><a
+                                                        href="wishList?action=addToWishList&&pid=${p.getProduct().getId()}"><i
                                                         class="fa fa-heart-o"></i></a><span
                                                         class="tooltipp">add to wishlist</span></button>
                                                 <button class="add-to-compare"><i
@@ -617,7 +621,7 @@
     }
 
     function buyNow() {
-        document.getElementById('productForm').action = './checkout?action=BuyNow&&pid=${pdDetail.getProduct().getId()}';
+        document.getElementById('productForm').action = './checkout?action=BuyNow&&pid=${pdDetail.getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}';
         document.getElementById('productForm').submit();
     }
 
