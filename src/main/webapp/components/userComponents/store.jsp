@@ -258,7 +258,16 @@
                                             <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
                                                 <span class="sale">${pdDiscount.get(idx).getDis_amount() * 100} %</span>
                                             </c:if>
-                                            <span class="new">NEW</span>
+                                            <c:set var="status" value=""></c:set>
+                                            <c:set var="disabled" value=""></c:set>
+                                            <c:if test="${p.getProduct().getAmount_remaining() == 0}">
+                                                <c:set var="status" value="SOLD OUT"></c:set>
+                                                <c:set var="disabled" value="disabled"></c:set>
+                                            </c:if>
+                                            <c:if test="${p.getProduct().getAmount_remaining() != 0}">
+                                                <c:set var="status" value="NEW"></c:set>
+                                            </c:if>
+                                            <span class="new">${status}</span>
                                         </div>
                                     </div>
 
@@ -307,9 +316,9 @@
                                         </div>
                                     </div>
                                     <div class="add-to-cart">
-                                        <form action="./cart?action=AddToCart&&pid=${p.getProduct().getId()}"
+                                        <form id="add-to-cart-form" action="./cart?action=AddToCart&&pid=${p.getProduct().getId()}"
                                               method="post">
-                                            <button class="add-to-cart-btn"><i
+                                            <button id="add-to-cart-btn" class="add-to-cart-btn" ${disabled} ><i
                                                     class="fa fa-shopping-cart"></i> add to cart
                                             </button>
                                         </form>

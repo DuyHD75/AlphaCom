@@ -28,14 +28,19 @@ public class ServletManagerProfile extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        try {
-            ShowManagerSettingProfiles(request, response);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        HttpSession session = request.getSession();
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            try {
+                ShowManagerSettingProfiles(request, response);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            response.sendRedirect("loginCustomer");
         }
 
     }
@@ -73,11 +78,14 @@ public class ServletManagerProfile extends HttpServlet {
         HttpSession session = request.getSession();
 
         Admin admin = (Admin) session.getAttribute("acc");
-
-        Manager manager = (Manager) session.getAttribute("accMana");
-        System.out.println(admin);
-        System.out.println(manager);
-        request.getRequestDispatcher("/components/adminComponents/editMyProfile.jsp").forward(request, response);
+        if (admin != null) {
+            Manager manager = (Manager) session.getAttribute("accMana");
+            System.out.println(admin);
+            System.out.println(manager);
+            request.getRequestDispatcher("/components/adminComponents/editMyProfile.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
     }
 
     public void ChangeProfileAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -85,81 +93,98 @@ public class ServletManagerProfile extends HttpServlet {
         String email = request.getParameter("editEmailModal");
         HttpSession session = request.getSession();
         Admin account = (Admin) session.getAttribute("acc");
-        int id = account.getId();
-        Admin admin = new Admin(id, name, email);
-        if (adminService.updateInfoAdmin(admin)) {
-            Admin accountUpdate = adminService.getAdminById(id);
-            session.removeAttribute("acc");
-            session.setAttribute("acc", accountUpdate);
-            request.setAttribute("messInfo", "Update success");
-            ShowManagerSettingProfiles(request, response);
+        if (account != null) {
+            int id = account.getId();
+            Admin admin = new Admin(id, name, email);
+            if (adminService.updateInfoAdmin(admin)) {
+                Admin accountUpdate = adminService.getAdminById(id);
+                session.removeAttribute("acc");
+                session.setAttribute("acc", accountUpdate);
+                request.setAttribute("messInfo", "Update success");
+                ShowManagerSettingProfiles(request, response);
+            } else {
+                request.setAttribute("messInfo", "Update failed");
+                ShowManagerSettingProfiles(request, response);
+            }
         } else {
-            request.setAttribute("messInfo", "Update failed");
-            ShowManagerSettingProfiles(request, response);
+            response.sendRedirect("loginCustomer");
         }
     }
 
     public void ChangePassAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         Admin account = (Admin) session.getAttribute("acc");
-        String pass = (account.getPass());
-        String email = account.getEmail();
-        String currentPass = request.getParameter("currentPassword");
-        String newPass = request.getParameter("newPassword");
-        if (pass.equals(currentPass)) {
-            if (adminService.updatePassAdmin(email, newPass)) {
-                request.setAttribute("mess", "Change Password success");
-                ShowManagerSettingProfiles(request, response);
+        if (account != null) {
+            String pass = (account.getPass());
+            String email = account.getEmail();
+            String currentPass = request.getParameter("currentPassword");
+            String newPass = request.getParameter("newPassword");
+            if (pass.equals(currentPass)) {
+                if (adminService.updatePassAdmin(email, newPass)) {
+                    request.setAttribute("mess", "Change Password success");
+                    ShowManagerSettingProfiles(request, response);
+                } else {
+                    request.setAttribute("mess", "Change Password failed");
+                    ShowManagerSettingProfiles(request, response);
+                }
             } else {
-                request.setAttribute("mess", "Change Password failed");
+                request.setAttribute("messCurrent", "Current password is wrong");
                 ShowManagerSettingProfiles(request, response);
             }
         } else {
-            request.setAttribute("messCurrent", "Current password is wrong");
-            ShowManagerSettingProfiles(request, response);
+            response.sendRedirect("loginCustomer");
         }
 
     }
 
     public void ChangePassMana(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
-        Manager account = (Manager) session.getAttribute("accMana");
-        String pass = (account.getPass());
-        String email = account.getEmail();
-        String currentPass = request.getParameter("currentPassword");
-        String newPass = request.getParameter("newPassword");
-        if (pass.equals(currentPass)) {
-            if (adminService.updatePassMana(email, newPass)) {
-                request.setAttribute("mess", "Change Password success");
-                ShowManagerSettingProfiles(request, response);
+        Admin admin = (Admin) session.getAttribute("acc");
+        if (admin != null) {
+            Manager account = (Manager) session.getAttribute("accMana");
+            String pass = (account.getPass());
+            String email = account.getEmail();
+            String currentPass = request.getParameter("currentPassword");
+            String newPass = request.getParameter("newPassword");
+            if (pass.equals(currentPass)) {
+                if (adminService.updatePassMana(email, newPass)) {
+                    request.setAttribute("mess", "Change Password success");
+                    ShowManagerSettingProfiles(request, response);
+                } else {
+                    request.setAttribute("mess", "Change Password failed");
+                    ShowManagerSettingProfiles(request, response);
+                }
             } else {
-                request.setAttribute("mess", "Change Password failed");
+                request.setAttribute("messCurrent", "Current password is wrong");
                 ShowManagerSettingProfiles(request, response);
             }
         } else {
-            request.setAttribute("messCurrent", "Current password is wrong");
-            ShowManagerSettingProfiles(request, response);
+            response.sendRedirect("loginCustomer");
         }
-
     }
 
     public void ChangeProfileMana(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String name = request.getParameter("editNameModal");
         String email = request.getParameter("editEmailModal");
         HttpSession session = request.getSession();
-        Manager account = (Manager) session.getAttribute("accMana");
-        int id = account.getId();
-        System.out.println(id);
-        Manager manager = new Manager(id, name, email);
-        if (adminService.updateInfoManaByMana(manager)) {
-            Manager accountUpdate = adminService.getManaById(id);
-            session.removeAttribute("accMana");
-            session.setAttribute("accMana", accountUpdate);
-            request.setAttribute("messInfo", "Update success");
-            ShowManagerSettingProfiles(request, response);
+        Admin admin = (Admin) session.getAttribute("acc");
+        if (admin != null) {
+            Manager account = (Manager) session.getAttribute("accMana");
+            int id = account.getId();
+            System.out.println(id);
+            Manager manager = new Manager(id, name, email);
+            if (adminService.updateInfoManaByMana(manager)) {
+                Manager accountUpdate = adminService.getManaById(id);
+                session.removeAttribute("accMana");
+                session.setAttribute("accMana", accountUpdate);
+                request.setAttribute("messInfo", "Update success");
+                ShowManagerSettingProfiles(request, response);
+            } else {
+                request.setAttribute("messInfo", "Update failed");
+                ShowManagerSettingProfiles(request, response);
+            }
         } else {
-            request.setAttribute("messInfo", "Update failed");
-            ShowManagerSettingProfiles(request, response);
+            response.sendRedirect("loginCustomer");
         }
     }
 }

@@ -88,19 +88,28 @@ public class ServletManager extends HttpServlet {
 
     public void ShowManagerAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 
-
+        HttpSession session = request.getSession();
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
         request.getRequestDispatcher("/components/adminComponents/addManager.jsp").forward(request, response);
-
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
     }
 
     public void ShowManagerOverview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-
+        HttpSession session = request.getSession();
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
 
         request.setAttribute("totalMan", adminService.getTotalMan());
         request.setAttribute("managers", adminService.getManager());
 
 
         request.getRequestDispatcher("/components/adminComponents/manager.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
     }
 
     //    public void ShowManagerAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -108,6 +117,9 @@ public class ServletManager extends HttpServlet {
 //    }
     public void DeleteManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         // cho ni get ID
+        HttpSession session = request.getSession();
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
         String id = request.getParameter("id"); // id cua mana
         System.out.println(id);
 
@@ -118,7 +130,9 @@ public class ServletManager extends HttpServlet {
         }
 
         ShowManagerOverview(request, response);
-
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
 
     }
 
@@ -131,101 +145,116 @@ public class ServletManager extends HttpServlet {
         Admin admin= (Admin) session.getAttribute("acc");
         String email = request.getParameter("email");
         System.out.println(email);
-        Manager account = adminService.getManagerByEmail(email);
-        if (account == null) {
-            String name = request.getParameter("name");
-            String phone = request.getParameter("phone");
-            String address = request.getParameter("addressLine");
-            String role = request.getParameter("roleSelect");
+        if(admin != null){
+            Manager account = adminService.getManagerByEmail(email);
+            if (account == null) {
+                String name = request.getParameter("name");
+                String phone = request.getParameter("phone");
+                String address = request.getParameter("addressLine");
+                String role = request.getParameter("roleSelect");
 
-            if (adminService.AddMana(new Manager(admin.getId(),name, email, phone, address, role))) {
-                request.setAttribute("message", "Add success");
-                // Get the session object
-                Properties props = new Properties();
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.socketFactory.port", "465");
-                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.port", "465");
-                Session session1 = Session.getDefaultInstance(props, new Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("hdat1502@gmail.com", "ootkbvbsapgibuas");
-                        // Put your email
+                if (adminService.AddMana(new Manager(admin.getId(),name, email, phone, address, role))) {
+                    request.setAttribute("message", "Add success");
+                    // Get the session object
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+                    Session session1 = Session.getDefaultInstance(props, new Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("hdat1502@gmail.com", "ootkbvbsapgibuas");
+                            // Put your email
 
-                        // id and
-                        // password here
+                            // id and
+                            // password here
+                        }
+                    });
+                    // compose message
+                    try {
+                        MimeMessage message = new MimeMessage(session1);
+                        message.setFrom(new InternetAddress("hdat1502@gmail.com"));// change accordingly
+                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+                        message.setSubject("Welcome");
+                        message.setText("Welcome to our web \nYour username is: "+email+"\nYour password is: 12345678 " );
+                        // send message
+                        Transport.send(message);
+                    } catch (MessagingException e) {
+                        throw new RuntimeException(e);
                     }
-                });
-                // compose message
-                try {
-                    MimeMessage message = new MimeMessage(session1);
-                    message.setFrom(new InternetAddress("hdat1502@gmail.com"));// change accordingly
-                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-                    message.setSubject("Welcome");
-                    message.setText("Welcome to our web \nYour username is: "+email+"\nYour password is: 12345678 " );
-                    // send message
-                    Transport.send(message);
-                } catch (MessagingException e) {
-                    throw new RuntimeException(e);
+                    ShowManagerOverview(request, response);
+                } else {
+                    ShowManagerAdd(request, response);
                 }
-                ShowManagerOverview(request, response);
             } else {
                 ShowManagerAdd(request, response);
             }
         } else {
-            ShowManagerAdd(request, response);
+            response.sendRedirect("loginCustomer");
         }
 
     }
 
     public void EditInfoManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 //        String email = request.getParameter("email");
-        String emailNew = request.getParameter("editEmailModal");
-        System.out.println(emailNew);
-        Manager account = adminService.getManagerByEmail(emailNew);
-        if (account != null) {
-            String name = request.getParameter("editNameModal");
-            String address = request.getParameter("editAddressLineModal");
-            String phone = request.getParameter("phone");
-            String role = request.getParameter("roleSelect");
-            Manager manager = new Manager(name, emailNew, phone, address, role);
-            //adminService.updateInfoMana(manager);
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("acc");
+        if (admin != null) {
+            String emailNew = request.getParameter("editEmailModal");
+            System.out.println(emailNew);
+            Manager account = adminService.getManagerByEmail(emailNew);
+            if (account != null) {
+                String name = request.getParameter("editNameModal");
+                String address = request.getParameter("editAddressLineModal");
+                String phone = request.getParameter("phone");
+                String role = request.getParameter("roleSelect");
+                Manager manager = new Manager(name, emailNew, phone, address, role);
+                //adminService.updateInfoMana(manager);
 
-            if (adminService.updateInfoMana(manager)) {
-                request.setAttribute("message", "Edit success");
-            } else {
-                request.setAttribute("message", "Edit Failed");
+                if (adminService.updateInfoMana(manager)) {
+                    request.setAttribute("message", "Edit success");
+                } else {
+                    request.setAttribute("message", "Edit Failed");
+                }
+                ShowManagerOverview(request, response);
             }
-            ShowManagerOverview(request, response);
+        } else {
+            response.sendRedirect("loginCustomer");
         }
 
     }
 
     public void EditPassManager(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        String emailNew = request.getParameter("email");
-        System.out.println(emailNew);
-        Manager account = adminService.getManagerByEmail(emailNew);
-        System.out.println(account);
-        if (account != null) {
-            String crpass = request.getParameter("currentPassword");
-            String newPassword = request.getParameter("editUserModalNewPassword");
-            if (crpass.equals(account.getPass())) {
-                Manager manager = new Manager((newPassword), emailNew);
-                System.out.println("lenin");
-                if (adminService.updatePassMana(manager)) {
-                    request.setAttribute("message", "Edit Success");
+        HttpSession session = request.getSession();
+        Admin admin = (Admin) session.getAttribute("acc");
+        if (admin != null) {
+            String emailNew = request.getParameter("email");
+            System.out.println(emailNew);
+            Manager account = adminService.getManagerByEmail(emailNew);
+            System.out.println(account);
+            if (account != null) {
+                String crpass = request.getParameter("currentPassword");
+                String newPassword = request.getParameter("editUserModalNewPassword");
+                if (crpass.equals(account.getPass())) {
+                    Manager manager = new Manager((newPassword), emailNew);
+                    System.out.println("lenin");
+                    if (adminService.updatePassMana(manager)) {
+                        request.setAttribute("message", "Edit Success");
+                    } else {
+                        request.setAttribute("message", "Edit Failed");
+                    }
+                    request.setAttribute("show", "show");
+                    ShowManagerOverview(request, response);
                 } else {
-                    request.setAttribute("message", "Edit Failed");
+                    request.setAttribute("message", "Your current password is wrong");
+                    ShowManagerOverview(request, response);
+
                 }
-                request.setAttribute("show", "show");
-                ShowManagerOverview(request, response);
-            } else {
-                request.setAttribute("message", "Your current password is wrong");
-                ShowManagerOverview(request, response);
 
             }
-
+        } else {
+            response.sendRedirect("loginCustomer");
         }
-
     }
 }

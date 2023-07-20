@@ -60,7 +60,12 @@
             <c:choose>
                 <c:when test='${requestScope["list"] != null}'>
                     <c:forEach items="${list}" var="p">
-
+                        <c:set var="status" value=""></c:set>
+                        <c:set var="Disabled" value=""></c:set>
+                        <c:if test="${p.getAmount_remaining() == 0}">
+                            <c:set var="status" value="SOLD OUT"></c:set>
+                            <c:set var="Disabled" value="disabled"></c:set>
+                        </c:if>
                         <div class="box">
                             <input type="hidden" name="pid" value="${p.getProduct_id()}">
 
@@ -74,7 +79,7 @@
 
 
                             <div class="name">${p.getProduct_name()}</div>
-
+                                <span style="color: red; font-weight: 600;">${status}</span>
                                 <div class="flex">
                                     <div class="price">${p.getPrice()}</div>
                                     <div class="product-rating">
@@ -89,7 +94,7 @@
 
                             <form action="./cart?action=AddToCart&&pid=${p.getProduct_id()}"
                                   method="post">
-                                <input type="submit" value="Add to cart"
+                                <input type="submit" value="Add to cart" ${Disabled}
                                        class="delete-btn" name="submit_btn">
                             </form>
 

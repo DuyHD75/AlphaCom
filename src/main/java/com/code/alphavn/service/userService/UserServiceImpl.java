@@ -133,7 +133,7 @@ public class UserServiceImpl implements IUserService {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 productDiscounts.add(new ProductDiscount(
-                        rs.getInt("id"),
+                        rs.getInt("discount_id"),
                         rs.getInt("product_id"),
                         rs.getString("discount_name"),
                         rs.getDouble("discount_amount"),
@@ -662,7 +662,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         //get data
-        PreparedStatement pstm = con.prepareStatement("SELECT wl.product_id, pr.product_name, pd.price, pd.img1  FROM wishlist wl \n" +
+        PreparedStatement pstm = con.prepareStatement("SELECT wl.product_id, pr.product_name, pd.price, pd.img1, pr.amount_remaining FROM wishlist wl \n" +
                 "INNER JOIN products pr ON wl.product_id = pr.pid \n" +
                 "INNER JOIN productDetails pd ON pd.product_id = pr.pid WHERE wl.customer_id =?");
         //for calculate rating
@@ -681,7 +681,8 @@ public class UserServiceImpl implements IUserService {
                     rs.getString("product_name"),
                     rs.getDouble("price"),
                     rs.getString("img1"),
-                    rating
+                    rating,
+                    rs.getInt("amount_remaining")
             ));
         }
 
@@ -778,8 +779,8 @@ public class UserServiceImpl implements IUserService {
 
     public static void main(String[] args) throws SQLException {
         UserServiceImpl userService = new UserServiceImpl();
-        System.out.println(userService.getBase64Encoded("alex9898"));
-
+        System.out.println(userService.getBase64Encoded("nghia1905"));
+        System.out.println(userService.getWishList("nghiadchde160153@fpt.edu.vn"));
     }
 
 

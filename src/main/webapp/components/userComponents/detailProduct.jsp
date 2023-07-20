@@ -180,19 +180,21 @@
 <%--                                    Available: ${pdDetail.getProduct().getAmount_remaining()}--%>
 <%--                                </span>--%>
                                 <div class="input-number">
-                                    <input name="amount" type="number" value="1" min="1"/>
+                                    <input id="amountAvailable" name="amount" type="number" value="1" min="1" max="${pdDetail.getProduct().getAmount_remaining()}"/>
                                     <span class="qty-up">+</span>
                                     <span class="qty-down">-</span>
                                 </div>
                             </div>
 
                             <div style="display: flex; justify-content: space-around">
-                                <button type="submit" class="add-to-cart-btn" onclick="addToCart()"><i class="fa fa-shopping-cart"></i>
-                                    add to cart
-                                </button>
+                                <c:set var="disabled" value=""/>
                                 <c:if test="${pdDetail.getProduct().getAmount_remaining() == 0}">
                                     <c:set var="disabled" value="disabled"/>
                                 </c:if>
+                                <button type="submit" class="add-to-cart-btn" ${disabled} onclick="addToCart()"><i class="fa fa-shopping-cart"></i>
+                                    add to cart
+                                </button>
+
                                 <button type="submit" class="add-to-cart-btn" ${disabled} onclick="buyNow()"><i class="fa fa-shopping-cart"></i>
                                     buy now
                                 </button>
@@ -608,7 +610,6 @@
         // 	console.log(data);
         // }
     });
-
 
     function addToCart() {
         document.getElementById('productForm').action = './cart?action=AddToCart&&pid=${pdDetail.getProduct().getId()}&&pidDetail=${pdDetail.getProduct().getId()}';

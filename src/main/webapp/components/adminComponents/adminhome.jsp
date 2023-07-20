@@ -626,7 +626,16 @@
                                 </a>
                             </td>
                             <td>
-                                <span class="legend-indicator bg-success"></span>Successful
+                                <c:set var="Active" value="Active"/>
+                                <c:set var="Block" value="Block"/>
+                                <c:set var="bg" value=""/>
+                                <c:if test="${customer.getStatus() == Active}">
+                                    <c:set var="bg" value="bg-success"/>
+                                </c:if>
+                                <c:if test="${customer.getStatus() == Block}">
+                                    <c:set var="bg" value="bg-danger"/>
+                                </c:if>
+                                <span class="legend-indicator ${bg}"></span>${customer.getStatus()}
                             </td>
                             <td>${customer.getEmail()}</td>
                             <td>${customer.getCreate_At()}</td>
@@ -1133,7 +1142,7 @@
                                 {
                                   "label": "Label 1",
                                   "data": [
-                                    {"x": 55, "y": 65, "r": 99}
+                                    {"x": 35, "y": 65, "r": ${pending}}
                                   ],
                                   "color": "#fff",
                                   "backgroundColor": "rgba(55,125,255,.9)",
@@ -1142,7 +1151,7 @@
                                 {
                                   "label": "Label 2",
                                   "data": [
-                                    {"x": 33, "y": 42, "r": 65}
+                                    {"x": 65, "y": 65, "r": ${shipping}}
                                   ],
                                   "color": "#fff",
                                   "backgroundColor": "rgba(100, 0, 214, 0.8)",
@@ -1151,10 +1160,19 @@
                                 {
                                   "label": "Label 3",
                                   "data": [
-                                    {"x": 46, "y": 26, "r": 38}
+                                    {"x": 35, "y": 35, "r": ${completed}}
                                   ],
                                   "color": "#fff",
                                   "backgroundColor": "#00c9db",
+                                  "borderColor": "transparent"
+                                },
+                                {
+                                  "label": "Label 4",
+                                  "data": [
+                                    {"x": 65, "y": 35, "r": ${cancel}}
+                                  ],
+                                  "color": "#fff",
+                                  "backgroundColor": "red",
                                   "borderColor": "transparent"
                                 }
                               ]
@@ -1191,15 +1209,19 @@
                         <!-- Legend Indicators -->
                         <div class="row justify-content-center">
                             <div class="col-auto">
-                                <span class="legend-indicator bg-primary"></span> New
+                                <span class="legend-indicator bg-primary"></span> Pending
                             </div>
 
                             <div class="col-auto">
-                                <span class="legend-indicator" style="background-color: #7000f2;"></span> Pending
+                                <span class="legend-indicator" style="background-color: #7000f2;"></span> Shipping
                             </div>
 
                             <div class="col-auto">
-                                <span class="legend-indicator bg-info"></span> Failed
+                                <span class="legend-indicator bg-info"></span> Fulfilled
+                            </div>
+
+                            <div class="col-auto">
+                                <span class="legend-indicator" style="background-color: red;"></span> Cancel
                             </div>
                         </div>
                         <!-- End Legend Indicators -->

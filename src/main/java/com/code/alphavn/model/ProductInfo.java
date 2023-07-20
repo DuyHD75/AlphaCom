@@ -84,6 +84,7 @@ public class ProductInfo {
                 ", img1='" + img1 + '\'' +
                 ", img2='" + img2 + '\'' +
                 ", img3='" + img3 + '\'' +
+                ", vendor=" + vendor +
                 '}';
     }
 }

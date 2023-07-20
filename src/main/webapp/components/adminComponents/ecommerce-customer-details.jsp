@@ -595,34 +595,34 @@
                        }'>
               <thead class="thead-light">
               <tr>
-                <th scope="col" class="table-column-pr-0">
+                <th scope="col" class="table-column-pr-0" style="display: none; width: 0">
                   <div class="custom-control custom-checkbox">
                     <input id="datatableCheckAll" type="checkbox" class="custom-control-input">
                     <label class="custom-control-label" for="datatableCheckAll"></label>
                   </div>
                 </th>
-                <th class="table-column-pl-0">Order</th>
-                <th>Date</th>
-                <th>Payment status</th>
-                <th>Total</th>
-<%--                <th>Invoice</th>--%>
+                <th class="table-column-pl-0" style="width: 20%; text-align: center">Order</th>
+                <th style="width: 25%; text-align: center">Date</th>
+                <th style="width: 25%; text-align: center">Payment status</th>
+                <th style="width: 25%; text-align: center">Total</th>
+                <th style="display: none; width: 0">Invoice</th>
               </tr>
               </thead>
 
               <tbody>
               <c:forEach items="${orders}" var="ord">
                 <tr>
-                  <td class="table-column-pr-0">
+                  <td class="table-column-pr-0" style="display: none; width: 0">
                     <div class="custom-control custom-checkbox">
                       <input type="checkbox" class="custom-control-input" id="ordersCheck${ord.id}">
                       <label class="custom-control-label" for="ordersCheck${ord.id}"></label>
                     </div>
                   </td>
-                  <td class="table-column-pl-0">
+                  <td class="table-column-pl-0" style="width: 20%; text-align: center">
                     <a href="adminOrder?action=viewOrderDetail&&Oid=${ord.id}&&Cid=${ord.getCustomer().getId()}">AE${ord.id}</a>
                   </td>
-                  <td>${ord.getOrderDate()}</td>
-                  <td>
+                  <td style="width: 25%; text-align: center">${ord.getOrderDate()}</td>
+                  <td style="width: 25%; text-align: center">
                     <c:set var="PAYPAL" value="PAYPAL"/>
                     <c:set var="VNPAY" value="VNPAY"/>
                     <c:if test="${ord.getPaymentMethod() == PAYPAL || ord.getPaymentMethod() == VNPAY}">
@@ -679,12 +679,12 @@
                     <c:set  var="totalPrice"
                             value="${totalPrice + (orderDetail.getPrice() * orderDetail.getQuantityOrdered()) }"/>
                   </c:forEach>
-                  <td>$${totalPrice}</td>
-<%--                  <td>--%>
-<%--                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">--%>
-<%--                      <i class="tio-receipt-outlined mr-1"></i> Invoice--%>
-<%--                    </a>--%>
-<%--                  </td>--%>
+                  <td style="width: 25%; text-align: center">$${totalPrice}</td>
+                  <td style="display: none; width: 0">
+                    <a class="btn btn-sm btn-white" href="javascript:;" data-toggle="modal" data-target="#invoiceReceiptModal">
+                      <i class="tio-receipt-outlined mr-1"></i> Invoice
+                    </a>
+                  </td>
                 </tr>
               </c:forEach>
               </tbody>
