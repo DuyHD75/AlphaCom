@@ -37,6 +37,10 @@
             -webkit-appearance: none;
             margin: 0;
         }
+         #googleMap {
+             width: 100%;
+             height: 400px;
+         }
     </style>
 
 </head>
@@ -55,7 +59,7 @@
 
                     <div class="flex">
                         <div class="inputBox">
-                            <label>Full name</label>
+<%--                            <label>Full name</label>--%>
                             <input id="name" type="text" name="name" placeholder="Enter your name"
                                    value="${infomation.name}"
                                    class="box">
@@ -64,7 +68,7 @@
 
 
                         <div class="inputBox">
-                            <label>Phone Number</label>
+<%--                            <label>Phone Number</label>--%>
                             <input id="phone" type="number" name="number" placeholder="enter your number"
                                    value="${infomation.phone}"
                                    class="box" min="0" max="9999999999" onkeypress="if (this.value.length == 10)
@@ -73,7 +77,7 @@
                         </div>
 
                         <div class="inputBox">
-                            <label>Email</label>
+<%--                            <label>Email</label>--%>
                             <input type="email" name="email" placeholder="enter your email"
                                    value="${infomation.email}"
                                    class="box" maxlength="50" required readonly style="text-transform: none">
@@ -81,15 +85,38 @@
                         </div>
 
                         <div class="inputBox">
-                            <label>address</label>
-                            <input id="flat" type="text" name="flat" placeholder="Enter Your Address"
+                            <%--                            <label>address </label>--%>
+                            <input  type="text" placeholder="Enter Your Address"
                                    value="${infomation.address}"
                                    class="box" maxlength="50" required>
                             <span class="form__msg"></span>
                         </div>
 
                         <div class="inputBox">
-                            <label>payment method</label>
+<%--                            <label>address </label>--%>
+                            <input onchange="calcRoute()" id="flat" type="text" name="flat" placeholder="Enter Your Address"
+                                   class="box" maxlength="50" required>
+                            <span class="form__msg"></span>
+                        </div>
+                        <div class="inputBox">
+<%--                            <label>address</label>--%>
+                            <input type="hidden" id="from" value="Đại học FPT Đà Nẵng, Khu đô thị FPT City, Hòa Hải, Ngũ Hành Sơn, Đà Nẵng, Việt Nam" class="form-control" name="address" >
+                            <span class="form__msg"></span>
+                        </div>
+
+                        <div class="container">
+                            <div id="output"></div>
+
+                            <div class="container-fluid row">
+                                <div class="col-sm-12" id="googleMap">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="inputBox">
+<%--                            <label>payment method</label>--%>
                             <select name="method" id="payment-method" class="box" required onChange="toggleCreditCard()">
                                 <option value="Cash On Delivery">Cash On Delivery</option>
                                 <option value="PAYPAL">PAYPAL | Credit Card | Debit Card</option>
@@ -284,6 +311,9 @@
 <jsp:include page="../../components/commons/newsletter.jsp"></jsp:include>
 <jsp:include page="../../components/commons/footer.jsp"></jsp:include>
 
+
+
+
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
 <script src="js/jquery.min.js"></script>
@@ -339,6 +369,13 @@
     });
 </script>
 
+//FOR API GG MAP
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMo1YG3amcpf-EbK3c70f_YX3T6VJG7Bs&libraries=places"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/GGMapApi.js">
+</script>
 
+///
 </body>
 </html>
