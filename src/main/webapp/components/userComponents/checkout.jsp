@@ -37,6 +37,10 @@
             -webkit-appearance: none;
             margin: 0;
         }
+         #googleMap {
+             width: 100%;
+             height: 400px;
+         }
     </style>
 
 </head>
@@ -87,6 +91,29 @@
                                    class="box" maxlength="50" required>
                             <span class="form__msg"></span>
                         </div>
+
+                        <div class="inputBox">
+                            <label>address </label>
+                            <input onchange="calcRoute()" id="flat" type="text" name="flat" placeholder="Enter Your Address"
+                                   class="box" maxlength="50" required>
+                            <span class="form__msg"></span>
+                        </div>
+                        <div class="inputBox">
+                            <label>address</label>
+                            <input type="hidden" id="from" value="Đại học FPT Đà Nẵng, Khu đô thị FPT City, Hòa Hải, Ngũ Hành Sơn, Đà Nẵng, Việt Nam" class="form-control" name="address" >
+                            <span class="form__msg"></span>
+                        </div>
+
+                        <div class="container">
+                            <div id="output"></div>
+
+                            <div class="container-fluid row">
+                                <div class="col-sm-12" id="googleMap">
+
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="inputBox">
                             <label style="position: absolute; left: 25px; top: 491px; background-color: white;">payment method</label>
@@ -284,6 +311,9 @@
 <jsp:include page="../../components/commons/newsletter.jsp"></jsp:include>
 <jsp:include page="../../components/commons/footer.jsp"></jsp:include>
 
+
+
+
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 
 <script src="js/jquery.min.js"></script>
@@ -339,6 +369,13 @@
     });
 </script>
 
+//FOR API GG MAP
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMo1YG3amcpf-EbK3c70f_YX3T6VJG7Bs&libraries=places"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/GGMapApi.js">
+</script>
 
+///
 </body>
 </html>
