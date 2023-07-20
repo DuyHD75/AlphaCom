@@ -1330,8 +1330,6 @@
     <!-- Footer -->
 
 
-
-
     <!-- End Footer -->
 </main>
 
@@ -2249,9 +2247,6 @@
         </form>
     </div>
 </div>
-
-
-
 
 
 <!-- End Create a new user Modal -->

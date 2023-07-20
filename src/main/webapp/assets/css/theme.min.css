@@ -28108,6 +28108,11 @@ a:hover .text-hover-primary {
     display: none;
 }
 
+
+.datatable{
+    margin-right: 0;
+}
+
 .datatable-custom .sorting,
 .datatable-custom .sorting_asc,
 .datatable-custom .sorting_desc {

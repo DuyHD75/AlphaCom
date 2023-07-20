@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -38,10 +38,11 @@
             -webkit-appearance: none;
             margin: 0;
         }
-         #googleMap {
-             width: 100%;
-             height: 400px;
-         }
+
+        #googleMap {
+            width: 100%;
+            height: 400px;
+        }
     </style>
 
 </head>
@@ -60,7 +61,8 @@
 
                     <div class="flex">
                         <div class="inputBox">
-                            <label style="position: absolute; left: 25px; top: 87px; background-color: white;">Full name</label>
+                            <label style="position: absolute; left: 25px; top: 87px; background-color: white;">Full
+                                name</label>
                             <input id="name" type="text" name="name" placeholder="Enter your name"
                                    value="${infomation.name}"
                                    class="box">
@@ -69,7 +71,8 @@
 
 
                         <div class="inputBox">
-                            <label style="position: absolute; left: 25px; top: 188px; background-color: white;">Phone Number</label>
+                            <label style="position: absolute; left: 25px; top: 188px; background-color: white;">Phone
+                                Number</label>
                             <input id="phone" type="number" name="number" placeholder="enter your number"
                                    value="${infomation.phone}"
                                    class="box" min="0" max="9999999999" onkeypress="if (this.value.length == 10)
@@ -86,46 +89,41 @@
                         </div>
 
                         <div class="inputBox">
-                            <label style="position: absolute; left: 25px; top: 390px; background-color: white;">address</label>
-                            <input id="flat" type="text" name="flat" placeholder="Enter Your Address"
+                            <label style="position: absolute; left: 25px; top: 390px; background-color: white;">address </label>
+                            <input type="text" placeholder="Enter Your Address"
                                    value="${infomation.address}"
+                                   class="box" maxlength="50" required readonly>
+                            <span class="form__msg"></span>
+                        </div>
+
+                        <div class="inputBox">
+                            <label style="position: absolute; left: 25px; top: 491px; background-color: white;">
+                                shipping address</label>
+                            <input onchange="calcRoute()" id="flat" type="text" name="flat"
+                                   placeholder="Enter Your Address"
                                    class="box" maxlength="50" required>
                             <span class="form__msg"></span>
                         </div>
-
                         <div class="inputBox">
-                            <label>address </label>
-                            <input onchange="calcRoute()" id="flat" type="text" name="flat" placeholder="Enter Your Address"
-                                   class="box" maxlength="50" required>
-                            <span class="form__msg"></span>
-                        </div>
-                        <div class="inputBox">
-                            <label>address</label>
-                            <input type="hidden" id="from" value="Đại học FPT Đà Nẵng, Khu đô thị FPT City, Hòa Hải, Ngũ Hành Sơn, Đà Nẵng, Việt Nam" class="form-control" name="address" >
+                            <%--                            <label>address</label>--%>
+                            <input type="hidden" id="from"
+                                   value="Đại học FPT Đà Nẵng, Khu đô thị FPT City, Hòa Hải, Ngũ Hành Sơn, Đà Nẵng, Việt Nam"
+                                   class="form-control" name="address">
                             <span class="form__msg"></span>
                         </div>
 
-                        <div class="container">
-                            <div id="output"></div>
-
-                            <div class="container-fluid row">
-                                <div class="col-sm-12" id="googleMap">
-
-                                </div>
-                            </div>
-                        </div>
-
 
                         <div class="inputBox">
-                            <label style="position: absolute; left: 25px; top: 491px; background-color: white;">payment method</label>
-                            <select name="method" id="payment-method" class="box" required onChange="toggleCreditCard()">
+                            <label style="position: absolute; left: 25px; top: 592px; background-color: white;">payment
+                                method</label>
+                            <select name="method" id="payment-method" class="box" required
+                                    onChange="toggleCreditCard()">
                                 <option value="Cash On Delivery">Cash On Delivery</option>
                                 <option value="PAYPAL">PAYPAL | Credit Card | Debit Card</option>
                                 <option value="VNPAY">VNPAY</option>
                             </select>
                             <span class="form__msg"></span>
                         </div>
-
 
 
                         <%--            thêm mới --%>
@@ -197,33 +195,35 @@
 
             </div>
 
+
             <div class="col-md-6 col-sm-12 form-order">
                 <div class="orders-container">
                     <div class="section-title text-center">
                         <h3 class="heading" style="font-size: 2.5rem;">Your Order</h3>
                     </div>
+
                     <div class="display-orders">
 
                         <c:if test="${pname != null}">
-                            <c:set var="totalPro" value="0" />
-                            <c:set var="grandTotal" value="0" />
+                            <c:set var="totalPro" value="0"/>
+                            <c:set var="grandTotal" value="0"/>
                             <div class="order-summary">
                                 <div class="order-col">
                                     <div><strong>PRODUCT</strong></div>
                                     <div><strong>TOTAL</strong></div>
                                 </div>
-                                <div class="order-list" style="" >
+                                <div class="order-list" style="">
                                     <div class="order-products">
                                         <input type="hidden" name="total_products" value="${totalPro + amount}">
                                         <input type="hidden" name="total_price" value="${price * amount}">
 
                                         <div class="order-col">
-                                            <div> <img src="imgs/productImg/${pimg}" width="40px" height="40px">
+                                            <div><img src="imgs/productImg/${pimg}" width="40px" height="40px">
                                                     ${amount} x ${pname}
                                             </div>
                                             <div style="color: var(--main-color); font-weight: 700;">${price}</div>
                                         </div>
-                                        <c:set var="grandTotal" value="${grandTotal + price * amount}" />
+                                        <c:set var="grandTotal" value="${grandTotal + price * amount}"/>
 
                                     </div>
                                 </div>
@@ -241,8 +241,8 @@
                         <c:if test="${pname == null}">
                             <c:choose>
                                 <c:when test='${requestScope["listCart"] != null}'>
-                                    <c:set var="totalPro" value="0" />
-                                    <c:set var="grandTotal" value="0" />
+                                    <c:set var="totalPro" value="0"/>
+                                    <c:set var="grandTotal" value="0"/>
 
 
                                     <div class="order-summary">
@@ -250,20 +250,26 @@
                                             <div><strong>PRODUCT</strong></div>
                                             <div><strong>TOTAL</strong></div>
                                         </div>
-                                        <div class="order-list" style="" >
+                                        <div class="order-list" style="">
                                             <c:forEach items="${listCart}" var="cart">
                                                 <div class="order-products">
-                                                    <input type="hidden" name="total_products" value="${totalPro + cart.amount}">
-                                                    <input type="hidden" name="total_price" value="${cart.getFinalPrice() * cart.amount}">
+                                                    <input type="hidden" name="total_products"
+                                                           value="${totalPro + cart.amount}">
+                                                    <input type="hidden" name="total_price"
+                                                           value="${cart.getFinalPrice() * cart.amount}">
 
                                                     <div class="order-col">
-                                                        <div> <img src="imgs/productImg/${cart.getProductInfo().getImg1()}" width="40px" height="40px">
-                                                                ${cart.amount} x ${cart.getProductInfo().getProduct().getName()}
+                                                        <div><img
+                                                                src="imgs/productImg/${cart.getProductInfo().getImg1()}"
+                                                                width="40px" height="40px">
+                                                                ${cart.amount}
+                                                            x ${cart.getProductInfo().getProduct().getName()}
 
                                                         </div>
                                                         <div style="color: var(--main-color); font-weight: 700;">${cart.getFinalPrice()}</div>
                                                     </div>
-                                                    <c:set var="grandTotal" value="${grandTotal + cart.getFinalPrice() * cart.amount}" />
+                                                    <c:set var="grandTotal"
+                                                           value="${grandTotal + cart.getFinalPrice() * cart.amount}"/>
 
                                                 </div>
                                             </c:forEach>
@@ -302,8 +308,18 @@
 
 
             </div>
+
+
         </div>
-    </div>
+        <div class="container order_map" style="order: 3">
+            <div id="output"></div>
+
+            <div class="container-fluid row">
+                <div class="col-sm-12" id="googleMap">
+
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -311,8 +327,6 @@
 
 <jsp:include page="../../components/commons/newsletter.jsp"></jsp:include>
 <jsp:include page="../../components/commons/footer.jsp"></jsp:include>
-
-
 
 
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>

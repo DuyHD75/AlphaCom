@@ -145,7 +145,7 @@
                         </c:if>
                         <button class="btn" ${disabled}>BUY now</button>
                         <c:set var="disabled" value=""/>
-                        <button class="btn" ${disabled} >BUY now</button>
+
                     </form>
                 </div>
 

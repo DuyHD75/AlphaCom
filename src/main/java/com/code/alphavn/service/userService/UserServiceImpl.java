@@ -132,7 +132,7 @@ public class UserServiceImpl implements IUserService {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 productDiscounts.add(new ProductDiscount(
-                        rs.getInt("discount_id"),
+                        rs.getInt("id"),
                         rs.getInt("product_id"),
                         rs.getString("discount_name"),
                         rs.getDouble("discount_amount"),
