@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-
 <html lang="en">
 <head>
     <!-- Required Meta Tags Always Come First -->
@@ -14,7 +13,8 @@
     <title>Dashboard Admin &amp; Dashboard </title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="icon" href="imgs/logos/360_F_451269306_U5VVjfXzU2OZLyaLOKmkI73SCwBcjgvF.jpg">
+
 
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -24,15 +24,19 @@
     <link rel="stylesheet" href="assets\vendor\icon-set\style.css">
 
 
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
 
     <!-- CSS Front Template -->
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+
     <link rel="stylesheet" href="assets\css\theme.min.css?v=1.0">
 </head>
 
 <body class="   footer-offset">
 
 <script src="assets\vendor\hs-navbar-vertical-aside\hs-navbar-vertical-aside-mini-cache.js"></script>
-
+<script src="assets\js\demo.js"></script>
 <!-- ONLY DEV -->
 
 <%--  HEADER --%>
@@ -74,14 +78,10 @@
 <!-- ========== HEADER ========== -->
 
 
-
-
-
 <!-- ========== END HEADER ========== -->
 
 <!-- ========== MAIN CONTENT ========== -->
 <!-- Navbar Vertical -->
-
 
 
 <!-- End Navbar Vertical -->
@@ -371,10 +371,12 @@
                         <!-- Nav -->
                         <ul class="nav nav-segment" id="expensesTab" role="tablist">
 
-                            <li class="nav-item" data-toggle="chart-bar" data-datasets="lastWeek" data-trigger="click" data-action="toggle">
+                            <li class="nav-item" data-toggle="chart-bar" data-datasets="lastWeek" data-trigger="click"
+                                data-action="toggle">
                                 <a class="nav-link" href="javascript:;" data-toggle="tab">Last Month</a>
                             </li>
-                            <li class="nav-item" data-toggle="chart-bar" data-datasets="thisWeek" data-trigger="click" data-action="toggle">
+                            <li class="nav-item" data-toggle="chart-bar" data-datasets="thisWeek" data-trigger="click"
+                                data-action="toggle">
                                 <a class="nav-link active" href="javascript:;" data-toggle="tab">This Month</a>
                             </li>
                         </ul>
@@ -516,7 +518,8 @@
                                     <span class="text-secondary mr-2">Status:</span>
 
                                     <!-- Select -->
-                                    <select class="js-select2-custom js-datatable-filter custom-select-sm" size="1" style="opacity: 0;" data-target-column-index="2" data-hs-select2-options='{
+                                    <select class="js-select2-custom js-datatable-filter custom-select-sm" size="1"
+                                            style="opacity: 0;" data-target-column-index="2" data-hs-select2-options='{
                                 "minimumResultsForSearch": "Infinity",
                                 "customClass": "custom-select custom-select-sm custom-select-borderless",
                                 "dropdownAutoWidth": true,
@@ -536,7 +539,8 @@
                                     <span class="text-secondary mr-2">Signed up:</span>
 
                                     <!-- Select -->
-                                    <select class="js-select2-custom js-datatable-filter custom-select-sm" size="1" style="opacity: 0;" data-target-column-index="5" data-hs-select2-options='{
+                                    <select class="js-select2-custom js-datatable-filter custom-select-sm" size="1"
+                                            style="opacity: 0;" data-target-column-index="5" data-hs-select2-options='{
                                 "minimumResultsForSearch": "Infinity",
                                 "customClass": "custom-select custom-select-sm custom-select-borderless",
                                 "dropdownAutoWidth": true,
@@ -559,7 +563,8 @@
                                                 <i class="tio-search"></i>
                                             </div>
                                         </div>
-                                        <input id="datatableSearch" type="search" class="form-control" placeholder="Search users" aria-label="Search users">
+                                        <input id="datatableSearch" type="search" class="form-control"
+                                               placeholder="Search users" aria-label="Search users">
                                     </div>
                                     <!-- End Search -->
                                 </form>
@@ -573,7 +578,9 @@
 
             <!-- Table -->
             <div class="table-responsive datatable-custom">
-                <table id="datatable" class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table" data-hs-datatables-options='{
+                <table id="datatable"
+                       class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
+                       data-hs-datatables-options='{
                      "columnDefs": [{
                         "targets": [0, 1, 4],
                         "orderable": false
@@ -616,12 +623,16 @@
                                 </div>
                             </td>
                             <td class="table-column-pl-0">
-                                <a class="media align-items-center" href="adminCustomer?action=viewCustomerDetail&&Cid=${customer.getId()}">
+                                <a class="media align-items-center"
+                                   href="adminCustomer?action=viewCustomerDetail&&Cid=${customer.getId()}">
                                     <div class="avatar avatar-sm avatar-circle mr-2">
-                                        <img class="avatar-img" src="assets\img\160x160\img1.jpg" alt="Image Description">
+                                        <img class="avatar-img" src="assets\img\160x160\img1.jpg"
+                                             alt="Image Description">
                                     </div>
                                     <div class="media-body">
-                                        <span class="h5 text-hover-primary mb-0">${customer.getName()}<i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>
+                                        <span class="h5 text-hover-primary mb-0">${customer.getName()}<i
+                                                class="tio-verified text-primary" data-toggle="tooltip"
+                                                data-placement="top" title="Top endorsed"></i></span>
                                     </div>
                                 </a>
                             </td>
@@ -634,474 +645,436 @@
                         </tr>
                     </c:forEach>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck2">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck2"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
-<%--                                    <img class="avatar-img" src="assets\img\160x160\img10.jpg" alt="Image Description">--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Amanda Harvey <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-success"></span>Successful--%>
-<%--                        </td>--%>
-<%--                        <td>amanda@example.com</td>--%>
-<%--                        <td>1 year ago</td>--%>
-<%--                        <td>67989</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck2">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck2"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
+                    <%--                                    <img class="avatar-img" src="assets\img\160x160\img10.jpg" alt="Image Description">--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Amanda Harvey <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-success"></span>Successful--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>amanda@example.com</td>--%>
+                    <%--                        <td>1 year ago</td>--%>
+                    <%--                        <td>67989</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck3">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck3"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-soft-primary avatar-circle mr-2">--%>
-<%--                                    <span class="avatar-initials">A</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Anne Richard</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-success"></span>Successful--%>
-<%--                        </td>--%>
-<%--                        <td>anne@example.com</td>--%>
-<%--                        <td>6 months ago</td>--%>
-<%--                        <td>67326</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck3">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck3"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-soft-primary avatar-circle mr-2">--%>
+                    <%--                                    <span class="avatar-initials">A</span>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Anne Richard</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-success"></span>Successful--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>anne@example.com</td>--%>
+                    <%--                        <td>6 months ago</td>--%>
+                    <%--                        <td>67326</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck4">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck4"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
-<%--                                    <img class="avatar-img" src="assets\img\160x160\img3.jpg" alt="Image Description">--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">David Harrison</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-danger"></span>Overdue--%>
-<%--                        </td>--%>
-<%--                        <td>david@example.com</td>--%>
-<%--                        <td>6 months ago</td>--%>
-<%--                        <td>55821</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck4">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck4"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
+                    <%--                                    <img class="avatar-img" src="assets\img\160x160\img3.jpg" alt="Image Description">--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">David Harrison</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-danger"></span>Overdue--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>david@example.com</td>--%>
+                    <%--                        <td>6 months ago</td>--%>
+                    <%--                        <td>55821</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck5">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck5"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
-<%--                                    <img class="avatar-img" src="assets\img\160x160\img5.jpg" alt="Image Description">--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Finch Hoot</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
-<%--                        </td>--%>
-<%--                        <td>finch@example.com</td>--%>
-<%--                        <td>1 year ago</td>--%>
-<%--                        <td>85214</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck5">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck5"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
+                    <%--                                    <img class="avatar-img" src="assets\img\160x160\img5.jpg" alt="Image Description">--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Finch Hoot</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>finch@example.com</td>--%>
+                    <%--                        <td>1 year ago</td>--%>
+                    <%--                        <td>85214</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck6">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck6"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-soft-dark avatar-circle mr-2">--%>
-<%--                                    <span class="avatar-initials">B</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Bob Dean</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-success"></span>Successful--%>
-<%--                        </td>--%>
-<%--                        <td>bob@example.com</td>--%>
-<%--                        <td>6 months ago</td>--%>
-<%--                        <td>75470</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck6">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck6"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-soft-dark avatar-circle mr-2">--%>
+                    <%--                                    <span class="avatar-initials">B</span>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Bob Dean</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-success"></span>Successful--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>bob@example.com</td>--%>
+                    <%--                        <td>6 months ago</td>--%>
+                    <%--                        <td>75470</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck7">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck7"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
-<%--                                    <img class="avatar-img" src="assets\img\160x160\img9.jpg" alt="Image Description">--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Ella Lauda <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
-<%--                        </td>--%>
-<%--                        <td>Ella@example.com</td>--%>
-<%--                        <td>1 year ago</td>--%>
-<%--                        <td>37534</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck7">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck7"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
+                    <%--                                    <img class="avatar-img" src="assets\img\160x160\img9.jpg" alt="Image Description">--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Ella Lauda <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>Ella@example.com</td>--%>
+                    <%--                        <td>1 year ago</td>--%>
+                    <%--                        <td>37534</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck8">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck8"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
-<%--                                    <img class="avatar-img" src="assets\img\160x160\img4.jpg" alt="Image Description">--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Sam Kart</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-success"></span>Successful--%>
-<%--                        </td>--%>
-<%--                        <td>sam@example.com</td>--%>
-<%--                        <td>1 year ago</td>--%>
-<%--                        <td>57300</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck8">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck8"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
+                    <%--                                    <img class="avatar-img" src="assets\img\160x160\img4.jpg" alt="Image Description">--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Sam Kart</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-success"></span>Successful--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>sam@example.com</td>--%>
+                    <%--                        <td>1 year ago</td>--%>
+                    <%--                        <td>57300</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck9">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck9"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
-<%--                                    <img class="avatar-img" src="assets\img\160x160\img6.jpg" alt="Image Description">--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Costa Quinn</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-danger"></span>Overdue--%>
-<%--                        </td>--%>
-<%--                        <td>costa@example.com</td>--%>
-<%--                        <td>1 year ago</td>--%>
-<%--                        <td>71288</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck9">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck9"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
+                    <%--                                    <img class="avatar-img" src="assets\img\160x160\img6.jpg" alt="Image Description">--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Costa Quinn</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-danger"></span>Overdue--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>costa@example.com</td>--%>
+                    <%--                        <td>1 year ago</td>--%>
+                    <%--                        <td>71288</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck10">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck10"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-soft-primary avatar-circle mr-2">--%>
-<%--                                    <span class="avatar-initials">R</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Rachel Doe</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
-<%--                        </td>--%>
-<%--                        <td>rachel@example.com</td>--%>
-<%--                        <td>6 months ago</td>--%>
-<%--                        <td>95211</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck10">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck10"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-soft-primary avatar-circle mr-2">--%>
+                    <%--                                    <span class="avatar-initials">R</span>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Rachel Doe</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>rachel@example.com</td>--%>
+                    <%--                        <td>6 months ago</td>--%>
+                    <%--                        <td>95211</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck11">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck11"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-soft-dark avatar-circle mr-2">--%>
-<%--                                    <span class="avatar-initials">B</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Brian Halligan</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
-<%--                        </td>--%>
-<%--                        <td>brian@example.com</td>--%>
-<%--                        <td>1 year ago</td>--%>
-<%--                        <td>58643</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck11">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck11"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-soft-dark avatar-circle mr-2">--%>
+                    <%--                                    <span class="avatar-initials">B</span>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Brian Halligan</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>brian@example.com</td>--%>
+                    <%--                        <td>1 year ago</td>--%>
+                    <%--                        <td>58643</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck12">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck12"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
-<%--                                    <img class="avatar-img" src="assets\img\160x160\img8.jpg" alt="Image Description">--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Linda Bates</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
-<%--                        </td>--%>
-<%--                        <td>linda@example.com</td>--%>
-<%--                        <td>1 year ago</td>--%>
-<%--                        <td>44414</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck12">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck12"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
+                    <%--                                    <img class="avatar-img" src="assets\img\160x160\img8.jpg" alt="Image Description">--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Linda Bates</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>linda@example.com</td>--%>
+                    <%--                        <td>1 year ago</td>--%>
+                    <%--                        <td>44414</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck13">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck13"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-soft-info avatar-circle mr-2">--%>
-<%--                                    <span class="avatar-initials">C</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Chris Mathew <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-success"></span>Successful--%>
-<%--                        </td>--%>
-<%--                        <td>chris@example.com</td>--%>
-<%--                        <td>1 year ago</td>--%>
-<%--                        <td>12569</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck13">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck13"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-soft-info avatar-circle mr-2">--%>
+                    <%--                                    <span class="avatar-initials">C</span>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Chris Mathew <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-success"></span>Successful--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>chris@example.com</td>--%>
+                    <%--                        <td>1 year ago</td>--%>
+                    <%--                        <td>12569</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck14">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck14"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-soft-dark avatar-circle mr-2">--%>
-<%--                                    <span class="avatar-initials">L</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Lewis Clarke</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-danger"></span>Overdue--%>
-<%--                        </td>--%>
-<%--                        <td>lewis@example.com</td>--%>
-<%--                        <td>1 year ago</td>--%>
-<%--                        <td>54621</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck14">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck14"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-soft-dark avatar-circle mr-2">--%>
+                    <%--                                    <span class="avatar-initials">L</span>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Lewis Clarke</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-danger"></span>Overdue--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>lewis@example.com</td>--%>
+                    <%--                        <td>1 year ago</td>--%>
+                    <%--                        <td>54621</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck15">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck15"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
-<%--                                    <img class="avatar-img" src="assets\img\160x160\img7.jpg" alt="Image Description">--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Clarice Boone <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-success"></span>Successful--%>
-<%--                        </td>--%>
-<%--                        <td>clarice@example.com</td>--%>
-<%--                        <td>6 months ago</td>--%>
-<%--                        <td>23485</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck15">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck15"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-circle mr-2">--%>
+                    <%--                                    <img class="avatar-img" src="assets\img\160x160\img7.jpg" alt="Image Description">--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Clarice Boone <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-success"></span>Successful--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>clarice@example.com</td>--%>
+                    <%--                        <td>6 months ago</td>--%>
+                    <%--                        <td>23485</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck16">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck16"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-soft-danger avatar-circle mr-2">--%>
-<%--                                    <span class="avatar-initials">M</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Mark Colbert</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-success"></span>Successful--%>
-<%--                        </td>--%>
-<%--                        <td>mark@example.com</td>--%>
-<%--                        <td>6 months ago</td>--%>
-<%--                        <td>78463</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck16">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck16"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-soft-danger avatar-circle mr-2">--%>
+                    <%--                                    <span class="avatar-initials">M</span>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Mark Colbert</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-success"></span>Successful--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>mark@example.com</td>--%>
+                    <%--                        <td>6 months ago</td>--%>
+                    <%--                        <td>78463</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck17">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck17"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-soft-info avatar-circle mr-2">--%>
-<%--                                    <span class="avatar-initials">J</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Johnny Appleseed</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
-<%--                        </td>--%>
-<%--                        <td>johnny@example.com</td>--%>
-<%--                        <td>1 year ago</td>--%>
-<%--                        <td>23564</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck17">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck17"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-soft-info avatar-circle mr-2">--%>
+                    <%--                                    <span class="avatar-initials">J</span>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Johnny Appleseed</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>johnny@example.com</td>--%>
+                    <%--                        <td>1 year ago</td>--%>
+                    <%--                        <td>23564</td>--%>
+                    <%--                    </tr>--%>
 
-<%--                    <tr>--%>
-<%--                        <td class="table-column-pr-0">--%>
-<%--                            <div class="custom-control custom-checkbox">--%>
-<%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck18">--%>
-<%--                                <label class="custom-control-label" for="usersDataCheck18"></label>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
-<%--                        <td class="table-column-pl-0">--%>
-<%--                            <a class="media align-items-center" href="user-profile.html">--%>
-<%--                                <div class="avatar avatar-sm avatar-soft-primary avatar-circle mr-2">--%>
-<%--                                    <span class="avatar-initials">P</span>--%>
-<%--                                </div>--%>
-<%--                                <div class="media-body">--%>
-<%--                                    <span class="h5 text-hover-primary mb-0">Phileas Fogg</span>--%>
-<%--                                </div>--%>
-<%--                            </a>--%>
-<%--                        </td>--%>
-<%--                        <td>--%>
-<%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
-<%--                        </td>--%>
-<%--                        <td>phileas@example.com</td>--%>
-<%--                        <td>6 months ago</td>--%>
-<%--                        <td>39199</td>--%>
-<%--                    </tr>--%>
+                    <%--                    <tr>--%>
+                    <%--                        <td class="table-column-pr-0">--%>
+                    <%--                            <div class="custom-control custom-checkbox">--%>
+                    <%--                                <input type="checkbox" class="custom-control-input" id="usersDataCheck18">--%>
+                    <%--                                <label class="custom-control-label" for="usersDataCheck18"></label>--%>
+                    <%--                            </div>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td class="table-column-pl-0">--%>
+                    <%--                            <a class="media align-items-center" href="user-profile.html">--%>
+                    <%--                                <div class="avatar avatar-sm avatar-soft-primary avatar-circle mr-2">--%>
+                    <%--                                    <span class="avatar-initials">P</span>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="media-body">--%>
+                    <%--                                    <span class="h5 text-hover-primary mb-0">Phileas Fogg</span>--%>
+                    <%--                                </div>--%>
+                    <%--                            </a>--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>--%>
+                    <%--                            <span class="legend-indicator bg-warning"></span>Pending--%>
+                    <%--                        </td>--%>
+                    <%--                        <td>phileas@example.com</td>--%>
+                    <%--                        <td>6 months ago</td>--%>
+                    <%--                        <td>39199</td>--%>
+                    <%--                    </tr>--%>
                     </tbody>
                 </table>
             </div>
             <!-- End Table -->
 
-            <!-- Footer -->
-            <div class="card-footer">
-                <!-- Pagination -->
-                <div class="row justify-content-center justify-content-sm-between align-items-sm-center">
-                    <div class="col-sm mb-2 mb-sm-0">
-                        <div class="d-flex justify-content-center justify-content-sm-start align-items-center">
-                            <span class="mr-2">Showing:</span>
 
-                            <!-- Select -->
-                            <select id="datatableEntries" class="js-select2-custom" data-hs-select2-options='{
-                            "minimumResultsForSearch": "Infinity",
-                            "customClass": "custom-select custom-select-sm custom-select-borderless",
-                            "dropdownAutoWidth": true,
-                            "width": true
-                          }'>
-                                <option value="4">4</option>
-                                <option value="6">6</option>
-                                <option value="8" selected="">8</option>
-                                <option value="12">12</option>
-                            </select>
-                            <!-- End Select -->
-
-                            <span class="text-secondary mr-2">of</span>
-
-                            <!-- Pagination Quantity -->
-                            <span id="datatableWithPaginationInfoTotalQty"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-auto">
-                        <div class="d-flex justify-content-center justify-content-sm-end">
-                            <!-- Pagination -->
-                            <nav id="datatablePagination" aria-label="Activity pagination"></nav>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Pagination -->
-            </div>
-            <!-- End Footer -->
         </div>
         <!-- End Card -->
 
@@ -1114,7 +1087,8 @@
                         <h5 class="card-header-title">Transactions</h5>
 
                         <!-- Daterangepicker -->
-                        <button id="js-daterangepicker-predefined" class="btn btn-sm btn-ghost-secondary dropdown-toggle">
+                        <button id="js-daterangepicker-predefined"
+                                class="btn btn-sm btn-ghost-secondary dropdown-toggle">
                             <i class="tio-date-range"></i>
                             <span class="js-daterangepicker-predefined-preview ml-1"></span>
                         </button>
@@ -1218,14 +1192,16 @@
 
                         <!-- Unfold -->
                         <div class="hs-unfold">
-                            <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-ghost-secondary rounded-circle" href="javascript:;" data-hs-unfold-options='{
+                            <a class="js-hs-unfold-invoker btn btn-icon btn-sm btn-ghost-secondary rounded-circle"
+                               href="javascript:;" data-hs-unfold-options='{
                        "target": "#reportsOverviewDropdown1",
                        "type": "css-animation"
                      }'>
                                 <i class="tio-more-vertical"></i>
                             </a>
 
-                            <div id="reportsOverviewDropdown1" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
+                            <div id="reportsOverviewDropdown1"
+                                 class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
                                 <span class="dropdown-header">Settings</span>
 
                                 <a class="dropdown-item" href="#">
@@ -1257,9 +1233,15 @@
 
                         <!-- Progress -->
                         <div class="progress rounded-pill mb-2">
-                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="Gross value"></div>
-                            <div class="progress-bar opacity" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="Net volume from sales"></div>
-                            <div class="progress-bar opacity-xs" role="progressbar" style="width: 9%" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="New volume from sales"></div>
+                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25"
+                                 aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"
+                                 title="Gross value"></div>
+                            <div class="progress-bar opacity" role="progressbar" style="width: 33%" aria-valuenow="33"
+                                 aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"
+                                 title="Net volume from sales"></div>
+                            <div class="progress-bar opacity-xs" role="progressbar" style="width: 9%" aria-valuenow="9"
+                                 aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"
+                                 title="New volume from sales"></div>
                         </div>
 
                         <div class="d-flex justify-content-between mb-4">
@@ -1293,7 +1275,8 @@
 
                                 <tr>
                                     <th scope="row">
-                                        <span class="legend-indicator bg-primary opacity-xs"></span>New volume from sales
+                                        <span class="legend-indicator bg-primary opacity-xs"></span>New volume from
+                                        sales
                                     </th>
                                     <td>$950.00</td>
                                     <td>
@@ -1324,50 +1307,17 @@
 
     <!-- Footer -->
 
-    <div class="footer">
-        <div class="row justify-content-between align-items-center">
-            <div class="col">
-                <p class="font-size-sm mb-0">&copy; Front. <span class="d-none d-sm-inline-block">2020 Htmlstream.</span></p>
-            </div>
-            <div class="col-auto">
-                <div class="d-flex justify-content-end">
-                    <!-- List Dot -->
-                    <ul class="list-inline list-separator">
-                        <li class="list-inline-item">
-                            <a class="list-separator-link" href="#">FAQ</a>
-                        </li>
-
-                        <li class="list-inline-item">
-                            <a class="list-separator-link" href="#">License</a>
-                        </li>
-
-                        <li class="list-inline-item">
-                            <!-- Keyboard Shortcuts Toggle -->
-                            <div class="hs-unfold">
-                                <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;" data-hs-unfold-options='{
-                              "target": "#keyboardShortcutsSidebar",
-                              "type": "css-animation",
-                              "animationIn": "fadeInRight",
-                              "animationOut": "fadeOutRight",
-                              "hasOverlay": true,
-                              "smartPositionOff": true
-                             }'>
-                                    <i class="tio-command-key"></i>
-                                </a>
-                            </div>
-                            <!-- End Keyboard Shortcuts Toggle -->
-                        </li>
-                    </ul>
-                    <!-- End List Dot -->
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
     <!-- End Footer -->
 </main>
+
+<!-- FOOTER -->
+<%@include file="../commons/footer.jsp" %>
+<!-- /FOOTER -->
+
+
 <!-- ========== END MAIN CONTENT ========== -->
 
 <!-- ========== SECONDARY CONTENTS ========== -->
@@ -1378,7 +1328,8 @@
             <h4 class="card-header-title">Keyboard shortcuts</h4>
 
             <!-- Toggle Button -->
-            <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-dark ml-2" href="javascript:;" data-hs-unfold-options='{
+            <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-dark ml-2" href="javascript:;"
+               data-hs-unfold-options='{
                 "target": "#keyboardShortcutsSidebar",
                 "type": "css-animation",
                 "animationIn": "fadeInRight",
@@ -1403,7 +1354,8 @@
                             <span class="font-weight-bold">Bold</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">b</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">b</kbd>
                         </div>
                     </div>
                 </div>
@@ -1413,7 +1365,8 @@
                             <em>italic</em>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">i</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">i</kbd>
                         </div>
                     </div>
                 </div>
@@ -1423,7 +1376,8 @@
                             <u>Underline</u>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">u</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">u</kbd>
                         </div>
                     </div>
                 </div>
@@ -1433,7 +1387,9 @@
                             <s>Strikethrough</s>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">Alt</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">s</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">Alt</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">s</kbd>
                         </div>
                     </div>
                 </div>
@@ -1443,7 +1399,8 @@
                             <span class="small">Small text</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">s</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">s</kbd>
                         </div>
                     </div>
                 </div>
@@ -1453,7 +1410,8 @@
                             <mark>Highlight</mark>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">e</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">e</kbd>
                         </div>
                     </div>
                 </div>
@@ -1544,7 +1502,8 @@
                             <span>Find and replace</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">r</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">r</kbd>
                         </div>
                     </div>
                 </div>
@@ -1554,7 +1513,8 @@
                             <span>Find next</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">n</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">n</kbd>
                         </div>
                     </div>
                 </div>
@@ -1564,7 +1524,8 @@
                             <span>Find previous</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">p</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">p</kbd>
                         </div>
                     </div>
                 </div>
@@ -1584,7 +1545,8 @@
                             <span>Un-indent</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">Tab</kbd>
+                            <kbd class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">Tab</kbd>
                         </div>
                     </div>
                 </div>
@@ -1594,7 +1556,9 @@
                             <span>Move line up</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1"><i class="tio-arrow-large-upward-outlined"></i></kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1"><i class="tio-arrow-large-upward-outlined"></i></kbd>
                         </div>
                     </div>
                 </div>
@@ -1604,7 +1568,10 @@
                             <span>Move line down</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1"><i class="tio-arrow-large-downward-outlined font-size-sm"></i></kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1"><i
+                                class="tio-arrow-large-downward-outlined font-size-sm"></i></kbd>
                         </div>
                     </div>
                 </div>
@@ -1614,7 +1581,9 @@
                             <span>Add a comment</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">Alt</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">m</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">Alt</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">m</kbd>
                         </div>
                     </div>
                 </div>
@@ -1624,7 +1593,8 @@
                             <span>Undo</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">z</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">z</kbd>
                         </div>
                     </div>
                 </div>
@@ -1634,7 +1604,8 @@
                             <span>Redo</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">y</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">y</kbd>
                         </div>
                     </div>
                 </div>
@@ -1650,7 +1621,9 @@
                             <span>Create new doc</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">Alt</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">n</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">Alt</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">n</kbd>
                         </div>
                     </div>
                 </div>
@@ -1660,7 +1633,9 @@
                             <span>Present</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">p</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">p</kbd>
                         </div>
                     </div>
                 </div>
@@ -1670,7 +1645,9 @@
                             <span>Share</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">s</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">s</kbd>
                         </div>
                     </div>
                 </div>
@@ -1680,7 +1657,9 @@
                             <span>Search docs</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">o</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">o</kbd>
                         </div>
                     </div>
                 </div>
@@ -1690,7 +1669,9 @@
                             <span>Keyboard shortcuts</span>
                         </div>
                         <div class="col-7 text-right">
-                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd class="d-inline-block mb-1">/</kbd>
+                            <kbd class="d-inline-block mb-1">Ctrl</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">Shift</kbd> <small class="text-muted">+</small> <kbd
+                                class="d-inline-block mb-1">/</kbd>
                         </div>
                     </div>
                 </div>
@@ -1708,7 +1689,8 @@
             <h4 class="card-header-title">Activity stream</h4>
 
             <!-- Toggle Button -->
-            <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-dark ml-2" href="javascript:;" data-hs-unfold-options='{
+            <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-dark ml-2" href="javascript:;"
+               data-hs-unfold-options='{
               "target": "#activitySidebar",
               "type": "css-animation",
               "animationIn": "fadeInRight",
@@ -1735,7 +1717,8 @@
                         <div class="step-content">
                             <h5 class="mb-1">Iana Robinson</h5>
 
-                            <p class="font-size-sm mb-1">Added 2 files to task <a class="text-uppercase" href="#"><i class="tio-folder-bookmarked"></i> Fd-7</a></p>
+                            <p class="font-size-sm mb-1">Added 2 files to task <a class="text-uppercase" href="#"><i
+                                    class="tio-folder-bookmarked"></i> Fd-7</a></p>
 
                             <ul class="list-group list-group-sm">
                                 <!-- List Item -->
@@ -1747,7 +1730,8 @@
                                 <img class="avatar avatar-xs" src="assets\svg\brands\excel.svg" alt="Image Description">
                               </span>
                                                 <div class="media-body text-truncate">
-                                                    <span class="d-block font-size-sm text-dark text-truncate" title="weekly-reports.xls">weekly-reports.xls</span>
+                                                    <span class="d-block font-size-sm text-dark text-truncate"
+                                                          title="weekly-reports.xls">weekly-reports.xls</span>
                                                     <small class="d-block text-muted">12kb</small>
                                                 </div>
                                             </div>
@@ -1758,7 +1742,8 @@
                                 <img class="avatar avatar-xs" src="assets\svg\brands\word.svg" alt="Image Description">
                               </span>
                                                 <div class="media-body text-truncate">
-                                                    <span class="d-block font-size-sm text-dark text-truncate" title="weekly-reports.xls">weekly-reports.xls</span>
+                                                    <span class="d-block font-size-sm text-dark text-truncate"
+                                                          title="weekly-reports.xls">weekly-reports.xls</span>
                                                     <small class="d-block text-muted">4kb</small>
                                                 </div>
                                             </div>
@@ -1782,7 +1767,10 @@
                         <div class="step-content">
                             <h5 class="mb-1">Bob Dean</h5>
 
-                            <p class="font-size-sm mb-1">Marked <a class="text-uppercase" href="#"><i class="tio-folder-bookmarked"></i> Fr-6</a> as <span class="badge badge-soft-success badge-pill"><span class="legend-indicator bg-success"></span>"Completed"</span></p>
+                            <p class="font-size-sm mb-1">Marked <a class="text-uppercase" href="#"><i
+                                    class="tio-folder-bookmarked"></i> Fr-6</a> as <span
+                                    class="badge badge-soft-success badge-pill"><span
+                                    class="legend-indicator bg-success"></span>"Completed"</span></p>
 
                             <small class="text-muted text-uppercase">Today</small>
                         </div>
@@ -1806,13 +1794,16 @@
                                 <li class="list-group-item list-group-item-light">
                                     <div class="row gx-1">
                                         <div class="col">
-                                            <img class="img-fluid rounded ie-sidebar-activity-img" src="assets\svg\illustrations\card-1.svg" alt="Image Description">
+                                            <img class="img-fluid rounded ie-sidebar-activity-img"
+                                                 src="assets\svg\illustrations\card-1.svg" alt="Image Description">
                                         </div>
                                         <div class="col">
-                                            <img class="img-fluid rounded ie-sidebar-activity-img" src="assets\svg\illustrations\card-2.svg" alt="Image Description">
+                                            <img class="img-fluid rounded ie-sidebar-activity-img"
+                                                 src="assets\svg\illustrations\card-2.svg" alt="Image Description">
                                         </div>
                                         <div class="col">
-                                            <img class="img-fluid rounded ie-sidebar-activity-img" src="assets\svg\illustrations\card-3.svg" alt="Image Description">
+                                            <img class="img-fluid rounded ie-sidebar-activity-img"
+                                                 src="assets\svg\illustrations\card-3.svg" alt="Image Description">
                                         </div>
                                         <div class="col-auto align-self-center">
                                             <div class="text-center">
@@ -1855,7 +1846,10 @@
                         <div class="step-content">
                             <h5 class="mb-1">Rachel King</h5>
 
-                            <p class="font-size-sm mb-1">Marked <a class="text-uppercase" href="#"><i class="tio-folder-bookmarked"></i> Fr-3</a> as <span class="badge badge-soft-success badge-pill"><span class="legend-indicator bg-success"></span>"Completed"</span></p>
+                            <p class="font-size-sm mb-1">Marked <a class="text-uppercase" href="#"><i
+                                    class="tio-folder-bookmarked"></i> Fr-3</a> as <span
+                                    class="badge badge-soft-success badge-pill"><span
+                                    class="legend-indicator bg-success"></span>"Completed"</span></p>
 
                             <small class="text-muted text-uppercase">Apr 29</small>
                         </div>
@@ -1873,7 +1867,8 @@
                         <div class="step-content">
                             <h5 class="mb-1">Finch Hoot</h5>
 
-                            <p class="font-size-sm mb-1">Earned a "Top endorsed" <i class="tio-verified text-primary"></i> badge</p>
+                            <p class="font-size-sm mb-1">Earned a "Top endorsed" <i
+                                    class="tio-verified text-primary"></i> badge</p>
 
                             <small class="text-muted text-uppercase">Apr 06</small>
                         </div>
@@ -1891,7 +1886,10 @@
                         <div class="step-content">
                             <h5 class="mb-1">Project status updated</h5>
 
-                            <p class="font-size-sm mb-1">Marked <a class="text-uppercase" href="#"><i class="tio-folder-bookmarked"></i> Fr-3</a> as <span class="badge badge-soft-primary badge-pill"><span class="legend-indicator bg-primary"></span>"In progress"</span></p>
+                            <p class="font-size-sm mb-1">Marked <a class="text-uppercase" href="#"><i
+                                    class="tio-folder-bookmarked"></i> Fr-3</a> as <span
+                                    class="badge badge-soft-primary badge-pill"><span
+                                    class="legend-indicator bg-primary"></span>"In progress"</span></p>
 
                             <small class="text-muted text-uppercase">Feb 10</small>
                         </div>
@@ -1914,7 +1912,8 @@
         <div class="modal-content">
             <!-- Header -->
             <div class="modal-close">
-                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal"
+                        aria-label="Close">
                     <i class="tio-clear tio-lg"></i>
                 </button>
             </div>
@@ -1941,16 +1940,20 @@
                 <div class="w-85 mx-auto">
                     <div class="row justify-content-between">
                         <div class="col">
-                            <img class="img-fluid ie-welcome-brands" src="assets\svg\brands\gitlab-gray.svg" alt="Image Description">
+                            <img class="img-fluid ie-welcome-brands" src="assets\svg\brands\gitlab-gray.svg"
+                                 alt="Image Description">
                         </div>
                         <div class="col">
-                            <img class="img-fluid ie-welcome-brands" src="assets\svg\brands\fitbit-gray.svg" alt="Image Description">
+                            <img class="img-fluid ie-welcome-brands" src="assets\svg\brands\fitbit-gray.svg"
+                                 alt="Image Description">
                         </div>
                         <div class="col">
-                            <img class="img-fluid ie-welcome-brands" src="assets\svg\brands\flow-xo-gray.svg" alt="Image Description">
+                            <img class="img-fluid ie-welcome-brands" src="assets\svg\brands\flow-xo-gray.svg"
+                                 alt="Image Description">
                         </div>
                         <div class="col">
-                            <img class="img-fluid ie-welcome-brands" src="assets\svg\brands\layar-gray.svg" alt="Image Description">
+                            <img class="img-fluid ie-welcome-brands" src="assets\svg\brands\layar-gray.svg"
+                                 alt="Image Description">
                         </div>
                     </div>
                 </div>
@@ -1962,14 +1965,16 @@
 <!-- End Welcome Message Modal -->
 
 <!-- Create a new user Modal -->
-<div class="modal fade" id="inviteUserModal" tabindex="-1" role="dialog" aria-labelledby="inviteUserModalTitle" aria-hidden="true">
+<div class="modal fade" id="inviteUserModal" tabindex="-1" role="dialog" aria-labelledby="inviteUserModalTitle"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <form class="modal-content">
             <!-- Header -->
             <div class="modal-header">
                 <h4 id="inviteUserModalTitle" class="modal-title">Invite users</h4>
 
-                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary" data-dismiss="modal"
+                        aria-label="Close">
                     <i class="tio-clear tio-lg"></i>
                 </button>
             </div>
@@ -1986,12 +1991,14 @@
                   </span>
                         </div>
 
-                        <input type="text" class="form-control" name="fullName" placeholder="Search name or emails" aria-label="Search name or emails" aria-describedby="fullName">
+                        <input type="text" class="form-control" name="fullName" placeholder="Search name or emails"
+                               aria-label="Search name or emails" aria-describedby="fullName">
 
                         <div class="input-group-append input-group-append-last-sm-down-none">
                             <!-- Select -->
                             <div id="permissionSelect" class="select2-custom select2-custom-right">
-                                <select class="js-select2-custom custom-select" size="1" style="opacity: 0;" data-hs-select2-options='{
+                                <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{
                               "dropdownParent": "#permissionSelect",
                               "minimumResultsForSearch": "Infinity",
                               "dropdownAutoWidth": true,
@@ -2018,7 +2025,8 @@
 
                     <div class="col-auto">
                         <a class="d-flex align-items-center font-size-sm text-body" href="#">
-                            <img class="avatar avatar-xss mr-2" src="assets\svg\brands\gmail.svg" alt="Image Description">
+                            <img class="avatar avatar-xss mr-2" src="assets\svg\brands\gmail.svg"
+                                 alt="Image Description">
                             Import contacts
                         </a>
                     </div>
@@ -2037,14 +2045,19 @@
                             <div class="media-body">
                                 <div class="row align-items-center">
                                     <div class="col-sm">
-                                        <h5 class="text-body mb-0">Amanda Harvey <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></h5>
+                                        <h5 class="text-body mb-0">Amanda Harvey <i class="tio-verified text-primary"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-placement="top"
+                                                                                    title="Top endorsed"></i></h5>
                                         <span class="d-block font-size-sm">amanda@example.com</span>
                                     </div>
 
                                     <div class="col-sm">
                                         <!-- Select -->
-                                        <div id="inviteUserSelect1" class="select2-custom select2-custom-sm-right d-sm-flex justify-content-sm-end">
-                                            <select class="js-select2-custom custom-select-sm" size="1" style="opacity: 0;" data-hs-select2-options='{
+                                        <div id="inviteUserSelect1"
+                                             class="select2-custom select2-custom-sm-right d-sm-flex justify-content-sm-end">
+                                            <select class="js-select2-custom custom-select-sm" size="1"
+                                                    style="opacity: 0;" data-hs-select2-options='{
                                     "dropdownParent": "#inviteUserSelect1",
                                     "minimumResultsForSearch": "Infinity",
                                     "customClass": "custom-select custom-select-sm custom-select-borderless pl-0",
@@ -2055,7 +2068,10 @@
                                                 <option value="can edit">Can edit</option>
                                                 <option value="can comment">Can comment</option>
                                                 <option value="full access">Full access</option>
-                                                <option value="remove" data-option-template='<span class="text-danger">Remove</span>'>Remove</option>
+                                                <option value="remove"
+                                                        data-option-template='<span class="text-danger">Remove</span>'>
+                                                    Remove
+                                                </option>
                                             </select>
                                         </div>
                                         <!-- End Select -->
@@ -2083,8 +2099,10 @@
 
                                     <div class="col-sm">
                                         <!-- Select -->
-                                        <div id="inviteUserSelect2" class="select2-custom select2-custom-sm-right d-sm-flex justify-content-sm-end">
-                                            <select class="js-select2-custom custom-select-sm" size="1" style="opacity: 0;" data-hs-select2-options='{
+                                        <div id="inviteUserSelect2"
+                                             class="select2-custom select2-custom-sm-right d-sm-flex justify-content-sm-end">
+                                            <select class="js-select2-custom custom-select-sm" size="1"
+                                                    style="opacity: 0;" data-hs-select2-options='{
                                     "dropdownParent": "#inviteUserSelect2",
                                     "minimumResultsForSearch": "Infinity",
                                     "customClass": "custom-select custom-select-sm custom-select-borderless pl-0",
@@ -2095,7 +2113,10 @@
                                                 <option value="can edit">Can edit</option>
                                                 <option value="can comment">Can comment</option>
                                                 <option value="full access">Full access</option>
-                                                <option value="remove" data-option-template='<span class="text-danger">Remove</span>'>Remove</option>
+                                                <option value="remove"
+                                                        data-option-template='<span class="text-danger">Remove</span>'>
+                                                    Remove
+                                                </option>
                                             </select>
                                         </div>
                                         <!-- End Select -->
@@ -2117,14 +2138,19 @@
                             <div class="media-body">
                                 <div class="row align-items-center">
                                     <div class="col-sm">
-                                        <h5 class="text-body mb-0">Ella Lauda <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="Top endorsed"></i></h5>
+                                        <h5 class="text-body mb-0">Ella Lauda <i class="tio-verified text-primary"
+                                                                                 data-toggle="tooltip"
+                                                                                 data-placement="top"
+                                                                                 title="Top endorsed"></i></h5>
                                         <span class="d-block font-size-sm">Markvt@example.com</span>
                                     </div>
 
                                     <div class="col-sm">
                                         <!-- Select -->
-                                        <div id="inviteUserSelect4" class="select2-custom select2-custom-sm-right d-sm-flex justify-content-sm-end">
-                                            <select class="js-select2-custom custom-select-sm" size="1" style="opacity: 0;" data-hs-select2-options='{
+                                        <div id="inviteUserSelect4"
+                                             class="select2-custom select2-custom-sm-right d-sm-flex justify-content-sm-end">
+                                            <select class="js-select2-custom custom-select-sm" size="1"
+                                                    style="opacity: 0;" data-hs-select2-options='{
                                     "dropdownParent": "#inviteUserSelect4",
                                     "minimumResultsForSearch": "Infinity",
                                     "customClass": "custom-select custom-select-sm custom-select-borderless pl-0",
@@ -2135,7 +2161,10 @@
                                                 <option value="can edit">Can edit</option>
                                                 <option value="can comment">Can comment</option>
                                                 <option value="full access">Full access</option>
-                                                <option value="remove" data-option-template='<span class="text-danger">Remove</span>'>Remove</option>
+                                                <option value="remove"
+                                                        data-option-template='<span class="text-danger">Remove</span>'>
+                                                    Remove
+                                                </option>
                                             </select>
                                         </div>
                                         <!-- End Select -->
@@ -2163,8 +2192,10 @@
 
                                     <div class="col-sm">
                                         <!-- Select -->
-                                        <div id="inviteUserSelect3" class="select2-custom select2-custom-sm-right d-sm-flex justify-content-sm-end">
-                                            <select class="js-select2-custom custom-select-sm" size="1" style="opacity: 0;" data-hs-select2-options='{
+                                        <div id="inviteUserSelect3"
+                                             class="select2-custom select2-custom-sm-right d-sm-flex justify-content-sm-end">
+                                            <select class="js-select2-custom custom-select-sm" size="1"
+                                                    style="opacity: 0;" data-hs-select2-options='{
                                     "dropdownParent": "#inviteUserSelect3",
                                     "minimumResultsForSearch": "Infinity",
                                     "customClass": "custom-select custom-select-sm custom-select-borderless pl-0",
@@ -2175,7 +2206,10 @@
                                                 <option value="can edit">Can edit</option>
                                                 <option value="can comment">Can comment</option>
                                                 <option value="full access">Full access</option>
-                                                <option value="remove" data-option-template='<span class="text-danger">Remove</span>'>Remove</option>
+                                                <option value="remove"
+                                                        data-option-template='<span class="text-danger">Remove</span>'>
+                                                    Remove
+                                                </option>
                                             </select>
                                         </div>
                                         <!-- End Select -->
@@ -2190,32 +2224,14 @@
             </div>
             <!-- End Body -->
 
-            <!-- Footer -->
-            <div class="modal-footer justify-content-start">
-                <div class="row align-items-center flex-grow-1 mx-n2">
-                    <div class="col-sm-9 mb-2 mb-sm-0">
-                        <input type="hidden" id="inviteUserPublicClipboard" value="https://themes.getbootstrap.com/product/front-multipurpose-responsive-template/">
-
-                        <p class="modal-footer-text">The public share <a href="#">link settings</a>
-                            <i class="tio-help-outlined" data-toggle="tooltip" data-placement="top" title="The public share link allows people to view the project without giving access to full collaboration features."></i>
-                        </p>
-                    </div>
-
-                    <div class="col-sm-3 text-sm-right">
-                        <a class="js-clipboard btn btn-sm btn-white text-nowrap" href="javascript:;" data-toggle="tooltip" data-placement="top" title="Copy to clipboard!" data-hs-clipboard-options='{
-                    "type": "tooltip",
-                    "successText": "Copied!",
-                    "contentTarget": "#inviteUserPublicClipboard",
-                    "container": "#inviteUserModal"
-                   }'>
-                            <i class="tio-link mr-1"></i> Copy link</a>
-                    </div>
-                </div>
-            </div>
-            <!-- End Footer -->
         </form>
     </div>
 </div>
+
+
+
+
+
 <!-- End Create a new user Modal -->
 <!-- ========== END SECONDARY CONTENTS ========== -->
 
@@ -2227,12 +2243,12 @@
 <script src="assets\vendor\chartjs-plugin-datalabels\dist\chartjs-plugin-datalabels.min.js"></script>
 
 
-
 <!-- JS Front -->
 <script src="assets\js\theme.min.js"></script>
 
 <!-- JS Plugins Init. -->
 <script>
+
     $(document).on('ready', function () {
         // ONLY DEV
         // =======================================================
@@ -2243,7 +2259,7 @@
                     $('.popover').last().addClass('popover-dark')
                 });
 
-            $(document).on('click', '#closeBuilderPopover' , function() {
+            $(document).on('click', '#closeBuilderPopover', function () {
                 window.localStorage.setItem('hs-builder-popover', true);
                 $('#builderPopover').popover('dispose');
             });
@@ -2273,7 +2289,6 @@
         }).init();
 
 
-
         // INITIALIZATION OF NAVBAR VERTICAL NAVIGATION
         // =======================================================
         var sidebar = $('.js-navbar-vertical-aside').hsSideNav();
@@ -2281,9 +2296,9 @@
 
         // INITIALIZATION OF TOOLTIP IN NAVBAR VERTICAL MENU
         // =======================================================
-        $('.js-nav-tooltip-link').tooltip({ boundary: 'window' })
+        $('.js-nav-tooltip-link').tooltip({boundary: 'window'})
 
-        $(".js-nav-tooltip-link").on("show.bs.tooltip", function(e) {
+        $(".js-nav-tooltip-link").on("show.bs.tooltip", function (e) {
             if (!$("body").hasClass("navbar-vertical-aside-mini-mode")) {
                 return false;
             }
@@ -2323,7 +2338,7 @@
 
         // CALL WHEN TAB IS CLICKED
         // =======================================================
-        $('[data-toggle="chart-bar"]').click(function(e) {
+        $('[data-toggle="chart-bar"]').click(function (e) {
             let keyDataset = $(e.currentTarget).attr('data-datasets')
 
             if (keyDataset === 'lastWeek') {
@@ -2370,19 +2385,19 @@
                 options: {
                     plugins: {
                         datalabels: {
-                            anchor: function(context) {
+                            anchor: function (context) {
                                 var value = context.dataset.data[context.dataIndex];
                                 return value.r < 20 ? 'end' : 'center';
                             },
-                            align: function(context) {
+                            align: function (context) {
                                 var value = context.dataset.data[context.dataIndex];
                                 return value.r < 20 ? 'end' : 'center';
                             },
-                            color: function(context) {
+                            color: function (context) {
                                 var value = context.dataset.data[context.dataIndex];
                                 return value.r < 20 ? context.dataset.backgroundColor : context.dataset.color;
                             },
-                            font: function(context) {
+                            font: function (context) {
                                 var value = context.dataset.data[context.dataIndex],
                                     fontSize = 25;
 
@@ -2464,7 +2479,7 @@
             }
         });
 
-        $('.js-datatable-filter').on('change', function() {
+        $('.js-datatable-filter').on('change', function () {
             var $this = $(this),
                 elVal = $this.val(),
                 targetColumnIndex = $this.data('target-column-index');
@@ -2478,10 +2493,10 @@
 
             if (oldValue == "") return;
 
-            setTimeout(function(){
+            setTimeout(function () {
                 var newValue = $input.val();
 
-                if (newValue == ""){
+                if (newValue == "") {
                     // Gotcha
                     datatable.search('').draw();
                 }
@@ -2491,7 +2506,7 @@
 
         // INITIALIZATION OF CLIPBOARD
         // =======================================================
-        $('.js-clipboard').each(function() {
+        $('.js-clipboard').each(function () {
             var clipboard = $.HSCore.components.HSClipboard.init(this);
         });
     });

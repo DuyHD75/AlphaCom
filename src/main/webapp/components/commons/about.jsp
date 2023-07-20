@@ -35,13 +35,10 @@
 <!-- /HEADER -->
 
 
-
-
-
 <%--  ABOUT SECTION--%>
 <section class="about">
 
-    <div class="container">
+    <div class="container mt-4">
         <div class="row">
 
             <div class="image col-md-6 col-12">
@@ -50,10 +47,13 @@
 
             <div class="content col-md-6 col">
                 <h3>why choose us?</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam veritatis minus et similique
-                    doloribus?
-                    Harum molestias tenetur eaque illum quas? Obcaecati nulla in itaque modi magnam ipsa molestiae ullam
-                    consequuntur.</p>
+                <p>Welcome to Alpha Electro System, your premier destination for all your electro product needs. As a
+                    leading trading company, we specialize in sourcing and providing top-quality electro products to our
+                    esteemed customers.
+
+                    At Alpha Electro System, we understand the importance of reliable and efficient electro products in
+                    today's fast-paced world. Whether you're a business looking to upgrade your infrastructure or an
+                    individual seeking innovative solutions for your personal needs, we have you covered.</p>
                 <a href="#newsletter" class="btn primary-btn">contact us</a>
             </div>
 
@@ -75,7 +75,8 @@
 
             <div class="swiper-slide slide">
                 <img src="imgs/userImg/pic-1.png" alt="">
-                <p>Great selection, competitive prices, and easy checkout. Electro's website is my go-to for all my electronic needs.</p>
+                <p>Great selection, competitive prices, and easy checkout. Electro's website is my go-to for all my
+                    electronic needs.</p>
                 <div class="stars">
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
@@ -88,7 +89,8 @@
 
             <div class="swiper-slide slide">
                 <img src="imgs/userImg/pic-2.png" alt="">
-                <p>User-friendly interface, quick delivery, and top-notch products. Electro's website never disappoints!</p>
+                <p>User-friendly interface, quick delivery, and top-notch products. Electro's website never
+                    disappoints!</p>
                 <div class="stars">
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
@@ -128,7 +130,8 @@
             <div class="swiper-slide slide">
                 <img src="imgs/userImg/pic-5.png" alt="">
 
-                <p>Electro's website is a tech lover's dream. Found exactly what I needed and had a smooth shopping experience.</p>
+                <p>Electro's website is a tech lover's dream. Found exactly what I needed and had a smooth shopping
+                    experience.</p>
                 <div class="stars">
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>

@@ -5,9 +5,7 @@ import java.util.List;
 
 public class Cart {
     private int customerId;
-
     private ProductInfo productInfo;
-
     private int amount;
     private double finalPrice;
     private List<ProductDiscount> productDiscount;

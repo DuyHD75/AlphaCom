@@ -1,4 +1,3 @@
-
 var dataString = $('#data-statistic').val();
 
 // var dataString = "[ManageOrder{orderDate=2023-06-23, dayOfWeek='Friday', totalOrders=3, totalProducts=15, revernues=1080.2}, ManageOrder{orderDate=2023-06-24, dayOfWeek='Saturday', totalOrders=3, totalProducts=11, revernues=1295.5}]";
@@ -10,7 +9,7 @@ var contentString = dataString.substring(1, dataString.length - 1);
 var objectStrings = contentString.split('}, ');
 
 // Add back the closing curly brace '}' to each object string and remove the 'ManageOrder' prefix
-objectStrings = objectStrings.map(function(objString) {
+objectStrings = objectStrings.map(function (objString) {
     // Remove the 'ManageOrder' prefix
     objString = objString.replace('ManageOrder', '');
 
@@ -23,11 +22,9 @@ objectStrings = objectStrings.map(function(objString) {
 });
 
 
-
 var data = {};
-var data2 = {};
 
-objectStrings.forEach(function(objString) {
+objectStrings.forEach(function (objString) {
     // Remove the curly braces
     var trimmedString = objString.slice(1, -1);
 
@@ -38,7 +35,7 @@ objectStrings.forEach(function(objString) {
     var obj = {};
 
     // Iterate over the key-value pairs
-    keyValuePairs.forEach(function(keyValue) {
+    keyValuePairs.forEach(function (keyValue) {
         // Split each key-value pair into key and value
         var parts = keyValue.split('=');
         var key = parts[0].trim();

@@ -126,8 +126,15 @@ public class ServletEcommerceProduct extends HttpServlet {
         String week = request.getParameter("week");
         System.out.println(week);
         request.setAttribute("statistic", adminService.manageProducts(Integer.parseInt(week)));
-        request.setAttribute("manages", adminService.getManageProductInCurrDate(Integer.parseInt(week)));
+        request.setAttribute("statistic2", adminService.manageProducts(Integer.parseInt(week) - 1));
+
+
+        request.setAttribute("manages", adminService.getManageProductInCurrDate());
+
+
         request.setAttribute("prdTops", adminService.getTopSellingProduct());
+
+
         request.getRequestDispatcher("/components/adminComponents/ecommerce.jsp").forward(request, response);
     }
 
@@ -195,12 +202,12 @@ public class ServletEcommerceProduct extends HttpServlet {
 
         // == CHECK THE PRODUCT HAVE THE DISCOUNT OR NOT AND HANDLE
         if (!discount.equalsIgnoreCase("0")) {
-            System.out.println("Vao dis 156 servlet");
             String discountName = request.getParameter("discount-name");
             String startDate = request.getParameter("start-date");
             String endDate = request.getParameter("end-date");
 
-            productDiscount = new ProductDiscount(discountName, Double.parseDouble(discount) /100, Date.valueOf(startDate), Date.valueOf(endDate));
+            productDiscount = new ProductDiscount(discountName, Double.parseDouble(discount),
+                    Date.valueOf(startDate), Date.valueOf(endDate));
         }
 
         boolean isCreated = adminService.createProduct(productInfo, productDiscount);
@@ -227,9 +234,6 @@ public class ServletEcommerceProduct extends HttpServlet {
         String discount = request.getParameter("product-discount");
 
 
-        System.out.println("DIS " + discount);
-
-
         String[] splitFiles = files.split(" ; ");
 
         Product product = new Product(Integer.parseInt(pid), prdName, prdDesc, Integer.parseInt(prdQuantity), category);
@@ -244,7 +248,7 @@ public class ServletEcommerceProduct extends HttpServlet {
             String endDate = request.getParameter("end-date");
             String discountName = request.getParameter("discount-name");
             productDiscount = new ProductDiscount(Integer.parseInt(pid), discountName,
-                    Double.parseDouble(discount) / 100, Date.valueOf(startDate), Date.valueOf(endDate));
+                    Double.parseDouble(discount), Date.valueOf(startDate), Date.valueOf(endDate));
         } else {
             adminService.deleteDiscountByPID(Integer.parseInt(pid));
         }
@@ -268,7 +272,7 @@ public class ServletEcommerceProduct extends HttpServlet {
 //        if (account != null) {
         int pid = Integer.parseInt(request.getParameter("id"));
         List<ProductInfo> products = adminService.getAllProducts();
-        int currentIndex =  getProductIndex(products, pid);
+        int currentIndex = getProductIndex(products, pid);
 
         int nextProductId = getNextProductId(products, currentIndex);
 
@@ -289,7 +293,7 @@ public class ServletEcommerceProduct extends HttpServlet {
         List<ProductInfo> products = adminService.getAllProducts();
         int currentIndex = getProductIndex(products, pid);
 
-        int previousProductId= getPreviousProductId(products, currentIndex);
+        int previousProductId = getPreviousProductId(products, currentIndex);
 
         response.sendRedirect("ecommerce-product?action=product-details&id=" + previousProductId);
 //        } else {

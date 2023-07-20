@@ -15,6 +15,7 @@
 
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="icon" href="imgs/logos/360_F_451269306_U5VVjfXzU2OZLyaLOKmkI73SCwBcjgvF.jpg" type="image/x-icon">
 
     <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="css/slick.css"/>

@@ -336,7 +336,7 @@
                      },
                      "search": "#datatableSearch",
                      "entries": "#datatableEntries",
-                     "pageLength": 7,
+                     "pageLength": 10,
                      "isResponsive": true,
                      "isShowPaging": true,
                      "pagination": "datatablePagination"
@@ -385,7 +385,9 @@
                                 </a>
                             </td>
                             <td class="">${product.getProduct().getCategory()}</td>
-                            <td class="">Razer Company</td>
+
+                            <td class="">${product.getVendor()}</td>
+
                             <td>
                                 <label class="toggle-switch toggle-switch-sm"
                                        for="stocksCheckbox${product.getProduct().getId()}">

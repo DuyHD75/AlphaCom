@@ -5455,7 +5455,10 @@ input[type="submit"].btn-block {
 }
 
 .navbar-dark .navbar-brand {
-    color: #fff;
+    color: #0d95e8;
+    font-size: 22px;
+    font-weight: 600;
+    text-shadow: 0 3px 3px 3px #c3c3c3;
 }
 
 .navbar-dark .navbar-brand:focus,
@@ -15543,6 +15546,7 @@ button:focus {
 }
 
 .navbar-fixed ~ .main {
+    background: #eee;
     padding-top: 3.75rem;
 }
 
@@ -17374,6 +17378,7 @@ button:focus {
 .navbar.navbar-container {
     padding-right: 2rem;
     padding-left: 2rem;
+    overflow: hidden;
 }
 
 @media (max-width: 575.98px) {
@@ -20277,7 +20282,6 @@ button:focus {
     color: #96a2c1;
 }
 
-.navbar-dark.navbar-bordered,
 .navbar-dark.navbar-bordered .navbar-vertical-footer {
     border-color: #192b58;
 }
@@ -22139,7 +22143,7 @@ label.btn {
 }
 
 .footer-offset {
-    margin-bottom: 3.5rem;
+    /*margin-bottom: 3.5rem;*/
 }
 
 .main .content {
@@ -23319,26 +23323,28 @@ label.btn {
     padding-bottom: 0;
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3.5rem;
-}
+/*.footer {*/
+/*    position: absolute;*/
+/*    bottom: 0;*/
+/*    left: 0;*/
+/*    right: 0;*/
+/*    height: 3.5rem;*/
+/*    */
+/*}*/
 
-.footer:not([class*="container"]) {
-    padding-top: 3rem;
-    padding-right: 2rem;
-    padding-left: 2rem;
-    padding-top: 3rem;
+/*.footer:not([class*="container"]) {*/
+/*    padding-top: 3rem;*/
+/*    padding-right: 2rem;*/
+/*    padding-left: 2rem;*/
+/*    padding-top: 3rem;*/
 
-}
+/*}*/
 
 @media (max-width: 575.98px) {
     .footer:not([class*="container"]) {
         padding-right: 1rem;
         padding-left: 1rem;
+        display: none;
     }
 }
 

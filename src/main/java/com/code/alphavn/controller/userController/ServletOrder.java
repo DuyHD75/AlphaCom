@@ -15,11 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-@WebServlet( name = "ServletOrder", value = "/order")
+@WebServlet(name = "ServletOrder", value = "/order")
 public class ServletOrder extends HttpServlet {
 
     @Override
@@ -34,12 +35,12 @@ public class ServletOrder extends HttpServlet {
                     handlecancelOrder(request, response);
                     break;
                 case "viewLastOrder":
-                        getLastOrder(request, response);
+                    getLastOrder(request, response);
                     break;
                 default:
                     break;
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -55,12 +56,12 @@ public class ServletOrder extends HttpServlet {
                 default:
                     break;
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void handleViewOrder (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleViewOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
@@ -77,7 +78,7 @@ public class ServletOrder extends HttpServlet {
     }
 
 
-    public void getLastOrder (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void getLastOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
@@ -88,7 +89,7 @@ public class ServletOrder extends HttpServlet {
             Customer customerId = new Customer(account.getId());
 
             List<Order> orders = userService.getOrderByCusId(customerId);
-            Order order = orders.get(orders.size()-1);
+            Order order = orders.get(orders.size() - 1);
             orders = new ArrayList<>();
             orders.add(order);
             request.setAttribute("orders", orders);
@@ -98,7 +99,7 @@ public class ServletOrder extends HttpServlet {
         }
     }
 
-    public void handlecancelOrder (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handlecancelOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
@@ -115,7 +116,7 @@ public class ServletOrder extends HttpServlet {
         }
     }
 
-    public void OrderCancellationNotice ( HttpServletRequest request, HttpServletResponse response, Order order) throws ServletException, IOException {
+    public void OrderCancellationNotice(HttpServletRequest request, HttpServletResponse response, Order order) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
         String email = account.getEmail();
@@ -139,9 +140,9 @@ public class ServletOrder extends HttpServlet {
             String products = "";
             for (OrderDetail orderDetail : order.getOrderDetail()) {
                 String product = "[ " + orderDetail.getProduct().getProduct().getName() +
-                        ":"+ orderDetail.getPrice() + " x " + orderDetail.getQuantityOrdered() + " ]\n";
-                products =products + product;
-                total = total + ( orderDetail.getPrice() * orderDetail.getQuantityOrdered());
+                        ":" + orderDetail.getPrice() + " x " + orderDetail.getQuantityOrdered() + " ]\n";
+                products = products + product;
+                total = total + (orderDetail.getPrice() * orderDetail.getQuantityOrdered());
             }
             MimeMessage message = new MimeMessage(session1);
             message.setFrom(new InternetAddress("hdat1502@gmail.com"));// change accordingly

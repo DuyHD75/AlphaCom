@@ -34,8 +34,9 @@ public class AdminServiceImpl implements IAdminService {
 
 
     public List<ProductInfo> getAllProducts() throws SQLException {
-        String query = "SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining, pd.price, pd.img1, pd.img2, pd.img3,c.category_name " +
-                "FROM products p JOIN productDetails pd ON p.pid = pd.product_id JOIN categorys c ON p.category_id = c.category_id";
+        String query = "SELECT p.pid, p.product_name, p.product_desc, p.amount_remaining, pd.price, pd.img1, pd.img2, pd.img3, c.category_name, s.supplier_name\n" +
+                "FROM products p JOIN productDetails pd ON p.pid = pd.product_id JOIN categorys c ON p.category_id = c.category_id JOIN suppliers s ON p.supplier_id = s.supplier_id;";
+
         Connection con = ConnectionDB.getConnection();
         PreparedStatement pstm = con.prepareStatement(query);
 
@@ -293,9 +294,20 @@ public class AdminServiceImpl implements IAdminService {
         return mangeOrders;
     }
 
-    public Optional<ManageOrder> getManageProductInCurrDate(int week) throws SQLException {
+    public Optional<ManageOrder> getManageProductInCurrDate() throws SQLException {
+
+
         LocalDate currentDate = LocalDate.now();
-        Optional<ManageOrder> currManageOrder = manageProducts(week).stream()
+        Calendar calendar = Calendar.getInstance();
+
+        // Set the calendar to the current date
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+        // Get the week number in the current year
+        int weekNumber = calendar.get(Calendar.WEEK_OF_YEAR);
+
+        System.out.println("Week number in the current year: " + weekNumber);
+        Optional<ManageOrder> currManageOrder = manageProducts(weekNumber).stream()
                 .filter(mangeOrder -> convertToLocalDate((Date) mangeOrder.getOrderDate()).isEqual(currentDate))
                 .findFirst();
         return currManageOrder;
@@ -498,8 +510,6 @@ public class AdminServiceImpl implements IAdminService {
                         rs.getString("phone"),
                         rs.getString("address"),
                         rs.getDate("created_At")
-
-
                 );
             }
         } catch (SQLException e) {
@@ -532,7 +542,7 @@ public class AdminServiceImpl implements IAdminService {
             PreparedStatement pstm = con.prepareStatement(query);
             pstm.setString(1, manager.getName().trim());
             pstm.setString(2, manager.getEmail().trim());
-            pstm.setInt(3,manager.getId());
+            pstm.setInt(3, manager.getId());
             pstm.executeUpdate();
         } catch (Exception e) {
             return false;
@@ -582,7 +592,7 @@ public class AdminServiceImpl implements IAdminService {
     }
 
 
-    public boolean updatePassMana(String email,String pass) throws SQLException {
+    public boolean updatePassMana(String email, String pass) throws SQLException {
         try {
             PreparedStatement pst = con.prepareStatement("update managers set password = ? where email = ? ");
             pst.setString(1, pass);
@@ -647,6 +657,7 @@ public class AdminServiceImpl implements IAdminService {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return orders;
     }
@@ -771,7 +782,13 @@ public class AdminServiceImpl implements IAdminService {
                     rs.getString("product_name"), rs.getString("product_desc"),
                     rs.getInt("amount_remaining"), rs.getString("category_name"));
 
-            products.add(new ProductInfo(product, Double.parseDouble(rs.getString("price")), rs.getString("img1"), rs.getString("img2"), rs.getString("img3")));
+            products.add(new ProductInfo(product,
+                    Double.parseDouble(rs.getString("price")),
+                    rs.getString("img1"),
+                    rs.getString("img2"),
+                    rs.getString("img3"),
+                    rs.getString("supplier_name")
+            ));
         }
         return products;
     }
@@ -779,7 +796,8 @@ public class AdminServiceImpl implements IAdminService {
 
     public static void main(String[] args) throws SQLException {
         AdminServiceImpl ad = new AdminServiceImpl();
-        System.out.println(ad.getManageProductInCurrDate(25));
+
+        System.out.println(ad.getManageProductInCurrDate());
     }
 }
 

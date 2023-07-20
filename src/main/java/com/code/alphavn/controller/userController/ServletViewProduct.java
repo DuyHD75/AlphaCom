@@ -31,40 +31,24 @@ public class ServletViewProduct extends HttpServlet {
     }
 
 
-    public void implementViewProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int pid = Integer.parseInt(request.getParameter("pid"));
-        try {
-
-            HttpSession session = request.getSession();
-            Customer account = (Customer) session.getAttribute("acc");
-            ProductInfo productInfo = userService.getProductByID(pid);
-
-            if (account != null) {
-                ServletCart cart = new ServletCart();
-                cart.handleViewCartHeader(request, response);
-
-                Customer id = new Customer(account.getId());
-                Customer profile = userService.getAccountByCusID(id);
-                request.setAttribute("infomation", profile);
-            }
-
-            request.setAttribute("pdDetail", productInfo);
-            request.setAttribute("pdReviews", userService.getProductReviews(pid));
-            request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
-            request.setAttribute("pdRatingReviews", userService.getProductRatingReviews(pid));
-            request.getRequestDispatcher("/components/userComponents/detailProduct.jsp").forward(request, response);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+
+        String action = request.getParameter("action");
+        if (action == null) {
+            reivewProductFunc(request, response);
+        } else if (action.equals("view_product")) {
+            implementViewProduct(request, response);
+        }
+
+    }
+
+
+    public void reivewProductFunc(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        System.out.println("VAO REVIEW");
         userService = new UserServiceImpl();
         String pdID = request.getParameter("pid");
 
@@ -104,6 +88,39 @@ public class ServletViewProduct extends HttpServlet {
 
         } else {
             response.getWriter().println("He");
+        }
+    }
+
+
+    public void implementViewProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int pid = Integer.parseInt(request.getParameter("pid"));
+
+        try {
+
+            HttpSession session = request.getSession();
+            Customer account = (Customer) session.getAttribute("acc");
+            ProductInfo productInfo = userService.getProductByID(pid);
+
+            if (account != null) {
+                ServletCart cart = new ServletCart();
+                cart.handleViewCartHeader(request, response);
+
+                Customer id = new Customer(account.getId());
+                Customer profile = userService.getAccountByCusID(id);
+                request.setAttribute("infomation", profile);
+            }
+
+            request.setAttribute("pdDetail", productInfo);
+
+            System.out.println("TTHIS: " + productInfo);
+
+            request.setAttribute("pdReviews", userService.getProductReviews(pid));
+            request.setAttribute("pdCategory", userService.getProductByCategory(productInfo.getProduct().getCategory()));
+            request.setAttribute("pdRatingReviews", userService.getProductRatingReviews(pid));
+            request.getRequestDispatcher("/components/userComponents/detailProduct.jsp").forward(request, response);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -98,10 +98,14 @@
 
                 </div>
                 <div class="col-sm-auto">
-                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle mr-1" href="ecommerce-product?action=priviousProductDetail&&id=${product.getProduct().getId()}" data-toggle="tooltip" data-placement="top" title="Previous order">
+                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle mr-1"
+                       href="ecommerce-product?action=priviousProductDetail&&id=${product.getProduct().getId()}"
+                       data-toggle="tooltip" data-placement="top" title="Previous order">
                         <i class="tio-arrow-backward"></i>
                     </a>
-                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle" href="ecommerce-product?action=nextProductDetail&&id=${product.getProduct().getId()}" data-toggle="tooltip" data-placement="top" title="Next order">
+                    <a class="btn btn-icon btn-sm btn-ghost-secondary rounded-circle"
+                       href="ecommerce-product?action=nextProductDetail&&id=${product.getProduct().getId()}"
+                       data-toggle="tooltip" data-placement="top" title="Next order">
                         <i class="tio-arrow-forward"></i>
                     </a>
                 </div>
@@ -499,9 +503,9 @@
                                     id="vendorLabel"
                                     name="vendor"
                                     data-hs-select2-options='{
-                            "minimumResultsForSearch": "Infinity",
-                            "placeholder": "Select supplier"
-                          }'>
+                                        "minimumResultsForSearch": "Infinity",
+                                        "placeholder": "Select supplier"
+                                      }'>
                                 <option value="1">Razer Group</option>
                                 <option value="2">FPT Company</option>
                                 <option value="3">ASUSTeK Incorporated</option>
@@ -523,6 +527,7 @@
                             "minimumResultsForSearch": "Infinity",
                             "placeholder": "Select category"
                           }'>
+
                                 <option value="1">Laptop</option>
                                 <option value="2">Mouse</option>
                                 <option value="3">Keyboard</option>

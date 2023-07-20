@@ -52,12 +52,12 @@ public class UserServiceImpl implements IUserService {
 
         PreparedStatement pstm = con.prepareStatement(query);
 
-        if (!cacheValid || productInfos == null) {
+//        if (!cacheValid || productInfos == null) {
             productInfos = new ArrayList<>();
             ResultSet rs = pstm.executeQuery();
             productInfos = convertResultSetToList(rs);
             cacheValid = true;
-        }
+//        }
         return productInfos;
     }
 
@@ -113,9 +113,8 @@ public class UserServiceImpl implements IUserService {
 
     public ProductInfo getProductByID(int id) throws SQLException {
         ProductInfo prd = new ProductInfo();
-        if (productInfos == null) {
-            productInfos = getAllProducts();
-        }
+
+        productInfos = getAllProducts();
 
         prd = productInfos.stream()
                 .filter(product -> product.getProduct().getId() == id)
@@ -501,6 +500,7 @@ public class UserServiceImpl implements IUserService {
                 pstm.setInt(4, cart.getAmount());
                 pstm.executeUpdate();
             }
+            cacheValid = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -519,6 +519,7 @@ public class UserServiceImpl implements IUserService {
                 orderId = generatedKeys.getInt(1);
             }
             InsertOrderDetails(carts, orderId);
+            cacheValid = false;
 
         } catch (Exception e) {
         }
@@ -534,6 +535,8 @@ public class UserServiceImpl implements IUserService {
             pstm.setDouble(3, price);
             pstm.setInt(4, amount);
             pstm.executeUpdate();
+            cacheValid = false;
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -553,6 +556,7 @@ public class UserServiceImpl implements IUserService {
                 orderId = generatedKeys.getInt(1);
             }
             InsertOrderDetailsWithBuyNow(pid, orderId, price, amount);
+            cacheValid = false;
 
         } catch (Exception e) {
         }
@@ -726,8 +730,6 @@ public class UserServiceImpl implements IUserService {
                         rs.getString("phone"),
                         rs.getString("address"),
                         rs.getDate("created_At")
-
-
                 );
             }
         } catch (SQLException e) {
@@ -777,8 +779,8 @@ public class UserServiceImpl implements IUserService {
 
     public static void main(String[] args) throws SQLException {
         UserServiceImpl userService = new UserServiceImpl();
-        System.out.println(userService.getBase64Encoded("alex9898"));
 
+        System.out.println(userService.getProductByID(1));
     }
 
 

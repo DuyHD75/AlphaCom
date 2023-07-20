@@ -14,14 +14,14 @@
 
     // Navigation change
 
-	$('.account-dropdown').on('click', function (e) {
-		e.stopPropagation();
-	});
+    $('.account-dropdown').on('click', function (e) {
+        e.stopPropagation();
+    });
 
 
     $(document).ready(function () {
         var url = window.location.href;
-        var navItem= url.split('/').pop();
+        var navItem = url.split('/').pop();
 
         console.log(navItem)
         $('#main-nav li.nav-item').each(function () {
@@ -243,7 +243,6 @@
             handle ? priceInputMax.value = value : priceInputMin.value = value
         });
     }
-
 
     // =========== STORE HANDLE ==================
 

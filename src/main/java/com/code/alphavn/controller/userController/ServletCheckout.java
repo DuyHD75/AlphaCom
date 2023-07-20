@@ -75,7 +75,7 @@ public class ServletCheckout extends HttpServlet {
         }
     }
 
-    public void handleInformationAndListCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleInformationAndListCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
         session.setAttribute("isPayNow", "false");
@@ -98,7 +98,7 @@ public class ServletCheckout extends HttpServlet {
                 for (ProductDiscount productDiscount : cart.getProductDiscount()) {
                     if (productDiscount.getPid() == cart.getProductInfo().getProduct().getId()) {
                         if (currentDate.before(productDiscount.getEnd_date()) && currentDate.after(productDiscount.getStart_date())) {
-                            price = (double) Math.round((cart.getProductInfo().getPrice() - (cart.getProductInfo().getPrice() * productDiscount.getDis_amount())) * 100) / 100;
+                            price = (double) Math.ceil((cart.getProductInfo().getPrice() - (cart.getProductInfo().getPrice() * productDiscount.getDis_amount() / 100)) * 100) / 100;
                             cart.setFinalPrice(price);
                         }
                     }
@@ -288,16 +288,31 @@ public class ServletCheckout extends HttpServlet {
 
     public void handleBuyNow(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
+
         Customer account = (Customer) session.getAttribute("acc");
 
         int pid = Integer.parseInt(request.getParameter("pid"));
+
         String pname = request.getParameter("name");
+
         String pimg = request.getParameter("img");
+
         Double price = Double.parseDouble(request.getParameter("price"));
+
         int amount = Integer.parseInt(request.getParameter("amount"));
 
+        String pd = request.getParameter("pidDetail");
+        int pidDetail = 1;
+        if (pd != null) {
+            pidDetail = Integer.parseInt(pd);
+        }
+
+
+
         UserServiceImpl userService = new UserServiceImpl();
+
         if (account != null) {
+            System.out.println("BUY NOW ACTIVE : ACC");
             Customer cusId = new Customer(account.getId());
             Customer info = userService.getAccountByCusID(cusId);
 
@@ -306,7 +321,11 @@ public class ServletCheckout extends HttpServlet {
             viewcart.handleViewCartHeader(request, response);
             ProductInfo productInfo = userService.getProductByID(pid);
             if (amount > productInfo.getProduct().getAmount_remaining()) {
-                amount = productInfo.getProduct().getAmount_remaining();
+                request.setAttribute("error", "Amount product not available ! Instock " +
+                        productInfo.getProduct().getAmount_remaining());
+
+                request.getRequestDispatcher("./view_product?action=view_product&&pid=" + pidDetail).forward(request, response);
+                return;
             }
             request.setAttribute("infomation", info);
             Date currentDate = new Date();
@@ -314,7 +333,7 @@ public class ServletCheckout extends HttpServlet {
             for (ProductDiscount productDiscount : userService.getProductDiscounts()) {
                 if (productDiscount.getPid() == pid) {
                     if (currentDate.before(productDiscount.getEnd_date()) && currentDate.after(productDiscount.getStart_date())) {
-                        newPrice = (double) Math.round((price - (price * productDiscount.getDis_amount())) * 100) / 100;
+                        newPrice = (double) Math.round((price - (price * productDiscount.getDis_amount() / 100)) * 100) / 100;
                         price = newPrice;
                     }
                 }
@@ -325,13 +344,15 @@ public class ServletCheckout extends HttpServlet {
             request.setAttribute("price", price);
             request.setAttribute("amount", amount);
             session.setAttribute("isPayNow", "true");
+
         } else {
+            System.out.println("BUY NOW ACTIVE : NO ACC");
             response.sendRedirect("loginCustomer");
         }
         request.getRequestDispatcher("/components/userComponents/checkout.jsp").forward(request, response);
     }
 
-    public void sendBillViaEmail( HttpServletRequest request, HttpServletResponse response, Order order) throws ServletException, IOException {
+    public void sendBillViaEmail(HttpServletRequest request, HttpServletResponse response, Order order) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
         String email = account.getEmail();
@@ -355,9 +376,9 @@ public class ServletCheckout extends HttpServlet {
             String products = "";
             for (OrderDetail orderDetail : order.getOrderDetail()) {
                 String product = "[ " + orderDetail.getProduct().getProduct().getName() +
-                        ":"+ orderDetail.getPrice() + " x " + orderDetail.getQuantityOrdered() + " ]\n";
+                        ":" + orderDetail.getPrice() + " x " + orderDetail.getQuantityOrdered() + " ]\n";
                 products = products + product;
-                total = total + ( orderDetail.getPrice() * orderDetail.getQuantityOrdered());
+                total = total + (orderDetail.getPrice() * orderDetail.getQuantityOrdered());
             }
             MimeMessage message = new MimeMessage(session1);
             message.setFrom(new InternetAddress("hdat1502@gmail.com"));// change accordingly

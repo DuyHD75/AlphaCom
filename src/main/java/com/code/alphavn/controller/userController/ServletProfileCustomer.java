@@ -67,7 +67,7 @@ public class ServletProfileCustomer extends HttpServlet {
 
     }
 
-    public void handleViewProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleViewProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");
@@ -111,7 +111,7 @@ public class ServletProfileCustomer extends HttpServlet {
         }
     }
 
-    public void handleChangePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void handleChangePassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 
         HttpSession session = request.getSession();
         Customer account = (Customer) session.getAttribute("acc");

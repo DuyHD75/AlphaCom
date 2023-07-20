@@ -10,11 +10,10 @@ public class ManageOrder {
     private Double revernues;
 
 
-
     public ManageOrder() {
     }
 
-    public ManageOrder( String dayOfWeek,Date orderDate, Long totalOrders, Long totalProducts, Double revernues) {
+    public ManageOrder(String dayOfWeek, Date orderDate, Long totalOrders, Long totalProducts, Double revernues) {
         this.dayOfWeek = dayOfWeek;
         this.orderDate = orderDate;
         this.totalProducts = totalProducts;

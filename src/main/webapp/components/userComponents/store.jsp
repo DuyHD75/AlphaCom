@@ -12,6 +12,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Electro - HTML Ecommerce Template</title>
+    <link rel="icon" href="imgs/logos/360_F_451269306_U5VVjfXzU2OZLyaLOKmkI73SCwBcjgvF.jpg" type="image/x-icon">
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -294,7 +295,8 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <div class="product-btns">
-                                            <form action="wishList?action=addToWishList&&pid=${p.getProduct().getId()}" method="post">
+                                            <form action="wishList?action=addToWishList&&pid=${p.getProduct().getId()}"
+                                                  method="post">
                                                 <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
                                                         class="tooltipp">add to wishlist</span></button>
                                             </form>
@@ -307,9 +309,10 @@
                                         </div>
                                     </div>
                                     <div class="add-to-cart">
-                                        <form action="./cart?action=AddToCart&&pid=${p.getProduct().getId()}"
+                                        <form id="add-to-cart-form"
+                                              action="./cart?action=AddToCart&&pid=${p.getProduct().getId()}"
                                               method="post">
-                                            <button class="add-to-cart-btn"><i
+                                            <button class="add-to-cart-btn" id="add-to-cart"><i
                                                     class="fa fa-shopping-cart"></i> add to cart
                                             </button>
                                         </form>

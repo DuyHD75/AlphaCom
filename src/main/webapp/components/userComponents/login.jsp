@@ -12,6 +12,7 @@
     <link href="css/login.css" rel="stylesheet" type="text/css"/>
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="imgs/logos/360_F_451269306_U5VVjfXzU2OZLyaLOKmkI73SCwBcjgvF.jpg" type="image/x-icon">
 
     <style>
         input::-webkit-outer-spin-button,

@@ -1,6 +1,4 @@
-
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -13,6 +11,7 @@
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+    <link rel="icon" href="imgs/logos/360_F_451269306_U5VVjfXzU2OZLyaLOKmkI73SCwBcjgvF.jpg" type="image/x-icon">
 
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
@@ -42,7 +41,7 @@
     <div class="container">
         <h3 class="heading">shopping cart</h3>
 
-        <c:set var="grandTotal" value="0" />
+        <c:set var="grandTotal" value="0"/>
 
         <div class="box-container">
             <c:choose>
@@ -56,13 +55,14 @@
                                class="fa fa-eye"></a>
 
 
-                            <a href="view_product?pid=${cart.getProductInfo().getProduct().getId()}" >
+                            <a href="view_product?pid=${cart.getProductInfo().getProduct().getId()}">
                                 <img src="imgs/productImg/${cart.getProductInfo().getImg1()}" alt="">
                             </a>
 
 
                             <div class="name">${cart.getProductInfo().getProduct().getName()}</div>
-                            <form action="cart?action=updateAmountCart&&pid=${cart.getProductInfo().getProduct().getId()}" method="post">
+                            <form action="cart?action=updateAmountCart&&pid=${cart.getProductInfo().getProduct().getId()}"
+                                  method="post">
                                 <div class="flex">
                                     <div class="price">${cart.getFinalPrice()}</div>
                                     <input type="number" name="qty" class="qty" min="1" max="99" onkeypress="if (this.value.length == 2)
@@ -74,22 +74,23 @@
                                 Sub Total :
                                 <span>
 
-                                <c:set var="subTotal" value="0" />
+                                <c:set var="subTotal" value="0"/>
                                 <c:forEach begin="1" end="${cart.amount}">
-                                    <c:set var="subTotal" value="${subTotal + cart.getFinalPrice()}" />
+                                    <c:set var="subTotal" value="${subTotal + cart.getFinalPrice()}"/>
                                 </c:forEach>
                                ${subTotal}
                             </span>
                             </div>
 
-                            <form action="cart?action=deleteFromCart&&pid=${cart.getProductInfo().getProduct().getId()}" method="post">
+                            <form action="cart?action=deleteFromCart&&pid=${cart.getProductInfo().getProduct().getId()}"
+                                  method="post">
                                 <input type="submit" value="delete"
                                        onclick="return confirm('Delete this from cart?');"
                                        class="delete-btn" name="submit_btn">
                             </form>
 
 
-                            <c:set var="grandTotal" value="${grandTotal + subTotal}" />
+                            <c:set var="grandTotal" value="${grandTotal + subTotal}"/>
                         </div>
                     </c:forEach>
                 </c:when>
@@ -104,9 +105,20 @@
             <p>Grand Total : <span>${grandTotal}</span></p>
             <a href="store" class="option-btn">Continue shopping</a>
 
-            <a href="cart?action=deletaAllCart" class="delete-btn ${grandTotal > 1 ? "" : "disabled"}" onclick="return confirm('delete all from cart?');">delete all item</a>
+            <a href="cart?action=deletaAllCart" class="delete-btn ${grandTotal > 1 ? "" : "disabled"}"
+               onclick="return confirm('delete all from cart?');">delete all item</a>
 
-            <a href="checkout?action=checkout" class="btn ${grandTotal > 1 ? "" : "disabled"}" >Proceed to checkout</a>
+
+            <c:set var="disabled" value=""/>
+
+            <c:if test="${overAmount == true}">
+                <c:set var="disabled" value="disabled"/>
+            </c:if>
+
+
+            <a href="checkout?action=checkout" class="btn ${disabled} ${grandTotal > 1 ? "" : "disabled"} ">Proceed to
+                checkout</a>
+
         </div>
 
     </div>
@@ -125,7 +137,6 @@
 <script src="js/nouislider.min.js"></script>
 <script src="js/jquery.zoom.min.js"></script>
 <script src="js/main.js"></script>
-
 
 
 </body>

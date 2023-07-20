@@ -93,7 +93,7 @@ public class ServletWishList extends HttpServlet {
     }
 
 
-    public void addToWishList(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    public void addToWishList(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("acc");
         int pid = Integer.parseInt(request.getParameter("pid"));
