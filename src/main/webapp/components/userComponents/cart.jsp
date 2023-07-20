@@ -65,7 +65,7 @@
                                   method="post">
                                 <div class="flex">
                                     <div class="price">${cart.getFinalPrice()}</div>
-                                    <input type="number" name="qty" class="qty" min="1" max="99" onkeypress="if (this.value.length == 2)
+                                    <input type="number" name="qty" class="qty" min="1" max="${cart.getProductInfo().getProduct().getAmount_remaining()}" onkeypress="if (this.value.length == 2)
                                         return false;" value="${cart.amount}">
                                     <button type="submit" class="fa fa-edit" name="submit_btn"></button>
                                 </div>

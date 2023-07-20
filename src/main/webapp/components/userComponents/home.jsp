@@ -74,6 +74,7 @@
                         </c:if>
 
                         <button class="btn" ${disabled}>BUY now</button>
+                        <c:set var="disabled" value=""/>
                     </form>
                 </div>
 
@@ -104,12 +105,12 @@
                         <input type="hidden" name="price" value="${pdLaptop.get(1).getPrice()}">
                         <input type="hidden" name="amount" value="1">
                         <c:set var="disabled" value=""/>
-
                         <c:if test="${pdLaptop.get(1).getProduct().getAmount_remaining() == 0}">
                             <c:set var="disabled" value="disabled"/>
                         </c:if>
 
                         <button class="btn" ${disabled}>BUY now</button>
+                        <c:set var="disabled" value=""/>
                     </form>
                 </div>
 
@@ -139,12 +140,11 @@
                         <input type="hidden" name="img" value="${pdLaptop.get(2).getImg1()}">
                         <input type="hidden" name="price" value="${pdLaptop.get(2).getPrice()}">
                         <input type="hidden" name="amount" value="1">
-                        <c:set var="disabled" value=""/>
-
                         <c:if test="${pdLaptop.get(2).getProduct().getAmount_remaining() == 0}">
                             <c:set var="disabled" value="disabled"/>
                         </c:if>
-
+                        <button class="btn" ${disabled}>BUY now</button>
+                        <c:set var="disabled" value=""/>
                         <button class="btn" ${disabled} >BUY now</button>
                     </form>
                 </div>
@@ -254,7 +254,16 @@
                                                 <c:if test="${pdDiscount != null && pdDiscount.size() > idx && pdDiscount.get(idx).getPid() == p.getProduct().getId()}">
                                                     <span class="sale">${pdDiscount.get(idx).getDis_amount() * 100} %</span>
                                                 </c:if>
-                                                <span class="new">NEW</span>
+                                                <c:set var="status" value=""></c:set>
+                                                <c:set var="Disabled" value=""></c:set>
+                                                <c:if test="${p.getProduct().getAmount_remaining() == 0}">
+                                                    <c:set var="status" value="SOLD OUT"></c:set>
+                                                    <c:set var="Disabled" value="return false;"></c:set>
+                                                </c:if>
+                                                <c:if test="${p.getProduct().getAmount_remaining() != 0}">
+                                                    <c:set var="status" value="NEW"></c:set>
+                                                </c:if>
+                                                <span class="new">${status}</span>
                                             </div>
                                         </div>
                                         <div class="product-body">
@@ -306,7 +315,7 @@
 
 
                                         <div class="add-to-cart">
-                                            <a class="add-to-cart-btn" href="cart?action=AddToCart&&pid=${p.getProduct().getId()}"><i
+                                            <a class="add-to-cart-btn" onclick="${Disabled}" href="cart?action=AddToCart&&pid=${p.getProduct().getId()}"><i
                                                     class="fa fa-shopping-cart"></i> add to cart
                                             </a>
                                         </div>

@@ -28,14 +28,12 @@ public class ValidateOtp extends HttpServlet {
 		
 		if (value==otp) 
 		{
-			
-				request.setAttribute("email", request.getParameter("email"));
-				request.setAttribute("status", "success");
-				request.setAttribute("hide", "hide");
-				request.setAttribute("show1", "show");
-				dispatcher = request.getRequestDispatcher("/components/userComponents/forgotPassword.jsp");
-				dispatcher.forward(request, response);
-			
+			request.setAttribute("email", request.getParameter("email"));
+			request.setAttribute("status", "success");
+			request.setAttribute("hide", "hide");
+			request.setAttribute("show1", "show");
+			dispatcher = request.getRequestDispatcher("/components/userComponents/forgotPassword.jsp");
+			dispatcher.forward(request, response);
 		}
 		else
 		{
@@ -44,7 +42,6 @@ public class ValidateOtp extends HttpServlet {
 			request.setAttribute("show", "show");
 			dispatcher = request.getRequestDispatcher("/components/userComponents/forgotPassword.jsp");
 			dispatcher.forward(request, response);
-		
 		}
 		
 	}

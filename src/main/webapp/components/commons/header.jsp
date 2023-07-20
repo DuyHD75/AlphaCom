@@ -53,10 +53,11 @@
                                 <div class="account-link">
                                     <a href="profileCustomer?action=viewProfile">My profile</a>
                                 </div>
-                                <div class="account-link">
-                                    <a href="profileCustomer?action=changePassword">Change password</a>
-
-                                </div>
+                                <c:if test="${sessionScope.acc.password != null}">
+                                    <div class="account-link">
+                                        <a href="profileCustomer?action=changePassword">Change password</a>
+                                    </div>
+                                </c:if>
                                 <div class="account-link">
                                     <a href="order?action=viewOrder">View Order</a>
                                 </div>

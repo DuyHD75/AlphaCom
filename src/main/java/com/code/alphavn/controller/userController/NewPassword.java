@@ -43,16 +43,16 @@ public class NewPassword extends HttpServlet {
 				int rowCount = pst.executeUpdate();
 				if (rowCount > 0) {
 //					request.setAttribute("status", "resetSuccess");
-					dispatcher = request.getRequestDispatcher("./loginCustomer");
+					response.sendRedirect("loginCustomer");
 					System.out.println("success");
 				} else {
 					request.setAttribute("hide", "hide");
 					request.setAttribute("show1", "show");
 					dispatcher = request.getRequestDispatcher("/components/userComponents/forgotPassword.jsp");
 					System.out.println("failed");
-
+					dispatcher.forward(request, response);
 				}
-				dispatcher.forward(request, response);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

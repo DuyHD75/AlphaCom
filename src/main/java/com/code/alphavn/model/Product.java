@@ -10,6 +10,10 @@ public class Product {
     public Product() {
     }
 
+    public Product(int id) {
+        this.id = id;
+    }
+
     public Product(String name, String desc, int amount_remaining, String category) {
         this.name = name;
         this.desc = desc;

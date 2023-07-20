@@ -42,8 +42,10 @@ public class LoginGoogleHandler extends HttpServlet {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 if (userGoogleDto.getEmail().equals(rs.getString(1))) {
+
                     regis = true;
                     Customer customer = userService.getCustomerByEmail(userGoogleDto.getEmail());
+                    System.out.println(customer);
                     if (customer.getStatus().equals("Block")){
                         request.setAttribute("messLogin", "Your account has been blocked");
                         request.getRequestDispatcher("/components/userComponents/login.jsp").forward(request, response);
@@ -52,7 +54,6 @@ public class LoginGoogleHandler extends HttpServlet {
                         session.setAttribute("numWish", userService.getWishList(userGoogleDto.getEmail()).size());
                         session.setAttribute("acc", customer);
                         session.setMaxInactiveInterval(108000);
-
                         response.sendRedirect("home");
                     }
                     break;

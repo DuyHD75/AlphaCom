@@ -793,10 +793,25 @@ public class AdminServiceImpl implements IAdminService {
         return products;
     }
 
+    public void DeleteProductSelected(List<Product> products) {
+
+        String query = "delete from products \n" +
+                "where pid = ?";
+        try {
+            PreparedStatement pstm = con.prepareStatement(query);
+            System.out.println(products);
+            for (Product productId : products) {
+                System.out.println(productId.getId());
+                pstm.setInt(1, productId.getId());
+                pstm.executeUpdate();
+            }
+        } catch (SQLException e) {
+        }
+    }
+
 
     public static void main(String[] args) throws SQLException {
         AdminServiceImpl ad = new AdminServiceImpl();
-
         System.out.println(ad.getManageProductInCurrDate());
     }
 }

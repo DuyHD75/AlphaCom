@@ -3,6 +3,7 @@ package com.code.alphavn.controller.adminController;
 import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.Order;
 import com.code.alphavn.model.OrderDetail;
+import com.code.alphavn.model.adminModel.Admin;
 import com.code.alphavn.service.adminService.AdminServiceImpl;
 import com.code.alphavn.service.userService.UserServiceImpl;
 
@@ -79,8 +80,8 @@ public class ServletAdminCustomer extends HttpServlet {
     public void handleViewAllCustomer (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
-//        Customer account = (Customer) session.getAttribute("acc");
-//        if (account != null) {
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
         List<Customer> Customers = adminService.getAllCustomer();
         int countCustomer = Customers.size();
         for (Customer customer : Customers) {
@@ -103,52 +104,57 @@ public class ServletAdminCustomer extends HttpServlet {
         request.setAttribute("countCustomer", countCustomer);
         request.setAttribute("customers", Customers);
         request.getRequestDispatcher("/components/adminComponents/ecommerce-customers.jsp").forward(request, response);
-//        } else {
-//            response.sendRedirect("loginCustomer");
-//        }
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
 
     }
 
     public void handleDeleteSelected (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String customerIdsParam = request.getParameter("customerIds");
         String[] selectedIds = customerIdsParam.split(",");
-        List<Customer> customerIds = new ArrayList<>();
-        if (selectedIds != null) {
-            for (String id : selectedIds) {
-                int Id = Integer.parseInt(id);
-                customerIds.add( new Customer(Id));
+        HttpSession session = request.getSession();
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
+            List<Customer> customerIds = new ArrayList<>();
+            if (selectedIds != null) {
+                for (String id : selectedIds) {
+                    int Id = Integer.parseInt(id);
+                    customerIds.add( new Customer(Id));
+                }
             }
+            UserServiceImpl userService = new UserServiceImpl();
+            adminService.DeleteCustomerSelected(customerIds);
+            response.sendRedirect("adminCustomer?action=viewAllCustomer");
+        } else {
+            response.sendRedirect("loginCustomer");
         }
-        UserServiceImpl userService = new UserServiceImpl();
-        adminService.DeleteCustomerSelected(customerIds);
-        response.sendRedirect("adminCustomer?action=viewAllCustomer");
-
     }
 
     public void handleViewCustomerDetail ( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
-//        Customer account = (Customer) session.getAttribute("acc");
-//        if (account != null) {
-        int CusId = Integer.parseInt(request.getParameter("Cid"));
-        Customer customer = new Customer(CusId);
-        Customer cus = userService.getAccountByCusID(customer);
-        List<Order> orders = userService.getOrderByCusId(customer);
-        int countOrder = orders.size();
-        request.setAttribute("countOrder", countOrder);
-        request.setAttribute("orders", orders);
-        request.setAttribute("customer", cus);
-        request.getRequestDispatcher("/components/adminComponents/ecommerce-customer-details.jsp").forward(request, response);
-//        } else {
-//            response.sendRedirect("loginCustomer");
-//        }
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
+            int CusId = Integer.parseInt(request.getParameter("Cid"));
+            Customer customer = new Customer(CusId);
+            Customer cus = userService.getAccountByCusID(customer);
+            List<Order> orders = userService.getOrderByCusId(customer);
+            int countOrder = orders.size();
+            request.setAttribute("countOrder", countOrder);
+            request.setAttribute("orders", orders);
+            request.setAttribute("customer", cus);
+            request.getRequestDispatcher("/components/adminComponents/ecommerce-customer-details.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
     }
 
     public void handleNextCustomerDetail (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
-//        Customer account = (Customer) session.getAttribute("acc");
-//        if (account != null) {
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
         int Cid = Integer.parseInt(request.getParameter("Cid"));
         List<Customer> customers = adminService.getAllCustomer();
         int currentIndex = getCustomerIndex(customers, Cid);
@@ -157,16 +163,16 @@ public class ServletAdminCustomer extends HttpServlet {
 
         response.sendRedirect("adminCustomer?action=viewCustomerDetail&&Cid=" + nextCustomerId);
 
-//        } else {
-//            response.sendRedirect("loginCustomer");
-//        }
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
 
     }
     public void handlePreviousCustomerDetail (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
-//        Customer account = (Customer) session.getAttribute("acc");
-//        if (account != null) {
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
         int Cid = Integer.parseInt(request.getParameter("Cid"));
         List<Customer> customers = adminService.getAllCustomer();
         int currentIndex = getCustomerIndex(customers, Cid);
@@ -174,9 +180,9 @@ public class ServletAdminCustomer extends HttpServlet {
         int previousCustomerId = getPreviousCustomerId(customers, currentIndex);
 
         response.sendRedirect("adminCustomer?action=viewCustomerDetail&&Cid=" + previousCustomerId);
-//        } else {
-//            response.sendRedirect("loginCustomer");
-//        }
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
 
     }
 
@@ -223,8 +229,13 @@ public class ServletAdminCustomer extends HttpServlet {
 
     public void handleDeleteCustomer (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int Cid = Integer.parseInt(request.getParameter("Cid"));
+        HttpSession session = request.getSession();
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
         adminService.DeleteCustomer(Cid);
         response.sendRedirect("adminCustomer?action=viewAllCustomer");
-
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
     }
 }
