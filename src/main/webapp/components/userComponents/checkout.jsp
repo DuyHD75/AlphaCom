@@ -55,7 +55,7 @@
 
                     <div class="flex">
                         <div class="inputBox">
-                            <label>Full name</label>
+                            <label style="position: absolute; left: 25px; top: 87px; background-color: white;">Full name</label>
                             <input id="name" type="text" name="name" placeholder="Enter your name"
                                    value="${infomation.name}"
                                    class="box">
@@ -64,7 +64,7 @@
 
 
                         <div class="inputBox">
-                            <label>Phone Number</label>
+                            <label style="position: absolute; left: 25px; top: 188px; background-color: white;">Phone Number</label>
                             <input id="phone" type="number" name="number" placeholder="enter your number"
                                    value="${infomation.phone}"
                                    class="box" min="0" max="9999999999" onkeypress="if (this.value.length == 10)
@@ -73,7 +73,7 @@
                         </div>
 
                         <div class="inputBox">
-                            <label>Email</label>
+                            <label style="position: absolute; left: 25px; top: 289px; background-color: white;">Email</label>
                             <input type="email" name="email" placeholder="enter your email"
                                    value="${infomation.email}"
                                    class="box" maxlength="50" required readonly style="text-transform: none">
@@ -81,7 +81,7 @@
                         </div>
 
                         <div class="inputBox">
-                            <label>address</label>
+                            <label style="position: absolute; left: 25px; top: 390px; background-color: white;">address</label>
                             <input id="flat" type="text" name="flat" placeholder="Enter Your Address"
                                    value="${infomation.address}"
                                    class="box" maxlength="50" required>
@@ -89,7 +89,7 @@
                         </div>
 
                         <div class="inputBox">
-                            <label>payment method</label>
+                            <label style="position: absolute; left: 25px; top: 491px; background-color: white;">payment method</label>
                             <select name="method" id="payment-method" class="box" required onChange="toggleCreditCard()">
                                 <option value="Cash On Delivery">Cash On Delivery</option>
                                 <option value="PAYPAL">PAYPAL | Credit Card | Debit Card</option>

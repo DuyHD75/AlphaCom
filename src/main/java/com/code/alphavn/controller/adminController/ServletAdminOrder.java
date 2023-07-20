@@ -3,6 +3,7 @@ package com.code.alphavn.controller.adminController;
 import com.code.alphavn.model.Customer;
 import com.code.alphavn.model.Order;
 import com.code.alphavn.model.OrderDetail;
+import com.code.alphavn.model.adminModel.Admin;
 import com.code.alphavn.service.adminService.AdminServiceImpl;
 import com.code.alphavn.service.userService.UserServiceImpl;
 
@@ -65,7 +66,6 @@ public class ServletAdminOrder extends HttpServlet {
             switch (action) {
                 case "deleteSelected":
                     handleDeleteSelected(request, response);
-
                     break;
                 default:
                     break;
@@ -78,8 +78,8 @@ public class ServletAdminOrder extends HttpServlet {
     public void handleViewOrderDetail (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
-//        Customer account = (Customer) session.getAttribute("acc");
-//        if (account != null) {
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
             int CusId = Integer.parseInt(request.getParameter("Cid"));
             int Oid = Integer.parseInt(request.getParameter("Oid"));
             Customer customer = new Customer(CusId);
@@ -91,17 +91,17 @@ public class ServletAdminOrder extends HttpServlet {
             request.setAttribute("countOrderDetail", countOrderDetail);
             request.setAttribute("order", userService.getOrderByOrderId(Oid));
             request.getRequestDispatcher("/components/adminComponents/ecommerce-order-details.jsp").forward(request, response);
-//        } else {
-//            response.sendRedirect("loginCustomer");
-//        }
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
 
     }
 
     public void handleNextOrderDetail (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
-//        Customer account = (Customer) session.getAttribute("acc");
-//        if (account != null) {
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
             int Oid = Integer.parseInt(request.getParameter("Oid"));
             List<Order> orders = adminService.getAllOrder();
             int currentIndex = getOrderIndex(orders, Oid);
@@ -114,16 +114,16 @@ public class ServletAdminOrder extends HttpServlet {
 
             response.sendRedirect("adminOrder?action=viewOrderDetail&&Oid=" + nextOrderId + "&&Cid=" + CusId);
 
-//        } else {
-//            response.sendRedirect("loginCustomer");
-//        }
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
 
     }
     public void handlePrivousOrderDetail (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
-//        Customer account = (Customer) session.getAttribute("acc");
-//        if (account != null) {
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
         int Oid = Integer.parseInt(request.getParameter("Oid"));
         List<Order> orders = adminService.getAllOrder();
         int currentIndex = getOrderIndex(orders, Oid);
@@ -135,9 +135,9 @@ public class ServletAdminOrder extends HttpServlet {
         int CusId = order.getCustomer().getId();
 
         response.sendRedirect("adminOrder?action=viewOrderDetail&&Oid=" + previousOrderId + "&&Cid=" + CusId);
-//        } else {
-//            response.sendRedirect("loginCustomer");
-//        }
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
 
     }
 
@@ -173,53 +173,69 @@ public class ServletAdminOrder extends HttpServlet {
     public void handleViewAllOrder (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         UserServiceImpl userService = new UserServiceImpl();
         HttpSession session = request.getSession();
-//        Customer account = (Customer) session.getAttribute("acc");
-//        if (account != null) {
-        List<Order> orders = adminService.getAllOrder();
-        int countOrder = orders.size();
-        request.setAttribute("countOrder", countOrder);
-        request.setAttribute("orders", orders);
-        request.getRequestDispatcher("/components/adminComponents/ecommerce-orders.jsp").forward(request, response);
-//        } else {
-//            response.sendRedirect("loginCustomer");
-//        }
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
+            List<Order> orders = adminService.getAllOrder();
+            int countOrder = orders.size();
+            request.setAttribute("countOrder", countOrder);
+            request.setAttribute("orders", orders);
+            request.getRequestDispatcher("/components/adminComponents/ecommerce-orders.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
 
     }
     public void handleDeleteSelected (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String orderIdsParam = request.getParameter("orderIds");
         String[] selectedIds = orderIdsParam.split(",");
-        List<Order> ordersIds = new ArrayList<>();
-        if (selectedIds != null) {
-            for (String id : selectedIds) {
-                int Id = Integer.parseInt(id);
-                ordersIds.add( new Order(Id));
+        HttpSession session = request.getSession();
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
+            List<Order> ordersIds = new ArrayList<>();
+            if (selectedIds != null) {
+                for (String id : selectedIds) {
+                    int Id = Integer.parseInt(id);
+                    ordersIds.add( new Order(Id));
+                }
             }
+            UserServiceImpl userService = new UserServiceImpl();
+            adminService.DeleteOrderSelected(ordersIds);
+            response.sendRedirect("adminOrder?action=viewAllOrder");
+        } else {
+            response.sendRedirect("loginCustomer");
         }
-        UserServiceImpl userService = new UserServiceImpl();
-        adminService.DeleteOrderSelected(ordersIds);
-        response.sendRedirect("adminOrder?action=viewAllOrder");
 
     }
 
     public void handleDeleteOrder (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int oId = Integer.parseInt(request.getParameter("Oid"));
-
-        UserServiceImpl userService = new UserServiceImpl();
-        adminService.DeleteOrder(oId);
-        response.sendRedirect("adminOrder?action=viewAllOrder");
+        HttpSession session = request.getSession();
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
+            UserServiceImpl userService = new UserServiceImpl();
+            adminService.DeleteOrder(oId);
+            response.sendRedirect("adminOrder?action=viewAllOrder");
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
 
     }
 
     public void handleUpdateStatus (HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        int oId = Integer.parseInt(request.getParameter("Oid"));
-        String status = request.getParameter("status");
-        UserServiceImpl userService = new UserServiceImpl();
-        Order order = userService.getOrderByOrderId(oId);
+        HttpSession session = request.getSession();
+        Admin account = (Admin) session.getAttribute("acc");
+        if (account != null) {
+            int oId = Integer.parseInt(request.getParameter("Oid"));
+            String status = request.getParameter("status");
+            UserServiceImpl userService = new UserServiceImpl();
+            Order order = userService.getOrderByOrderId(oId);
 
-        int CusId = order.getCustomer().getId();
-        adminService.UpdateStatusOrder(oId, status);
-        response.sendRedirect("adminOrder?action=viewOrderDetail&&Oid=" + oId + "&&Cid=" + CusId);
-
+            int CusId = order.getCustomer().getId();
+            adminService.UpdateStatusOrder(oId, status);
+            response.sendRedirect("adminOrder?action=viewOrderDetail&&Oid=" + oId + "&&Cid=" + CusId);
+        } else {
+            response.sendRedirect("loginCustomer");
+        }
     }
 }
 

@@ -358,9 +358,9 @@
           </div>
         </div>
 
-        <div class="col-sm-auto">
-          <a class="btn btn-primary" href="ecommerce-add-customers.html">Add customers</a>
-        </div>
+<%--        <div class="col-sm-auto">--%>
+<%--          <a class="btn btn-primary" href="ecommerce-add-customers.html">Add customers</a>--%>
+<%--        </div>--%>
       </div>
       <!-- End Row -->
 
@@ -416,7 +416,7 @@
                     <i class="tio-search"></i>
                   </div>
                 </div>
-                <input id="datatableSearch" type="search" class="form-control" placeholder="Search orders" aria-label="Search orders">
+                <input id="datatableSearch" type="search" class="form-control" placeholder="Search Customer" aria-label="Search orders">
               </div>
               <!-- End Search -->
             </form>

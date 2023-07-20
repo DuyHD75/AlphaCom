@@ -7,12 +7,23 @@ public class WishListProduct {
     private String img;
     private int rating;
 
+    private int Amount_remaining;
+
     public WishListProduct(int product_id, String product_name, double price, String img, int rating) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.price = price;
         this.img = img;
         this.rating = rating;
+    }
+
+    public WishListProduct(int product_id, String product_name, double price, String img, int rating, int amount_remaining) {
+        this.product_id = product_id;
+        this.product_name = product_name;
+        this.price = price;
+        this.img = img;
+        this.rating = rating;
+        Amount_remaining = amount_remaining;
     }
 
     @Override
@@ -23,6 +34,7 @@ public class WishListProduct {
                 ", price=" + price +
                 ", img='" + img + '\'' +
                 ", rating=" + rating +
+                ", amount=" + Amount_remaining +
                 '}';
     }
 
@@ -67,5 +79,13 @@ public class WishListProduct {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public int getAmount_remaining() {
+        return Amount_remaining;
+    }
+
+    public void setAmount_remaining(int amount_remaining) {
+        Amount_remaining = amount_remaining;
     }
 }

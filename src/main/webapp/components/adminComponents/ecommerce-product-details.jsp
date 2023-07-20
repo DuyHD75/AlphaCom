@@ -502,11 +502,11 @@
                             "minimumResultsForSearch": "Infinity",
                             "placeholder": "Select supplier"
                           }'>
-                                <option value="1">Razer Group</option>
-                                <option value="2">FPT Company</option>
-                                <option value="3">ASUSTeK Incorporated</option>
-                                <option value="4">Lenovo Group Ltd</option>
-                                <option value="5">Sony Company</option>
+                                <option value="1" ${product.getVendor().equals("Razer Group") ? "selected" : ""}>Razer Group</option>
+                                <option value="2" ${product.getVendor().equals("FPT Company") ? "selected" : ""}>FPT Company</option>
+                                <option value="3" ${product.getVendor().equals("ASUSTeK Incorporated") ? "selected" : ""}>ASUSTeK Incorporated</option>
+                                <option value="4" ${product.getVendor().equals("Lenovo Group Ltd") ? "selected" : ""}>Lenovo Group Ltd</option>
+                                <option value="5" ${product.getVendor().equals("Sony Company") ? "selected" : ""}>Sony Company</option>
                             </select>
                         </div>
                         <!-- End Form Group -->
@@ -523,12 +523,12 @@
                             "minimumResultsForSearch": "Infinity",
                             "placeholder": "Select category"
                           }'>
-                                <option value="1">Laptop</option>
-                                <option value="2">Mouse</option>
-                                <option value="3">Keyboard</option>
-                                <option value="4">Monitor</option>
-                                <option value="5">PC</option>
-                                <option value="6">Headphone</option>
+                                <option value="1" ${product.getProduct().getCategory().equals("Laptop") ? "selected" : ""} >Laptop</option>
+                                <option value="2" ${product.getProduct().getCategory().equals("Mouse") ? "selected" : ""} >Mouse</option>
+                                <option value="3" ${product.getProduct().getCategory().equals("Keyboard") ? selected : ""}>Keyboard</option>
+                                <option value="4" ${product.getProduct().getCategory().equals("Monitor") ? "selected" : ""}>Monitor</option>
+                                <option value="5" ${product.getProduct().getCategory().equals("PC")  ? "selected" : ""}>PC</option>
+                                <option value="6" ${product.getProduct().getCategory().equals("Headphone") ? "selected" : ""}>Headphone</option>
                             </select>
                             <!-- End Select -->
                         </div>

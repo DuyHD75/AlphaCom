@@ -150,7 +150,7 @@
                 <span id="datatableCounter">0</span>
                 Selected
               </span>
-                        <a class="btn btn-sm btn-outline-danger mb-2 mb-sm-0 mr-2" href="">
+                        <a class="btn btn-sm btn-outline-danger mb-2 mb-sm-0 mr-2" id="deleteButton" href="#" onclick="return confirm('Are you sure delete order?');">
                             <i class="tio-delete-outlined"></i> Delete
                         </a>
                         <a class="btn btn-sm btn-white mb-2 mb-sm-0 mr-2" href="javascript:;">
@@ -184,7 +184,7 @@
                                     </div>
                                 </div>
                                 <input id="datatableSearch" type="search" class="form-control"
-                                       placeholder="Search users"
+                                       placeholder="Search Products"
                                        aria-label="Search users">
                             </div>
                             <!-- End Search -->
@@ -336,7 +336,7 @@
                      },
                      "search": "#datatableSearch",
                      "entries": "#datatableEntries",
-                     "pageLength": 7,
+                     "pageLength": 10,
                      "isResponsive": true,
                      "isShowPaging": true,
                      "pagination": "datatablePagination"
@@ -363,12 +363,12 @@
 
                     <tbody>
 
-
+                    <form id="listAllProductForm" action="ecommerce-product?action=deleteSelected" method="post">
                     <c:forEach items="${products}" var="product">
                         <tr>
                             <td class="table-column-pr-0">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input"
+                                    <input type="checkbox" class="custom-control-input" name="productId" value="${product.getProduct().getId()}"
                                            id="productsCheck${product.getProduct().getId()}">
                                     <label class="custom-control-label"
                                            for="productsCheck${product.getProduct().getId()}"></label>
@@ -389,8 +389,12 @@
                             <td>
                                 <label class="toggle-switch toggle-switch-sm"
                                        for="stocksCheckbox${product.getProduct().getId()}">
+                                    <c:set var="check" value=""/>
+                                    <c:if test="${product.getProduct().getAmount_remaining() != 0}">
+                                        <c:set var="check" value="checked"/>
+                                    </c:if>
                                     <input type="checkbox" class="toggle-switch-input"
-                                           id="stocksCheckbox${product.getProduct().getId()}" checked="">
+                                           id="stocksCheckbox${product.getProduct().getId()}" ${check}>
                                     <span class="toggle-switch-label">
                                        <span class="toggle-switch-indicator"></span>
                                      </span>
@@ -419,7 +423,8 @@
                                         <div id="productsEditDropdown${product.getProduct().getId()}"
                                              class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-right mt-1">
                                             <a class="dropdown-item"
-                                               href="?action=delete-product&pid=${product.getProduct().getId()}">
+                                               href="?action=delete-product&pid=${product.getProduct().getId()}"
+                                               onclick="return confirm('Are you sure delete product?');">
                                                 <i class="tio-delete-outlined dropdown-item-icon"></i> Delete
                                             </a>
                                             <a class="dropdown-item" href="#">
@@ -439,7 +444,7 @@
                         </tr>
                     </c:forEach>
 
-
+                    </form>
                     </tbody>
                 </table>
             </div>
@@ -1153,6 +1158,37 @@
 <!-- IE Support -->
 <script>
     if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="./assets/vendor/babel-polyfill/polyfill.min.js"><\/script>');
+</script>
+<script>
+
+    const form = document.getElementById("listAllProductForm");
+    // Lắng nghe sự kiện nhấp chuột vào nút "Delete"
+    document.getElementById("deleteButton").addEventListener("click", function(event) {
+        event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+
+
+        var selectedIds = getSelectedProductIds(); // Lấy danh sách ID sản phẩm được chọn
+        $(document.body).append(form);
+        // Tạo một input ẩn để gửi danh sách ID sản phẩm đến Servlet
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "productIds";
+        input.value = selectedIds.join(","); // Ghép các ID thành một chuỗi phân cách bằng dấu phẩy
+        form.appendChild(input);
+
+        form.submit(); // Gửi yêu cầu xóa sản phẩm đến Servlet
+    });
+
+    function getSelectedProductIds() {
+        var checkboxes = document.querySelectorAll('input[name="productId"]:checked');
+        var selectedIds = [];
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                selectedIds.push(checkboxes[i].value);
+            }
+        }
+        return selectedIds;
+    }
 </script>
 </body>
 

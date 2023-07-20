@@ -46,7 +46,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse${ord.id}">Order Id: AE${ord.id} <br> Customer: ${ord.getCustomer().getName()}</a>
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse${ord.id}">Order Id: AE${ord.id} <br> ${ord.getOrderDate()}</a>
                         </h4>
                     </div>
                     <div id="collapse${ord.id}" class="panel-collapse collapse">
@@ -84,11 +84,7 @@
                                         Cancel Order
                                     </a>
                                 </c:if>
-                                <c:if test="${ord.getStatus() != PendingStatus || ord.getPaymentMethod() == PAYPAL || ord.getPaymentMethod() == VNPAY}">
-                                    <a class="btn disabled" href="order?action=cancelOrder&&oid=${ord.getId()}" onclick="return confirm('Are you sure cancel this order?');">
-                                        Cancel Order
-                                    </a>
-                                </c:if>
+
                             </p>
                         </div>
                     </div>

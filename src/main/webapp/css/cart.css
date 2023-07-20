@@ -962,14 +962,14 @@ section.form-container {
     margin:1rem 0;
 }
 
-.checkout-orders form .flex .inputBox>label {
-    position:absolute;
-    top:-1px;
-    left:25px;
-    background-color:white;
-    color:#666;
-    padding:0 5px;
-}
+/*.checkout-orders form .flex .inputBox>label {*/
+/*    position:absolute;*/
+/*    top:-1px;*/
+/*    left:25px;*/
+/*    background-color:white;*/
+/*    color:#666;*/
+/*    padding:0 5px;*/
+/*}*/
 
 .checkout-orders form .flex .inputBox .box:focus {
     border: 1px solid green;
